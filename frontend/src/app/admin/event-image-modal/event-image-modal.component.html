@@ -1,0 +1,14 @@
+<mat-dialog-content>
+  <div id="modal-content-wrapper">
+
+    <header id="modal-header">
+      <h4 class="event-name">{{event.name}}</h4>
+      <h5 class="event-description">{{event.description}}</h5>
+    </header>
+
+    <app-image-upload (artifactIdEmitter)="onArtifactId($event)" (closeEmitter)="closeModal($event)"
+                      [uploadStrategy]="uploadStrategy" [aspectRatio]="5/2">
+
+    </app-image-upload>
+  </div>
+</mat-dialog-content>

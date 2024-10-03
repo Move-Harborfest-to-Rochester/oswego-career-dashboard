@@ -1,0 +1,102 @@
+@import "../../../common";
+
+mat-card-header {
+  border-bottom: 1px solid gray;
+  padding-bottom: 5px;
+}
+
+mat-card-content {
+  padding-top: 5px
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+carousel {
+  width: 100%;
+  display: flex;
+
+  ::ng-deep .slide {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ::ng-deep .carousel-inner {
+      .center();
+      justify-content: space-between;
+    }
+
+    ::ng-deep .carousel-inner::after {
+      display: none;
+    }
+  }
+
+  slide {
+    width: 48% !important;
+    margin: 5px;
+    background-color: white;
+    box-shadow: @oswego-box-shadow;
+    border-radius: 1em;
+    overflow: hidden;
+  }
+}
+
+.event-image {
+  display: block;
+  width: 100%;
+  background-color: darkslategrey;
+  height: auto;
+
+  &.default-logo {
+    padding: 2.5% 0;
+  }
+}
+
+.carousel-caption {
+  color: black;
+  position: initial;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  .date {
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      margin-right: 5px;
+      color: @oswego-sunset-gold !important;
+    }
+
+    span {
+      color: gray;
+    }
+  }
+}
+
+button {
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .carousel-control {
+  opacity: 1;
+  height: 60px;
+  width: 60px;
+  border-radius: 50px;
+  margin-top: 160px;
+
+  background-color: @oswego-green;
+
+
+  &.carousel-control-next {
+    transform: translateX(50%);
+  }
+
+  &.carousel-control-prev {
+    transform: translateX(-50%);
+  }
+}

@@ -1,0 +1,48 @@
+<div class="file-upload-container">
+  <ng-container *ngIf="file == null; else fileDetails">
+    <button class="file-upload-button" mat-button (click)="fileInput.click()">
+      <mat-icon>upload_file</mat-icon>
+      <input #fileInput type="file" accept=".pdf, .docx" (change)="onChange($event)" style="display:none;"/>
+    </button>
+  </ng-container>
+  <ng-template #fileDetails>
+    <div class="file-details-row file-details-row-{{status}}">
+      <mat-icon class="file-details-description">description</mat-icon>
+      <span class="file-details-filename">{{file?.name}}</span>
+      <span class="file-details-size">{{formatBytes()}}</span>
+      <button mat-button (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <ng-container [ngSwitch]="status">
+      <ng-container *ngSwitchCase="'success'">
+        <button class="status-button status-button-success" mat-raised-button color="primary" disabled>
+          <mat-icon>check</mat-icon>
+          Done
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'uploading'">
+        <button class="status-button status-button-uploading" mat-raised-button disabled>
+          <mat-icon>hourglass_empty</mat-icon>
+          Uploading
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="'error'">
+        <button class="status-button status-button-error" mat-raised-button color="error" disabled>
+          <mat-icon>error</mat-icon>
+          Error Occurred
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <button class="status-button" mat-raised-button color="primary" (click)="onUpload()">
+          <mat-icon>upload</mat-icon>
+          Upload
+        </button>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+</div>
+
+
+

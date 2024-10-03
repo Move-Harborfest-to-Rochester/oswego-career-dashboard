@@ -1,0 +1,30 @@
+<mat-list>
+    <ng-container *ngFor="let event of events">
+        <div class="task-item">
+        <mat-list-item>
+            <span matListItemTitle>{{event.name}}</span>
+            <span matListItemLine>{{event.description}}</span>
+        </mat-list-item>
+      <ng-container *ngIf="event.imageId != null">
+        <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
+      </ng-container>
+        <mat-list-item>
+            <div class="buttons-container">
+                <button mat-raised-button class="task-edit-button" color="primary" (click)="openEventEditModal(event)">
+                    <mat-icon >
+                        edit
+                    </mat-icon>
+                    EDIT
+                </button>
+                <button mat-raised-button (click)="openEventImageModal(event)">
+                    <mat-icon>
+                        upload
+                    </mat-icon>
+                    IMAGE
+                </button>
+            </div>
+        </mat-list-item>
+        </div>
+    </ng-container>
+    <button mat-raised-button class="create-event-button" (click)="openEventEditModal(null)">Create New Event</button>
+</mat-list>

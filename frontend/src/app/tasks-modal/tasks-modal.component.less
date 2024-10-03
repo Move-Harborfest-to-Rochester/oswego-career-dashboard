@@ -1,0 +1,107 @@
+@import "../../common";
+
+#modal-content-wrapper {
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  color: black;
+  background-color: white;
+}
+
+.mdc-dialog::after{
+  border-radius: 25px;
+}
+
+.box{
+  width: 100%;
+  background-color: #F0F6F3;
+  border-top:solid gray 1px ;
+  border-bottom: solid gray 1px;
+  padding: 15px 0 15px 0;
+  margin: 10px 0 10px 0;
+}
+
+#modal-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.header{
+  font-weight: bold;
+  margin: 0 10px 0 10px;
+}
+
+#modal-header {
+  text-align: center;
+  align-items: center;
+  justify-self: center;
+  height: fit-content;
+  width: 100%;
+  color: @oswego-green;
+  padding: 25px;
+  margin: 10px;
+}
+
+#modal-header-overdue {
+  text-align: center;
+  align-items: center;
+  justify-self: center;
+  height: fit-content;
+  width: 100%;
+  color: red;
+  padding: 25px;
+  margin: 10px;
+}
+
+.icon-overdue{
+  font-size: 30px;
+  margin: 0 10px 0 0;
+  transform: translateY(10px);
+}
+
+.icon-not-overdue{
+  display: none;
+}
+
+#modal-body {
+  height: fit-content;
+  justify-self: left;
+  align-content: flex-start;
+  width: 100%;
+}
+
+.text{
+  padding: 0 10px 0 10px;
+  display: flex;
+  word-wrap: break-word;
+  font-size: 22px;
+}
+
+.description {
+  @media(max-width: 700px) {
+    flex-direction: column;
+
+    .content {
+      margin: 0 10px;
+    }
+  }
+}
+
+#modal-footer {
+  position: relative;
+  width: 100%;
+  height:fit-content;
+  align-self: center;
+  display: flex;
+  bottom: 0;
+  background-color: #F0F6F3;
+  border-top: solid gray 1px;
+  padding: 10px
+}
+
+#modal-cancel-button {
+  background-color: #4e4e4e;
+  color: white;
+  margin: 0 20px  0 0;
+}

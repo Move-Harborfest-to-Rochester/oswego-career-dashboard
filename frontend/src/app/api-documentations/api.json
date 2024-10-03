@@ -1,0 +1,1706 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Career Readiness Dashboard API",
+    "description": "API documentation for the Career Readiness Dashboard 2023-2024 Senior project. It's recommended that you use this page while logged in as an admin in order to access all restricted endpoints.\n\nTO USE: \n1. Open Inspect Element (F12) and switch to the Network tab\n2. Select the call 'current-user' (if nothing is there, refresh the page with inspect element still open)\n3. Scroll to the bottom of Request Headers and find 'X-Authorization', then copy the content (including the 'Bearer' part)\n4. Click on the 'Authorize' button in swagger and paste the 'X-Authorization' key and click authorize\n\nYou will need to do this every time the page refreshes, but the key should stay the same until you log out",
+    "version": "1.0.1"
+  },
+  "servers": [{
+      "url": "http://localhost:8080/api",
+      "description": "Dev API server"
+    }
+  ],
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "security": [{
+    "ApiKeyAuth": []
+  }],
+  "paths": {
+    "/milestones": {
+      "get": {
+        "summary": "Returns a list of milestones, optionally including the task list.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tasks",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Whether to include the tasks with the Milestones"
+          }
+        ],
+        "description": "Used in nearly every instance where milestones are retrieved (milestones page, admin milestones page, etc).",
+        "tags": ["milestones"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Milestone"
+                  },
+                  "example": [
+                    {
+                      "milestoneID": 1,
+                      "name": "Professional Career Package Development",
+                      "description": "complete important steps for the job search",
+                      "yearLevel": "Freshman",
+                      "events": [],
+                      "tasks": [
+                        {
+                          "taskID": 1,
+                          "name":"Upload Resume"
+                        },
+                        {
+                          "taskID": 2,
+                          "name":"Create LinkedIn Profile"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/milestones/complete": {
+      "get": {
+        "summary": "Returns the names of completed milestones for a given student.",
+        "description": "Used when displaying milestones on the portfolio page.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which student to get the milestones for"
+          }
+        ],
+        "tags": ["milestones"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Milestone"
+                  },
+                  "example": [
+                    {
+                      "milestoneID": 1,
+                      "name": "Professional Career Package Development",
+                      "description": "complete important steps for the job search",
+                      "yearLevel": "Freshman"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user"
+          }
+        }
+      }
+    },
+    "/admin/edit-milestone": {
+      "post": {
+        "summary": "Edit a specific milestone.",
+        "description": "Items listed in request body schema are required, others can be added or excluded.",
+        "tags": ["milestones"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "updates": {
+                  "id": {
+                    "type": "number",
+                    "required": "true",
+                    "description": "Which milestone is being updated"
+                  },
+                  "tasks": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "The list of tasks assigned to this milestone"
+                  },
+                  "valueToBeUpdated": {
+                    "type": "string",
+                    "description": "new value to update to"
+                  }
+                }
+              },
+              "example": {
+                "id": 1,
+                "description": "new description",
+                "tasks": [1]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Milestone",
+                  "example": {
+                    "milestoneID": 1,
+                    "name": "Professional Career Package Development",
+                    "description": "new description",
+                    "yearLevel": "Freshman",
+                    "events": [],
+                    "tasks": [
+                      {
+                        "taskID": 1,
+                        "name":"Upload Resume"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/admin/create-milestone": {
+      "post": {
+        "summary": "Create a new milestone",
+        "description": "Takes in only milestone name and year level, assigning tasks and such is done with /admin/edit-milestone.",
+        "tags": ["milestones"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "data": {
+                  "name": {
+                    "type": "string",
+                    "description": "name of the new milestone"
+                  },
+                  "yearLevel": {
+                    "type": "string",
+                    "enum": [
+                      "Freshman",
+                      "Sophomore",
+                      "Junior",
+                      "Senior"
+                    ],
+                    "description": "the school year that the milestone is for"
+                  }
+                }
+              },
+              "example": {
+                "name": "Career Counseling",
+                "yearLevel": "Freshman"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Milestone",
+                  "example": {
+                    "milestoneID": 2,
+                    "name": "Career Counseling",
+                    "description": "",
+                    "yearLevel": "Freshman",
+                    "events": [],
+                    "tasks": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "summary": "Returns a list of events.",
+        "description": "Used mostly by admin when creating/editing tasks and events.",
+        "tags": ["events"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  },
+                  "example": [
+                    {
+                      "eventID": 1,
+                      "name": "Career Fair",
+                      "description": "campus wide career fair",
+                      "date": "9/27/2023 10:00 AM",
+                      "location": "Gordon Field House",
+                      "organizer": "SUNY career prep department",
+                      "isRecurring": true,
+                      "buttonLabel": "More Info",
+                      "eventLink": "sample.com",
+                      "imageId": 12
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard-events": {
+      "get": {
+        "summary": "Returns the selection of events to display on the dashboard carousel",
+        "description": "Used in the event carousel.",
+        "tags": ["events"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageNum",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1
+            },
+            "description": "Which page of events to display"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  },
+                  "example": [
+                    {
+                      "eventID": 1,
+                      "name": "Career Fair",
+                      "description": "campus wide career fair",
+                      "date": "9/27/2023 10:00 AM",
+                      "location": "Gordon Field House",
+                      "organizer": "SUNY career prep department",
+                      "isRecurring": true,
+                      "buttonLabel": "More Info",
+                      "eventLink": "sample.com",
+                      "imageId": 12
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/edit-event": {
+      "post": {
+        "summary": "Edit a specific event.",
+        "description": "Items listed in request body schema are required, others can be added or excluded.",
+        "tags": ["events"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "updates": {
+                  "id": {
+                    "type": "number",
+                    "required": "true",
+                    "description": "Which event is being updated"
+                  },
+                  "name": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new or current event name"
+                  },
+                  "date": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new or current event date"
+                  },
+                  "location": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new or current event location"
+                  },
+                  "organizer": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new or current event organizer"
+                  },
+                  "isRecurring": {
+                    "type": "boolean",
+                    "required": "true",
+                    "description": "new or current event isRecurring status"
+                  },
+                  "otherValueToBeUpdated": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new value to update to"
+                  }
+                }
+              },
+              "example": {
+                "id": 1,
+                "description": "new description",
+                "location": "new location",
+                "name": "Major/Minor & Career Exploration Event",
+                "date": "2024-04-03T04:00:00.000Z",
+                "organizer": "SUNY career prep department",
+                "isRecurring": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event",
+                  "example": {
+                    "eventID": 1,
+                    "name": "Career Fair",
+                    "description": "new description",
+                    "date": "2024-04-03T04:00:00.000Z",
+                    "location": "new location",
+                    "organizer": "SUNY career prep department",
+                    "isRecurring": true,
+                    "buttonLabel": "More Info",
+                    "eventLink": "sample.com",
+                    "imageId": 12
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/admin/create-event": {
+      "post": {
+        "summary": "Create a new event.",
+        "description": "Items listed in request body schema are required, others can be added or excluded.",
+        "tags": ["events"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "data": {
+                  "name": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new event name"
+                  },
+                  "date": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new event date"
+                  },
+                  "location": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new event location"
+                  },
+                  "organizer": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "new event organizer"
+                  },
+                  "isRecurring": {
+                    "type": "boolean",
+                    "required": "true",
+                    "description": "new event isRecurring status"
+                  },
+                  "otherValueToBeUpdated": {
+                    "type": "string",
+                    "required": "true",
+                    "description": "any other event data"
+                  }
+                }
+              },
+              "example": {
+                "name": "NEW Career Fair",
+                "description": "campus wide career fair",
+                "date": "2024-04-04T04:00:00.000Z",
+                "location": "NOT Gordon Field House",
+                "organizer": "SUNY career prep department",
+                "isRecurring": true,
+                "buttonLabel": "More Info",
+                "eventLink": "sample.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event",
+                  "example": {
+                    "eventID": 2,
+                    "name": "NEW Career Fair",
+                    "description": "campus wide career fair",
+                    "date": "2024-04-04T04:00:00.000Z",
+                    "location": "NOT Gordon Field House",
+                    "organizer": "SUNY career prep department",
+                    "isRecurring": true,
+                    "buttonLabel": "More Info",
+                    "eventLink": "sample.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "summary": "Returns all tasks",
+        "description": "Used mostly by admin when creating/editing tasks and milestones.",
+        "tags": ["tasks"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                },
+                "example": {
+                  "taskID": 1,
+                  "name": "Upload Resume",
+                  "description": "upload resume draft to portfolio",
+                  "yearLevel": "Freshman",
+                  "milestoneID": 1,
+                  "taskType": "ARTIFACT",
+                  "artifactName": "Resume",
+                  "eventID": 0,
+                  "submissionInstructions": "Please attach the draft of your resume"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "summary": "Returns a specific task",
+        "description": "Used in resume upload.",
+        "tags": ["tasks"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The task ID"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                },
+                "example": {
+                  "taskID": 1,
+                  "name": "Upload Resume",
+                  "description": "upload resume draft to portfolio",
+                  "yearLevel": "Freshman",
+                  "milestoneID": 1,
+                  "taskType": "ARTIFACT",
+                  "artifactName": "Resume",
+                  "eventID": 0,
+                  "submissionInstructions": "Please attach the draft of your resume"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard-tasks": {
+      "get": {
+        "summary": "Returns the selection of tasks to display on the dashboard",
+        "tags": ["tasks"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "How many tasks to return (number of overdue tasks is half the limit)"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  },
+                  "example": [
+                    {
+                      "taskID": 1,
+                      "name": "Upload Resume",
+                      "description": "upload resume draft to portfolio",
+                      "yearLevel": "Freshman",
+                      "milestoneID": 1,
+                      "taskType": "ARTIFACT",
+                      "artifactName": "Resume",
+                      "eventID": 0,
+                      "submissionInstructions": "Please attach the draft of your resume"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/edit-task": {
+      "post": {
+        "summary": "Edit a specific task.",
+        "description": "Items listed in request body schema are required, others can be added or excluded.",
+        "tags": ["tasks"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "updates": {
+                  "id": {
+                    "type": "number",
+                    "required": "true",
+                    "description": "Which task is being updated"
+                  },
+                  "submissionInstructions": {
+                    "type": "number",
+                    "required": "true",
+                    "description": "new or current submission instructions"
+                  },
+                  "taskType": {
+                    "type": "string",
+                    "enum": [
+                      "COMMENT",
+                      "ARTIFACT",
+                      "EVENT"
+                    ],
+                    "description": "new or current task type"
+                  },
+                  "valueToBeUpdated": {
+                    "type": "string",
+                    "description": "new value to update to"
+                  }
+                }
+              },
+              "example": {
+                "id": 1,
+                "description": "new description"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task",
+                  "example": {
+                    "taskID": 1,
+                    "name": "Upload Resume",
+                    "description": "new description",
+                    "yearLevel": "Freshman",
+                    "milestoneID": 1,
+                    "taskType": "ARTIFACT",
+                    "artifactName": "Resume",
+                    "eventID": 0,
+                    "submissionInstructions": "Please attach the draft of your resume"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/admin/create-task": {
+      "post": {
+        "summary": "Create a new task.",
+        "description": "Items listed in request body schema are required, others can be added or excluded.",
+        "tags": ["tasks"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "data": {
+                  "newValue": {
+                    "type": "string",
+                    "description": "new value"
+                  }
+                }
+              },
+              "example": {
+                "name": "Upload Draft Resume",
+                "description": "upload SECOND resume draft to portfolio",
+                "yearLevel": "Freshman",
+                "milestoneID": 1,
+                "taskType": "ARTIFACT",
+                "artifactName": "Resume",
+                "eventID": 0,
+                "submissionInstructions": "Please attach the draft of your resume"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task",
+                  "example": {
+                    "taskID": 2,
+                    "name": "Upload Draft Resume",
+                    "description": "upload SECOND resume draft to portfolio",
+                    "yearLevel": "Freshman",
+                    "milestoneID": 1,
+                    "taskType": "ARTIFACT",
+                    "artifactName": "Resume",
+                    "eventID": 0,
+                    "submissionInstructions": "Please attach the draft of your resume"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          }
+        }
+      }
+    },
+    "/current-user": {
+      "get": {
+        "summary": "Returns the information for the user currently logged in",
+        "description": "This is useful to get your user id and other valuse to use in other endpoints.",
+        "tags": ["users"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id":"f29f6cb9-e7ca-11ee-9b01-7cd30a80892f",
+                  "email":"something@g.rit.edu",
+                  "phoneNumber":"111-111-1111",
+                  "dateCreated":"2023-01-01T05:00:00.000+00:00",
+                  "lastLogin":"2023-01-01T05:00:00.000+00:00",
+                  "firstName":"Sample",
+                  "lastName":"User",
+                  "preferredName":"Sample",
+                  "canEmail":true,
+                  "canText":false,
+                  "linkedin":"https://linkedin.com/profile=sponsor-favorite",
+                  "signedUp":true,
+                  "role":"SuperAdmin",
+                  "profilePictureId":3,
+                  "studentDetails": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Returns the specific user",
+        "description": "Typically used to get another user's information (requires Faculty role).",
+        "tags": ["users"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id":"f29f6cb9-e7ca-11ee-9b01-7cd30a80892f",
+                  "email":"bml2238@g.rit.edu",
+                  "phoneNumber":"111-111-1111",
+                  "dateCreated":"2023-01-01T05:00:00.000+00:00",
+                  "lastLogin":"2023-01-01T05:00:00.000+00:00",
+                  "firstName":"Brie",
+                  "lastName":"Lindberg",
+                  "preferredName":"Brie",
+                  "canEmail":true,
+                  "canText":false,
+                  "linkedin":"https://linkedin.com/profile=sponsor-favorite",
+                  "signedUp":true,
+                  "role":"SuperAdmin",
+                  "profilePictureId":3,
+                  "studentDetails": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User was not found"
+          }
+        }
+      }
+    },
+    "/users/search": {
+      "get": {
+        "summary": "Returns a selection of users that match the search term",
+        "description": "Search term (currently) matches on first or last name, not anything else like email or id.",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageOffset",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Which page of users to display"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "How many users to return"
+          },
+          {
+            "in": "query",
+            "name": "searchTerm",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "only return users that match this query"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "valid query params: pageOffset: number, pageSize: number, searchTerm: string"
+          }
+        }
+      }
+    },
+    "/users/roles": {
+      "put": {
+        "summary": "Change the role of a given user",
+        "description": "Recommended that you get user info using the above endpoint, then copy their data here and change their role.",
+        "tags": ["users"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref":"#/components/schemas/User",
+                "description": "the updated user, with their new role"
+              },
+              "example": {
+                "id":"f29f6cb9-e7ca-11ee-9b01-7cd30a80892f",
+                "email":"something@g.rit.edu",
+                "phoneNumber":"111-111-1111",
+                "dateCreated":"2023-01-01T05:00:00.000+00:00",
+                "lastLogin":"2023-01-01T05:00:00.000+00:00",
+                "firstName":"Sample",
+                "lastName":"User",
+                "preferredName":"Sample",
+                "canEmail":true,
+                "canText":false,
+                "linkedin":"https://linkedin.com/profile=sponsor-favorite",
+                "signedUp":true,
+                "role":"Faculty",
+                "profilePictureId":3,
+                "studentDetails": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User",
+                  "example": {
+                    "id":"f29f6cb9-e7ca-11ee-9b01-7cd30a80892f",
+                    "email":"something@g.rit.edu",
+                    "phoneNumber":"111-111-1111",
+                    "dateCreated":"2023-01-01T05:00:00.000+00:00",
+                    "lastLogin":"2023-01-01T05:00:00.000+00:00",
+                    "firstName":"Sample",
+                    "lastName":"User",
+                    "preferredName":"Sample",
+                    "canEmail":true,
+                    "canText":false,
+                    "linkedin":"https://linkedin.com/profile=sponsor-favorite",
+                    "signedUp":true,
+                    "role":"Faculty",
+                    "profilePictureId":3,
+                    "studentDetails": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/submission": {
+      "post": {
+        "summary": "Sends a new submission",
+        "description": "Artifact must already be uploaded before submission (use the /artifact endpoint and copy the id from there).",
+        "tags": ["submissions"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Submission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Submission"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to submit."
+          }
+        }
+      }
+    },
+    "/tasks/submission/{taskId}": {
+      "get": {
+        "summary": "Gets the latest submission for the given task",
+        "tags": ["submissions"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The task to get the submission for"
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which user's submission we're getting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Submission"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "User has not submitted anything"
+          },
+          "403": {
+            "description": "User does not have faculty permissions"
+          }
+        }
+      }
+    },
+    "/student/submission": {
+      "get": {
+        "summary": "Gets all of the submissions for the logged in user",
+        "description": "Typically used to check for all completed tasks.",
+        "tags": ["submissions"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Submission"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No submissions for student"
+          }
+        }
+      }
+    },
+    "/faculty/milestones/{studentID}": {
+      "get": {
+        "summary": "Gets all of the submissions for a specific user",
+        "description": "Used to check student's task/milestone progress.",
+        "tags": ["submissions"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "studentID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which student to get submissions for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Submission"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No submissions for student"
+          }
+        }
+      }
+    },
+    "/artifact/": {
+      "post": {
+        "summary": "Uploads an artifact.",
+        "tags": ["artifacts"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Artifact"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artifact/{id}": {
+      "delete": {
+        "summary": "Deletes an artifact",
+        "description": "The artifact must belong to the current user.",
+        "tags": ["artifacts"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which artifact to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "File deleted successfully"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "unauthorized"
+          }
+        }
+      }
+    },
+    "/artifact/file/{artifactID}": {
+      "get": {
+        "summary": "Retrieves the artifact file",
+        "description": "Unable to show actual file in swagger so check if it matches the expected file as text.",
+        "tags": ["artifacts"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "artifactID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which artifact to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artifact/event/{eventID}": {
+      "post": {
+        "summary": "Uploads an image for an event.",
+        "description": "The endpoint will allow for images with the incorrect aspect ratio, so try and upload images that are already cropped.",
+        "tags": ["artifacts"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Which event the image is for"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ID of uploaded artifact",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artifact/image/{artifactID}": {
+      "get": {
+        "summary": "Retrieves the image file for an event",
+        "description": "Functions the same as the /artifact/file/{artifactID} endpoint.",
+        "tags": ["artifacts"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "artifactID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Which artifact to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artifact/profile-picture": {
+      "post": {
+        "summary": "Uploads the profile image file for the current user.",
+        "description": "Expects an image that's roughly square",
+        "tags": ["artifacts"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ID of uploaded artifact",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad aspect ratio"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieves the profile image file for the current user",
+        "tags": ["artifacts"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/resume": {
+      
+    },
+    "/portfolio/artifacts": {
+      
+    },
+    "/portfolio/{artifactID}": {
+      
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {        
+        "type": "apiKey",
+        "in": "header" ,
+        "name": "X-Authorization"
+      }
+    },
+    "schemas": {
+      "Task": {
+        "description": "full task information",
+        "properties": {
+          "taskID": {
+            "type": "integer",
+            "description": "internal ID for the task"
+          },
+          "name": {
+            "type": "string",
+            "description": "full name of the task"
+          },
+          "description": {
+            "type": "string",
+            "description": "any additional task information"
+          },
+          "yearLevel": {
+            "type": "string",
+            "enum": [
+              "Freshman",
+              "Sophomore",
+              "Junior",
+              "Senior"
+            ],
+            "description": "the school year that the task is assigned to"
+          },
+          "milestoneID": {
+            "type": "integer",
+            "description": "what milestone the task is a part of, if any"
+          },
+          "taskType": {
+            "type": "string",
+            "enum": [
+              "COMMENT",
+              "ARTIFACT",
+              "EVENT"
+            ],
+            "description": "what kind of task the student is required to do"
+          },
+          "artifactName": {
+            "type": "string",
+            "description": "the name of the artifact that is required for the task, if the type is artifact"
+          },
+          "eventID": {
+            "type": "integer",
+            "description": "the event the student is required to attend, if the type is event"
+          },
+          "submissionInstructions": {
+            "type": "string",
+            "description": "the instructions shown to the student when submitting"
+          }
+        }
+      },
+      "Event": {
+        "description": "full event information",
+        "properties": {
+          "eventID": {
+            "type": "integer",
+            "description": "internal ID for the event"
+          },
+          "name": {
+            "type": "string",
+            "description": "full name of the event"
+          },
+          "description": {
+            "type": "string",
+            "description": "any additional event information"
+          },
+          "date": {
+            "type": "string",
+            "description": "when the event will take place"
+          },
+          "location": {
+            "type": "string",
+            "description": "where the event will be located"
+          },
+          "organizer": {
+            "type": "string",
+            "description": "who is hosting/organizing the event"
+          },
+          "isRecurring": {
+            "type": "boolean",
+            "description": "whether the event occurs every year"
+          },
+          "buttonLabel": {
+            "type": "string",
+            "description": "the \"More Information\" or \"Get Involved\" text on the event button"
+          },
+          "eventLink": {
+            "type": "string",
+            "description": "link to an external page with more event information"
+          },
+          "imageId": {
+            "type": "integer",
+            "description": "reference to the image to  display for the event"
+          }
+        }
+      },
+      "Milestone": {
+        "description": "milestone information",
+        "properties": {
+          "milestoneID": {
+            "type": "integer",
+            "description": "internal ID for the milestone"
+          },
+          "name": {
+            "type": "string",
+            "description": "name of the milestone"
+          },
+          "yearLevel": {
+            "type": "string",
+            "enum": [
+              "Freshman",
+              "Sophomore",
+              "Junior",
+              "Senior"
+            ],
+            "description": "the school year that the milestone is assigned to"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "description": "the events associated with this milestone"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Task"
+            },
+            "description": "the tasks associated with this milestone"
+          }
+        }
+      },
+      "Submission": {
+        "description": "the submission for a task",
+        "properties": {
+          "submissionId": {
+            "type": "integer",
+            "description": "internal ID for the submission",
+            "default": 0
+          },
+          "artifactId": {
+            "type": "integer",
+            "description": "reference to the artifact data with the submission",
+            "default": 0
+          },
+          "taskId": {
+            "type": "integer",
+            "description": "what task was this submission for"
+          },
+          "studentId": {
+            "type": "string",
+            "description": "the student who made the submission"
+          },
+          "submissionDate": {
+            "type": "string",
+            "description": "when the submission was made"
+          },
+          "comment": {
+            "type": "string",
+            "description": "any comment added to the submission"
+          }
+        }
+      },
+      "Artifact": {
+        "description": "submission data for an artifact",
+        "properties": {
+          "artifactID": {
+            "type": "integer",
+            "description": "internal ID for the submitted artifact"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "name of the file submitted"
+          },
+          "submissionDate": {
+            "type": "string",
+            "description": "when the artifact was submitted"
+          },
+          "submission": {
+            "$ref": "#/components/schemas/Submission",
+            "description": "the submission the artifact was a part of"
+          }
+        }
+      },
+      "User": {
+        "description": "information about a user",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "internal Id for the user"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "user's first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "user's last name"
+          },
+          "preferredName": {
+            "type": "string",
+            "description": "a user's preferred name, if any"
+          },
+          "signedUp": {
+            "type": "boolean",
+            "description": "whether the user has created an account yet"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "user's phone number"
+          },
+          "dateCreated": {
+            "type": "string",
+            "description": "when the account was created"
+          },
+          "lastLogin": {
+            "type": "string",
+            "description": "when the user last logged in"
+          },
+          "canEmail": {
+            "type": "boolean",
+            "description": "whether we can send the user emails"
+          },
+          "canText": {
+            "type": "boolean",
+            "description": "whether we can send the user texts"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "student",
+              "faculty",
+              "admin",
+              "superadmin"
+            ],
+            "description": "what kind of user is this"
+          },
+          "linkedin": {
+            "type": "string",
+            "description": "the user's linkedin profile"
+          },
+          "profilePictureId": {
+            "type": "integer",
+            "description": "reference to the user profile picture artifact"
+          },
+          "studentDetails": {
+            "$ref": "#/components/schemas/StudentDetails",
+            "description": "student specific information, if the user is a student"
+          }
+        }
+      },
+      "StudentDetails": {
+        "description": "specific information for students only",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "internal Id for the user"
+          },
+          "universityId": {
+            "type": "string",
+            "description": "the student's id for their university"
+          },
+          "gpa": {
+            "type": "double",
+            "description": "the students's gpa"
+          },
+          "description": {
+            "type": "string",
+            "description": "description of the student (?)"
+          },
+          "graduationYear": {
+            "type": "string",
+            "description": "expected graduation date of the student"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "when the student began at university"
+          },
+          "yearLevel": {
+            "type": "string",
+            "enum": [
+              "Freshman",
+              "Sophomore",
+              "Junior",
+              "Senior"
+            ],
+            "description": "the student's current year level"
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "name of individual project"
+            },
+            "description": "all projects the student has completed"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "an individual skill"
+            },
+            "description": "all skills the student has listed"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "an individual job"
+            },
+            "description": "all jobs the student has listed"
+          },
+          "degreePrograms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "name of a degree program"
+            },
+            "description": "all the degree programs the student is in"
+          },
+          "clubs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "name of a club"
+            },
+            "description": "all the clubs the student is in"
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "an individual interest"
+            },
+            "description": "all the interests the student has"
+          }
+        }
+      }
+    }
+  }
+}

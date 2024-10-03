@@ -1,0 +1,91 @@
+@import "../../common";
+
+.body {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.matList {
+    box-shadow: @oswego-box-shadow;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.matListItem {
+    background-color: white;
+    border: none;
+    display: flex;
+    width: 95%;
+    margin: 1vh;
+    border-radius: 10px;
+    box-shadow: @oswego-box-shadow;
+}
+
+.matListItem:not(.taskBar):hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.overdue p {
+  display:flex;
+  color: red;
+  font-weight: bold;
+}
+
+.taskBar {
+  background-color: @oswego-green-faded;
+  padding: 1em;
+  font-weight: bold;
+  box-shadow: @oswego-box-shadow;
+}
+
+.taskText {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh;
+  align-items: center;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.taskTitle {
+  text-align: left;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 4px;
+}
+
+.taskTitleOverDue{
+  display: flex;
+  align-items: center;
+}
+
+.warning{
+  margin: 0 10px 0 0;
+}
+
+.taskDate {
+  text-align: right;
+  justify-content: center;
+}
+
+#logout-button {
+  color: white;
+  background-color: #16163f;
+  border: 1px solid black;
+}
+
+#delete-product-button {
+  color: white;
+  background-color: #145214;
+  border: 1px solid black;
+}
+

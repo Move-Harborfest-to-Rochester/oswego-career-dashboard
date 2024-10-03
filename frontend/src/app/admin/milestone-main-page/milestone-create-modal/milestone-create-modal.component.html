@@ -1,0 +1,18 @@
+<div id="modal-content-wrapper">
+    <header id="modal-header">
+        <h4 id="modal-title-1">Create New Milestone</h4>
+        <h5 id="modal-title-2">This milestone is for {{yearLevel}}</h5>
+    </header>
+    <form [formGroup]="milestoneForm" class="milestone-form" (ngSubmit)="newMilestone()">
+        <div class="form-section">
+            <mat-label>Milestone Name: </mat-label>
+            <input matInput formControlName="name">
+        </div>
+    <footer class="modal-footer">
+        <button mat-raised-button class="modal-cancel-button" type="button" (click)="closeModal()">
+            Back
+        </button>
+        <button mat-raised-button class="modal-submit-button" type="submit" [disabled]="!milestoneForm.status">Submit</button>
+    </footer>
+    </form>
+</div>

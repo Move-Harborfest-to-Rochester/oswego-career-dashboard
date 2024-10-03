@@ -1,0 +1,104 @@
+@import "../common";
+
+mat-card-header {
+  border-bottom: 5px solid black;
+}
+
+.body-container {
+  background-color: @oswego-gray;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: @oswego-gray;
+
+  .navbar {
+    padding: 0;
+  }
+
+  app-oswego-logo {
+    display: inline-block;
+    height: 100px;
+    padding: 1vh;
+  }
+
+  .logo {
+    margin: 20px;
+
+    @media(max-width: 700px) {
+      margin: 0;
+    }
+  }
+
+  .title-container{
+    color: @oswego-green;
+    padding: 5vh;
+    height: fit-content;
+    width: fit-content;
+    font-weight: bold;
+    font-size: 24px;
+
+    p {
+      margin-bottom: 0;
+    }
+
+    @media(max-width: 920px) {
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+
+    @media(max-width: 700px) {
+      padding-bottom: 0;
+      padding-top: 40px;
+    }
+
+    @media(max-width: 629px) {
+      padding-top: 25px;
+    }
+
+    @media(max-width: 500px) {
+      padding-top: 0;
+    }
+  }
+
+  .header-container {
+    background-color: white;
+    display: flex;
+    width: 100%;
+
+    .header{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto
+    }
+
+    .header-AI-button:hover{
+      cursor: pointer;
+      background-color: gray;
+    }
+
+    .header-AI-button{
+      display: flex;
+      justify-content: center;
+      align-items: center;;
+      margin: 0 20px 0 20px;
+      padding: 10px;
+      background-color: #F0F6F3;
+      border-radius: 15px;
+
+      .AI-button-text{
+        font-weight: bold;
+      }
+
+      .header-AI-img{
+        width: 110px;
+        height: 110px;
+        border-radius: 15px;
+        margin: 0 25px 0 25px;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import '../../../common.less';
+
+.submission-modal-container {
+    width: 350px;
+
+    .mat-mdc-dialog-content {
+        overflow: hidden !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h2 {
+          width: 100%;
+          padding: 15px 10px 0 10px;
+          font-size: x-large;
+          color: @oswego-green
+        }
+    }
+
+    app-submission-content {
+      width: 100%;
+    }
+}

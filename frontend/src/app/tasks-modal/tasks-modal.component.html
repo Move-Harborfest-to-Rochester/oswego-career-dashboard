@@ -1,0 +1,31 @@
+<div id="modal-content-wrapper">
+    <header [id]="modalData.overdue ? 'modal-header-overdue' : 'modal-header'">
+      <div>
+      <h1 id="modal-title">
+        <mat-icon [inline]="true" [class]="modalData.overdue ? 'icon-overdue':'icon-not-overdue'">report_problem</mat-icon>{{ modalData.task.name }}
+      </h1>
+      </div>
+    </header>
+  <div id="modal-body">
+    <div class="box">
+      <div class="text">
+        <p class="header">Year Level:</p>
+        <p>{{ modalData.task.yearLevel }}</p>
+      </div>
+    </div>
+    <div class="box">
+      <div class="text description">
+        <p class="header">Description:</p><br>
+        <p class="content">{{ modalData.task.description }}</p>
+      </div>
+    </div>
+    <app-submission-content [task]="modalData.task" (cancel)="closeModal()"></app-submission-content>
+  </div>
+  <br>
+  <footer id="modal-footer">
+    <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
+      Go back
+    </button>
+  </footer>
+</div>
+
