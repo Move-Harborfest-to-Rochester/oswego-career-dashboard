@@ -1,12 +1,12 @@
 import {
   GoogleLoginProvider,
-  SocialLoginModule,
+  SocialLoginModule
 } from '@abacritt/angularx-social-login';
 import { NgOptimizedImage } from '@angular/common';
 import {
   HTTP_INTERCEPTORS,
   HttpClientModule,
-  provideHttpClient,
+  provideHttpClient
 } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -58,7 +58,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     AppComponent,
     ApiDocumentationsComponent,
     NavbarComponent,
-    NotFoundComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -69,19 +69,19 @@ import { UsersPageModule } from './users-page/users-page.module';
         auth: {
           clientId: environment.clientId, // Application (client) ID from the app registration
           authority: `https://login.microsoftonline.com/${environment.tentantId}`, // The Azure cloud instance and the app's sign-in audience (tenant ID, common, organizations, or consumers)
-          redirectUri: environment.redirectURI, // This is your redirect URI
+          redirectUri: environment.redirectURI // This is your redirect URI
         },
         cache: {
           cacheLocation: 'localStorage',
-          storeAuthStateInCookie: false, // Set to true for Internet Explorer 11
-        },
+          storeAuthStateInCookie: false // Set to true for Internet Explorer 11
+        }
       }),
       {
-        interactionType: InteractionType.Redirect,
+        interactionType: InteractionType.Redirect
       },
       {
         interactionType: InteractionType.Redirect,
-        protectedResourceMap: new Map(),
+        protectedResourceMap: new Map()
       }
     ),
     SocialLoginModule,
@@ -120,7 +120,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     UserMenuModule,
     FileUploadModule,
     MatSnackBarModule,
-    LogoLinkModule,
+    LogoLinkModule
   ],
   providers: [
     provideHttpClient(),
@@ -132,20 +132,20 @@ import { UsersPageModule } from './users-page/users-page.module';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(environment.gClientId, {
-              oneTapEnabled: false,
-            }), // your client id
-          },
-        ],
-      },
+              oneTapEnabled: false
+            }) // your client id
+          }
+        ]
+      }
     },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: APP_INITIALIZER,
       useFactory: (authService: AuthService) => () => authService.loadUser(),
       multi: true,
-      deps: [AuthService],
-    },
+      deps: [AuthService]
+    }
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent]
 })
 export class AppModule {}

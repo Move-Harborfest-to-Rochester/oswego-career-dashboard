@@ -1,6 +1,9 @@
 <div class="app-container scrollbar">
-  <div class="header-container" *ngIf="needsNavBar()">
-    <logo-link [showTitle]="(showTitle$ | async) ?? false" />
+  <div
+    class="header-container"
+    *ngIf="needsNavBar()"
+  >
+    <logo-link [showTitle]="(showTitle$ | async) ?? false"></logo-link>
 
     <div class="header">
       <div
@@ -13,7 +16,9 @@
           alt="Oswego Logo"
         />
         <p class="AI-button-text">
-          AI Business Advisor<br />Ask all your advisement and career questions
+          AI Business Advisor
+          <br />
+          Ask all your advisement and career questions
         </p>
       </div>
 
