@@ -37,6 +37,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Spring Boot R2DBC Driver
+    // Remove previous driver after migration
     implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation ("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
     // Database driver
