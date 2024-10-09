@@ -36,8 +36,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
-    // Spring Boot Starter Data JPA
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // Spring Boot R2DBC Driver
+    implementation ("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation ("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
     // Database driver
     implementation("mysql:mysql-connector-java:8.0.33")
     // Flyway
