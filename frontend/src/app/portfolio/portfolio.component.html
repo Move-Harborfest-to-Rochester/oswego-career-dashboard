@@ -9,34 +9,36 @@
           </div>
           <div class="card-body-section-body personal">
             <div class="card-body-section-image">
-              <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL" alt="User Image">
+              <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL"
+                alt="User Image">
               <mat-icon class="profile-picture" *ngIf="user.profilePictureURL == null">account_circle</mat-icon>
             </div>
             <div class="card-body-section-data content">
-                <div>
-                  <span class="title">Name</span>
-                  <span>{{user.preferredName}} {{user.lastName}}</span>
-                </div>
-                <div>
-                  <span class="title">Email</span>
-                  <span>{{user.email}}</span>
-                </div>
-                <div>
-                  <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
-                  <span class="title" *ngIf="isMobile$| async">Phone</span>
-                  <span>{{user.phoneNumber}}</span>
-                </div>
-                <div>
-                  <span class="title">LinkedIn</span>
-                  <span>
-                    <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''" (click)="goToLinkedIn()">link</mat-icon>
-                  </span>
-                  <span *ngIf="user.linkedin === null">No LinkedIn</span>
-                </div>
-                <div class="verticle">
-                  <p class="title">Description</p>
-                  <p>{{user.studentDetails?.description}}</p>
-                </div>
+              <div>
+                <span class="title">Name</span>
+                <span>{{user.preferredName}} {{user.lastName}}</span>
+              </div>
+              <div>
+                <span class="title">Email</span>
+                <span>{{user.email}}</span>
+              </div>
+              <div>
+                <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
+                <span class="title" *ngIf="isMobile$| async">Phone</span>
+                <span>{{user.phoneNumber}}</span>
+              </div>
+              <div>
+                <span class="title">LinkedIn</span>
+                <span>
+                  <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''"
+                    (click)="goToLinkedIn()">link</mat-icon>
+                </span>
+                <span *ngIf="user.linkedin === null">No LinkedIn</span>
+              </div>
+              <div class="verticle">
+                <p class="title">Description</p>
+                <p>{{user.studentDetails?.description}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -49,17 +51,17 @@
               <span class="title">Majors</span>
               <span class="value">
                 <span *ngFor="let degreeProgram of majors(); index as i">
-                  <span>{{degreeProgram}}{{i < majors().length - 1 ? ', ' : ''}}</span>
+                  <span>{{degreeProgram}}{{i < majors().length - 1 ? ', ' : '' }}</span>
+                  </span>
                 </span>
-              </span>
             </div>
             <div>
               <span class="title">Minors</span>
               <span class="value">
                 <span *ngFor="let degreeProgram of minors(); index as i">
-                  <span>{{degreeProgram}}{{i < minors().length - 1 ? ', ' : ''}}</span>
+                  <span>{{degreeProgram}}{{i < minors().length - 1 ? ', ' : '' }}</span>
+                  </span>
                 </span>
-              </span>
             </div>
             <div>
               <span class="title" *ngIf="!(isMobile$ | async)">University ID</span>
@@ -102,7 +104,8 @@
           </div>
           <div class="card-body-section-body projects">
             <div class="project" *ngFor="let project of user.studentDetails?.projects">
-              <h3>{{project.name.charAt(0).toUpperCase() + project.name.substring(1)}}</h3> <!-- Guarentees project name is capitalized -->
+              <h3>{{project.name.charAt(0).toUpperCase() + project.name.substring(1)}}</h3>
+              <!-- Guarentees project name is capitalized -->
               <div class="date-row content">
                 <div>
                   <span class="title">{{dateHeader('Start')}}</span>
@@ -120,8 +123,11 @@
           </div>
         </div>
         <div class="card-body-section">
-          <div class="card-body-section-header">
+          <div class="card-body-section-header jobs-header">
             <h2>Jobs</h2>
+            <button mat-mini-fab (click)="createJob()">
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
           <div class="card-body-section-body projects">
             <div *ngFor="let job of jobs()">

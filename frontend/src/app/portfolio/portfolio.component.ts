@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import { AuthService } from '../security/auth.service';
-import { LangUtils } from '../util/lang-utils';
-import { User } from '../security/domain/user';
-import {ArtifactService} from "../file-upload/artifact.service";
-import { TaskService } from '../util/task.service';
-import { SubmissionService } from '../submissions/submission.service';
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import {map, mergeMap, Observable, takeUntil, tap, zipWith} from 'rxjs';
-import { UserService } from '../security/user.service';
+import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
 import { Job } from 'src/domain/Job';
-import {MilestoneService} from "../milestones-page/milestones/milestone.service";
-import {ScreenSizeService} from "../util/screen-size.service";
+import { ArtifactService } from "../file-upload/artifact.service";
+import { MilestoneService } from "../milestones-page/milestones/milestone.service";
+import { AuthService } from '../security/auth.service';
+import { User } from '../security/domain/user';
+import { UserService } from '../security/user.service';
+import { LangUtils } from '../util/lang-utils';
+import { ScreenSizeService } from "../util/screen-size.service";
+import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
 
 @Component({
   selector: 'app-portfolio',
@@ -35,6 +34,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly createJobDialog: MatDialog
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -110,6 +110,13 @@ export class PortfolioComponent implements OnInit {
       .filter((s) => !s.isCoop)
   }
 
+  createJob(): void {
+    const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
+  }
+
   coops(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
       .filter((s) => s.isCoop)
@@ -125,8 +132,8 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
-  formatDate(date: Date){
-    return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
-      date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+  formatDate(date: Date) {
+    return this.isMobile$ ? date.toLocaleString("en-US", { month: "numeric", year: "numeric", day: "numeric" }) :
+      date.toLocaleString("en-US", { month: "long", year: "numeric", day: "numeric" });
   }
 }
