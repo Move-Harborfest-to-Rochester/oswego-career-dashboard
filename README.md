@@ -57,6 +57,28 @@ Partially Hydrated devs - Senior Project
      - run `mysql -u backend -p`
      - enter the password you just entered for the backend
      - run `CREATE DATABASE CRD;`
+    
+7. Authentication
+   - Google Auth and How to:
+      - Follow the tutorial outlined by
+      - https://support.google.com/cloud/answer/6158849?hl=en&authuser=1#zippy=%2Cuser-consent
+
+   - Microsoft Auth and how to:
+
+   - Updating configuration files with correct token:
+      - @ frontend/src/environments/environment.development.ts
+         - gclientID : your_id 
+      -@ backend/src/main/resources/application.properties
+         - security.google.clientID : your_id
+
+8. Entering user into CRD database:
+   - Enter into the database using backend permissions
+      - mysql -u backend -p                                                                                                            
+   - Select the CRD database
+      - USE CRD;
+   - Execute the following sql commands updating with your user information 
+      - INSERT INTO user(id, email, phone_number, first_name, preferred_name, last_name, can_email, can_text, role, signed_up) VALUES (UUID_TO_BIN(UUID()), 'youremail@g.rit.edu', '717-809-1444', "First", "Preferred", "Last", 1, 1, "SuperAdmin", 1)
+
 
 # Running the app
 - Open a terminal and navigate to the backend directory
