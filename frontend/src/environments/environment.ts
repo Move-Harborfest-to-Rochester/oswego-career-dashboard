@@ -3,6 +3,6 @@ export const environment = {
   clientId: 'REPLACE',
   tentantId: 'REPLACE',
   gClientId:
-    '767296475605-gb5o1lcvdakrlsee7pcl9lg7b5jri8vj.apps.googleusercontent.com',
+    '980088058347-cvkphe0c13l7k5gn947s2tjd70mkp2m9.apps.googleusercontent.com',
   redirectURI: 'http://localhost:8080',
 };
