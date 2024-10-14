@@ -12,6 +12,7 @@ import { UserService } from '../security/user.service';
 import { Job } from 'src/domain/Job';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {ScreenSizeService} from "../util/screen-size.service";
+import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -35,6 +36,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly dialog: MatDialog
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -128,5 +130,12 @@ export class PortfolioComponent implements OnInit {
   formatDate(date: Date){
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+  }
+
+  openAddProjectModal() {
+    this.dialog.open(AddProjectModalComponent, {
+      width: '400px',
+      data: {}
+    });
   }
 }
