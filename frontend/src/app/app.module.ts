@@ -40,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NgOptimizedImage } from "@angular/common";
 import { FooterModule } from './footer/footer.module';
+import { MatIconModule } from '@angular/material/icon';
 import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
 import { SettingsPageModule } from './settings/settings-page.module';import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
@@ -113,6 +114,7 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     UserMenuModule,
     FileUploadModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
   providers: [
     provideHttpClient(),
