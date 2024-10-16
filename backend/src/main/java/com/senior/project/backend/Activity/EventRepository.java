@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ import java.util.List;
  * Repository for Events
  */
 @Repository
-public interface EventRepository extends JpaRepository<Event, Long> {
+public interface EventRepository extends ReactiveCrudRepository<Event, Long> {
 
     @Query("SELECT e FROM Event e WHERE YEAR(e.date) = YEAR(:currentDate) AND WEEK(e.date) = WEEK(:currentDate)")
     List<Event> findEventsInCurrentWeek(@Param("currentDate") LocalDate currentDate);
