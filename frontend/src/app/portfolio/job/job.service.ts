@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Endpoints } from 'src/app/util/http-helper';
-import { Job } from 'src/domain/Job';
+import { Job, JobJSON } from 'src/domain/Job';
 import { constructBackendRequest } from '../../util/http-helper';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export type SaveJobRequest = {
   id?: string;
@@ -11,7 +11,7 @@ export type SaveJobRequest = {
   location: string;
   description: string;
   startDate: Date;
-  endDate?: Date;
+  endDate: Date | null;
   isCoop: boolean;
 };
 
@@ -22,6 +22,7 @@ export class JobService {
   constructor(private readonly http: HttpClient) { }
 
   public saveJob(request: SaveJobRequest): Observable<Job> {
-    return this.http.put<Job>(constructBackendRequest(Endpoints.JOBS), request);
+    return this.http.put<JobJSON>(constructBackendRequest(Endpoints.JOBS), request)
+      .pipe(map((jobJson) => new Job(jobJson)));
   }
 }

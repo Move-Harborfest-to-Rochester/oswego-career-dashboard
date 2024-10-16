@@ -37,7 +37,6 @@ export class Job{
             location: '',
             description: '',
             startDate: new Date(),
-            endDate: new Date (),
             coop: false,
             studentDetailsID: ''
         })
