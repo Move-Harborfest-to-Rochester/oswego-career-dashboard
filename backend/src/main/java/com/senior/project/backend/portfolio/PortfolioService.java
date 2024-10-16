@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.senior.project.backend.domain.Job;
+import com.senior.project.backend.domain.StudentDetails;
+import com.senior.project.backend.domain.User;
 import com.senior.project.backend.job.JobRepository;
 import com.senior.project.backend.security.CurrentUserUtil;
+import com.senior.project.backend.studentdetails.StudentDetailsRepository;
+import com.senior.project.backend.users.UserRepository;
 
 import reactor.core.publisher.Mono;
 
@@ -14,10 +18,26 @@ public class PortfolioService {
     @Autowired
     private JobRepository jobRepository;
     @Autowired
+    private StudentDetailsRepository studentDetailsRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private CurrentUserUtil currentUserUtil;
+
+    private StudentDetails getOrCreateStudentDetails(User user) {
+        StudentDetails studentDetails = user.getStudentDetails();
+        if (studentDetails == null) {
+            studentDetails = new StudentDetails();
+            studentDetails = studentDetailsRepository.save(studentDetails);
+            user.setStudentDetails(studentDetails);
+            userRepository.save(user);
+        }
+        return studentDetails;
+    }
 
     public Mono<Job> saveJob(JobDTO jobDTO) {
         return currentUserUtil.getCurrentUser().flatMap(user -> {
+            StudentDetails studentDetails = getOrCreateStudentDetails(user);
             Job job = new Job();
             job.setName(jobDTO.getName());
             job.setDescription(jobDTO.getDescription());
@@ -25,7 +45,7 @@ public class PortfolioService {
             job.setCoop(jobDTO.isCoop());
             job.setStartDate(jobDTO.getStartDate());
             job.setEndDate(jobDTO.getEndDate());
-            job.setStudentDetails(user.getStudentDetails());
+            job.setStudentDetails(studentDetails);
             return Mono.just(jobRepository.save(job));
         });
     }
