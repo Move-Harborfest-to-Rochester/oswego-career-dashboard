@@ -1,4 +1,4 @@
-package com.senior.project.backend.portfolio;
+package com.senior.project.backend.job;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.*;
@@ -13,9 +13,9 @@ import com.senior.project.backend.util.Endpoints;
 
 @Component
 @Configuration
-public class PortfolioRouter {
+public class JobRouter {
     @Bean
-    RouterFunction<ServerResponse> portfolioRoutes(PortfolioHandler portfolioHandler) {
-        return route(POST(Endpoints.JOBS.uri()), portfolioHandler::saveJob);
+    RouterFunction<ServerResponse> jobRoutes(JobHandler jobHandler) {
+        return route(PUT(Endpoints.JOBS.uri()), jobHandler::saveJob);
     }
 }

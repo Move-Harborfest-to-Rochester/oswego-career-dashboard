@@ -1,6 +1,7 @@
-package com.senior.project.backend.portfolio;
+package com.senior.project.backend.job;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Generated
 public class JobDTO {
+    UUID id;
     String name;
     String description;
     String location;
