@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateJobDialogComponent } from './create-job-dialog.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -21,7 +22,11 @@ import { CreateJobDialogComponent } from './create-job-dialog.component';
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  exports: [CreateJobDialogComponent]
+  exports: [CreateJobDialogComponent],
+  providers: [
+    MatDatepickerModule
+  ]
 })
 export class CreateJobDialogModule { }

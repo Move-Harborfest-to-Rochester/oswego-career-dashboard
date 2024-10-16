@@ -10,7 +10,8 @@ import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
-import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
+import { CreateJobDialogComponent, CreateJobFormValues } from './create-job-dialog/create-job-dialog.component';
+import { SaveJobRequest, JobService } from './job/job.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -29,12 +30,13 @@ export class PortfolioComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly jobService: JobService,
     private readonly artifactService: ArtifactService,
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
-    private readonly createJobDialog: MatDialog
+    private readonly createJobDialog: MatDialog,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -112,8 +114,21 @@ export class PortfolioComponent implements OnInit {
 
   createJob(): void {
     const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result: CreateJobFormValues) => {
+      if (!result) {
+        return;
+      }
+      const request: SaveJobRequest = {
+        name: result.name,
+        location: result.location,
+        description: result.description,
+        startDate: result.startDate,
+        endDate: result.endDate,
+        isCoop: false
+      };
+      this.jobService.saveJob(request).subscribe((job) => {
+        this.user.studentDetails?.jobs?.push(job);
+      });
     });
   }
 
