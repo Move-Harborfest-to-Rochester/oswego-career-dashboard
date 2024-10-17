@@ -16,7 +16,7 @@ export class Job{
         this.location = json.location;
         this.description = json.description;
         this.startDate = new Date(json.startDate);
-        this.endDate = json.endDate ? new Date(json.endDate) : undefined;
+        this.endDate = json.endDate ? new Date(json.endDate) : null;
         this.isCoop = json.coop;
         this.studentDetailsID = json.studentDetailsID;
     }
@@ -26,7 +26,7 @@ export class Job{
     location: string;
     description: string;
     startDate: Date;
-    endDate?: Date;
+    endDate: Date | null;
     isCoop: boolean;
     studentDetailsID: string;
 

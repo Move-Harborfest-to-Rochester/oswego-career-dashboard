@@ -12,7 +12,7 @@ export type SaveJobRequest = {
   description: string;
   startDate: Date;
   endDate: Date | null;
-  isCoop: boolean;
+  coop: boolean;
 };
 
 @Injectable({
@@ -23,6 +23,9 @@ export class JobService {
 
   public saveJob(request: SaveJobRequest): Observable<Job> {
     return this.http.put<JobJSON>(constructBackendRequest(Endpoints.JOBS), request)
-      .pipe(map((jobJson) => new Job(jobJson)));
+      .pipe(map((jobJson) => {
+        console.log('test', jobJson);
+        return new Job(jobJson);
+      }));
   }
 }

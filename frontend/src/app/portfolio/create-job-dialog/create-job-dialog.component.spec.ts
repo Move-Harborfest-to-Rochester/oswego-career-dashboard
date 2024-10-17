@@ -59,7 +59,7 @@ describe('CreateJobDialogComponent', () => {
       description: 'Test Description',
       startDate: new Date(),
       endDate: new Date(),
-      isCoop: false,
+      coop: false,
     });
     component.createJob();
     expect(matDialogRef.close).toHaveBeenCalledWith(component.form.value);

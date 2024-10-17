@@ -124,7 +124,7 @@ export class PortfolioComponent implements OnInit {
         description: result.description,
         startDate: result.startDate,
         endDate: result.endDate,
-        isCoop: false
+        coop: false
       };
       this.jobService.saveJob(request).subscribe((job) => {
         this.user.studentDetails?.jobs?.push(job);

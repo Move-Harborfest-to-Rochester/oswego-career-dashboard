@@ -8,7 +8,7 @@ export type CreateJobFormValues = {
   description: string;
   startDate: Date;
   endDate: Date | null;
-  isCoop: boolean;
+  coop: boolean;
 };
 
 @Component({
@@ -25,7 +25,7 @@ export class CreateJobDialogComponent {
     description: [''],
     startDate: [null],
     endDate: [null],
-    isCoop: [false],
+    coop: [false],
   });
 
   readonly today: Date = new Date();

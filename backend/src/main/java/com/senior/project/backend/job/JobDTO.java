@@ -19,5 +19,5 @@ public class JobDTO {
     String location;
     Date startDate;
     Date endDate;
-    boolean isCoop;
+    boolean coop;
 }
