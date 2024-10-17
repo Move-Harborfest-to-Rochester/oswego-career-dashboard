@@ -5,6 +5,8 @@ h1 {
   color: @oswego-green;
   display: flex;
   justify-content: center;
+  text-align: center;
+  padding-top: 10px;
 }
 .add-project-container {
   .project-input {
@@ -14,8 +16,32 @@ h1 {
   .form-buttons{
     display: flex;
     justify-content: space-between;
-    gap: 50px;
+    gap: 100px;
+    padding-bottom: 10px;
   }
+  .submit-button {
+    background-color: @oswego-green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(@oswego-green, 20%);
+    }
+  }
+  .close-button {
+    background-color: lightgrey;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(red, 8%);
+      color: white
+    }
+  }
+
 }
 
 
@@ -36,10 +62,6 @@ h1 {
   height: 100%;
   padding: 20px;
 
-  h1 {
-    text-align: center;
-    padding-top: 10px;
-  }
 
   form {
     width: 100%;
