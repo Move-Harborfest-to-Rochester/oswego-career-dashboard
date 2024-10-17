@@ -19,13 +19,15 @@ export class AddProjectModalComponent {
             name: ['', Validators.required],
             description: ['', Validators.required],
             startDate: ['', Validators.required],
-            endDate: ['', Validators.required],
+            endDate: [''],
         });
     }
 
     onSubmit() {
         if (this.projectForm.valid) {
             this.dialogRef.close(this.projectForm.value);
+        }else{
+          alert('Must fill all elements of form')
         }
     }
     onClose(){
