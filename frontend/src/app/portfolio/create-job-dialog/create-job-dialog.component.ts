@@ -2,15 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
-export type CreateJobFormValues = {
-  name: string;
-  location: string;
-  description: string;
-  startDate: Date;
-  endDate: Date | null;
-  coop: boolean;
-};
-
 @Component({
   selector: 'create-job-dialog',
   templateUrl: './create-job-dialog.component.html',

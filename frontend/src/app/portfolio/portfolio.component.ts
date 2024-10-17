@@ -10,7 +10,7 @@ import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
-import { CreateJobDialogComponent, CreateJobFormValues } from './create-job-dialog/create-job-dialog.component';
+import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
 import { SaveJobRequest, JobService } from './job/job.service';
 
 @Component({
@@ -114,19 +114,11 @@ export class PortfolioComponent implements OnInit {
 
   createJob(): void {
     const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
-    dialogRef.afterClosed().subscribe((result: CreateJobFormValues) => {
+    dialogRef.afterClosed().subscribe((result: SaveJobRequest) => {
       if (!result) {
         return;
       }
-      const request: SaveJobRequest = {
-        name: result.name,
-        location: result.location,
-        description: result.description,
-        startDate: result.startDate,
-        endDate: result.endDate,
-        coop: false
-      };
-      this.jobService.saveJob(request).subscribe((job) => {
+      this.jobService.saveJob(result).subscribe((job) => {
         this.user.studentDetails?.jobs?.push(job);
       });
     });
