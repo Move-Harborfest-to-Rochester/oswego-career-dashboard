@@ -9,6 +9,22 @@ h3 {
   font-size: medium;
   font-weight: bold;
 }
+.add-project-container {
+  display: flex;
+  justify-content: flex-end;
+
+  .add-project-button {
+    background-color: @oswego-green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(@oswego-green, 20%);
+    }
+  }
+}
 
 .portfolio-container {
   width: 95%;

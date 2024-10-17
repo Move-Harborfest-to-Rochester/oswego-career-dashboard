@@ -100,8 +100,8 @@
           <div class="card-body-section-header">
             <h2>Projects</h2>
           </div>
-          <div class="card-body-section-button" >
-              <button mat-button (click)="openAddProjectModal()">Add Project</button>
+          <div class="add-project-container" >
+              <button class="add-project-button"  mat-button (click)="openAddProjectModal()">Add Project</button>
           </div>
           <div class="card-body-section-body projects">
             <div class="project" *ngFor="let project of user.studentDetails?.projects">

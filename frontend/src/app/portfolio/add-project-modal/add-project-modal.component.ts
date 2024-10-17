@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'app-add-project-modal',
     templateUrl: './add-project-modal.component.html',
+    styleUrls: ['./add-project-modal.component.less']
 })
 export class AddProjectModalComponent {
     projectForm: FormGroup;
