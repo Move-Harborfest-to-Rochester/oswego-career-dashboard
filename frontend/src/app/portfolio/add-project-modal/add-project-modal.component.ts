@@ -25,7 +25,7 @@ export class AddProjectModalComponent {
 
     onSubmit() {
         if (this.projectForm.valid) {
-            alert(this.projectForm.value)
+            alert('Form Submitted: ' + JSON.stringify(this.projectForm.value, null, 2));
             this.dialogRef.close(this.projectForm.value);
         }else{
           alert('Must fill all elements of form')
