@@ -21,10 +21,10 @@ import java.util.*;
 @Generated
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
+
 	private String email;
 	private String phoneNumber;
 
@@ -47,7 +47,7 @@ public class User implements UserDetails {
 	private Integer profilePictureId;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="student_details_id")
+	@JoinColumn(name = "student_details_id", updatable = true)
 	@Nullable
 	private StudentDetails studentDetails;
 
@@ -59,7 +59,7 @@ public class User implements UserDetails {
 		if (hasAdminPrivileges()) authorities.add(new SimpleGrantedAuthority(Role.Admin.toString()));
 		if (hasFacultyPrivileges()) authorities.add(new SimpleGrantedAuthority(Role.Faculty.toString()));
 		if (hasSuperAdminPrivileges()) authorities.add(new SimpleGrantedAuthority(Role.SuperAdmin.toString()));
- 		return authorities;
+		return authorities;
 	}
 
 	@JsonIgnore
@@ -90,7 +90,7 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-	
+
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
