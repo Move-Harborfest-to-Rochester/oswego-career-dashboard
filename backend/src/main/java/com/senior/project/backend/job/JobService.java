@@ -1,5 +1,7 @@
 package com.senior.project.backend.job;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,7 @@ public class JobService {
     }
 
     public Mono<Job> saveJob(JobDTO jobDTO) {
+        // TODO: Verify that the user has permission to edit this job, if it exists
         return currentUserUtil.getCurrentUser().flatMap(user -> {
             StudentDetails studentDetails = getOrCreateStudentDetails(user);
             Job job = new Job();
@@ -50,5 +53,10 @@ public class JobService {
             job.setStudentDetails(studentDetails);
             return Mono.just(jobRepository.save(job));
         });
+    }
+
+    public void deleteJob(UUID id) {
+        // TODO: Verify that the user has permission to delete this job
+        jobRepository.deleteById(id);
     }
 }
