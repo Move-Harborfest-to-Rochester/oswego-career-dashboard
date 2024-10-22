@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.senior.project.backend.domain.Project;
 
-public interface ProjectRepository extends JpaRepository<Job, UUID> {
+public interface ProjectRepository extends JpaRepository<Project, UUID> {
 }
