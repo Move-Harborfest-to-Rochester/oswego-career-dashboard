@@ -25,7 +25,6 @@ export class PortfolioService {
   constructor(private readonly http: HttpClient) {}
 
   editEducation(request: EditEducationRequest): Observable<User> {
-    console.log('editEducation', request);
     return this.http
       .put<UserJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
       .pipe(map((user) => new User(user)));

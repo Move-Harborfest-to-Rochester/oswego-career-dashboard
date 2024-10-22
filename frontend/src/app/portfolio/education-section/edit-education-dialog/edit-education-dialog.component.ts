@@ -47,10 +47,8 @@ export class EditEducationDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('hello');
     this.createForm();
     this.dialogRef.addPanelClass('edit-dialog');
-    console.log(this.form);
   }
 
   createForm() {

@@ -75,10 +75,7 @@ export class EducationSectionComponent implements OnInit {
         year: result.year,
         degreeProgramOperations: [...result.majors, ...result.minors],
       };
-      this.portfolioService.editEducation(request).subscribe((user) => {
-        console.log(user);
-        console.log('Edit dialog closed:', result);
-      });
+      this.portfolioService.editEducation(request).subscribe();
     });
   }
 
