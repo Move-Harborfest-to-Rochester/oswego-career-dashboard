@@ -5,6 +5,7 @@ import java.util.List;
 import com.senior.project.backend.domain.YearLevel;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Generated
 public class EducationDTO {
     int universityId;

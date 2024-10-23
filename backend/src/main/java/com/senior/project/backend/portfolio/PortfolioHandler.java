@@ -17,6 +17,6 @@ public class PortfolioHandler {
     public Mono<ServerResponse> saveEducation(ServerRequest request) {
         return request.bodyToMono(EducationDTO.class)
                 .flatMap(portfolioService::saveEducation)
-                .flatMap(user -> ServerResponse.ok().bodyValue(user));
+                .flatMap((user) -> ServerResponse.noContent().build());
     }
 }
