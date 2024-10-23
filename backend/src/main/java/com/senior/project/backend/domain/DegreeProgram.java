@@ -19,8 +19,6 @@ import jakarta.persistence.ManyToOne;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Generated
 public class DegreeProgram {
     @Id
