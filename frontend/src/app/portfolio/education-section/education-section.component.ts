@@ -9,12 +9,9 @@ import { LangUtils } from 'src/app/util/lang-utils';
 import { ScreenSizeService } from 'src/app/util/screen-size.service';
 import {
   DegreeProgramOperation,
-  EditEducationRequest,
-  PortfolioService,
 } from '../portfolio.service';
 import {
   EditEducationDialogComponent,
-  EditEducationFormValues,
 } from './edit-education-dialog/edit-education-dialog.component';
 
 @Component({
@@ -32,7 +29,6 @@ export class EducationSectionComponent implements OnInit {
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly editDialog: MatDialog,
-    private readonly portfolioService: PortfolioService
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
   }
@@ -64,19 +60,6 @@ export class EducationSectionComponent implements OnInit {
       majors: this.getMajorsFromUser() ?? [],
       minors: this.getMinorsFromUser() ?? [],
     };
-
-    dialogRef.afterClosed().subscribe((result?: EditEducationFormValues) => {
-      if (!result) {
-        return;
-      }
-      const request: EditEducationRequest = {
-        gpa: Number(result.gpa),
-        universityId: Number(result.universityId),
-        year: result.year,
-        degreeProgramOperations: [...result.majors, ...result.minors],
-      };
-      this.portfolioService.editEducation(request).subscribe();
-    });
   }
 
   getMajorsFromUser(): DegreeProgramOperation[] {

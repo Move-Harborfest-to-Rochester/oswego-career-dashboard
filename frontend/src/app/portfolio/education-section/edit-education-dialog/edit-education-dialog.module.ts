@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DegreeProgramListInputModule } from './degree-program-list-input/degree-program-list-input.module';
 import { EditEducationDialogComponent } from './edit-education-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [EditEducationDialogComponent],
@@ -20,6 +21,7 @@ import { EditEducationDialogComponent } from './edit-education-dialog.component'
     MatSelectModule,
     ReactiveFormsModule,
     DegreeProgramListInputModule,
+    MatSnackBarModule,
   ],
   exports: [EditEducationDialogComponent],
 })

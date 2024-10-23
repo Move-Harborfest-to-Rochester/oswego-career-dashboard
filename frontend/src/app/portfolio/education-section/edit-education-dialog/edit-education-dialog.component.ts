@@ -9,7 +9,8 @@ import {
   type FormGroup,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DegreeProgramOperation } from '../../portfolio.service';
+import { DegreeProgramOperation, PortfolioService } from '../../portfolio.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -43,6 +44,8 @@ export class EditEducationDialogComponent implements OnInit {
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
+    private readonly portfolioService: PortfolioService,
+    private readonly snackBar: MatSnackBar,
     private formBuilder: FormBuilder
   ) {}
 
@@ -104,7 +107,21 @@ export class EditEducationDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.dialogRef.close(this.form.value);
+    const alertDurationMs = 5000;
+    this.portfolioService.editEducation(this.form.value).subscribe({
+      next: () => {
+        this.dialogRef.close();
+        this.snackBar.open('Education saved successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error) => {
+        console.error('Error saving education:', error);
+        this.snackBar.open('Education failed to save.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+    });
   }
 
   closeDialog(): void {
