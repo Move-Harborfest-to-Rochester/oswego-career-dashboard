@@ -3,7 +3,7 @@
 <form [formGroup]="form" (ngSubmit)="saveChanges()">
   <mat-dialog-content>
     <mat-form-field>
-      <mat-label>University ID</mat-label>
+      <mat-label for="universityId">University ID</mat-label>
       <input
         id="universityId"
         type="text"
@@ -15,7 +15,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Year</mat-label>
+      <mat-label for="year">Year</mat-label>
       <mat-select id="year" formControlName="year">
         <mat-option *ngFor="let year of yearLevels" [value]="year">
           {{ year }}
@@ -23,7 +23,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>GPA</mat-label>
+      <mat-label for="gpa">GPA</mat-label>
       <input id="gpa" type="text" formControlName="gpa" matInput />
       <mat-error *ngIf="form.controls['gpa'].hasError('invalidNumber')">
         Please specify a valid GPA.
@@ -36,11 +36,6 @@
       formArrayName="majors"
       [formGroup]="form"
       [formArray]="majors"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-        isMinor: false,
-      }"
     />
     <degree-program-list-input
       id="minors"
@@ -49,11 +44,6 @@
       formArrayName="minors"
       [formGroup]="form"
       [formArray]="minors"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-        isMinor: true,
-      }"
     />
   </mat-dialog-content>
   <mat-dialog-actions align="end">
