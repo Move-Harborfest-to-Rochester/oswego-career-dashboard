@@ -17,6 +17,7 @@ import com.senior.project.backend.domain.User;
 
 /**
  * Repostory that interacts the the `user` table in the database
+ *
  * @author Jim Logan - jrl9984@rit.edu
  */
 public interface UserRepository extends JpaRepository<User, UUID> { 

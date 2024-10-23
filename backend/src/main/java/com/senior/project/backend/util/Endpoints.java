@@ -158,9 +158,9 @@ public enum Endpoints {
      */
     public static String[] getFacultyRoutes() {
         List<String> list = Arrays.stream(Endpoints.values())
-            .filter(r -> r.getRole() == Role.Admin || r.getRole() == Role.Faculty)
-            .map((r) -> r.uri())
-            .toList();
+        .filter(r -> r.getRole() == Role.Admin || r.getRole() == Role.Faculty)
+        .map((r) -> r.uri())
+        .toList();
 
         String[] routes = new String[list.size()];
         for (int i = 0; i < routes.length; i++) {

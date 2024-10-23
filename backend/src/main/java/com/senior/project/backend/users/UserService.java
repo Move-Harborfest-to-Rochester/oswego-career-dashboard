@@ -1,10 +1,9 @@
 package com.senior.project.backend.users;
 
+import com.senior.project.backend.util.NonBlockingExecutor;
 import com.senior.project.backend.domain.Role;
 import com.senior.project.backend.domain.User;
-import com.senior.project.backend.util.NonBlockingExecutor;
 import jakarta.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
