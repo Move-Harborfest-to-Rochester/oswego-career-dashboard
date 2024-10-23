@@ -31,8 +31,8 @@ export type EditEducationFormValues = {
   ],
 })
 export class EditEducationDialogComponent implements OnInit {
+  form!: FormGroup;
   protected title = 'Education';
-  protected form!: FormGroup;
   protected readonly yearLevels = [
     null,
     'Freshman',
