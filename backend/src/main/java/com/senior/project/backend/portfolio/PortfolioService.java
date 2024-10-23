@@ -16,6 +16,7 @@ import com.senior.project.backend.portfolio.dto.EducationDTO;
 import com.senior.project.backend.portfolio.dto.OperationType;
 import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.studentdetails.StudentDetailsRepository;
+import com.senior.project.backend.users.UserRepository;
 
 import reactor.core.publisher.Mono;;
 
@@ -30,6 +31,9 @@ public class PortfolioService {
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public Mono<User> saveEducation(EducationDTO educationDTO) {
         return currentUserUtil.getCurrentUser()
                 .flatMap(user -> {
@@ -40,12 +44,18 @@ public class PortfolioService {
     }
 
     private void updateStudentDetails(User user, EducationDTO educationDTO) {
-        StudentDetails studentDetails = user.getStudentDetails();
+        StudentDetails userStudentDetails = user.getStudentDetails();
+        StudentDetails studentDetails = userStudentDetails != null
+            ? userStudentDetails
+            : new StudentDetails();
         studentDetails.setUniversityId(educationDTO.getUniversityId());
         studentDetails.setGpa(educationDTO.getGpa());
         studentDetails.setYearLevel(educationDTO.getYear());
         studentDetails = studentDetailsRepository.save(studentDetails);
         user.setStudentDetails(studentDetails);
+        if (userStudentDetails == null) {
+            userRepository.save(user);
+        }
     }
 
     private void updateDegreePrograms(User user, EducationDTO educationDTO) {
