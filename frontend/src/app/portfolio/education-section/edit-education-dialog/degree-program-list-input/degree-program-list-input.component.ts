@@ -8,12 +8,6 @@ import {
 } from '@angular/forms';
 import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
 
-const getDefaultOperation = (): DegreeProgramOperation => ({
-  operation: 'Create',
-  name: '',
-  isMinor: false,
-});
-
 @Component({
   selector: 'degree-program-list-input',
   templateUrl: './degree-program-list-input.component.html',
@@ -25,6 +19,7 @@ export class DegreeProgramListInputComponent {
   @Input() formGroup!: FormGroup;
   @Input() formArray!: FormArray<FormControl<DegreeProgramOperation | null>>;
   @Input() formArrayName!: string;
+  @Input() defaultValue!: DegreeProgramOperation;
   deleted: Set<number> = new Set();
 
   constructor(private formBuilder: FormBuilder) {}
@@ -32,7 +27,7 @@ export class DegreeProgramListInputComponent {
   addInput(): void {
     this.formArray.push(
       this.formBuilder.control<DegreeProgramOperation>(
-        getDefaultOperation(),
+        this.defaultValue,
         Validators.required
       )
     );
