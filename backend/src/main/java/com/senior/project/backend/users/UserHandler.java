@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Handler for users
- *
+ * 
  * @author Jim Logan - jrl9984@rit.edu
  */
 @Component
