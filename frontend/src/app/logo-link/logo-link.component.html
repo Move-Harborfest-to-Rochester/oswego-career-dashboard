@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<div class="title-container" (click)="onClick()">
+  <div class="logo">
+    <app-oswego-logo [sizeFactor]="0.4" />
+  </div>
+  <div *ngIf="showTitle">
+    <mat-divider />
+    <p class="title">Career Readiness</p>
+  </div>
+</div>
