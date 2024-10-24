@@ -1,5 +1,13 @@
 package com.senior.project.backend.portfolio;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.senior.project.backend.domain.Skill;
+import com.senior.project.backend.portfolio.dto.SkillDTO;
+import com.senior.project.backend.skills.SkillRepository;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +33,67 @@ public class PortfolioService {
     private CurrentUserUtil currentUserUtil;
 
     @Autowired
+    private SkillRepository skillRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     private StudentDetailsRepository studentDetailsRepository;
 
     @Autowired
     private DegreeProgramRepository degreeProgramRepository;
+
+
+    public Mono<StudentDetails> patchSkills(UUID studentId, JsonPatch patch) {
+        return Mono.justOrEmpty(studentDetailsRepository.findById(studentId))
+            .flatMap(studentDetails -> {
+                List<Skill> currentSkills = skillRepository.findByStudentDetailsId(studentId);
+                JsonNode skillsJson = objectMapper.convertValue(currentSkills, JsonNode.class);
+                try {
+                    JsonNode patchedSkillsJson = patch.apply(skillsJson);
+                    List<Skill> patchedSkills = objectMapper.readValue(
+                        patchedSkillsJson.traverse(),
+                        new TypeReference<List<Skill>>() {}
+                    );
+                    skillRepository.deleteById(studentId);
+                    skillRepository.saveAll(patchedSkills);
+                    return Mono.justOrEmpty(studentDetailsRepository.findById(studentId));
+                } catch (Exception e) {
+                    return Mono.error(new IllegalArgumentException("Invalid patch operation", e));
+                }
+            });
+    }
+
+
+    public Mono<StudentDetails> patchStudentDetails(UUID studentId, JsonPatch patch) {
+        return Mono.justOrEmpty(studentDetailsRepository.findById(studentId))
+            .flatMap(studentDetails -> {
+                JsonNode studentJson = objectMapper.convertValue(studentDetails, JsonNode.class);
+                try {
+                    // Apply the patch to the whole student details object, including skills
+                    JsonNode patchedStudentJson = patch.apply(studentJson);
+
+                    // Deserialize the patched object back to StudentDetails
+                    StudentDetails patchedStudent = objectMapper.treeToValue(patchedStudentJson, StudentDetails.class);
+
+                    // Ensure each Skill object has the correct StudentDetails reference
+                    if (patchedStudent.getSkills() != null) {
+                        patchedStudent.getSkills().forEach(skill -> skill.setStudentDetails(studentDetails));
+                    }
+
+                    // Save the updated StudentDetails object (with skills correctly linked)
+                    return Mono.just(studentDetailsRepository.save(patchedStudent));
+                } catch (Exception e) {
+                    return Mono.error(new IllegalArgumentException("Invalid patch operation", e));
+                }
+            });
+    }
+
+
+
+
+
 
     public Mono<User> saveEducation(EducationDTO educationDTO) {
         return currentUserUtil.getCurrentUser()

@@ -40,6 +40,8 @@ public enum Endpoints {
     // Portfolio
     EDUCATION("student/education", true),
 
+    EDIT_SKILLS("student/{studentDetailsID}/skills", true),
+
     // Submissions
     SUBMISSION("tasks/submission", true),
     LATEST_SUBMISSION("tasks/submission/{taskId}", true),

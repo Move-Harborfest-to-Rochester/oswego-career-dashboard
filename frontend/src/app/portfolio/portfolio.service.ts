@@ -18,6 +18,7 @@ export type EditEducationRequest = {
   degreeProgramOperations: DegreeProgramOperation[];
 };
 
+
 @Injectable({
   providedIn: 'root',
 })

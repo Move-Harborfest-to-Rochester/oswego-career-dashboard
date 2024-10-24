@@ -1,5 +1,6 @@
 package com.senior.project.backend.domain;
 
+import jakarta.persistence.CascadeType;
 import lombok.*;
 
 import java.util.Date;
@@ -53,7 +54,7 @@ public class StudentDetails {
 	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER)
 	private List<DegreeProgram> degreePrograms;
 
-	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Skill> skills;
 
 	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER)
