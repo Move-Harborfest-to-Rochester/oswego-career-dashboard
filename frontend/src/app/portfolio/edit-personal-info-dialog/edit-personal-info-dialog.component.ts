@@ -4,18 +4,17 @@ import { PortfolioService } from '../portfolio.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import PersonalInfo from 'src/domain/PersonalInfo';
 import { AuthService } from 'src/app/security/auth.service';
-import { map, zip } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
-import { User } from 'src/app/security/domain/user';
 
 export interface EditPersonalInfoRequest {
-  firstName: string;
-  preferredName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  linkedIn: string;
-  description: string;
+  firstName?: string;
+  preferredName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  linkedIn?: string;
+  description?: string;
 }
 
 @Component({
@@ -74,8 +73,8 @@ export class EditPersonalInfoDialogComponent {
     this.dialogRef.close(personalInfo);
   }
 
-  refreshPersonalInfo(personalInfo: PersonalInfo) {
-    this.authService.user$
+  refreshPersonalInfo(personalInfo: PersonalInfo): Observable<void> {
+    return this.authService.user$
       .pipe(
         map(user => user?.setPersonalInfo(personalInfo))
       )
