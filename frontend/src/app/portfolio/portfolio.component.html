@@ -12,7 +12,8 @@
               <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL" alt="User Image">
               <mat-icon class="profile-picture" *ngIf="user.profilePictureURL == null">account_circle</mat-icon>
             </div>
-            <div class="card-body-section-data content">
+            <div class="card-body-section-data content personal-info">
+              <div class="attributes">
                 <div>
                   <span class="title">Name</span>
                   <span>{{user.preferredName}} {{user.lastName}}</span>
@@ -37,6 +38,12 @@
                   <p class="title">Description</p>
                   <p>{{user.studentDetails?.description}}</p>
                 </div>
+              </div>
+              <div class="actions">
+                <button mat-mini-fab (click)="openEditPersonalInfoDialog()">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         </div>

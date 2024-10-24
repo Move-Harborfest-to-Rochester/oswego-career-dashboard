@@ -12,6 +12,7 @@ import { UserService } from '../security/user.service';
 import { Job } from 'src/domain/Job';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {ScreenSizeService} from "../util/screen-size.service";
+import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,7 +20,6 @@ import {ScreenSizeService} from "../util/screen-size.service";
   styleUrls: ['./portfolio.component.less']
 })
 export class PortfolioComponent implements OnInit {
-
   user: User = User.makeEmpty();
   external: boolean = false;
   profileURL: string | null = null;
@@ -35,6 +35,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly editPersonalInfoDialog: MatDialog
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -85,6 +86,16 @@ export class PortfolioComponent implements OnInit {
 
   goToLinkedIn() {
     location.href = this.user.linkedin;
+  }
+
+  openEditPersonalInfoDialog() {
+    const dialogRef = this.editPersonalInfoDialog.open(EditPersonalInfoDialogComponent);
+    dialogRef.afterClosed().subscribe((personalInfo) => {
+      if (!personalInfo) {
+        return;
+      }
+      this.user.setPersonalInfo(personalInfo);
+    });
   }
 
   majors(): string[] {
