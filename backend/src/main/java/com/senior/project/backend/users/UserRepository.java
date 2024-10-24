@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.senior.project.backend.domain.User;
+import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
 
 /**
  * Repostory that interacts the the `user` table in the database
@@ -36,4 +37,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Transactional
     @Query("UPDATE User u SET u.profilePictureId = :pictureId WHERE u.id = :userId")
     void updateProfilePictureId(@Param("userId") UUID userId, @Param("pictureId") Integer pictureId);
+
+    @Modifying
+    @Query("UPDATE User u SET u.firstName = :#{#dto.firstName}, u.preferredName = :#{#dto.preferredName}, u.lastName = :#{#dto.lastName}, u.email = :#{#dto.email}, u.phoneNumber = :#{#dto.phoneNumber}, u.linkedin = :#{#dto.linkedIn} WHERE u.id = :userId")
+    void updatePersonalInfo(UUID userId, PersonalInfoDTO dto);
 }
