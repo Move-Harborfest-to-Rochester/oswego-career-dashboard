@@ -35,12 +35,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
-import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
-import { FooterModule } from './footer/footer.module';
 import { LogoLinkModule } from './logo-link/logo-link.module';
-import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import { NotFoundComponent } from './not-found/not-found.component';
 import { OswegoLogoModule } from './oswego-logo/oswego-logo.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { AuthService } from './security/auth.service';
@@ -48,8 +44,14 @@ import { AuthInterceptor } from './security/interceptors/auth-interceptor';
 import { LoginPageModule } from './security/login-page/login-page.module';
 import { SignupPageModule } from './security/signup-page/signup-page.module';
 import { UserMenuModule } from './security/user-menu/user-menu.module';
-import { SettingsPageModule } from './settings/settings-page.module';
 import { TasksModalModule } from './tasks-modal/tasks-modal.module';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { FooterModule } from './footer/footer.module';
+import { MatIconModule } from '@angular/material/icon';
+import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
+import { SettingsPageModule } from './settings/settings-page.module';import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
+import {MatSnackBar} from "@angular/material/snack-bar";
+
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 
@@ -120,7 +122,8 @@ import { UsersPageModule } from './users-page/users-page.module';
     UserMenuModule,
     FileUploadModule,
     MatSnackBarModule,
-    LogoLinkModule
+    LogoLinkModule,
+    MatIconModule,
   ],
   providers: [
     provideHttpClient(),
