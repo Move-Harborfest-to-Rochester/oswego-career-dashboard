@@ -27,4 +27,8 @@ export class JobService {
         return new Job(jobJson);
       }));
   }
+
+  public deleteJob(jobId: string): Observable<void> {
+    return this.http.delete<void>(constructBackendRequest(`${Endpoints.JOBS}/${jobId}`));
+  }
 }

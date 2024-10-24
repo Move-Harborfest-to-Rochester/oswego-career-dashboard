@@ -37,7 +37,6 @@ public class JobService {
     }
 
     public Mono<Job> saveJob(JobDTO jobDTO) {
-        // TODO: Verify that the user has permission to edit this job, if it exists
         return currentUserUtil.getCurrentUser().flatMap(user -> {
             StudentDetails studentDetails = getOrCreateStudentDetails(user);
             Job job = new Job();
@@ -56,7 +55,6 @@ public class JobService {
     }
 
     public void deleteJob(UUID id) {
-        // TODO: Verify that the user has permission to delete this job
         jobRepository.deleteById(id);
     }
 }

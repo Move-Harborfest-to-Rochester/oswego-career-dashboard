@@ -7,6 +7,7 @@ import { MilestonesModule } from "../milestones-page/milestones/milestones.modul
 import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
 import { PortfolioComponent } from "./portfolio.component";
 import { ResumeModule } from './resume/resume.module';
+import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ResumeModule } from './resume/resume.module';
     MatButtonModule,
     ResumeModule,
     MatIconModule,
-    SaveJobDialogModule
+    SaveJobDialogModule,
+    ConfirmationDialogModule,
   ]
 })
 export class PortfolioModule { }
