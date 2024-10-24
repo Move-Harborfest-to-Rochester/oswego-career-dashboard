@@ -47,15 +47,13 @@ public class ProjectServiceTest {
         Project project = new Project();
         project.setName(request.getName());
         project.setDescription(request.getDescription());
-        project.setLocation(request.getLocation());
-        project.setCoop(request.isCoop());
         project.setStartDate(request.getStartDate());
         project.setEndDate(request.getEndDate());
         project.setStudentDetails(testUser.getStudentDetails());
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(testUser));
         when(projectRepository.save(any(Project.class))).thenReturn(project);
 
-        Mono<Project> projectMono = projectService.saveproject(request);
+        Mono<Project> projectMono = projectService.saveProject(request);
 
         StepVerifier.create(projectMono).expectNext(project).verifyComplete();
         verify(currentUserUtil, times(1)).getCurrentUser();
@@ -65,10 +63,9 @@ public class ProjectServiceTest {
     @Test
     public void testSaveProjectNoStudentDetails() {
 
-        ProjectDTO request = new ProjectDTO(null, "name", "description", "location", new Date(), new Date(), false);
+        ProjectDTO request = new ProjectDTO(null, "name", "description", new Date(), new Date());
         Project project = new Project();
         project.setName(request.getName());
-        project.setLocation(request.getLocation());
         project.setStartDate(request.getStartDate());
         project.setEndDate(request.getEndDate());
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userStudent));

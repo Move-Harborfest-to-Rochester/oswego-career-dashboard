@@ -26,7 +26,7 @@ public class ProjectHandlerTest {
     @InjectMocks
     private ProjectHandler projectHandler;
     @Mock
-    private ProjectService ProjectService;
+    private ProjectService projectService;
 
     private WebTestClient web;
 
@@ -42,7 +42,6 @@ public class ProjectHandlerTest {
     public void testSaveProjectSuccess() {
         ProjectDTO request = new ProjectDTO();
         request.setName("Test Project");
-        request.setLocation("Test Location");
         request.setStartDate(new Date());
         Project project = new Project(
                 UUID.randomUUID(),
