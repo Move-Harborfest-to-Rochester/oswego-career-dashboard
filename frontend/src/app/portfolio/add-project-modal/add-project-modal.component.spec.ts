@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import {MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('AddProjectModalComponent', () => {
   let component: AddProjectModalComponent;
@@ -22,22 +25,25 @@ describe('AddProjectModalComponent', () => {
       declarations: [AddProjectModalComponent],
       imports: [
         CommonModule,
-        MatDialogModule,
-        FormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
         ReactiveFormsModule,
+        MatDialogModule,
+        MatDatepickerModule,
         MatFormFieldModule,
         MatInputModule,
-        MatButtonModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
         NoopAnimationsModule,
+        MatNativeDateModule,
+        FormsModule
       ],
       providers: [
         MatDialog,
         { provide: MatDialogRef, useValue: matDialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         MatDatepickerModule,
       ]
-    });
+    }).compileComponents();;
     fixture = TestBed.createComponent(AddProjectModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -52,7 +58,7 @@ describe('AddProjectModalComponent', () => {
     expect(matDialogRef.close).toHaveBeenCalled();
   })
 
-  it('should create job on submit', () => {
+  it('should create project on submit', () => {
     component.projectForm.patchValue({
       name: 'Test Project',
       description: 'Test Description',
