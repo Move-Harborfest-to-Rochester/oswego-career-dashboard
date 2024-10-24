@@ -39,6 +39,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly addProjectDialogue : MatDialog,
     private readonly dialog: MatDialog
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
@@ -136,9 +137,17 @@ export class PortfolioComponent implements OnInit {
   }
 
   openAddProjectModal() {
-    this.dialog.open(AddProjectModalComponent, {
-      width: '400px',
-      data: {}
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
+        width: '400px',
+        data: {}
+      });
+    dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      this.projectService.saveProject(result).subscribe((project) => {
+        this.user.studentDetails?.projects?.push(project);
+      });
     });
   }
 }

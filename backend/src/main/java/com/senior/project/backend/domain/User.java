@@ -47,7 +47,7 @@ public class User implements UserDetails {
 	private Integer profilePictureId;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="student_details_id")
+	@JoinColumn(name = "student_details_id", updatable = true)
 	@Nullable
 	private StudentDetails studentDetails;
 
