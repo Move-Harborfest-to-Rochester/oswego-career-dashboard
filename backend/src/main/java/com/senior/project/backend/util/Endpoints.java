@@ -38,6 +38,9 @@ public enum Endpoints {
     SEARCH_USERS("users/search", true, Role.Faculty),
     PORTFOLIO("portfolio", true),
 
+    // Portfolio
+    PERSONAL_INFO("personal-info", true),
+
     // Submissions
     SUBMISSION("tasks/submission", true),
     LATEST_SUBMISSION("tasks/submission/{taskId}", true),

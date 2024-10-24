@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<h2 mat-dialog-title>{{ title }}</h2>
+<form [formGroup]="form" (ngSubmit)="saveChanges()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label for="firstName">First Name</mat-label>
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="preferredName">Preferred Name</mat-label>
+      <input
+        id="preferredName"
+        type="text"
+        formControlName="preferredName"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="lastName">Last Name</mat-label>
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="phoneNumber">Phone Number</mat-label>
+      <input
+        id="phoneNumber"
+        type="text"
+        formControlName="phoneNumber"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="linkedIn">LinkedIn</mat-label>
+      <input
+        id="linkedIn"
+        type="text"
+        formControlName="linkedIn"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="description">Description</mat-label>
+    <textarea matInput id="description" formControlName="description"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()" [disabled]="isSubmitting" type="button">Cancel</button>
+    <button mat-flat-button [disabled]="!form.valid || isSubmitting" type="submit" color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

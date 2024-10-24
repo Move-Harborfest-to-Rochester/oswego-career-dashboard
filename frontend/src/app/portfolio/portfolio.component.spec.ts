@@ -17,6 +17,7 @@ import { ResumeComponent } from './resume/resume.component';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
@@ -62,7 +63,8 @@ describe('PortfolioComponent', () => {
         MatCardModule,
         MatIconModule,
         HttpClientTestingModule,
-        PdfViewerModule
+        PdfViewerModule,
+        MatDialogModule
       ],
       providers: [
         {provide: AuthService, useValue: authServiceSpy},
