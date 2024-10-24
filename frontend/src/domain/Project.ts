@@ -21,7 +21,7 @@ export class Project{
     name: string;
     description: string;
     startDate: Date;
-    endDate?: Date;
+    endDate: Date;
     studentDetailsID: string;
 
     static makeEmpty(){
