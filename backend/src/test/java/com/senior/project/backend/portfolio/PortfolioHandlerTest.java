@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.senior.project.backend.domain.User;
 import com.senior.project.backend.domain.YearLevel;
-import com.senior.project.backend.portfolio.dto.EducationDTO;
+import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.util.Endpoints;
 
 import reactor.core.publisher.Mono;
@@ -35,23 +35,23 @@ public class PortfolioHandlerTest {
 
     @Test
     public void testSaveEducationSuccess() {
-        when(portfolioService.saveEducation(any(EducationDTO.class))).thenReturn(Mono.just(new User())); // Mock the service call
+        when(portfolioService.saveEducation(any(EditEducationDTO.class))).thenReturn(Mono.just(new User())); // Mock the service call
 
         webTestClient.put()
                 .uri(Endpoints.EDUCATION.uri())
                 .body(
                     Mono.just(
-                        EducationDTO.builder()
+                        EditEducationDTO.builder()
                             .universityId(1)
                             .year(YearLevel.Freshman)
                             .gpa(3.5)
                             .build()
                     ),
-                    EducationDTO.class
+                    EditEducationDTO.class
                 )
                 .exchange()
                 .expectStatus().isNoContent();
 
-        verify(portfolioService, times(1)).saveEducation(any(EducationDTO.class));
+        verify(portfolioService, times(1)).saveEducation(any(EditEducationDTO.class));
     }
 }

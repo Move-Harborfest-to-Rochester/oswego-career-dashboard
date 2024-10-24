@@ -12,6 +12,7 @@ import com.senior.project.backend.domain.DegreeProgram;
 import com.senior.project.backend.domain.StudentDetails;
 import com.senior.project.backend.domain.User;
 import com.senior.project.backend.portfolio.dto.DegreeProgramOperation;
+import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.portfolio.dto.EducationDTO;
 import com.senior.project.backend.portfolio.dto.OperationType;
 import com.senior.project.backend.security.CurrentUserUtil;
@@ -34,16 +35,30 @@ public class PortfolioService {
     @Autowired
     private UserRepository userRepository;
 
-    public Mono<User> saveEducation(EducationDTO educationDTO) {
+    public Mono<EducationDTO> saveEducation(EditEducationDTO educationDTO) {
         return currentUserUtil.getCurrentUser()
                 .flatMap(user -> {
                     this.updateStudentDetails(user, educationDTO);
                     this.updateDegreePrograms(user, educationDTO);
-                    return Mono.just(user);
+                    StudentDetails studentDetails = user.getStudentDetails();
+                    EducationDTO response = EducationDTO.builder()
+                        .universityId(studentDetails.getUniversityId())
+                        .gpa(studentDetails.getGpa())
+                        .year(studentDetails.getYearLevel())
+                        .majors(studentDetails.getDegreePrograms().stream()
+                            .filter(degreeProgram -> !degreeProgram.isMinor())
+                            .toList()
+                        )
+                        .minors(studentDetails.getDegreePrograms().stream()
+                            .filter(DegreeProgram::isMinor)
+                            .toList()
+                        )
+                        .build();
+                    return Mono.just(response);
                 });
     }
 
-    private void updateStudentDetails(User user, EducationDTO educationDTO) {
+    private void updateStudentDetails(User user, EditEducationDTO educationDTO) {
         StudentDetails userStudentDetails = user.getStudentDetails();
         StudentDetails studentDetails = userStudentDetails != null
             ? userStudentDetails
@@ -58,7 +73,7 @@ public class PortfolioService {
         }
     }
 
-    private void updateDegreePrograms(User user, EducationDTO educationDTO) {
+    private void updateDegreePrograms(User user, EditEducationDTO educationDTO) {
         List<DegreeProgram> programsToSave = new ArrayList<>();
         List<UUID> programsToDelete = new ArrayList<>();
 

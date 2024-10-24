@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { User, UserJSON } from '../security/domain/user';
 import { constructBackendRequest, Endpoints } from '../util/http-helper';
 import { EditEducationFormValues } from './education-section/edit-education-dialog/edit-education-dialog.component';
+import Education, { EducationJSON } from 'src/domain/Education';
 
 export type DegreeProgramOperation = {
   id?: string;
@@ -25,7 +26,7 @@ type EditEducationRequest = {
 export class PortfolioService {
   constructor(private readonly http: HttpClient) {}
 
-  editEducation(formValues: EditEducationFormValues): Observable<User> {
+  editEducation(formValues: EditEducationFormValues): Observable<Education> {
     const request: EditEducationRequest = {
       gpa: Number(formValues.gpa),
       universityId: Number(formValues.universityId),
@@ -33,7 +34,7 @@ export class PortfolioService {
       degreeProgramOperations: [...formValues.majors, ...formValues.minors],
     };
     return this.http
-      .put<UserJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
-      .pipe(map((user) => new User(user)));
+      .put<EducationJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
+      .pipe(map((json) => new Education(json)));
   }
 }

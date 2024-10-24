@@ -11,6 +11,13 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { DegreeProgramOperation, PortfolioService } from '../../portfolio.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/security/auth.service';
+import { UserService } from 'src/app/security/user.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { mergeMap, zipWith, map } from 'rxjs';
+import { LangUtils } from 'src/app/util/lang-utils';
+import { User } from 'src/app/security/domain/user';
+import Education from 'src/domain/Education';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -41,17 +48,37 @@ export class EditEducationDialogComponent implements OnInit {
     'Senior',
   ];
   @Input() defaultValues?: EditEducationFormValues;
+  private user: User = User.makeEmpty();
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
     private readonly portfolioService: PortfolioService,
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
     this.createForm();
     this.dialogRef.addPanelClass('edit-dialog');
+
+    this.route.paramMap
+      .pipe(
+        mergeMap((map: ParamMap) => {
+          return map.has('id')
+            ? this.userService.getUser(map.get('id')!)
+            : this.authService.user$;
+        }),
+        zipWith(this.route.url),
+        map(([user, _]) => user)
+      )
+      .subscribe((user) => {
+        if (LangUtils.exists(user)) {
+          this.user = user!;
+        }
+      });
   }
 
   createForm() {
@@ -109,8 +136,9 @@ export class EditEducationDialogComponent implements OnInit {
     }
     const alertDurationMs = 5000;
     this.portfolioService.editEducation(this.form.value).subscribe({
-      next: () => {
+      next: (education: Education) => {
         this.dialogRef.close();
+        this.user.setEducation(education);
         this.snackBar.open('Education saved successfully.', 'Close', {
           duration: alertDurationMs,
         });
