@@ -6,12 +6,55 @@
   justify-content: space-between;
 }
 
-.student-attribute {
-  .title {
-    font-weight: bold;
+.content {
+  div {
+    padding: 2.5px 20px;
+    display: flex;
+
+    mat-icon:hover {
+      color: @oswego-sunset-gold !important;
+      cursor: pointer;
+    }
+
+    .value {
+      width: 50%;
+      font-size: smaller;
+    }
+
+    .title {
+      width: 35%;
+      font-size: large;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.mobile {
+  .personal {
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      margin-bottom: 20px;
+    }
   }
 
-  .value {
-    padding-left: .3em;
+  .content {
+    width: 100%;
+
+    .student-attribute {
+      width: 100%;
+      justify-content: space-between;
+
+      .title {
+        font-size: medium !important;
+        width: 25% !important;
+        padding-right: 5px;
+      }
+
+      span {
+        flex-grow: 1;
+      }
+    }
   }
 }
