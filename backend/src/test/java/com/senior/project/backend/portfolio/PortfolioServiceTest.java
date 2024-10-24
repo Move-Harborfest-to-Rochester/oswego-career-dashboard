@@ -57,9 +57,9 @@ public class PortfolioServiceTest {
                 .build();
 
         portfolioService.saveEducation(educationDTO).subscribe((user) -> {
-            assertEquals(1, user.getStudentDetails().getUniversityId());
-            assertEquals(3.5, user.getStudentDetails().getGpa());
-            assertEquals(YearLevel.Freshman, user.getStudentDetails().getYearLevel());
+            assertEquals(1, user.getUniversityId());
+            assertEquals(3.5, user.getGpa());
+            assertEquals(YearLevel.Freshman, user.getYear());
             verify(studentDetailsRepository, times(1)).save(any(StudentDetails.class));
             verify(userRepository, times(0)).save(any(User.class));
         });
@@ -74,9 +74,9 @@ public class PortfolioServiceTest {
                 .build();
 
         portfolioService.saveEducation(educationDTO).subscribe((user) -> {
-            assertEquals(1, user.getStudentDetails().getUniversityId());
-            assertEquals(3.5, user.getStudentDetails().getGpa());
-            assertEquals(YearLevel.Freshman, user.getStudentDetails().getYearLevel());
+            assertEquals(1, user.getUniversityId());
+            assertEquals(3.5, user.getGpa());
+            assertEquals(YearLevel.Freshman, user.getYear());
             verify(studentDetailsRepository, times(1)).save(any(StudentDetails.class));
             verify(userRepository, times(1)).save(any(User.class));
         });

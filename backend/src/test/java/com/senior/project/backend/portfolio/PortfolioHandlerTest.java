@@ -11,9 +11,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.senior.project.backend.domain.User;
 import com.senior.project.backend.domain.YearLevel;
 import com.senior.project.backend.portfolio.dto.EditEducationDTO;
+import com.senior.project.backend.portfolio.dto.EducationDTO;
 import com.senior.project.backend.util.Endpoints;
 
 import reactor.core.publisher.Mono;
@@ -35,7 +35,7 @@ public class PortfolioHandlerTest {
 
     @Test
     public void testSaveEducationSuccess() {
-        when(portfolioService.saveEducation(any(EditEducationDTO.class))).thenReturn(Mono.just(new User())); // Mock the service call
+        when(portfolioService.saveEducation(any(EditEducationDTO.class))).thenReturn(Mono.just(new EducationDTO()));
 
         webTestClient.put()
                 .uri(Endpoints.EDUCATION.uri())
@@ -50,7 +50,8 @@ public class PortfolioHandlerTest {
                     EditEducationDTO.class
                 )
                 .exchange()
-                .expectStatus().isNoContent();
+                .expectStatus().isOk()
+                .expectBody(EducationDTO.class);
 
         verify(portfolioService, times(1)).saveEducation(any(EditEducationDTO.class));
     }
