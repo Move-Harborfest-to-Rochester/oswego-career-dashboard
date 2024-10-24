@@ -53,6 +53,7 @@ export class EducationSectionComponent implements OnInit {
 
   openEditDialog(): void {
     const dialogRef = this.editDialog.open(EditEducationDialogComponent);
+    dialogRef.addPanelClass('edit-dialog');
     dialogRef.componentInstance.defaultValues = {
       universityId: this.user.studentDetails?.universityId ?? '',
       year: this.user.studentDetails?.yearLevel ?? '',
