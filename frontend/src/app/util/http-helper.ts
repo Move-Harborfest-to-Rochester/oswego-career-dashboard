@@ -41,6 +41,8 @@ export enum Endpoints {
     CREATE_TASK = 'admin/create-task',
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
+
+    PROJECTS = 'projects'
 }
 
 export function constructBackendRequest(segments: string, ...qParams: Array<{key: string, value: string | number}>): string {

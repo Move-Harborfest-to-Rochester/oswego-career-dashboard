@@ -10,8 +10,11 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {map, mergeMap, Observable, takeUntil, tap, zipWith} from 'rxjs';
 import { UserService } from '../security/user.service';
 import { Job } from 'src/domain/Job';
+import { Project } from 'src/domain/Project'
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {ScreenSizeService} from "../util/screen-size.service";
+import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
+import { SaveProjectRequest, ProjectService } from './project/project.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -31,10 +34,13 @@ export class PortfolioComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly artifactService: ArtifactService,
+    private readonly projectService: ProjectService,
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly addProjectDialogue : MatDialog,
+    private readonly dialog: MatDialog
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -128,5 +134,20 @@ export class PortfolioComponent implements OnInit {
   formatDate(date: Date){
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+  }
+
+  openAddProjectModal() {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
+        width: '400px',
+        data: {}
+      });
+    dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      this.projectService.saveProject(result).subscribe((project) => {
+        this.user.studentDetails?.projects?.push(project);
+      });
+    });
   }
 }
