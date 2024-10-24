@@ -28,11 +28,26 @@ public class PortfolioService {
         return currentUserUtil.getCurrentUser()
                 .flatMap(user -> {
                     UUID userId = user.getId();
-                    StudentDetails studentDetails = user.getStudentDetails();
-                    UUID studentDetailsId = studentDetails.getId();
-                    this.updateStudentDetails(studentDetailsId, dto);
-                    this.updateUser(userId, dto);
-                    return Mono.just(dto);
+                    return getOrCreateStudentDetails()
+                        .flatMap(studentDetails -> {
+                            UUID studentDetailsId = studentDetails.getId();
+                            this.updateStudentDetails(studentDetailsId, dto);
+                            this.updateUser(userId, dto);
+                            return Mono.just(dto);
+                        });
+                });
+    }
+
+    private Mono<StudentDetails> getOrCreateStudentDetails() {
+        return currentUserUtil.getCurrentUser()
+                .flatMap(user -> {
+                    if (user.getStudentDetails() == null) {
+                        StudentDetails newStudentDetails = new StudentDetails();
+                        studentDetailsRepository.save(newStudentDetails);
+                        user.setStudentDetails(newStudentDetails);
+                        userRepository.save(user);
+                    }
+                    return Mono.just(user.getStudentDetails());
                 });
     }
 
