@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
-import { CreateJobDialogComponent } from './create-job-dialog.component';
+import { SaveJobDialogComponent } from './save-job-dialog.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,14 +12,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateJobDialogComponent', () => {
-  let component: CreateJobDialogComponent;
-  let fixture: ComponentFixture<CreateJobDialogComponent>;
-  let matDialogRef: jasmine.SpyObj<MatDialogRef<CreateJobDialogComponent>>;
+  let component: SaveJobDialogComponent;
+  let fixture: ComponentFixture<SaveJobDialogComponent>;
+  let matDialogRef: jasmine.SpyObj<MatDialogRef<SaveJobDialogComponent>>;
 
   beforeEach(() => {
     matDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
     TestBed.configureTestingModule({
-      declarations: [CreateJobDialogComponent],
+      declarations: [SaveJobDialogComponent],
       imports: [
         CommonModule,
         MatDialogModule,
@@ -38,7 +38,7 @@ describe('CreateJobDialogComponent', () => {
         MatDatepickerModule,
       ]
     });
-    fixture = TestBed.createComponent(CreateJobDialogComponent);
+    fixture = TestBed.createComponent(SaveJobDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -61,7 +61,7 @@ describe('CreateJobDialogComponent', () => {
       endDate: new Date(),
       coop: false,
     });
-    component.createJob();
+    component.saveJob();
     expect(matDialogRef.close).toHaveBeenCalledWith(component.form.value);
   })
 });

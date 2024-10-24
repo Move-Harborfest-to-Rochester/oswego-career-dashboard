@@ -10,8 +10,9 @@ import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
-import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
+import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.component';
 import { SaveJobRequest, JobService } from './job/job.service';
+import { StudentDetails } from 'src/domain/StudentDetails';
 
 @Component({
   selector: 'app-portfolio',
@@ -36,7 +37,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
-    private readonly createJobDialog: MatDialog,
+    private readonly saveJobDialog: MatDialog,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -113,14 +114,27 @@ export class PortfolioComponent implements OnInit {
   }
 
   createJob(): void {
-    const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
-    dialogRef.afterClosed().subscribe((result: SaveJobRequest) => {
-      if (!result) {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
         return;
       }
-      this.jobService.saveJob(result).subscribe((job) => {
-        this.user.studentDetails?.jobs?.push(job);
-      });
+      this.user.studentDetails?.jobs?.push(job);
+    });
+  }
+
+  editJob(job: Job): void {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent, {
+      data: job,
+    });
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      this.user.studentDetails.jobs = this.user.studentDetails.jobs.map((j) => j.id === job.id ? job : j);
     });
   }
 

@@ -4,7 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from '@angular/material/icon';
 import { MilestonesModule } from "../milestones-page/milestones/milestones.module";
-import { CreateJobDialogModule } from './create-job-dialog/create-job-dialog.module';
+import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
 import { PortfolioComponent } from "./portfolio.component";
 import { ResumeModule } from './resume/resume.module';
 
@@ -21,7 +21,7 @@ import { ResumeModule } from './resume/resume.module';
     MatButtonModule,
     ResumeModule,
     MatIconModule,
-    CreateJobDialogModule
+    SaveJobDialogModule
   ]
 })
 export class PortfolioModule { }

@@ -131,26 +131,36 @@
           </div>
           <div class="card-body-section-body projects">
             <div *ngFor="let job of jobs()">
-              <div class="project">
-                <h3>{{job.name}}</h3>
-                <div class="date-row content">
-                  <div>
-                    <span class="title">{{dateHeader('Start')}}</span>
-                    <span class="date">{{formatDate(job.startDate)}}</span>
+              <div class="project job">
+                <div class="content">
+                  <h3>{{job.name}}</h3>
+                  <div class="date-row content">
+                    <div>
+                      <span class="title">{{dateHeader('Start')}}</span>
+                      <span class="date">{{formatDate(job.startDate)}}</span>
+                    </div>
+                    <div *ngIf="job.endDate">
+                      <span class="title">{{dateHeader('End')}}</span>
+                      <span class="date">{{formatDate(job.endDate)}}</span>
+                    </div>
                   </div>
-                  <div *ngIf="job.endDate">
-                    <span class="title">{{dateHeader('End')}}</span>
-                    <span class="date">{{formatDate(job.endDate)}}</span>
+                  <div class="date-row content">
+                    <div class="location">
+                      <span class="title">Location: </span>
+                      <span class="date">{{job.location}}</span>
+                    </div>
+                  </div>
+                  <div class="project-description">
+                    {{job.description}}
                   </div>
                 </div>
-                <div class="date-row content">
-                  <div class="location">
-                    <span class="title">Location: </span>
-                    <span class="date">{{job.location}}</span>
-                  </div>
-                </div>
-                <div class="project-description">
-                  {{job.description}}
+                <div class="actions">
+                  <button mat-mini-fab color="primary" (click)="editJob(job)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </div>
               </div>
             </div>
