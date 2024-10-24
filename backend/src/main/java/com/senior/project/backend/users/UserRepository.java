@@ -39,6 +39,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     void updateProfilePictureId(@Param("userId") UUID userId, @Param("pictureId") Integer pictureId);
 
     @Modifying
+    @Transactional
     @Query("UPDATE User u SET u.firstName = :#{#dto.firstName}, u.preferredName = :#{#dto.preferredName}, u.lastName = :#{#dto.lastName}, u.email = :#{#dto.email}, u.phoneNumber = :#{#dto.phoneNumber}, u.linkedin = :#{#dto.linkedIn} WHERE u.id = :userId")
     void updatePersonalInfo(UUID userId, PersonalInfoDTO dto);
 }

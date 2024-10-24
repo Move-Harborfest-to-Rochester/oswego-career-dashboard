@@ -25,7 +25,7 @@ public class PortfolioService {
     private UserRepository userRepository;
     
     public Mono<PersonalInfoDTO> savePersonalInfo(PersonalInfoDTO dto) {
-        currentUserUtil.getCurrentUser()
+        return currentUserUtil.getCurrentUser()
                 .flatMap(user -> {
                     UUID userId = user.getId();
                     StudentDetails studentDetails = user.getStudentDetails();
@@ -34,7 +34,6 @@ public class PortfolioService {
                     this.updateUser(userId, dto);
                     return Mono.just(dto);
                 });
-        return Mono.just(dto);
     }
 
     private void updateStudentDetails(UUID studentDetailsId, PersonalInfoDTO dto) {
