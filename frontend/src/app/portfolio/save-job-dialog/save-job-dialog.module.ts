@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SaveJobDialogComponent } from './save-job-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -23,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
   exports: [SaveJobDialogComponent],
   providers: [
