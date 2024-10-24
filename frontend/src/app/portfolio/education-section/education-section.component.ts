@@ -99,4 +99,11 @@ export class EducationSectionComponent implements OnInit {
       .filter((d) => d.isMinor)
       .map((d) => d.name);
   }
+
+
+  disableEnterKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
 }

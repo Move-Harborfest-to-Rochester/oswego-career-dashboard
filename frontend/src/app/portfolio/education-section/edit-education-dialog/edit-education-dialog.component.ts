@@ -49,6 +49,7 @@ export class EditEducationDialogComponent implements OnInit {
   ];
   @Input() defaultValues?: EditEducationFormValues;
   private user: User = User.makeEmpty();
+  isSubmitting: boolean = false;
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
@@ -135,8 +136,12 @@ export class EditEducationDialogComponent implements OnInit {
       return;
     }
     const alertDurationMs = 5000;
+    this.isSubmitting = true;
+    this.dialogRef.disableClose = true;
     this.portfolioService.editEducation(this.form.value).subscribe({
       next: (education: Education) => {
+        this.isSubmitting = false;
+        this.dialogRef.disableClose = false;
         this.dialogRef.close();
         this.user.setEducation(education);
         this.snackBar.open('Education saved successfully.', 'Close', {
@@ -144,6 +149,8 @@ export class EditEducationDialogComponent implements OnInit {
         });
       },
       error: (error) => {
+        this.isSubmitting = false;
+        this.dialogRef.disableClose = false;
         console.error('Error saving education:', error);
         this.snackBar.open('Education failed to save.', 'Close', {
           duration: alertDurationMs,
