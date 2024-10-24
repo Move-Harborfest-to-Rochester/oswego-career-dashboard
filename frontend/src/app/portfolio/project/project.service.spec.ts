@@ -23,7 +23,7 @@ describe('ProjectService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('savePRoject', () => {
+  describe('savePoject', () => {
     const expectedProjectJson: ProjectJSON = {
       id: '0fe320b7-84d4-3456-120v-b3423657aa1k5se',
       name: 'job name',
@@ -40,7 +40,7 @@ describe('ProjectService', () => {
       endDate: expectedProjectJson.endDate ?? null
     };
 
-    it('should save and return job', () => {
+    it('should save and return project', () => {
       service.saveProject(createProjectRequest).subscribe((project: Project) => {
         expect(project).toEqual(new Project(expectedProjectJson));
       });
