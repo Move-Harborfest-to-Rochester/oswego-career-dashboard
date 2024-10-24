@@ -87,18 +87,6 @@ export class PortfolioComponent implements OnInit {
     location.href = this.user.linkedin;
   }
 
-  majors(): string[] {
-    return (this.user.studentDetails?.degreePrograms ?? [])
-      .filter((d) => !d.isMinor)
-      .map((d) => d.name);
-  }
-
-  minors(): string[] {
-    return (this.user.studentDetails?.degreePrograms ?? [])
-      .filter((d) => d.isMinor)
-      .map((d) => d.name);
-  }
-
   skills(): string[] {
     return (this.user.studentDetails?.skills ?? [])
       .filter((s) => !s.isLanguage)
