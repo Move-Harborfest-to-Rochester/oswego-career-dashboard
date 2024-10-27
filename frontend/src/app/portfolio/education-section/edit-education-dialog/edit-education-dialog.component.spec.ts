@@ -16,6 +16,10 @@ import { PortfolioService } from '../../portfolio.service';
 import { Observable, of, throwError } from 'rxjs';
 import { userJSON } from 'src/app/security/auth.service.spec';
 import { User } from 'src/app/security/domain/user';
+import Education, { EducationJSON } from 'src/domain/Education';
+import { YearLevel } from 'src/domain/Milestone';
+import { AuthService } from 'src/app/security/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 describe('EditEducationDialogComponent', () => {
   let component: EditEducationDialogComponent;
@@ -24,6 +28,21 @@ describe('EditEducationDialogComponent', () => {
   let dialogRefSpy: jasmine.SpyObj<MatDialogRef<EditEducationDialogComponent>>;
   let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
   let portfolioService: jasmine.SpyObj<PortfolioService>;
+
+  const educationJSON: EducationJSON = {
+    year: YearLevel.Senior,
+    gpa: 3.8,
+    majors: [],
+    minors: [],
+    universityId: 123
+  };
+  const formValues = {
+    universityId: '123',
+    year: 'Senior',
+    gpa: '3.8',
+    majors: [],
+    minors: []
+  };
 
   beforeEach(() => {
     dialogRefSpy = jasmine.createSpyObj('MatDialogRef', [
@@ -46,12 +65,14 @@ describe('EditEducationDialogComponent', () => {
         DegreeProgramListInputModule,
         HttpClientTestingModule,
         MatSnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefSpy },
         { provide: MatSnackBar, useValue: snackBarSpy },
-        { provide: PortfolioService, useValue: portfolioService }
+        { provide: PortfolioService, useValue: portfolioService },
+        { provide: ActivatedRoute, useValue: { paramMap: of({ id: '1' }) } },
+        { provide: AuthService, useValue: {} }
       ]
     });
     fixture = TestBed.createComponent(EditEducationDialogComponent);
@@ -98,14 +119,7 @@ describe('EditEducationDialogComponent', () => {
   });
 
   it('should submit properly', () => {
-    const formValues = {
-      universityId: '123',
-      year: 'Senior',
-      gpa: '3.8',
-      majors: [],
-      minors: []
-    };
-    portfolioService.editEducation.and.returnValue(of(new User(userJSON)));
+    portfolioService.editEducation.and.returnValue(of(new Education(educationJSON)));
     component.form.setValue(formValues);
 
     component.saveChanges();
@@ -118,13 +132,6 @@ describe('EditEducationDialogComponent', () => {
   });
 
   it('should handle submission error', () => {
-    const formValues = {
-      universityId: '123',
-      year: 'Senior',
-      gpa: '3.8',
-      majors: [],
-      minors: []
-    };
     portfolioService.editEducation.and.returnValue(throwError(() => new Error('Error')));
 
     component.form.setValue(formValues);

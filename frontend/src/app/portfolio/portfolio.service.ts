@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { User, UserJSON } from '../security/domain/user';
 import { constructBackendRequest, Endpoints } from '../util/http-helper';
 import { EditEducationFormValues } from './education-section/edit-education-dialog/edit-education-dialog.component';
 import Education, { EducationJSON } from 'src/domain/Education';

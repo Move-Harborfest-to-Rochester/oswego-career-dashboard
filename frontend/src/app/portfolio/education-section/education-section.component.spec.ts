@@ -12,19 +12,27 @@ import { User } from 'src/app/security/domain/user';
 import { EditEducationDialogModule } from './edit-education-dialog/edit-education-dialog.module';
 import { EducationSectionComponent } from './education-section.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { EditEducationDialogComponent } from './edit-education-dialog/edit-education-dialog.component';
+import { EditEducationDialogComponent, EditEducationFormValues } from './edit-education-dialog/edit-education-dialog.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('EducationSectionComponent', () => {
   let component: EducationSectionComponent;
   let fixture: ComponentFixture<EducationSectionComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let dialog: jasmine.SpyObj<MatDialog>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<EditEducationDialogComponent>>;
 
   beforeEach(() => {
     authServiceSpy = jasmine.createSpyObj('AuthService', [], {
       user$: of(new User(userJSON))
     });
-    dialog = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['addPanelClass'], {
+      componentInstance: {
+        defaultValues: {},
+      }
+    });
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.returnValue(dialogRefSpy);
 
     TestBed.configureTestingModule({
       declarations: [EducationSectionComponent],
@@ -36,10 +44,11 @@ describe('EducationSectionComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         MatDialogModule,
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: MatDialog, useValue: dialog },
+        { provide: MatDialog, useValue: dialogSpy },
       ]
     });
     fixture = TestBed.createComponent(EducationSectionComponent);
@@ -52,17 +61,10 @@ describe('EducationSectionComponent', () => {
   });
 
   it('should open edit dialog', () => {
-    const dialogRef = {
-      componentInstance: {
-        defaultValues: {}
-      }
-    } as MatDialogRef<EditEducationDialogComponent>;
-    dialog.open.and.returnValue(dialogRef);
-
     component.openEditDialog();
 
-    expect(dialog.open).toHaveBeenCalledWith(EditEducationDialogComponent);
-    expect(dialogRef.componentInstance.defaultValues).toEqual({
+    expect(dialogSpy.open).toHaveBeenCalledWith(EditEducationDialogComponent);
+    expect(dialogRefSpy.componentInstance.defaultValues).toEqual({
       universityId: studentDetails.universityId,
       year: studentDetails.yearLevel,
       gpa: `${studentDetails.gpa}`,

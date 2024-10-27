@@ -3,10 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { DegreeProgramOperation, PortfolioService } from './portfolio.service';
 import { EditEducationFormValues } from './education-section/edit-education-dialog/edit-education-dialog.component';
-import { DegreeProgram, DegreeProgramJSON } from 'src/domain/DegreeProgram';
 import { YearLevel } from 'src/domain/Milestone';
-import { UserJSON } from '../security/domain/user';
 import { constructBackendRequest, Endpoints } from '../util/http-helper';
+import { EducationJSON } from 'src/domain/Education';
 
 const createMajor = (): DegreeProgramOperation => ({
   id: '1',
@@ -27,6 +26,8 @@ describe('PortfolioService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [PortfolioService],
@@ -54,17 +55,14 @@ describe('PortfolioService', () => {
 
     const request = httpMock.expectOne(constructBackendRequest(Endpoints.EDIT_EDUCATION));
     expect(request.request.method).toBe('PUT');
-    request.flush({
-      studentDetails: {
-        gpa: Number(formValues.gpa),
-        universityId: formValues
-          .universityId,
-        yearLevel: YearLevel.Senior,
-        degreePrograms: [
-          { name: formValues.majors[0].name, isMinor: false },
-          { name: formValues.minors[0].name, isMinor: true },
-        ],
-      },
-    });
+    const response: EducationJSON = {
+      gpa: Number(formValues.gpa),
+      universityId: Number(formValues
+        .universityId),
+      year: YearLevel.Senior,
+      majors: [],
+      minors: [],
+    };
+    request.flush(response);
   });
 });
