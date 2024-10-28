@@ -15,15 +15,16 @@ connection = mysql.connector.connect(**db_config)
 cursor = connection.cursor()
 cursor.callproc('IterateThroughUsers')
 
-# 0: has resume
-# 1: has internship
-# 2: has 5 or more skills
+# 0: total
+# 1: has resume
+# 2: has internship
+# 3: has 5 or more skills
 data = {
-    'Total': [0, 0, 0],
-    'Freshman': [0, 0, 0],
-    'Sophomore': [0, 0, 0],
-    'Junior': [0, 0, 0],
-    'Senior': [0, 0, 0]
+    'Total': [0, 0, 0, 0],
+    'Freshman': [0, 0, 0, 0],
+    'Sophomore': [0, 0, 0, 0],
+    'Junior': [0, 0, 0, 0],
+    'Senior': [0, 0, 0, 0]
 }
 count = 0
 
@@ -37,18 +38,18 @@ for result in cursor.stored_results():
         Internship = row[2]
         Skill = row[3]
         
-        data[Year][0] += Resume
-        data['Total'][0] += Resume
+        data[Year][0] += 1
+        data['Total'][0] += 1
 
-        data[Year][1] += Internship
-        data['Total'][1] += Internship
+        data[Year][1] += Resume
+        data['Total'][1] += Resume
 
-        data[Year][2] += Skill
-        data['Total'][2] += Skill
+        data[Year][2] += Internship
+        data['Total'][2] += Internship
 
-        count += 1
+        data[Year][3] += Skill
+        data['Total'][3] += Skill
 
-data['Count'] = count
 
 json_output = json.dumps(data, indent=4)
 
