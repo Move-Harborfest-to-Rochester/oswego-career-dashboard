@@ -4,9 +4,10 @@ The purpose of **process.py** is to output a json file populated with data that 
 
 The data that is saved is in the format:
 
-![image](https://github.com/user-attachments/assets/c01a0191-695d-4e77-8fc8-dca94d735a2e)
+![image](https://github.com/user-attachments/assets/fc5e39db-0251-4607-a40b-1725e356fa02)
 
-It sorts the data by year and also has the total count of students.  In order, the data that is stored is has uploaded a resume, has had an internship, has 5 or more skills.
+
+It sorts the year.  In order, the data that is stored is has total, uploaded a resume, has had an internship, has 5 or more skills.
 
 # To Do
 
