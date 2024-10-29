@@ -64,19 +64,27 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Skills</h2>
+            <h2 >Skills</h2>
+            <button mat-mini-fab (click)="openEditDialog(false)">
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
           <div class="card-body-section-body">
             <div class="skills">
+
               <div class="skill" *ngFor="let skill of skills()">
                 {{ skill }}
               </div>
             </div>
+<!--            <app-skills-section></app-skills-section>-->
           </div>
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
             <h2>Languages</h2>
+            <button mat-mini-fab (click)="openEditDialog(true)">
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
           <div class="card-body-section-body">
             <div class="skills">

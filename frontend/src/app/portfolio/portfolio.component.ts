@@ -9,6 +9,24 @@ import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from '../util/screen-size.service';
+import {
+  DegreeProgramOperation,
+  EditEducationRequest,
+  PortfolioService,
+  SkillsOperation
+} from "./portfolio.service";
+import {
+  EditEducationDialogComponent,
+  EditEducationFormValues
+} from "./education-section/edit-education-dialog/edit-education-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  EditSkillsDefaultValues,
+  EditSkillsDialogComponent
+} from "./skills-section/edit-skills-dialog/edit-skills-dialog.component";
+import {createPatch, Operation} from "rfc6902";
+import {Skill, SkillJSON} from "../../domain/Skill";
+import {StudentDetails} from "../../domain/StudentDetails";
 
 @Component({
   selector: 'app-portfolio',
@@ -30,7 +48,9 @@ export class PortfolioComponent implements OnInit {
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly milestoneService: MilestoneService
+    private readonly milestoneService: MilestoneService,
+    private readonly portfolioService: PortfolioService,
+    private readonly editDialog: MatDialog,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -86,6 +106,44 @@ export class PortfolioComponent implements OnInit {
       });
   }
 
+
+  getSkills(isLanguages: boolean): SkillsOperation[] {
+      return (
+        this.user.studentDetails?.skills
+          .filter(skill => skill.isLanguage==isLanguages)
+            .map((skill) => ({
+              id: skill.id,
+              operation: 'Edit',
+              name: skill.name,
+              isLanguage: skill.isLanguage
+            }))?? []
+      )
+  }
+
+  openEditDialog(isLanguages: boolean): void {
+    const dialogRef = this.editDialog.open(EditSkillsDialogComponent);
+    dialogRef.componentInstance.defaultValues = {
+      skills: this.getSkills(isLanguages),
+    };
+
+    dialogRef.afterClosed().subscribe((result?: Skill[]) => {
+      if (!result) {
+        return;
+      }
+
+      const oldStudentDetails = this.user.studentDetails!
+
+      // this.user.studentDetails!.skills = result;
+      const newStudentDetails: StudentDetails = {...oldStudentDetails, skills: result}
+
+      const patch:Operation[] = createPatch(oldStudentDetails, newStudentDetails);
+      console.log(patch)
+      // this.portfolioService.editSkillsPatch(createPatch(oldStudentDetails, newStudentDetails))
+
+
+
+    });
+  }
   goToLinkedIn() {
     location.href = this.user.linkedin;
   }

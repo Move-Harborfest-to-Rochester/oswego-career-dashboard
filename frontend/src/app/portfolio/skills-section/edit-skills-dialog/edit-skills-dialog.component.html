@@ -3,14 +3,24 @@
 <form [formGroup]="form" (ngSubmit)="saveChanges()">
   <mat-dialog-content>
 
-    <degree-program-list-input
-      id="majors"
+
+    <skills-list-input-component
+      id="Skills"
       label="Skills"
       addText="Add Skill"
       formArrayName="skills"
       [formGroup]="form"
       [formArray]="skills"
-    />
+      [defaultValue]="{
+        operation: 'Create',
+        name: '',
+        isLanguage: false,
+      }"
+      />
+
+
+
+
 
   </mat-dialog-content>
   <mat-dialog-actions align="end">

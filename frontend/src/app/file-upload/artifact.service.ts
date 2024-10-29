@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
 import {Artifact, ArtifactJSON} from "../../domain/Artifact";
-import * as http from "http";
 
 /**
  * Service to upload artifacts to the backend

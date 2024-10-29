@@ -11,14 +11,19 @@ export type DegreeProgramOperation = {
   isMinor: boolean;
 };
 
+export type SkillsOperation = {
+    id?: string;
+    operation: 'Create' | 'Edit' | 'Delete';
+    name: string;
+    isLanguage: boolean;
+}
+
 export type EditEducationRequest = {
   universityId: number;
   year: string;
   gpa: number;
   degreeProgramOperations: DegreeProgramOperation[];
 };
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,5 +35,10 @@ export class PortfolioService {
     return this.http
       .put<UserJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
       .pipe(map((user) => new User(user)));
+  }
+
+  editSkillsPatch(patch: any[]): Observable<any> {
+    const url = constructBackendRequest(Endpoints.EDIT_SKILLS);
+    return this.http.patch(url, patch).pipe(map((response) => response));
   }
 }

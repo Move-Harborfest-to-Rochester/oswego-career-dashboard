@@ -8,9 +8,21 @@ import { MilestonesModule } from '../milestones-page/milestones/milestones.modul
 import { EducationSectionModule } from './education-section/education-section.module';
 import { PortfolioComponent } from './portfolio.component';
 import { ResumeModule } from './resume/resume.module';
+import { SkillsSectionComponent } from './skills-section/skills-section.component';
+import { EditSkillsDialogComponent } from './skills-section/edit-skills-dialog/edit-skills-dialog.component';
+import {
+  DegreeProgramListInputModule
+} from "./education-section/edit-education-dialog/degree-program-list-input/degree-program-list-input.module";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
+import {ReactiveFormsModule} from "@angular/forms";
+import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/skills-list-input/skills-list-input.component';
 
 @NgModule({
-  declarations: [PortfolioComponent],
+  declarations: [PortfolioComponent, SkillsSectionComponent, EditSkillsDialogComponent, SkillsListInputComponent],
   exports: [],
   imports: [
     CommonModule,
@@ -21,6 +33,13 @@ import { ResumeModule } from './resume/resume.module';
     MatIconModule,
     EducationSectionModule,
     HttpClientModule,
+    DegreeProgramListInputModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
 })
 export class PortfolioModule {}

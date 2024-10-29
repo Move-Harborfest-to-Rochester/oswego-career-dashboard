@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {
   AbstractControl, type FormArray,
   FormBuilder,
@@ -8,12 +8,11 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-
 import {Skill} from "../../../../domain/Skill";
-
+import {DegreeProgramOperation, SkillsOperation} from "../../portfolio.service";
 
 export type EditSkillsDefaultValues = {
-  skills: any
+  skills: SkillsOperation[]
 };
 @Component({
   selector: 'app-edit-skills-dialog',
@@ -38,8 +37,46 @@ export class EditSkillsDialogComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      skills: [this.defaultValues?.skills ?? null],
+      skills: this.formBuilder.array<FormControl>(
+        this.defaultValues?.skills.map((skill) =>
+          this.formBuilder.control(skill)
+        ) ?? []
+      ),
     });
+  }
+  handleEdits(formValue: { skills: SkillsOperation[] }): Skill[] {
+    let skills: Skill[] = [];
+
+    formValue.skills.forEach((skillOperation) => {
+      if (skillOperation.operation === "Create") {
+        // Handle new skills to be added
+        skills.push({
+          id: skillOperation.id ?? '',  // Create a new ID if necessary
+          name: skillOperation.name,
+          isLanguage: skillOperation.isLanguage,
+          studentDetailsID: ''  // Populate as needed
+        });
+      } else if (skillOperation.operation === "Edit") {
+        // Find the existing skill and update its properties
+        const skillIndex = this.defaultValues?.skills.findIndex(
+          (existingSkill) => existingSkill.id === skillOperation.id
+        );
+        if (skillIndex !== undefined && skillIndex !== -1) {
+          const updatedSkill = {
+            id: this.defaultValues!.skills[skillIndex].id || '',
+            name: skillOperation.name,
+            isLanguage: skillOperation.isLanguage,
+            studentDetailsID: ''
+          };
+          skills.push(updatedSkill);
+        }
+      } else if (skillOperation.operation === "Delete") {
+        // Filter out skills that match the 'Delete' operation
+        skills = skills.filter(skill => skill.id !== skillOperation.id);
+      }
+    });
+
+    return skills;
   }
 
 
@@ -47,7 +84,8 @@ export class EditSkillsDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.dialogRef.close(this.form.value);
+
+    this.dialogRef.close(this.handleEdits(this.form.value)); // Return new student skills here ?
   }
 
   closeDialog(): void {
