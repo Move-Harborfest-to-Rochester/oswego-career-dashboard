@@ -42,7 +42,11 @@ export enum Endpoints {
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
 
-    PROJECTS = 'projects'
+    // Projects
+    PROJECTS = 'projects',
+  
+    // Jobs
+    JOBS = 'jobs',
 }
 
 export function constructBackendRequest(segments: string, ...qParams: Array<{key: string, value: string | number}>): string {
