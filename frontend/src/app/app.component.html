@@ -6,29 +6,13 @@
     <logo-link [showTitle]="(showTitle$ | async) ?? false"></logo-link>
 
     <div class="header">
-      <div
-        class="header-AI-button"
-        *ngIf="needsNavBar() && (showAIButton$ | async)"
-      >
-        <img
-          class="header-AI-img"
-          src="../assets/images/Lakers.jpg"
-          alt="Oswego Logo"
-        />
-        <p class="AI-button-text">
-          AI Business Advisor
-          <br />
-          Ask all your advisement and career questions
-        </p>
-      </div>
-
       <ng-container *ngIf="needsNavBar()">
         <app-user-menu
-          [showAIButton$]="showAIInMenu$"
           class="logout-button"
         ></app-user-menu>
       </ng-container>
     </div>
+
   </div>
   <div class="body-container">
     <ng-container *ngIf="needsNavBar()">
