@@ -39,6 +39,7 @@ public enum Endpoints {
     PORTFOLIO("portfolio", true),
 
     PROJECTS("projects", true),
+    PROJECTS_ID("projects/{id}", true),
 
     // Submissions
     SUBMISSION("tasks/submission", true),

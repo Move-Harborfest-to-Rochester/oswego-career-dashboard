@@ -3,6 +3,8 @@ package com.senior.project.backend.project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import com.senior.project.backend.domain.Project;
 import com.senior.project.backend.domain.StudentDetails;
 import com.senior.project.backend.domain.User;
@@ -49,4 +51,6 @@ public class ProjectService {
             return Mono.just(projectRepository.save(project));
         });
     }
+    public void deleteProject(UUID id)
+        projectRepository.deletebyID(id)
 }

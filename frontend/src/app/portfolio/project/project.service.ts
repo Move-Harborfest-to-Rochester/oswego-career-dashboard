@@ -22,8 +22,10 @@ export class ProjectService {
   public saveProject(request: SaveProjectRequest): Observable<Project> {
     return this.http.put<ProjectJSON>(constructBackendRequest(Endpoints.PROJECTS), request)
       .pipe(map((projectJson) => {
-        console.log('project testing', projectJson);
         return new Project(projectJson);
       }));
+  }
+  public deleteProject(projectID: string): Observable<void> {
+    return this.http.delete<void>(constructBackendRequest(`${Endpoints.PROJECTS}/${projectID}`))
   }
 }

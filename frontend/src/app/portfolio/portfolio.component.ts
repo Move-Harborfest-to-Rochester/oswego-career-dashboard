@@ -15,6 +15,10 @@ import {MilestoneService} from "../milestones-page/milestones/milestone.service"
 import {ScreenSizeService} from "../util/screen-size.service";
 import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
 import { SaveProjectRequest, ProjectService } from './project/project.service';
+import {StudentDetails} from 'src/domain/StudentDetails'
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -40,8 +44,10 @@ export class PortfolioComponent implements OnInit {
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
     private readonly addProjectDialogue : MatDialog,
-    private readonly dialog: MatDialog
-  ) {
+    private readonly deleteDialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+
+) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
     // Add the mobile styling to personal section because it gets squished around 1200.
@@ -149,5 +155,59 @@ export class PortfolioComponent implements OnInit {
         this.user.studentDetails?.projects?.push(project);
       });
     });
+  }
+  openEditProjectModal(project: Project): void {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
+      data: Project,
+    });
+    dialogRef.afterClosed().subscribe((result?: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      const updatedProject: Project = {
+        ...result,
+        id: project.id,
+        studentDetailsID: this.user.studentDetails.id,
+      };
+
+      this.user.studentDetails.projects = this.user.studentDetails.projects.map((p) =>
+        p.id === updatedProject.id ? updatedProject : p
+      );
+    });
+  }
+  confirmProjectDelete(project: Project) {
+    const alertDurationMs = 5000;
+    this.projectService.deleteProject(project.id).subscribe({
+      next: () => {
+        if (!this.user.studentDetails) {
+          this.user.studentDetails = StudentDetails.makeEmpty();
+        }
+        this.user.studentDetails.projects = this.user.studentDetails?.projects.filter((p) => p.id !== project.id);
+        this.deleteDialog.closeAll();
+        this.snackBar.open('Project deleted successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error: unknown) => {
+        console.error(error);
+        this.snackBar.open('Failed to delete Project.', 'Close', {
+          duration: alertDurationMs,
+        });
+      }
+    });
+  }
+  deleteProject(project: Project){
+    const dialogueRef: ConfirmationDialogData = {
+      entityId : project.id,
+      title: 'Delete this Project?',
+      action: `delete the project "${project.name}"?`,
+      onConfirm: () => this.confirmProjectDelete(project)
+    };
+    this.addProjectDialogue.open(ConfirmationDialogComponent, {
+      data: dialogueRef
+    })
   }
 }

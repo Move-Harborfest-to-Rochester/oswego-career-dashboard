@@ -16,6 +16,7 @@ import com.senior.project.backend.util.Endpoints;
 public class ProjectRouter {
     @Bean
     RouterFunction<ServerResponse> projectRoutes(ProjectHandler projectHandler) {
-        return route(PUT(Endpoints.PROJECTS.uri()), projectHandler::saveProject);
+        return route(PUT(Endpoints.PROJECTS.uri()), projectHandler::saveProject)
+                .andRoute(DELETE(Endpoints.PROJECT_ID.uri()), projectHandler::deleteProject);
     }
 }
