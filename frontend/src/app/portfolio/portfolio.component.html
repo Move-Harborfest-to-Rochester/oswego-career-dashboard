@@ -122,6 +122,13 @@
               <div class="project-description">
                 {{project.description}}
               </div>
+              <div class="actions">
+                <button mat-mini-fab color="primary" (click)="openEditProjectModal(project)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="deleteProject(project)">
+                  <mat-icon>delete</mat-icon>
+                </button>
             </div>
           </div>
         </div>

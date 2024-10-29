@@ -137,7 +137,10 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
-  formatDate(date: Date){
+  formatDate(date: Date | null){
+    if(!date){
+      return 'present'
+    }
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
   }

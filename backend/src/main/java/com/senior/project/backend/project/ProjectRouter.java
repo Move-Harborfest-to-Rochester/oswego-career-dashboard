@@ -17,6 +17,6 @@ public class ProjectRouter {
     @Bean
     RouterFunction<ServerResponse> projectRoutes(ProjectHandler projectHandler) {
         return route(PUT(Endpoints.PROJECTS.uri()), projectHandler::saveProject)
-                .andRoute(DELETE(Endpoints.PROJECT_ID.uri()), projectHandler::deleteProject);
+                .andRoute(DELETE(Endpoints.PROJECTS_ID.uri()), projectHandler::deleteProject);
     }
 }

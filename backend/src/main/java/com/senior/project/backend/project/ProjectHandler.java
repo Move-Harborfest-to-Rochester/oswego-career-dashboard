@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import reactor.core.publisher.Mono;
 
-import java.util.UUID
+import java.util.UUID;
 
 @Component
 public class ProjectHandler {
@@ -20,6 +20,6 @@ public class ProjectHandler {
     public Mono<ServerResponse> deleteProject(ServerRequest request){
         UUID id = UUID.fromString(request.pathVariable("id"));
         projectService.deleteProject(id);
-        return ServerResponse.noContent().build()
+        return ServerResponse.noContent().build();
     }
 }

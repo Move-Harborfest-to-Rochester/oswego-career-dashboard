@@ -51,6 +51,7 @@ public class ProjectService {
             return Mono.just(projectRepository.save(project));
         });
     }
-    public void deleteProject(UUID id)
-        projectRepository.deletebyID(id)
+    public void deleteProject(UUID id) {
+        projectRepository.deleteById(id);
+    }
 }

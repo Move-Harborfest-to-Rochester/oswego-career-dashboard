@@ -12,6 +12,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -19,6 +20,7 @@ import {MatInputModule} from "@angular/material/input";
   declarations: [
     PortfolioComponent,
     AddProjectModalComponent,
+    ConfirmationDialogComponent,
   ],
   exports: [
   ],
@@ -34,6 +36,7 @@ import {MatInputModule} from "@angular/material/input";
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+
 
 
   ]
