@@ -40,6 +40,7 @@ public enum Endpoints {
 
     // Jobs
     JOBS("jobs", true),
+    JOBS_ID("jobs/{id}", true),
 
     // Submissions
     SUBMISSION("tasks/submission", true),
