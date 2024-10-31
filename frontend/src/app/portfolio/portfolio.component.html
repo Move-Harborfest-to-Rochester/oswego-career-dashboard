@@ -28,16 +28,16 @@
                   <span class="title" *ngIf="isMobile$| async">Phone</span>
                   <span>{{user.phoneNumber}}</span>
                 </div>
-                <div>
+                <div *ngIf="user.linkedin">
                   <span class="title">LinkedIn</span>
                   <span>
                     <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''" (click)="goToLinkedIn()">link</mat-icon>
                   </span>
                   <span *ngIf="user.linkedin === null">No LinkedIn</span>
                 </div>
-                <div class="verticle">
+                <div class="verticle" *ngIf="user.studentDetails?.description">
                   <p class="title">Description</p>
-                  <p>{{user.studentDetails?.description}}</p>
+                  <p>{{user.studentDetails!.description}}</p>
                 </div>
               </div>
               <div class="actions">
