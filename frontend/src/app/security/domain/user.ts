@@ -34,7 +34,6 @@ export class User {
     readonly lastLogin: Date;
     firstName: string;
     lastName: string;
-    readonly fullName: string;
     preferredName: string;
     readonly signedUp: boolean;
     canEmail: boolean;
@@ -61,7 +60,6 @@ export class User {
             this.studentDetails = new StudentDetails(json.studentDetails!)
         }
         this.role = json.role;
-        this.fullName = this.firstName + " " + this.lastName;
         this.linkedin = json.linkedin;
         this.profilePictureId = json.profilePictureId;
     }
@@ -106,6 +104,11 @@ export class User {
         return 'Super Admin';
       }
       return this.role;
+    }
+
+    get fullName(): string {
+      const name = this.preferredName ? this.preferredName : this.firstName;
+      return `${name} ${this.lastName}`;
     }
 
     getPersonalInfo(): PersonalInfo {
