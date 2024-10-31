@@ -9,7 +9,8 @@
           </div>
           <div class="card-body-section-body personal">
             <div class="card-body-section-image">
-              <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL" alt="User Image">
+              <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL"
+                alt="User Image">
               <mat-icon class="profile-picture" *ngIf="user.profilePictureURL == null">account_circle</mat-icon>
             </div>
             <div class="card-body-section-data content personal-info">
@@ -56,17 +57,17 @@
               <span class="title">Majors</span>
               <span class="value">
                 <span *ngFor="let degreeProgram of majors(); index as i">
-                  <span>{{degreeProgram}}{{i < majors().length - 1 ? ', ' : ''}}</span>
+                  <span>{{degreeProgram}}{{i < majors().length - 1 ? ', ' : '' }}</span>
+                  </span>
                 </span>
-              </span>
             </div>
             <div>
               <span class="title">Minors</span>
               <span class="value">
                 <span *ngFor="let degreeProgram of minors(); index as i">
-                  <span>{{degreeProgram}}{{i < minors().length - 1 ? ', ' : ''}}</span>
+                  <span>{{degreeProgram}}{{i < minors().length - 1 ? ', ' : '' }}</span>
+                  </span>
                 </span>
-              </span>
             </div>
             <div>
               <span class="title" *ngIf="!(isMobile$ | async)">University ID</span>
@@ -109,7 +110,8 @@
           </div>
           <div class="card-body-section-body projects">
             <div class="project" *ngFor="let project of user.studentDetails?.projects">
-              <h3>{{project.name.charAt(0).toUpperCase() + project.name.substring(1)}}</h3> <!-- Guarentees project name is capitalized -->
+              <h3>{{project.name.charAt(0).toUpperCase() + project.name.substring(1)}}</h3>
+              <!-- Guarentees project name is capitalized -->
               <div class="date-row content">
                 <div>
                   <span class="title">{{dateHeader('Start')}}</span>
@@ -127,31 +129,44 @@
           </div>
         </div>
         <div class="card-body-section">
-          <div class="card-body-section-header">
+          <div class="card-body-section-header jobs-header">
             <h2>Jobs</h2>
+            <button mat-mini-fab (click)="createJob()">
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
           <div class="card-body-section-body projects">
             <div *ngFor="let job of jobs()">
-              <div class="project">
-                <h3>{{job.name}}</h3>
-                <div class="date-row content">
-                  <div>
-                    <span class="title">{{dateHeader('Start')}}</span>
-                    <span class="date">{{formatDate(job.startDate)}}</span>
+              <div class="project job">
+                <div class="content">
+                  <h3>{{job.name}}</h3>
+                  <div class="date-row content">
+                    <div>
+                      <span class="title">{{dateHeader('Start')}}</span>
+                      <span class="date">{{formatDate(job.startDate)}}</span>
+                    </div>
+                    <div *ngIf="job.endDate">
+                      <span class="title">{{dateHeader('End')}}</span>
+                      <span class="date">{{formatDate(job.endDate)}}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span class="title">{{dateHeader('End')}}</span>
-                    <span class="date">{{formatDate(job.endDate)}}</span>
+                  <div class="date-row content">
+                    <div class="location">
+                      <span class="title">Location: </span>
+                      <span class="date">{{job.location}}</span>
+                    </div>
+                  </div>
+                  <div class="project-description">
+                    {{job.description}}
                   </div>
                 </div>
-                <div class="date-row content">
-                  <div class="location">
-                    <span class="title">Location: </span>
-                    <span class="date">{{job.location}}</span>
-                  </div>
-                </div>
-                <div class="project-description">
-                  {{job.description}}
+                <div class="actions">
+                  <button mat-mini-fab color="primary" (click)="editJob(job)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab color="warn" (click)="deleteJob(job)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </div>
               </div>
             </div>
@@ -170,7 +185,7 @@
                     <span class="title">{{dateHeader('Start')}}</span>
                     <span class="date">{{formatDate(job.startDate)}}</span>
                   </div>
-                  <div>
+                  <div *ngIf="job.endDate">
                     <span class="title">{{dateHeader('End')}}</span>
                     <span class="date">{{formatDate(job.endDate)}}</span>
                   </div>

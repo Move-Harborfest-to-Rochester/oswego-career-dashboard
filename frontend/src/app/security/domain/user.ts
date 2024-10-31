@@ -39,7 +39,7 @@ export class User {
     readonly signedUp: boolean;
     canEmail: boolean;
     canText: boolean;
-    readonly studentDetails?: StudentDetails
+    studentDetails?: StudentDetails
     role: Role;
     linkedin: string;
     readonly profilePictureId: number;
