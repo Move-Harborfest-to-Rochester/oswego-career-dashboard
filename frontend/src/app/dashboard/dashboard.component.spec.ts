@@ -4,6 +4,7 @@ import {MockComponent} from "ng-mocks";
 import {EventsComponent} from "./events/events.component";
 import {MilestonesComponent} from "../milestones-page/milestones/milestones.component";
 import { TasksComponent } from '../tasks/tasks.component';
+import { HotlinkModule } from '../hotlink/hotlink.module';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -11,7 +12,10 @@ describe('DashboardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardComponent, MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent)]
+      declarations: [DashboardComponent, MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent)],
+      imports: [
+        HotlinkModule
+      ]
     });
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
