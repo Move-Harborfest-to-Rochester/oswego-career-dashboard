@@ -8,6 +8,7 @@ import { Submission } from 'src/domain/Submission';
 import { DeleteResumeConfirmationDialogComponent } from '../delete-resume-confirmation-dialog/delete-resume-confirmation-dialog.component';
 import { User } from 'src/app/security/domain/user';
 import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 const RESUME_TASK_ID = 6;
 
@@ -35,10 +36,21 @@ export class ResumeComponent implements OnInit, OnChanges {
     private readonly artifactService: ArtifactService,
     private readonly submissionService: SubmissionService,
     private readonly taskService: TaskService,
+    private readonly route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     this.fetchCurrentArtifact();
+
+    this.checkForResumeFragment();
+  }
+
+  private checkForResumeFragment() {
+    this.route.fragment.subscribe((fragment) => {
+      if (fragment === 'resume') {
+        this.openDialog();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
