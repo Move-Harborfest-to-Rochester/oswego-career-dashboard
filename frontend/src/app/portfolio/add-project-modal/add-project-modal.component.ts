@@ -9,12 +9,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddProjectModalComponent {
     projectForm: FormGroup;
+    header: string;
 
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<AddProjectModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
+        this.header = data.header || 'Add New Project'
         this.projectForm = this.fb.group({
             name: ['', Validators.required],
             description: ['', Validators.required],

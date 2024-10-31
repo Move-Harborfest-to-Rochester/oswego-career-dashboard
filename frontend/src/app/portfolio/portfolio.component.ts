@@ -8,10 +8,7 @@ import { MilestoneService } from "../milestones-page/milestones/milestone.servic
 import { AuthService } from '../security/auth.service';
 import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
-import { Job } from 'src/domain/Job';
 import { Project } from 'src/domain/Project'
-import {MilestoneService} from "../milestones-page/milestones/milestone.service";
-import {ScreenSizeService} from "../util/screen-size.service";
 import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
 import { SaveProjectRequest, ProjectService } from './project/project.service';
 import {StudentDetails} from 'src/domain/StudentDetails'
@@ -164,8 +161,8 @@ export class PortfolioComponent implements OnInit {
 
   openAddProjectModal() {
     const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
-        width: '400px',
-        data: {}
+        width: '500px',
+        data: { header: "Add New Project"}
       });
     dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
       if (!result) {
@@ -178,7 +175,10 @@ export class PortfolioComponent implements OnInit {
   }
   openEditProjectModal(project: Project): void {
     const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
-      data: Project,
+      width: '500px',
+      data:{
+        header: "Edit Project",
+        Project: project}
     });
     dialogRef.afterClosed().subscribe((result?: SaveProjectRequest) => {
       if (!result) {
