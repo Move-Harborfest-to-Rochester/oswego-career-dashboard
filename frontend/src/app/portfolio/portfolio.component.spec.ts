@@ -17,6 +17,8 @@ import { ResumeComponent } from './resume/resume.component';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { EducationSectionModule } from './education-section/education-section.module';
 
 describe('PortfolioComponent', () => {
@@ -64,6 +66,8 @@ describe('PortfolioComponent', () => {
         MatIconModule,
         HttpClientTestingModule,
         PdfViewerModule,
+        MatDialogModule,
+        MatSnackBarModule,
         EducationSectionModule
       ],
       providers: [
@@ -72,6 +76,7 @@ describe('PortfolioComponent', () => {
         {provide: ActivatedRoute, useValue: routeSpy},
         {provide: Router, useValue: router},
         {provide: MilestoneService, useValue: milestoneServiceSpy},
+        MatDialog
       ]
     });
     fixture = TestBed.createComponent(PortfolioComponent);
