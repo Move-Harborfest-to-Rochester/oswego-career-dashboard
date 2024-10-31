@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.less']
+  styleUrls: ['./portfolio.component.less', './job/jobs.less']
 })
 export class PortfolioComponent implements OnInit {
   user: User = User.makeEmpty();
