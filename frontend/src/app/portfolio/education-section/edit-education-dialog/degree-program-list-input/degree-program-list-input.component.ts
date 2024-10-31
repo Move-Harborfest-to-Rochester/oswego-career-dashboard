@@ -53,10 +53,12 @@ export class DegreeProgramListInputComponent {
 
   delete(control: FormControl<DegreeProgramOperation>, index: number) {
     const currentValue = control.value;
-    this.deleted.add(index);
     if (currentValue.operation === 'Create') {
+      this.deleted.delete(index);
+      this.formArray.removeAt(index);
       return;
     }
+    this.deleted.add(index);
     currentValue.operation = 'Delete';
     control.setValue(currentValue);
   }

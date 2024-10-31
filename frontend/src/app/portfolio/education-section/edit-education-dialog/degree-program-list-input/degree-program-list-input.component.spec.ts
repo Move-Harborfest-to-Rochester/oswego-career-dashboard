@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { DegreeProgramListInputComponent } from './degree-program-list-input.component';
 import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
 
@@ -95,7 +95,8 @@ describe('ListInputComponent', () => {
 
     component.delete(control, index);
 
-    expect(component.deleted.has(index)).toBe(true);
+    expect(component.formArray.controls).not.toContain(control);
+    expect(component.deleted.has(index)).toBe(false);
     expect(control.value.operation).toBe('Create');
   });
 
@@ -113,6 +114,8 @@ describe('ListInputComponent', () => {
 
     component.delete(control, index);
 
+    expect(component.formArray.controls).toHaveSize(1);
+    expect(component.formArray.controls[0].value?.id).toBe('1');
     expect(component.deleted.has(index)).toBe(true);
     expect(control.value.operation).toBe('Delete');
   });
