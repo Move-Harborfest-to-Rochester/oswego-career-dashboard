@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Job } from 'src/domain/Job';
 import { JobService } from '../job/job.service';
@@ -22,7 +22,7 @@ export class SaveJobDialogComponent {
     startDate: [null],
     endDate: [null],
     coop: [false],
-  });
+  }, { validators: [this.dateRangeValidator] });
 
   constructor(
     private readonly jobService: JobService,
@@ -32,6 +32,22 @@ export class SaveJobDialogComponent {
     @Inject(MAT_DIALOG_DATA) public readonly job?: Job
   ) {
   }
+
+  dateRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startDate: Date = control.get('startDate')?.value;
+    const endDate: Date = control.get('endDate')?.value;
+
+    if (!endDate) {
+      return null;
+    }
+    if (endDate.getTime() > new Date().getTime()) {
+      return { futureEndDate: true };
+    }
+    if (startDate.getTime() > endDate.getTime()) {
+      return { endDateBeforeStartDate: true };
+    }
+    return null;
+  };
 
   ngOnInit(): void {
     if (this.job) {
@@ -49,6 +65,7 @@ export class SaveJobDialogComponent {
   }
 
   saveJob(): void {
+      console.log(this.form.errors);
       if (this.form.invalid) {
         return;
       }

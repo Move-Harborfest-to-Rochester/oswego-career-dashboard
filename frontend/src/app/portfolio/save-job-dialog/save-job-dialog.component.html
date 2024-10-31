@@ -29,6 +29,8 @@
         <input matInput [max]="today" [matDatepicker]="endDatePicker" formControlName="endDate" id="endDate" />
         <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error *ngIf="form.errors?.['futureEndDate']">End date must not be in the future.</mat-error>
+        <mat-error *ngIf="this.form.errors?.['endDateBeforeStartDate']">End date must be after the start date.</mat-error>
       </mat-form-field>
     </div>
     <mat-dialog-actions>
