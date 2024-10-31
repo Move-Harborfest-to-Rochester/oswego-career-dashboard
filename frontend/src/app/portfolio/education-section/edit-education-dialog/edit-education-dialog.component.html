@@ -36,11 +36,7 @@
       formArrayName="majors"
       [formGroup]="form"
       [formArray]="majors"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-        isMinor: false,
-      }"
+      [defaultValue]="getDefaultDegreeProgramOperation(false)"
     />
     <degree-program-list-input
       id="minors"
@@ -49,11 +45,7 @@
       formArrayName="minors"
       [formGroup]="form"
       [formArray]="minors"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-        isMinor: true,
-      }"
+      [defaultValue]="getDefaultDegreeProgramOperation(true)"
     />
   </mat-dialog-content>
   <mat-dialog-actions align="end">

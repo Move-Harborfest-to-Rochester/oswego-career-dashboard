@@ -61,3 +61,4 @@ export class DegreeProgramListInputComponent {
     control.setValue(currentValue);
   }
 }
+

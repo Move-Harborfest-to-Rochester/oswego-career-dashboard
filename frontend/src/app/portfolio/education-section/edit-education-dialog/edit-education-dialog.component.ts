@@ -103,6 +103,14 @@ export class EditEducationDialogComponent implements OnInit {
     });
   }
 
+  getDefaultDegreeProgramOperation(isMinor: boolean): DegreeProgramOperation {
+    return {
+      operation: 'Create',
+      name: '',
+      isMinor,
+    };
+  }
+
   universityIdValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
