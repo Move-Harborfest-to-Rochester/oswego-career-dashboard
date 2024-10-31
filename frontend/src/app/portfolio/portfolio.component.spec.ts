@@ -18,6 +18,7 @@ import { ResumeComponent } from './resume/resume.component';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
@@ -73,6 +74,7 @@ describe('PortfolioComponent', () => {
         {provide: Router, useValue: router},
         {provide: MilestoneService, useValue: milestoneServiceSpy},
         {provide: MatDialog, useValue: {}}
+        MatDialog
       ]
     });
     fixture = TestBed.createComponent(PortfolioComponent);

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import { AuthService } from '../security/auth.service';
-import { LangUtils } from '../util/lang-utils';
-import { User } from '../security/domain/user';
-import {ArtifactService} from "../file-upload/artifact.service";
-import { TaskService } from '../util/task.service';
-import { SubmissionService } from '../submissions/submission.service';
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import {map, mergeMap, Observable, takeUntil, tap, zipWith} from 'rxjs';
+import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
+import { Job } from 'src/domain/Job';
+import { ArtifactService } from "../file-upload/artifact.service";
+import { MilestoneService } from "../milestones-page/milestones/milestone.service";
+import { AuthService } from '../security/auth.service';
+import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { Job } from 'src/domain/Job';
 import { Project } from 'src/domain/Project'
@@ -18,7 +17,10 @@ import { SaveProjectRequest, ProjectService } from './project/project.service';
 import {StudentDetails} from 'src/domain/StudentDetails'
 import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { LangUtils } from '../util/lang-utils';
+import { ScreenSizeService } from "../util/screen-size.service";
+import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
+import { SaveJobRequest, JobService } from './job/job.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -37,6 +39,7 @@ export class PortfolioComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly jobService: JobService,
     private readonly artifactService: ArtifactService,
     private readonly projectService: ProjectService,
     private readonly screenSizeSvc: ScreenSizeService,
@@ -46,8 +49,8 @@ export class PortfolioComponent implements OnInit {
     private readonly addProjectDialogue : MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-
-) {
+    private readonly createJobDialog: MatDialog,
+  ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
     // Add the mobile styling to personal section because it gets squished around 1200.
@@ -122,6 +125,18 @@ export class PortfolioComponent implements OnInit {
       .filter((s) => !s.isCoop)
   }
 
+  createJob(): void {
+    const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
+    dialogRef.afterClosed().subscribe((result: SaveJobRequest) => {
+      if (!result) {
+        return;
+      }
+      this.jobService.saveJob(result).subscribe((job) => {
+        this.user.studentDetails?.jobs?.push(job);
+      });
+    });
+  }
+
   coops(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
       .filter((s) => s.isCoop)
@@ -137,12 +152,14 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
+
   formatDate(date: Date | null){
     if(!date){
       return 'present'
     }
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+
   }
 
   openAddProjectModal() {
