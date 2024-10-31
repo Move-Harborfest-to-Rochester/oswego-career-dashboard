@@ -16,12 +16,13 @@ export class AddProjectModalComponent {
         public dialogRef: MatDialogRef<AddProjectModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.header = data.header || 'Add New Project'
-        this.projectForm = this.fb.group({
-            name: ['', Validators.required],
-            description: ['', Validators.required],
-            startDate: ['', Validators.required],
-            endDate: [''],
+      this.header = data.header || 'Add New Project';
+      this.projectForm = this.fb.group({
+        name: [data.Project?.name || '', Validators.required],
+        description: [data.Project?.description || '', Validators.required],
+        startDate: [data.Project?.startDate || '', Validators.required],
+        endDate: [data.Project?.endDate || ''],
+
         });
     }
 
