@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HotlinkComponent } from './hotlink.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRippleModule } from '@angular/material/core';
 
 
 
@@ -14,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MatCardModule,
     MatIconModule,
+    MatRippleModule
   ],
   exports: [
     HotlinkComponent
