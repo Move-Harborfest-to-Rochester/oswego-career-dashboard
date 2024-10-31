@@ -9,7 +9,7 @@ import { TaskSubmitButtonModule } from '../task-submit-button/task-submit-button
 import { TasksModule } from "../tasks/tasks.module";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { HotlinkModule } from '../hotlink/hotlink.module';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
     TasksModule,
     NgOptimizedImage,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    HotlinkModule
   ]
 })
 export class DashboardModule { }

@@ -1,0 +1,36 @@
+@import "../../common.less";
+
+mat-card {
+  height: 100%;
+  padding: 24px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: @oswego-gray;
+
+    .title {
+      text-decoration: underline;
+    }
+  }
+}
+
+.icon-container {
+  display: flex;
+  border-radius: 50%;
+  background-color: @oswego-sunset-gold;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: larger;
+}
+
+.content {
+  padding: 0;
+  text-wrap: pretty;
+
+  color: gray;
+}
