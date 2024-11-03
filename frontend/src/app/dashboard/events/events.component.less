@@ -13,6 +13,42 @@ h1 {
   font-size: xx-large;
 }
 
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  animation-delay: 0.1s;
+}
+
 carousel {
   width: 100%;
   display: flex;
@@ -35,6 +71,7 @@ carousel {
 
   slide {
     width: 48% !important;
+    height: 50vh;
     margin: 5px;
     background-color: white;
     box-shadow: @oswego-box-shadow;
@@ -80,6 +117,8 @@ button {
   margin-top: 20px;
   padding: 25px;
   border-radius: 10px;
+  position: absolute;
+  bottom: 2vh;
 }
 
 :host ::ng-deep .carousel-control {
