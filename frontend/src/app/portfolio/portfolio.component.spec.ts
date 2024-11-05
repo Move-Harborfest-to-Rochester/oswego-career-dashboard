@@ -76,7 +76,7 @@ describe('PortfolioComponent', () => {
         {provide: ActivatedRoute, useValue: routeSpy},
         {provide: Router, useValue: router},
         {provide: MilestoneService, useValue: milestoneServiceSpy},
-        MatDialog
+        {provide: MatDialog, useValue: {}}
       ]
     });
     fixture = TestBed.createComponent(PortfolioComponent);

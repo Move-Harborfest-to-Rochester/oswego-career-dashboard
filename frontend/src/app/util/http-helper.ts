@@ -43,6 +43,9 @@ export enum Endpoints {
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
 
+    // Projects
+    PROJECTS = 'projects',
+  
     // Jobs
     JOBS = 'jobs',
 }

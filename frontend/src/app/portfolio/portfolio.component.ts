@@ -8,13 +8,17 @@ import { MilestoneService } from "../milestones-page/milestones/milestone.servic
 import { AuthService } from '../security/auth.service';
 import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
+import { Project } from 'src/domain/Project'
+import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
+import { SaveProjectRequest, ProjectService } from './project/project.service';
+import {StudentDetails} from 'src/domain/StudentDetails'
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
 import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.component';
 import { JobService } from './job/job.service';
-import { StudentDetails } from 'src/domain/StudentDetails';
-import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-portfolio',
@@ -34,13 +38,17 @@ export class PortfolioComponent implements OnInit {
     private readonly userService: UserService,
     private readonly jobService: JobService,
     private readonly artifactService: ArtifactService,
+    private readonly projectService: ProjectService,
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+
+    private readonly addProjectDialogue : MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
+
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -179,8 +187,96 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
-  formatDate(date: Date) {
-    return this.isMobile$ ? date.toLocaleString("en-US", { month: "numeric", year: "numeric", day: "numeric" }) :
-      date.toLocaleString("en-US", { month: "long", year: "numeric", day: "numeric" });
+
+  formatDate(date: Date | null){
+    if(!date){
+      return 'present'
+    }
+    return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
+      date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+
+  }
+
+  openAddProjectModal() {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
+        width: '500px',
+        data: { header: "Add New Project"}
+      });
+    dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      this.projectService.saveProject(result).subscribe((project) => {
+        this.user.studentDetails?.projects?.push(project);
+      });
+    });
+  }
+  openEditProjectModal(project: Project): void {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
+      width: '500px',
+      data: {
+        header: "Edit Project",
+        Project: project
+      }
+    });
+    dialogRef.afterClosed().subscribe((result?: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      const updatedProject: Project = {
+        ...result,
+        id: project.id,
+        studentDetailsID: this.user.studentDetails.id,
+      };
+
+      this.user.studentDetails.projects = this.user.studentDetails.projects.map((p) =>
+        p.id === updatedProject.id ? updatedProject : p
+      );
+
+
+      this.projectService.saveProject(updatedProject).subscribe(
+        (project) => {
+        },
+        (error) => {
+          alert('Failed to save project: ' + error.message);
+        }
+      );
+    });
+  }
+
+  confirmProjectDelete(project: Project) {
+    const alertDurationMs = 5000;
+    this.projectService.deleteProject(project.id).subscribe({
+      next: () => {
+        if (!this.user.studentDetails) {
+          this.user.studentDetails = StudentDetails.makeEmpty();
+        }
+        this.user.studentDetails.projects = this.user.studentDetails?.projects.filter((p) => p.id !== project.id);
+        this.deleteDialog.closeAll();
+        this.snackBar.open('Project deleted successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error: unknown) => {
+        console.error(error);
+        this.snackBar.open('Failed to delete Project.', 'Close', {
+          duration: alertDurationMs,
+        });
+      }
+    });
+  }
+  deleteProject(project: Project){
+    const dialogueRef: ConfirmationDialogData = {
+      entityId : project.id,
+      title: 'Delete this Project?',
+      action: `delete the project "${project.name}"?`,
+      onConfirm: () => this.confirmProjectDelete(project)
+    };
+    this.addProjectDialogue.open(ConfirmationDialogComponent, {
+      data: dialogueRef
+    })
   }
 }
