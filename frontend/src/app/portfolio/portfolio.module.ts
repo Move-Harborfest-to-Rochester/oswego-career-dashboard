@@ -15,6 +15,8 @@ import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
 import { PortfolioComponent } from "./portfolio.component";
 import { ResumeModule } from './resume/resume.module';
 import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
+import { EducationSectionModule } from './education-section/education-section.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirma
     MatInputModule,
     SaveJobDialogModule,
     ConfirmationDialogModule,
+    EducationSectionModule,
+    HttpClientModule
 
   ]
 })
