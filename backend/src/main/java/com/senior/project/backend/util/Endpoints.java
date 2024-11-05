@@ -38,6 +38,9 @@ public enum Endpoints {
     SEARCH_USERS("users/search", true, Role.Faculty),
     PORTFOLIO("portfolio", true),
 
+    // Portfolio
+    EDUCATION("student/education", true),
+
     // Jobs
     JOBS("jobs", true),
     JOBS_ID("jobs/{id}", true),

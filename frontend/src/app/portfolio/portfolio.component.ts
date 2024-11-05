@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.less']
+  styleUrls: ['./portfolio.component.less', './job/jobs.less']
 })
 export class PortfolioComponent implements OnInit {
   user: User = User.makeEmpty();
@@ -91,18 +91,6 @@ export class PortfolioComponent implements OnInit {
 
   goToLinkedIn() {
     location.href = this.user.linkedin;
-  }
-
-  majors(): string[] {
-    return (this.user.studentDetails?.degreePrograms ?? [])
-      .filter((d) => !d.isMinor)
-      .map((d) => d.name);
-  }
-
-  minors(): string[] {
-    return (this.user.studentDetails?.degreePrograms ?? [])
-      .filter((d) => d.isMinor)
-      .map((d) => d.name);
   }
 
   skills(): string[] {

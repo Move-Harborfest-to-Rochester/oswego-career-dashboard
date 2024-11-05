@@ -19,6 +19,7 @@ import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { EducationSectionModule } from './education-section/education-section.module';
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
@@ -66,7 +67,8 @@ describe('PortfolioComponent', () => {
         HttpClientTestingModule,
         PdfViewerModule,
         MatDialogModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        EducationSectionModule
       ],
       providers: [
         {provide: AuthService, useValue: authServiceSpy},

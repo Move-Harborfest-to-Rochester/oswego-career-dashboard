@@ -8,6 +8,8 @@ import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
 import { PortfolioComponent } from "./portfolio.component";
 import { ResumeModule } from './resume/resume.module';
 import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
+import { EducationSectionModule } from './education-section/education-section.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirma
     MatIconModule,
     SaveJobDialogModule,
     ConfirmationDialogModule,
+    EducationSectionModule,
+    HttpClientModule
   ]
 })
 export class PortfolioModule { }
