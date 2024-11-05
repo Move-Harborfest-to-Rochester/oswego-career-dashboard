@@ -65,11 +65,13 @@ h3 {
     gap: 10px;
 
     .project {
+      display: flex;
+      //
       padding: 20px;
       border-radius: 1em;
       box-shadow: @oswego-box-shadow;
       background-color: @oswego-gray;
-      justify-content: flex-start;
+      justify-content: space-between; // used to be flexstart
 
       .date-row {
         width: 100%;
@@ -99,6 +101,17 @@ h3 {
       .project-description {
         padding-top: 10px;
       }
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
     }
   }
 
