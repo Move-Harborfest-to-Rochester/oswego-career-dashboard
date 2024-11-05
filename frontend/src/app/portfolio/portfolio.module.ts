@@ -11,9 +11,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ConfirmationDialogComponent} from '../common/confirmation-dialog/confirmation-dialog.component';
 import { MilestonesModule } from "../milestones-page/milestones/milestones.module";
-import { CreateJobDialogModule } from './create-job-dialog/create-job-dialog.module';
+import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
 import { PortfolioComponent } from "./portfolio.component";
 import { ResumeModule } from './resume/resume.module';
+import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
 
 
 @NgModule({
@@ -36,7 +37,9 @@ import { ResumeModule } from './resume/resume.module';
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    CreateJobDialogModule
+    SaveJobDialogModule,
+    ConfirmationDialogModule,
+
   ]
 })
 export class PortfolioModule { }

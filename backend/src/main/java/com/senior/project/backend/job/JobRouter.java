@@ -16,6 +16,7 @@ import com.senior.project.backend.util.Endpoints;
 public class JobRouter {
     @Bean
     RouterFunction<ServerResponse> jobRoutes(JobHandler jobHandler) {
-        return route(PUT(Endpoints.JOBS.uri()), jobHandler::saveJob);
+        return route(PUT(Endpoints.JOBS.uri()), jobHandler::saveJob)
+            .andRoute(DELETE(Endpoints.JOBS_ID.uri()), jobHandler::deleteJob);
     }
 }

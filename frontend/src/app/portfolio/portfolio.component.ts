@@ -16,8 +16,11 @@ import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/c
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
-import { CreateJobDialogComponent } from './create-job-dialog/create-job-dialog.component';
-import { SaveJobRequest, JobService } from './job/job.service';
+import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.component';
+import { JobService } from './job/job.service';
+import { StudentDetails } from 'src/domain/StudentDetails';
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-portfolio',
@@ -25,7 +28,6 @@ import { SaveJobRequest, JobService } from './job/job.service';
   styleUrls: ['./portfolio.component.less']
 })
 export class PortfolioComponent implements OnInit {
-
   user: User = User.makeEmpty();
   external: boolean = false;
   profileURL: string | null = null;
@@ -43,10 +45,12 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+
     private readonly addProjectDialogue : MatDialog,
+    private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-    private readonly createJobDialog: MatDialog,
+
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -123,16 +127,64 @@ export class PortfolioComponent implements OnInit {
   }
 
   createJob(): void {
-    const dialogRef = this.createJobDialog.open(CreateJobDialogComponent);
-    dialogRef.afterClosed().subscribe((result: SaveJobRequest) => {
-      if (!result) {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
         return;
       }
-      this.jobService.saveJob(result).subscribe((job) => {
-        this.user.studentDetails?.jobs?.push(job);
-      });
+      this.user.studentDetails?.jobs?.push(job);
     });
   }
+
+  editJob(job: Job): void {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent, {
+      data: job,
+    });
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      this.user.studentDetails.jobs = this.user.studentDetails.jobs.map((j) => j.id === job.id ? job : j);
+    });
+  }
+
+  confirmDelete(job: Job) {
+    const alertDurationMs = 5000;
+    this.jobService.deleteJob(job.id).subscribe({
+      next: () => {
+        if (!this.user.studentDetails) {
+          this.user.studentDetails = StudentDetails.makeEmpty();
+        }
+        this.user.studentDetails.jobs = this.user.studentDetails?.jobs.filter((j) => j.id !== job.id);
+        this.deleteDialog.closeAll();
+        this.snackBar.open('Job deleted successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error: unknown) => {
+        console.error(error);
+        this.snackBar.open('Failed to delete job.', 'Close', {
+          duration: alertDurationMs,
+        });
+      }
+    });
+  }
+
+  deleteJob(job: Job) {
+    const dialogData: ConfirmationDialogData = {
+      entityId: job.id,
+      title: 'Delete Job?',
+      action: `delete the job "${job.name}" at "${job.location}"`,
+      onConfirm: () => this.confirmDelete(job)
+    };
+    this.saveJobDialog.open(ConfirmationDialogComponent, {
+      data: dialogData,
+    });
+  }
+
 
   coops(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])

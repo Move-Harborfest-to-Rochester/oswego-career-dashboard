@@ -6,13 +6,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CreateJobDialogComponent } from './create-job-dialog.component';
+import { SaveJobDialogComponent } from './save-job-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
 @NgModule({
-  declarations: [CreateJobDialogComponent],
+  declarations: [SaveJobDialogComponent],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -23,10 +24,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
-  exports: [CreateJobDialogComponent],
+  exports: [SaveJobDialogComponent],
   providers: [
     MatDatepickerModule
   ]
 })
-export class CreateJobDialogModule { }
+export class SaveJobDialogModule { }
