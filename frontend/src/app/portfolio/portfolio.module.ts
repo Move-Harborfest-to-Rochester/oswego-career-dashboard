@@ -21,7 +21,6 @@ import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirma
   declarations: [
     PortfolioComponent,
     AddProjectModalComponent,
-    ConfirmationDialogComponent,
   ],
   exports: [
   ],

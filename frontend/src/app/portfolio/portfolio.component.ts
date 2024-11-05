@@ -18,9 +18,7 @@ import { LangUtils } from '../util/lang-utils';
 import { ScreenSizeService } from "../util/screen-size.service";
 import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.component';
 import { JobService } from './job/job.service';
-import { StudentDetails } from 'src/domain/StudentDetails';
-import { ConfirmationDialogComponent, ConfirmationDialogData } from '../common/confirmation-dialog/confirmation-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-portfolio',
