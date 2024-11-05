@@ -61,21 +61,23 @@ public class ProjectServiceTest {
     }
 
     @Test
-    public void testSaveProjectNoStudentDetails() {
-        ProjectDTO request = new ProjectDTO(null, "name", "description", new Date(), new Date());
+    public void testSaveProjectWithNewStudentDetails() {
+        User user = new User();
+        user.setStudentDetails(null);  // No StudentDetails exist
+        ProjectDTO request = new ProjectDTO(null, "Project Name", "Project Description", new Date(), new Date());
         Project project = new Project();
         project.setName(request.getName());
         project.setStartDate(request.getStartDate());
         project.setEndDate(request.getEndDate());
-        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userStudent));
+        StudentDetails studentDetails = new StudentDetails();
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(user));
         when(projectRepository.save(any(Project.class))).thenReturn(project);
-        when(studentDetailsRepository.save(any(StudentDetails.class))).thenReturn(new StudentDetails());
-        when(userRepository.save(any(User.class))).thenReturn(null);
-        Mono<Project> projectMono = projectService.saveProject(request);
-        StepVerifier.create(projectMono)
+        when(studentDetailsRepository.save(any(StudentDetails.class))).thenReturn(studentDetails);
+        Mono<Project> result = projectService.saveProject(request);
+        StepVerifier.create(result)
                 .expectNext(project)
                 .verifyComplete();
 
-        verify(studentDetailsRepository, never()).save(any(StudentDetails.class));
+        verify(studentDetailsRepository, times(1)).save(any(StudentDetails.class));  // Ensure we create new StudentDetails
     }
 }
