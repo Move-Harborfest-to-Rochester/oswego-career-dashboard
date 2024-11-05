@@ -40,7 +40,7 @@ public enum Endpoints {
     // Portfolio
     EDUCATION("student/education", true),
 
-    EDIT_SKILLS("student/{studentDetailsID}/skills", true),
+    EDIT_SKILLS("student/skills/{studentDetailsID}", true),
 
     // Jobs
     JOBS("jobs", true),

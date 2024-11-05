@@ -1,5 +1,6 @@
 package com.senior.project.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class Skill {
     private UUID id;
 
     private String name;
+    @JsonProperty("isLanguage")
     private boolean isLanguage;
 
     @ManyToOne(fetch = FetchType.EAGER)

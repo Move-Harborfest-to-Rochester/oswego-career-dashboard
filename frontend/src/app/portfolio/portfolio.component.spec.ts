@@ -19,6 +19,11 @@ import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {PortfolioComponent} from "./portfolio.component";
+import {MilestonesComponent} from "../milestones-page/milestones/milestones.component";
+import {MockComponent} from "ng-mocks";
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;

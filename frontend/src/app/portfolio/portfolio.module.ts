@@ -20,6 +20,8 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/skills-list-input/skills-list-input.component';
+import {SaveJobDialogModule} from "./save-job-dialog/save-job-dialog.module";
+import {ConfirmationDialogModule} from "../common/confirmation-dialog/confirmation-dialog.module";
 
 @NgModule({
   declarations: [PortfolioComponent, SkillsSectionComponent, EditSkillsDialogComponent, SkillsListInputComponent],

@@ -9,7 +9,7 @@ import {
 } from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {Skill} from "../../../../domain/Skill";
-import {DegreeProgramOperation, SkillsOperation} from "../../portfolio.service";
+import {SkillsOperation} from "../../portfolio.service";
 
 export type EditSkillsDefaultValues = {
   skills: SkillsOperation[]
@@ -23,6 +23,7 @@ export class EditSkillsDialogComponent implements OnInit {
   protected form!: FormGroup;
 
   @Input() defaultValues?: EditSkillsDefaultValues;
+  @Input() isLanguageParent?: boolean;
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditSkillsDialogComponent>,
@@ -53,8 +54,7 @@ export class EditSkillsDialogComponent implements OnInit {
         skills.push({
           id: skillOperation.id ?? '',  // Create a new ID if necessary
           name: skillOperation.name,
-          isLanguage: skillOperation.isLanguage,
-          studentDetailsID: ''  // Populate as needed
+          isLanguage: skillOperation.isLanguage
         });
       } else if (skillOperation.operation === "Edit") {
         // Find the existing skill and update its properties
@@ -66,7 +66,6 @@ export class EditSkillsDialogComponent implements OnInit {
             id: this.defaultValues!.skills[skillIndex].id || '',
             name: skillOperation.name,
             isLanguage: skillOperation.isLanguage,
-            studentDetailsID: ''
           };
           skills.push(updatedSkill);
         }

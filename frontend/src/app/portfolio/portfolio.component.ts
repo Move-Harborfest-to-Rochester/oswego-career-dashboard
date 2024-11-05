@@ -27,6 +27,13 @@ import {
 import {createPatch, Operation} from "rfc6902";
 import {Skill, SkillJSON} from "../../domain/Skill";
 import {StudentDetails} from "../../domain/StudentDetails";
+import {JobService} from "./job/job.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SaveJobDialogComponent} from "./save-job-dialog/save-job-dialog.component";
+import {
+  ConfirmationDialogComponent,
+  ConfirmationDialogData
+} from "../common/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -153,6 +160,17 @@ export class PortfolioComponent implements OnInit {
     location.href = this.user.linkedin;
   }
 
+  majors(): string[] {
+    return (this.user.studentDetails?.degreePrograms ?? [])
+    .filter((d) => !d.isMinor)
+    .map((d) => d.name);
+  }
+
+  minors(): string[] {
+    return (this.user.studentDetails?.degreePrograms ?? [])
+    .filter((d) => d.isMinor)
+    .map((d) => d.name);
+  }
   skills(): string[] {
     return (this.user.studentDetails?.skills ?? [])
       .filter((s) => !s.isLanguage)

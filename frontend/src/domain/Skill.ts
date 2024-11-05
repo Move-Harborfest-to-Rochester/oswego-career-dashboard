@@ -2,7 +2,7 @@ export interface SkillJSON{
     id: string;
     name: string;
     language: boolean;
-    studentDetailsID: string;
+    studentDetailsID?: string;
 }
 
 export class Skill{
@@ -17,7 +17,7 @@ export class Skill{
     id: string;
     name: string;
     isLanguage: boolean;
-    studentDetailsID: string;
+    studentDetailsID?: string;
 
     static makeEmpty(){
         return new Skill({

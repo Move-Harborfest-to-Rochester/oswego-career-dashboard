@@ -66,23 +66,17 @@ public class PortfolioService {
     }
 
 
-    public Mono<StudentDetails> patchStudentDetails(UUID studentId, JsonPatch patch) {
-        return Mono.justOrEmpty(studentDetailsRepository.findById(studentId))
+    public Mono<StudentDetails> patchStudentDetails(UUID studentDetailsId, JsonPatch patch) {
+        return Mono.justOrEmpty(studentDetailsRepository.findById(studentDetailsId))
             .flatMap(studentDetails -> {
                 JsonNode studentJson = objectMapper.convertValue(studentDetails, JsonNode.class);
                 try {
                     // Apply the patch to the whole student details object, including skills
                     JsonNode patchedStudentJson = patch.apply(studentJson);
-
-                    // Deserialize the patched object back to StudentDetails
                     StudentDetails patchedStudent = objectMapper.treeToValue(patchedStudentJson, StudentDetails.class);
-
-                    // Ensure each Skill object has the correct StudentDetails reference
                     if (patchedStudent.getSkills() != null) {
                         patchedStudent.getSkills().forEach(skill -> skill.setStudentDetails(studentDetails));
                     }
-
-                    // Save the updated StudentDetails object (with skills correctly linked)
                     return Mono.just(studentDetailsRepository.save(patchedStudent));
                 } catch (Exception e) {
                     return Mono.error(new IllegalArgumentException("Invalid patch operation", e));

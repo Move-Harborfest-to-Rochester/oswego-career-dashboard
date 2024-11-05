@@ -37,8 +37,8 @@ export class PortfolioService {
       .pipe(map((user) => new User(user)));
   }
 
-  editSkillsPatch(patch: any[]): Observable<any> {
-    const url = constructBackendRequest(Endpoints.EDIT_SKILLS);
+  editSkillsPatch(patch: any[], studentDetailsID: string): Observable<any> {
+    const url = constructBackendRequest(Endpoints.EDIT_SKILLS + studentDetailsID);
     return this.http.patch(url, patch).pipe(map((response) => response));
   }
 }

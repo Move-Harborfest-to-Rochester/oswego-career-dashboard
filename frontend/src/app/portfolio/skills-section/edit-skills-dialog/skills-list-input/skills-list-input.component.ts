@@ -21,6 +21,7 @@ export class SkillsListInputComponent {
   @Input() formArray!: FormArray<FormControl<SkillsOperation | null>>;
   @Input() formArrayName!: string;
   @Input() defaultValue!: SkillsOperation;
+  @Input() isLanguageParent?: boolean;
   deleted: Set<number> = new Set();
 
   constructor(private formBuilder: FormBuilder) {}
