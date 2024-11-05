@@ -20,6 +20,7 @@ export enum Endpoints {
     SUBMISSION = 'tasks/submission',
     ALL_SUBMISSIONS = 'student/submission',
     EDIT_PERSONAL_INFO = "personal-info",
+    EDIT_EDUCATION = 'student/education',
 
     // Artifacts
     ARTIFACT = 'artifact/',
@@ -42,6 +43,9 @@ export enum Endpoints {
     CREATE_TASK = 'admin/create-task',
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
+
+    // Projects
+    PROJECTS = 'projects',
 
     // Jobs
     JOBS = 'jobs',

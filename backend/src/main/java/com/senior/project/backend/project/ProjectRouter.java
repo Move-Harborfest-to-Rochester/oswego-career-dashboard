@@ -1,4 +1,4 @@
-package com.senior.project.backend.portfolio;
+package com.senior.project.backend.project;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.*;
@@ -13,10 +13,10 @@ import com.senior.project.backend.util.Endpoints;
 
 @Component
 @Configuration
-public class PortfolioRouter {
+public class ProjectRouter {
     @Bean
-    RouterFunction<ServerResponse> portfolioRoutes(PortfolioHandler portfolioHandler) {
-        return route(PATCH(Endpoints.PERSONAL_INFO.uri()), portfolioHandler::savePersonalInfo)
-            .and(route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation));
+    RouterFunction<ServerResponse> projectRoutes(ProjectHandler projectHandler) {
+        return route(PUT(Endpoints.PROJECTS.uri()), projectHandler::saveProject)
+                .andRoute(DELETE(Endpoints.PROJECTS_ID.uri()), projectHandler::deleteProject);
     }
 }

@@ -1,5 +1,6 @@
 import { LangUtils } from "src/app/util/lang-utils";
 import PersonalInfo from "src/domain/PersonalInfo";
+import Education from "src/domain/Education";
 import { StudentDetails, StudentDetailsJSON } from "src/domain/StudentDetails";
 
 /**
@@ -97,6 +98,19 @@ export class User {
 
     hasSuperAdminPrivileges(): boolean {
       return this.role == Role.SuperAdmin;
+    }
+
+    setEducation(education: Education) {
+      if (!this.studentDetails) {
+        this.studentDetails = StudentDetails.makeEmpty();
+      }
+      this.studentDetails.universityId = `${education.universityId}`;
+      this.studentDetails.yearLevel = education.year;
+      this.studentDetails.gpa = education.gpa;
+      this.studentDetails.degreePrograms = [
+        ...education.majors,
+        ...education.minors
+      ];
     }
 
     get formattedRole(): string {

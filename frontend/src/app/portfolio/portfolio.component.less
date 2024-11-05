@@ -9,6 +9,10 @@ h3 {
   font-size: medium;
   font-weight: bold;
 }
+.add-project-container {
+  display: flex;
+  justify-content: space-between;
+}
 
 .portfolio-container {
   width: 95%;
@@ -61,10 +65,13 @@ h3 {
     gap: 10px;
 
     .project {
+      display: flex;
+      //
       padding: 20px;
       border-radius: 1em;
       box-shadow: @oswego-box-shadow;
       background-color: @oswego-gray;
+      justify-content: space-between; // used to be flexstart
 
       .date-row {
         width: 100%;
@@ -94,6 +101,16 @@ h3 {
       .project-description {
         padding-top: 10px;
       }
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
     }
   }
 
@@ -226,30 +243,5 @@ h3 {
         flex-grow: 1;
       }
     }
-  }
-}
-
-.job {
-  display: flex;
-  justify-content: space-between;
-
-  .actions {
-    display: flex;
-    column-gap: 8px;
-  }
-}
-
-.jobs-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-
-  h3 {
-    margin: 0;
-  }
-
-  mat-icon {
-    cursor: pointer;
   }
 }

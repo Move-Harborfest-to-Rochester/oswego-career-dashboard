@@ -38,7 +38,12 @@ public enum Endpoints {
     SEARCH_USERS("users/search", true, Role.Faculty),
     PORTFOLIO("portfolio", true),
 
+    // Projects
+    PROJECTS("projects", true),
+    PROJECTS_ID("projects/{id}", true),
+  
     // Portfolio
+    EDUCATION("student/education", true),
     PERSONAL_INFO("personal-info", true),
 
     // Jobs

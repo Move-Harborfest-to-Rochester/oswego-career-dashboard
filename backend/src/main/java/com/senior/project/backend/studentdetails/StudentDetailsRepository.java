@@ -16,4 +16,6 @@ public interface StudentDetailsRepository extends JpaRepository<StudentDetails, 
     @Transactional
     @Query("UPDATE StudentDetails sd SET sd.description = :description WHERE sd.id = :id")
     void updateDescription(UUID id, String description);
+
 }
+

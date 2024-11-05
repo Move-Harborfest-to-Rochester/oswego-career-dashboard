@@ -3,7 +3,7 @@ export interface ProjectJSON{
     name: string;
     description: string;
     startDate: Date;
-    endDate: Date;
+    endDate?: Date;
     studentDetailsID: string;
 }
 
@@ -13,7 +13,7 @@ export class Project{
         this.name = json.name;
         this.description = json.description;
         this.startDate = new Date(json.startDate);
-        this.endDate = new Date(json.endDate);
+        this.endDate = json.endDate ? new Date(json.endDate) : null;
         this.studentDetailsID = json.studentDetailsID;
     }
 
@@ -21,7 +21,7 @@ export class Project{
     name: string;
     description: string;
     startDate: Date;
-    endDate: Date;
+    endDate: Date | null;
     studentDetailsID: string;
 
     static makeEmpty(){
@@ -30,7 +30,6 @@ export class Project{
             name: '',
             description: '',
             startDate: new Date(),
-            endDate: new Date(),
             studentDetailsID: ''
         })
     }
