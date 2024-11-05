@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { PortfolioComponent } from './portfolio.component';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {MockComponent} from "ng-mocks";
 import {MilestonesComponent} from "../milestones-page/milestones/milestones.component";
 import {MatCardModule} from "@angular/material/card";
