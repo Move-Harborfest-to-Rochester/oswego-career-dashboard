@@ -1,13 +1,17 @@
 .personal-info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   flex-direction: row !important;
+  justify-content: space-between;
 
   .attributes {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+
+    p {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
   }
 
   .actions {
