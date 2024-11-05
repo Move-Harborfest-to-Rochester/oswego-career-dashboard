@@ -40,6 +40,8 @@ import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/sk
     MatOptionModule,
     MatSelectModule,
     ReactiveFormsModule,
+    SaveJobDialogModule,
+    ConfirmationDialogModule,
   ],
 })
-export class PortfolioModule {}
+export class PortfolioModule { }

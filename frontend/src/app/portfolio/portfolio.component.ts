@@ -34,6 +34,7 @@ import {StudentDetails} from "../../domain/StudentDetails";
   styleUrls: ['./portfolio.component.less'],
 })
 export class PortfolioComponent implements OnInit {
+
   user: User = User.makeEmpty();
   external: boolean = false;
   profileURL: string | null = null;
@@ -44,11 +45,15 @@ export class PortfolioComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly jobService: JobService,
     private readonly artifactService: ArtifactService,
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+    private readonly saveJobDialog: MatDialog,
+    private readonly deleteDialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
     private readonly portfolioService: PortfolioService,
     private readonly editDialog: MatDialog,
   ) {
@@ -157,6 +162,66 @@ export class PortfolioComponent implements OnInit {
   jobs(): Job[] {
     return (this.user.studentDetails?.jobs ?? []).filter((s) => !s.isCoop);
   }
+
+  createJob(): void {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
+        return;
+      }
+      this.user.studentDetails?.jobs?.push(job);
+    });
+  }
+
+  editJob(job: Job): void {
+    const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent, {
+      data: job,
+    });
+    dialogRef.afterClosed().subscribe((job?: Job) => {
+      if (!job) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      this.user.studentDetails.jobs = this.user.studentDetails.jobs.map((j) => j.id === job.id ? job : j);
+    });
+  }
+
+  confirmDelete(job: Job) {
+    const alertDurationMs = 5000;
+    this.jobService.deleteJob(job.id).subscribe({
+      next: () => {
+        if (!this.user.studentDetails) {
+          this.user.studentDetails = StudentDetails.makeEmpty();
+        }
+        this.user.studentDetails.jobs = this.user.studentDetails?.jobs.filter((j) => j.id !== job.id);
+        this.deleteDialog.closeAll();
+        this.snackBar.open('Job deleted successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error: unknown) => {
+        console.error(error);
+        this.snackBar.open('Failed to delete job.', 'Close', {
+          duration: alertDurationMs,
+        });
+      }
+    });
+  }
+
+  deleteJob(job: Job) {
+    const dialogData: ConfirmationDialogData = {
+      entityId: job.id,
+      title: 'Delete Job?',
+      action: `delete the job "${job.name}" at "${job.location}"`,
+      onConfirm: () => this.confirmDelete(job)
+    };
+    this.saveJobDialog.open(ConfirmationDialogComponent, {
+      data: dialogData,
+    });
+  }
+
 
   coops(): Job[] {
     return (this.user.studentDetails?.jobs ?? []).filter((s) => s.isCoop);

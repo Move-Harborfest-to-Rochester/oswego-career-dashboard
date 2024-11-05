@@ -6,32 +6,24 @@ import {
 } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import {
-  ActivatedRoute,
-  Router,
-  UrlSegment,
-  convertToParamMap
-} from '@angular/router';
-import { MockComponent } from 'ng-mocks';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { of } from 'rxjs';
-import { Milestone } from '../../domain/Milestone';
-import { MilestoneService } from '../milestones-page/milestones/milestone.service';
-import { MilestonesComponent } from '../milestones-page/milestones/milestones.component';
-import { milestone1JSON } from '../milestones-page/milestones/milestones.component.spec';
 import { AuthService } from '../security/auth.service';
+import { UserService } from '../security/user.service';
+import { ActivatedRoute, Router, UrlSegment, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
 import { userJSON } from '../security/auth.service.spec';
 import { User } from '../security/domain/user';
-import { UserService } from '../security/user.service';
-import { EducationSectionModule } from './education-section/education-section.module';
-import { PortfolioComponent } from './portfolio.component';
 import { ResumeComponent } from './resume/resume.component';
+import {MilestoneService} from "../milestones-page/milestones/milestone.service";
+import {Milestone} from "../../domain/Milestone";
+import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
   let fixture: ComponentFixture<PortfolioComponent>;
+
 
   type SpyObj<T> = jasmine.SpyObj<T>;
   let authServiceSpy: SpyObj<AuthService>;
@@ -80,7 +72,8 @@ describe('PortfolioComponent', () => {
         MatIconModule,
         HttpClientTestingModule,
         PdfViewerModule,
-        EducationSectionModule
+        MatDialogModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
