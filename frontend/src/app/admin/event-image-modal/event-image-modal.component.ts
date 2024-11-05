@@ -16,6 +16,7 @@ export class EventImageModalComponent implements OnInit {
   private artifactID: number | null = null;
   protected event: Event;
   uploadStrategy: ((formData: FormData) => Observable<number>) | null = null;
+  protected hasImageVal: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<EventImageModalComponent>,
@@ -23,6 +24,7 @@ export class EventImageModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private modalData: any,
   ) {
     this.event = this.modalData?.event;
+    this.hasImageVal = this.modalData?.hasImage || false;
     if (this.event !== undefined) {
       this.uploadStrategy = (data) => {
         return this.artifactService.uploadEventImage(data, this.event.eventID);

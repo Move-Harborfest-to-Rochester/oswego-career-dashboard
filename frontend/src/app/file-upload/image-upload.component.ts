@@ -24,6 +24,7 @@ export class ImageUploadComponent implements OnInit {
 
   @Output() artifactIdEmitter: EventEmitter<number> = new EventEmitter();
   @Output() closeEmitter: EventEmitter<number> = new EventEmitter();
+  @Input() hasImage: boolean = false;
   @Input() uploadStrategy: null | ((formData: FormData) => Observable<number>)  = null;
   @Input() aspectRatio: number = 1;
   @Input() roundCropper: boolean = false;
@@ -36,7 +37,6 @@ export class ImageUploadComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
   }
 
   /**
@@ -132,6 +132,15 @@ export class ImageUploadComponent implements OnInit {
   closeModal(waitTime: number = 0) {
     this.closeEmitter.emit(waitTime);
     this._snackBar.open("Image upload Successful!", 'close', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3000,
+    });
+  }
+
+  removeImage() {
+    //this.removeImageId.emit(null);
+    this._snackBar.open("Image Set to Default", 'close', {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       duration: 3000,
