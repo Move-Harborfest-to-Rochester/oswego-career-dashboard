@@ -44,6 +44,11 @@ dependencies {
     implementation("org.flywaydb:flyway-mysql")
     implementation("org.flywaydb:flyway-core")
 
+    // Validation
+    implementation("jakarta.validation:jakarta.validation-api:3.0.0")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+    implementation("org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final")
+
     // Test dependecies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
