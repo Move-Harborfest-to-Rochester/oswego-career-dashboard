@@ -176,9 +176,10 @@ export class PortfolioComponent implements OnInit {
   openEditProjectModal(project: Project): void {
     const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
       width: '500px',
-      data:{
+      data: {
         header: "Edit Project",
-        Project: project}
+        Project: project
+      }
     });
     dialogRef.afterClosed().subscribe((result?: SaveProjectRequest) => {
       if (!result) {
@@ -196,8 +197,18 @@ export class PortfolioComponent implements OnInit {
       this.user.studentDetails.projects = this.user.studentDetails.projects.map((p) =>
         p.id === updatedProject.id ? updatedProject : p
       );
+
+
+      this.projectService.saveProject(updatedProject).subscribe(
+        (project) => {
+        },
+        (error) => {
+          alert('Failed to save project: ' + error.message);
+        }
+      );
     });
   }
+
   confirmProjectDelete(project: Project) {
     const alertDurationMs = 5000;
     this.projectService.deleteProject(project.id).subscribe({
