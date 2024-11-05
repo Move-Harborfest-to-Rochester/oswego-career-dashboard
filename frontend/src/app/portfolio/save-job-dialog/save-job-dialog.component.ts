@@ -20,9 +20,9 @@ export class SaveJobDialogComponent {
     location: [''],
     description: [''],
     startDate: [null],
-    endDate: [null],
+    endDate: [null, this.dateRangeValidator],
     coop: [false],
-  }, { validators: [this.dateRangeValidator] });
+  });
 
   constructor(
     private readonly jobService: JobService,
@@ -33,17 +33,17 @@ export class SaveJobDialogComponent {
   ) {
   }
 
-  dateRangeValidator(control: AbstractControl): ValidationErrors | null {
-    const startDate: Date = control.get('startDate')?.value;
-    const endDate: Date = control.get('endDate')?.value;
+  dateRangeValidator(endDateControl: AbstractControl): ValidationErrors | null {
+    const startDate: Date = endDateControl.parent?.get('startDate')?.value;
+    const endDate: Date = endDateControl.value;
 
     if (!endDate) {
       return null;
     }
-    if (endDate.getTime() > new Date().getTime()) {
+    if (endDate > new Date()) {
       return { futureEndDate: true };
     }
-    if (startDate.getTime() > endDate.getTime()) {
+    if (startDate > endDate) {
       return { endDateBeforeStartDate: true };
     }
     return null;
@@ -62,6 +62,11 @@ export class SaveJobDialogComponent {
       endDate: this.job?.endDate ?? null,
       coop: this.job?.isCoop ?? false,
     })
+  }
+
+  hasError(error: string): boolean {
+    console.log(error, this.form.errors);
+    return this.form.hasError(error);
   }
 
   saveJob(): void {
