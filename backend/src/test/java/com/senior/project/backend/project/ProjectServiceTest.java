@@ -62,7 +62,6 @@ public class ProjectServiceTest {
 
     @Test
     public void testSaveProjectNoStudentDetails() {
-
         ProjectDTO request = new ProjectDTO(null, "name", "description", new Date(), new Date());
         Project project = new Project();
         project.setName(request.getName());
@@ -72,10 +71,11 @@ public class ProjectServiceTest {
         when(projectRepository.save(any(Project.class))).thenReturn(project);
         when(studentDetailsRepository.save(any(StudentDetails.class))).thenReturn(new StudentDetails());
         when(userRepository.save(any(User.class))).thenReturn(null);
-
         Mono<Project> projectMono = projectService.saveProject(request);
+        StepVerifier.create(projectMono)
+                .expectNext(project)
+                .verifyComplete();
 
-        StepVerifier.create(projectMono).expectNext(project).verifyComplete();
-        verify(studentDetailsRepository, times(1)).save(any(StudentDetails.class));
+        verify(studentDetailsRepository, never()).save(any(StudentDetails.class));
     }
 }
