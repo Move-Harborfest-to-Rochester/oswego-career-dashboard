@@ -1,7 +1,10 @@
 <div class="portfolio-container" [class.mobile]="isMobile$ | async">
   <div class="section-container">
     <div class="section">
-      <h1>Portfolio</h1>
+      <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back
+      </button>
+      <h1 id="portfolio-block">Portfolio</h1>
       <div class="card-body">
         <div class="card-body-section" [class.mobile]="personalSectionResize$ | async">
           <div class="card-body-section-header">

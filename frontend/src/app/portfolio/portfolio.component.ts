@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location} from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
@@ -48,7 +49,7 @@ export class PortfolioComponent implements OnInit {
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-
+    private location: Location,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -89,6 +90,11 @@ export class PortfolioComponent implements OnInit {
       }
     });
   }
+
+  goBack() {
+    this.location.back()
+  }
+
 
   loadProfilePicture() {
     this.artifactService.getArtifactFile(this.user.profilePictureId)
