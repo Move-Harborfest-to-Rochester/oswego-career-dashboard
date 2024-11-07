@@ -33,7 +33,6 @@ export class EditSkillsDialogComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.dialogRef.addPanelClass('edit-dialog');
-    console.log(this.form);
   }
 
   createForm() {
