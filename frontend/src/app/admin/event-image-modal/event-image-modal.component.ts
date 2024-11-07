@@ -1,4 +1,4 @@
-import {Component, Inject, Injectable, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Injectable, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Event} from "../../../domain/Event";
 import {Observable} from "rxjs";
@@ -17,6 +17,8 @@ export class EventImageModalComponent implements OnInit {
   protected event: Event;
   uploadStrategy: ((formData: FormData) => Observable<number>) | null = null;
   protected hasImageVal: boolean = false;
+
+  @Output() imageIdEmitter = new EventEmitter<number | null>();
 
   constructor(
     public dialogRef: MatDialogRef<EventImageModalComponent>,
@@ -46,5 +48,10 @@ export class EventImageModalComponent implements OnInit {
 
   onArtifactId(id: number) {
     this.artifactID = id;
+  }
+
+  onImageId(originalImgVal: null) {
+    this.event.imageId = originalImgVal;
+    this.imageIdEmitter.emit(null);
   }
 }

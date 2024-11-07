@@ -24,6 +24,7 @@ export class ImageUploadComponent implements OnInit {
 
   @Output() artifactIdEmitter: EventEmitter<number> = new EventEmitter();
   @Output() closeEmitter: EventEmitter<number> = new EventEmitter();
+  @Output() ImageIdEmitter: EventEmitter<null> = new EventEmitter();
   @Input() hasImage: boolean = false;
   @Input() uploadStrategy: null | ((formData: FormData) => Observable<number>)  = null;
   @Input() aspectRatio: number = 1;
@@ -139,7 +140,7 @@ export class ImageUploadComponent implements OnInit {
   }
 
   removeImage() {
-    //this.removeImageId.emit(null);
+    this.ImageIdEmitter.emit(null);
     this._snackBar.open("Image Set to Default", 'close', {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',

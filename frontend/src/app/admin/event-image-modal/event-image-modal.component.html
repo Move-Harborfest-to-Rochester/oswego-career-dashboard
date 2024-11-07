@@ -6,7 +6,7 @@
       <h5 class="event-description">{{event.description}}</h5>
     </header>
 
-    <app-image-upload (artifactIdEmitter)="onArtifactId($event)" (closeEmitter)="closeModal($event)"
+    <app-image-upload (ImageIdEmitter)="onImageId($event)" (artifactIdEmitter)="onArtifactId($event)" (closeEmitter)="closeModal($event)"
                       [hasImage]="hasImageVal" [uploadStrategy]="uploadStrategy" [aspectRatio]="5/2">
 
     </app-image-upload>

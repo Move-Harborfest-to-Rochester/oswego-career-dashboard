@@ -26,6 +26,14 @@ export class EventService {
       }))
   }
 
+  updateEvent(eventData: any, eventID: number,): Observable<Event> {
+    const url = constructBackendRequest(Endpoints.EDIT_EVENT);
+    return this.http.post<Event>(url, {eventData, eventID})
+      .pipe(map((data: any) => {
+        return new Event(data);
+      }));
+  }
+
   /**
    * Gets the specific page of events to show on the dashboard
    * Currently not implemented on the backend so it acts the same as getEvents()
