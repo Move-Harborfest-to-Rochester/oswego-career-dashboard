@@ -88,7 +88,8 @@ describe('EventMainPageComponent', () => {
     dialogConfig.height = "75%";
     dialogConfig.width = "50%";
     dialogConfig.data = {
-      event: testEvent
+      event: testEvent,
+      hasImage: true
     }
 
     expect(component.matDialog.open).toHaveBeenCalledWith(EventEditModalComponent, dialogConfig);
@@ -118,7 +119,8 @@ describe('EventMainPageComponent', () => {
     dialogConfig.height = "75%";
     dialogConfig.width = "500px";
     dialogConfig.data = {
-      event: testEvent
+      event: testEvent,
+      hasImage: true
     }
 
     expect(component.matDialog.open).toHaveBeenCalledWith(EventImageModalComponent, dialogConfig);
