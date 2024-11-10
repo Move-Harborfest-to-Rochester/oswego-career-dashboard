@@ -52,6 +52,6 @@ export class EventImageModalComponent implements OnInit {
 
   onImageId(originalImgVal: null) {
     this.event.imageId = originalImgVal;
-    this.imageIdEmitter.emit(null);
+    this.imageIdEmitter.emit(this.event.imageId);
   }
 }

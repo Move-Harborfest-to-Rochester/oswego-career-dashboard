@@ -7,7 +7,7 @@
     </header>
 
     <app-image-upload (ImageIdEmitter)="onImageId($event)" (artifactIdEmitter)="onArtifactId($event)" (closeEmitter)="closeModal($event)"
-                      [hasImage]="hasImageVal" [uploadStrategy]="uploadStrategy" [aspectRatio]="5/2">
+                      [hasImage]="hasImageVal" [current_event]="event" [uploadStrategy]="uploadStrategy" [aspectRatio]="5/2">
 
     </app-image-upload>
   </div>

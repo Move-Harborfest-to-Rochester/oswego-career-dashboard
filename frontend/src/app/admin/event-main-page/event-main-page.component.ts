@@ -69,30 +69,6 @@ export class EventMainPageComponent implements OnInit {
     const modalDialog = this.matDialog.open(EventImageModalComponent, dialogConfig);
 
     modalDialog.afterClosed().subscribe(result => {
-      if (result != null) {
-        event.imageId = result;
-      } else {
-        event.imageId = null;
-      }
-
-      /**
-       *         newEvent.setDate(simpleDateFormat.parse((String) data.get("date")));
-       *
-       *         newEvent.setName((String) data.get("name"));
-       *         newEvent.setLocation((String) data.get("location"));
-       *         newEvent.setOrganizer((String) data.get("organizer"));
-       *
-       **/
-      console.log('Event touched successfully');
-      // Update the event with the new imageId
-      this.eventService.updateEvent({ imageId: 29
-        },
-        event.eventID).subscribe(updatedEvent => {
-        console.log('Event touched successfully');
-        console.log('Event updated successfully:', updatedEvent);
-      }, error => {
-        console.error('Failed to update event:', error);
-      });
 
     });
   }

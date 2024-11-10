@@ -52,6 +52,7 @@ public class EventService {
                         .orElseGet(() -> Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Previous Event Not found"))))
                 .flatMap(existingEvent -> {
                     try {
+                        System.out.println("Updates map: " + updates);
                         updateEvent(updates, existingEvent);
                     } catch (Exception e) {
                         return Mono.error(e);
@@ -99,12 +100,17 @@ public class EventService {
 
         if (data.containsKey("description")) {
             newEvent.setDescription((String) data.get("description"));
+            System.out.println("description: " + newEvent.getDescription());
         }
         if (data.containsKey("eventLink")) {
             newEvent.setEventLink((String) data.get("eventLink"));
         }
         if (data.containsKey("buttonLabel")) {
             newEvent.setButtonLabel((String) data.get("buttonLabel"));
+        }
+        if (data.containsKey("imageId")) {
+            Long imageId = (Long) data.get("imageId");
+            newEvent.setImageId(imageId);
         }
     }
 }

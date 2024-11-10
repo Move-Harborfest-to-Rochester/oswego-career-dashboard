@@ -4,6 +4,9 @@ import { LangUtils } from '../util/lang-utils';
 import {ImageCroppedEvent} from "ngx-image-cropper";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Event} from "../../domain/Event";
+import {constructBackendRequest, Endpoints} from "../util/http-helper";
+import {HttpClient} from "@angular/common/http";
 
 /**
  * Component to upload artifacts to the server
@@ -26,6 +29,7 @@ export class ImageUploadComponent implements OnInit {
   @Output() closeEmitter: EventEmitter<number> = new EventEmitter();
   @Output() ImageIdEmitter: EventEmitter<null> = new EventEmitter();
   @Input() hasImage: boolean = false;
+  @Input() current_event: Event | undefined;
   @Input() uploadStrategy: null | ((formData: FormData) => Observable<number>)  = null;
   @Input() aspectRatio: number = 1;
   @Input() roundCropper: boolean = false;
@@ -35,9 +39,11 @@ export class ImageUploadComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+    public http: HttpClient
   ) { }
 
   ngOnInit() {
+
   }
 
   /**
@@ -141,6 +147,37 @@ export class ImageUploadComponent implements OnInit {
 
   removeImage() {
     this.ImageIdEmitter.emit(null);
+
+    const updateData: any = {
+      id: this.current_event?.eventID,
+      name: this.current_event?.name,
+      date: this.current_event?.date,
+      location: this.current_event?.location,
+      organizer: this.current_event?.organizer,
+      isRecurring: this.current_event?.isRecurring,
+      imageId: null
+    };
+    console.log("Updated Dat: " + updateData.name);
+
+    const url = constructBackendRequest(Endpoints.EDIT_EVENT);
+    this.http.post(url, updateData).subscribe({
+      next: (data) => {
+        if (data) {
+          this.closeModal();
+        } else {
+          console.error("No data returned from backend.");
+        }
+      },
+      error: (err) => {
+        console.error("Error updating event:", err);
+        this._snackBar.open("Failed to update event", 'close', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 3000,
+        });
+      }
+    });
+
     this._snackBar.open("Image Set to Default", 'close', {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
