@@ -27,6 +27,7 @@ public class Event {
     private String eventLink;
     private String buttonLabel;
     @Nullable
+    @Column(nullable = true)
     private Long imageId;
 
     // Used in Email Template
