@@ -48,6 +48,7 @@ dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.0.0")
     implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
     implementation("org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final")
+    testImplementation("org.glassfish:jakarta.el:4.0.2")
 
     // Test dependecies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
