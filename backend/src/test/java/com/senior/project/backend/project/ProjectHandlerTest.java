@@ -15,10 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 
-import com.senior.project.backend.Constants;
 import com.senior.project.backend.domain.Project;
 import com.senior.project.backend.domain.StudentDetails;
 
+import jakarta.validation.Validator;
 import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +27,8 @@ public class ProjectHandlerTest {
     private ProjectHandler projectHandler;
     @Mock
     private ProjectService projectService;
+    @Mock
+    private Validator validator;
 
     private WebTestClient web;
 
