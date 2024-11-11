@@ -1,4 +1,4 @@
-package com.senior.project.backend.job.validation;
+package com.senior.project.backend.validation;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;

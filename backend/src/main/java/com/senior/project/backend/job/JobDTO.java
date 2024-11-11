@@ -3,7 +3,7 @@ package com.senior.project.backend.job;
 import java.util.Date;
 import java.util.UUID;
 
-import com.senior.project.backend.job.validation.PastOrPresentDate;
+import com.senior.project.backend.validation.PastOrPresentDate;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
