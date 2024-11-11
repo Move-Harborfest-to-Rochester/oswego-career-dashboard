@@ -14,15 +14,7 @@ export class SaveJobDialogComponent {
   title: string = 'Create Job';
 
   readonly today: Date = new Date();
-  readonly form: FormGroup = this.fb.group({
-    id: [''],
-    name: ['', Validators.required],
-    location: ['', Validators.required],
-    description: [''],
-    startDate: [null, Validators.required],
-    endDate: [null, this.dateRangeValidator],
-    coop: [false],
-  });
+  readonly form: FormGroup;
 
   constructor(
     private readonly jobService: JobService,
@@ -31,6 +23,15 @@ export class SaveJobDialogComponent {
     private readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public readonly job?: Job
   ) {
+    this.form = this.fb.group({
+      id: [''],
+      name: ['', Validators.required],
+      location: ['', Validators.required],
+      description: [''],
+      startDate: [null, Validators.required],
+      endDate: [null, this.dateRangeValidator],
+      coop: [false],
+    });
   }
 
   dateRangeValidator(endDateControl: AbstractControl): ValidationErrors | null {
@@ -40,7 +41,7 @@ export class SaveJobDialogComponent {
     if (!endDate || !startDate) {
       return null;
     }
-    if (endDate > this.today) {
+    if (endDate > new Date()) {
       return { futureEndDate: true };
     }
     if (endDate < startDate) {

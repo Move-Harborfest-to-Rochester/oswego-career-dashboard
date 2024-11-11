@@ -16,12 +16,19 @@
         <input [max]="today" matInput placeholder="Start Date" formControlName="startDate" [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <mat-error *ngIf="projectForm.get('startDate')?.hasError('required')" required>Start date is required.</mat-error>
+      </mat-form-field>
 
     <mat-form-field>
         <input [max]="today" matInput placeholder="End Date" formControlName="endDate" [matDatepicker]="picker2">
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="projectForm.get('endDate')?.hasError('futureEndDate')">
+          The end date must not be in the future.
+        </mat-error>
+        <mat-error *ngIf="projectForm.get('endDate')?.hasError('endDateBeforeStartDate')">
+          The end date must be after the start date.
+        </mat-error>
     </mat-form-field>
   </div>
     <div class="form-buttons">
