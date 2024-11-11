@@ -16,10 +16,10 @@ export class SaveJobDialogComponent {
   readonly today: Date = new Date();
   readonly form: FormGroup = this.fb.group({
     id: [''],
-    name: [''],
-    location: [''],
+    name: ['', Validators.required],
+    location: ['', Validators.required],
     description: [''],
-    startDate: [null],
+    startDate: [null, Validators.required],
     endDate: [null, this.dateRangeValidator],
     coop: [false],
   });
@@ -34,16 +34,16 @@ export class SaveJobDialogComponent {
   }
 
   dateRangeValidator(endDateControl: AbstractControl): ValidationErrors | null {
-    const startDate: Date = endDateControl.parent?.get('startDate')?.value;
-    const endDate: Date = endDateControl.value;
+    const startDate: Date | undefined = endDateControl.parent?.get('startDate')?.value;
+    const endDate: Date | undefined = endDateControl.value;
 
-    if (!endDate) {
+    if (!endDate || !startDate) {
       return null;
     }
-    if (endDate > new Date()) {
+    if (endDate > this.today) {
       return { futureEndDate: true };
     }
-    if (startDate > endDate) {
+    if (endDate < startDate) {
       return { endDateBeforeStartDate: true };
     }
     return null;
@@ -95,3 +95,4 @@ export class SaveJobDialogComponent {
     this.dialogRef.close();
   }
 }
+
