@@ -32,6 +32,6 @@ public class JobDTO {
 
     @AssertTrue(message = "startDate must be before endDate.")
     public boolean isStartDateBeforeEndDate() {
-        return startDate.before(endDate);
+        return endDate == null || startDate == null || startDate.before(endDate);
     }
 }
