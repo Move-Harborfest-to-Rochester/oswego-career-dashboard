@@ -82,4 +82,38 @@ describe('SaveJobDialogComponent', () => {
 
     expect(jobServiceSpy.saveJob).toHaveBeenCalledWith(component.form.value);
   })
+
+  describe('validation', () => {
+    it('should have error when name is empty', () => {
+      component.form.patchValue({ name: '' });
+
+      expect(component.form.hasError('required', 'name')).toBeTrue();
+    });
+
+    it('should have error when location is empty', () => {
+      component.form.patchValue({ location: '' });
+
+      expect(component.form.hasError('required', 'location')).toBeTrue();
+    });
+
+    it('should have error when startDate is empty', () => {
+      component.form.patchValue({ startDate: null });
+
+      expect(component.form.hasError('required', 'startDate')).toBeTrue();
+    });
+
+    it('should have error when endDate is before the startDate when startDate is set first', () => {
+      component.form.patchValue({ startDate: new Date(2022, 1, 1) });
+      component.form.patchValue({ endDate: new Date(2021, 1, 1) });
+
+      expect(component.form.hasError('endDateBeforeStartDate')).toBeTrue();
+    });
+
+    it('should have error when endDate is before the startDate when endDate is set first', () => {
+      component.form.patchValue({ endDate: new Date(2021, 1, 1) });
+      component.form.patchValue({ startDate: new Date(2022, 1, 1) });
+
+      expect(component.form.hasError('endDateBeforeStartDate')).toBeTrue();
+    });
+  });
 });

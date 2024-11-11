@@ -68,4 +68,38 @@ describe('AddProjectModalComponent', () => {
     component.onSubmit();
     expect(matDialogRef.close).toHaveBeenCalledWith(component.projectForm.value);
   })
+
+  describe('validation', () => {
+    it('should have error when name is empty', () => {
+      component.projectForm.patchValue({ name: '' });
+
+      expect(component.projectForm.hasError('required', 'name')).toBeTrue();
+    });
+
+    it('should have error when description is empty', () => {
+      component.projectForm.patchValue({ description: '' });
+
+      expect(component.projectForm.hasError('required', 'description')).toBeTrue();
+    });
+
+    it('should have error when startDate is empty', () => {
+      component.projectForm.patchValue({ startDate: null });
+
+      expect(component.projectForm.hasError('required', 'startDate')).toBeTrue();
+    });
+
+    it('should have error when endDate is before the startDate when startDate is set first', () => {
+      component.projectForm.patchValue({ startDate: new Date(2022, 1, 1) });
+      component.projectForm.patchValue({ endDate: new Date(2021, 1, 1) });
+
+      expect(component.projectForm.hasError('endDateBeforeStartDate')).toBeTrue();
+    });
+
+    it('should have error when endDate is before the startDate when endDate is set first', () => {
+      component.projectForm.patchValue({ endDate: new Date(2021, 1, 1) });
+      component.projectForm.patchValue({ startDate: new Date(2022, 1, 1) });
+
+      expect(component.projectForm.hasError('endDateBeforeStartDate')).toBeTrue();
+    });
+  });
 });
