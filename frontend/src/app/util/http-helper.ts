@@ -19,6 +19,7 @@ export enum Endpoints {
     CURRENT_USER = 'current-user',
     SUBMISSION = 'tasks/submission',
     ALL_SUBMISSIONS = 'student/submission',
+    EDIT_EDUCATION = 'student/education',
 
     // Artifacts
     ARTIFACT = 'artifact/',
@@ -42,6 +43,9 @@ export enum Endpoints {
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
 
+    // Projects
+    PROJECTS = 'projects',
+  
     // Jobs
     JOBS = 'jobs',
 }
