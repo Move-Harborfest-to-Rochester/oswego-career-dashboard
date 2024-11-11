@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Project } from '../../../domain/Project';
+import { validateEndDateBeforeStartDate } from 'src/app/util/validation-utils';
 
 @Component({
     selector: 'app-add-project-modal',
@@ -11,12 +12,7 @@ import { Project } from '../../../domain/Project';
 export class AddProjectModalComponent {
     header: string;
     readonly today: Date = new Date();
-    readonly projectForm: FormGroup = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      startDate: [null, Validators.required],
-      endDate: [null, this.dateRangeValidator],
-    });
+    projectForm!: FormGroup;
     readonly project: Project;
 
     constructor(
@@ -28,33 +24,30 @@ export class AddProjectModalComponent {
       this.project = data.Project;
     }
 
-    dateRangeValidator(endDateControl: AbstractControl): ValidationErrors | null {
-      const startDate: Date | undefined = endDateControl.parent?.get('startDate')?.value;
-      const endDate: Date | undefined = endDateControl.value;
-
-      if (!endDate || !startDate) {
-        return null;
-      }
-      if (endDate > new Date()) {
-        return { futureEndDate: true };
-      }
-      if (endDate < startDate) {
-        return { endDateBeforeStartDate: true };
-      }
-      return null;
-    }
-
     ngOnInit(): void {
       if (this.project) {
         this.header = 'Edit Project';
       }
-      this.projectForm.reset({
-        id: this.project?.id ?? '',
-        name: this.project?.name ?? '',
-        description: this.project?.description ?? '',
-        startDate: this.project?.startDate ?? null,
-        endDate: this.project?.endDate ?? null,
-      })
+      this.projectForm = this.fb.group({
+        id: [this.project?.id ?? ''],
+        name: [this.project?.name ?? '', Validators.required],
+        description: [this.project?.description ?? '', Validators.required],
+        startDate: [this.project?.startDate ?? null, Validators.required],
+        endDate: [this.project?.endDate ?? null],
+      }, {
+        validators: this.dateRangeValidator
+      });
+    }
+
+    dateRangeValidator(formControl: AbstractControl): ValidationErrors | null {
+      const startDate = formControl.get('startDate')?.value;
+      const endDate = formControl.get('endDate')?.value;
+
+      return validateEndDateBeforeStartDate(startDate, endDate);
+    }
+
+    hasError(error: string): boolean {
+      return this.projectForm.hasError(error) && (this.projectForm.touched || this.projectForm.dirty);
     }
 
     onSubmit() {

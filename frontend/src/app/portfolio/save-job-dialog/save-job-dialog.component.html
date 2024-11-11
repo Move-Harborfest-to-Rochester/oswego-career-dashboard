@@ -31,7 +31,7 @@
         <mat-datepicker #endDatePicker></mat-datepicker>
       </mat-form-field>
       <mat-error *ngIf="hasError('endDateBeforeStartDate')">
-        End date must be after start date.
+        End date must not be before start date.
       </mat-error>
     </div>
     <mat-dialog-actions>

@@ -4,16 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Job } from 'src/domain/Job';
 import { JobService } from '../job/job.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-function validateDateRange(startDate: Date | null, endDate: Date | null): ValidationErrors | null {
-  if (!endDate || !startDate) {
-    return null;
-  }
-  if (endDate < startDate) {
-    return { endDateBeforeStartDate: true };
-  }
-  return null;
-}
+import { validateEndDateBeforeStartDate } from 'src/app/util/validation-utils';
 
 @Component({
   selector: 'save-job-dialog',
@@ -56,7 +47,7 @@ export class SaveJobDialogComponent {
     const startDate = formControl.get('startDate')?.value;
     const endDate = formControl.get('endDate')?.value;
 
-    return validateDateRange(startDate, endDate);
+    return validateEndDateBeforeStartDate(startDate, endDate);
   }
 
   hasError(error: string): boolean {
