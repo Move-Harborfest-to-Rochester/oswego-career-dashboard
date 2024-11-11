@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddProjectModalComponent {
     projectForm: FormGroup;
     header: string;
+    readonly today: Date = new Date();
 
     constructor(
         private fb: FormBuilder,
