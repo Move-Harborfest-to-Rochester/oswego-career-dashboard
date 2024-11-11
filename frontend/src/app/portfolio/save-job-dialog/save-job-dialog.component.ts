@@ -5,6 +5,16 @@ import { Job } from 'src/domain/Job';
 import { JobService } from '../job/job.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+function validateDateRange(startDate: Date | null, endDate: Date | null): ValidationErrors | null {
+  if (!endDate || !startDate) {
+    return null;
+  }
+  if (endDate < startDate) {
+    return { endDateBeforeStartDate: true };
+  }
+  return null;
+}
+
 @Component({
   selector: 'save-job-dialog',
   templateUrl: './save-job-dialog.component.html',
@@ -14,7 +24,7 @@ export class SaveJobDialogComponent {
   title: string = 'Create Job';
 
   readonly today: Date = new Date();
-  readonly form: FormGroup;
+  form!: FormGroup;
 
   constructor(
     private readonly jobService: JobService,
@@ -23,51 +33,35 @@ export class SaveJobDialogComponent {
     private readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public readonly job?: Job
   ) {
-    this.form = this.fb.group({
-      id: [''],
-      name: ['', Validators.required],
-      location: ['', Validators.required],
-      description: [''],
-      startDate: [null, Validators.required],
-      endDate: [null, this.dateRangeValidator],
-      coop: [false],
-    });
   }
-
-  dateRangeValidator(endDateControl: AbstractControl): ValidationErrors | null {
-    const startDate: Date | undefined = endDateControl.parent?.get('startDate')?.value;
-    const endDate: Date | undefined = endDateControl.value;
-
-    if (!endDate || !startDate) {
-      return null;
-    }
-    if (endDate > new Date()) {
-      return { futureEndDate: true };
-    }
-    if (endDate < startDate) {
-      return { endDateBeforeStartDate: true };
-    }
-    return null;
-  };
 
   ngOnInit(): void {
     if (this.job) {
       this.title = 'Edit Job';
     }
-    this.form.reset({
-      id: this.job?.id ?? '',
-      name: this.job?.name ?? '',
-      location: this.job?.location ?? '',
-      description: this.job?.description ?? '',
-      startDate: this.job?.startDate ?? null,
-      endDate: this.job?.endDate ?? null,
-      coop: this.job?.isCoop ?? false,
-    })
+    this.form = this.fb.group({
+      id: [this.job?.id ?? ''],
+      name: [this.job?.name ?? '', Validators.required],
+      location: [this.job?.location ?? '', Validators.required],
+      description: [this.job?.description ?? ''],
+      startDate: [this.job?.startDate ?? null, [Validators.required]],
+      endDate: [this.job?.endDate ?? null],
+      coop: [this.job?.isCoop ?? false],
+    }, {
+      validators: this.dateRangeValidator
+    });
+  }
+
+  dateRangeValidator(formControl: AbstractControl): ValidationErrors | null {
+    const startDate = formControl.get('startDate')?.value;
+    const endDate = formControl.get('endDate')?.value;
+
+    return validateDateRange(startDate, endDate);
   }
 
   hasError(error: string): boolean {
     console.log(error, this.form.errors);
-    return this.form.hasError(error);
+    return this.form.hasError(error) && (this.form.touched || this.form.dirty)
   }
 
   saveJob(): void {
