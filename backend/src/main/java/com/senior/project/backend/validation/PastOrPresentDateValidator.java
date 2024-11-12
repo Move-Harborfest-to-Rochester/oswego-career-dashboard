@@ -8,6 +8,9 @@ import jakarta.validation.ConstraintValidatorContext;
 public class PastOrPresentDateValidator implements ConstraintValidator<PastOrPresentDate, Date> {
     @Override
     public boolean isValid(Date value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return true;
+        }
         Date currentDate = new Date();
         return !value.after(currentDate);
     }

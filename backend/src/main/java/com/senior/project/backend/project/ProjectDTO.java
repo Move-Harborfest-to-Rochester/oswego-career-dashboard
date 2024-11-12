@@ -23,6 +23,7 @@ public class ProjectDTO {
     @NotNull(message = "description is required.")
     String description;
     @NotNull(message = "startDate is required.")
+    @PastOrPresentDate(message = "startDate must not be in the future.")
     Date startDate;
     @PastOrPresentDate(message = "endDate must not be in the future.")
     Date endDate;

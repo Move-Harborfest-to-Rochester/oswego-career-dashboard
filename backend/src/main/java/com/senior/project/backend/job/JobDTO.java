@@ -24,6 +24,7 @@ public class JobDTO {
     @NotNull(message = "location is required.")
     String location;
     @NotNull(message = "startDate is required.")
+    @PastOrPresentDate(message = "startDate must not be in the future.")
     Date startDate;
     @PastOrPresentDate(message = "endDate must not be in the future.")
     Date endDate;

@@ -1,5 +1,7 @@
 package com.senior.project.backend.job.validation;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -27,8 +29,8 @@ public class JobDTOValidationTest {
         jobDTO.setName("Test Job");
         jobDTO.setLocation("Test Location");
         jobDTO.setCoop(true);
-        jobDTO.setStartDate(new Date(1704085200));
-        jobDTO.setEndDate(new Date(1704085300));
+        jobDTO.setStartDate(new Date(System.currentTimeMillis() - 10000));
+        jobDTO.setEndDate(new Date(System.currentTimeMillis() - 5000));
     }
 
     @Test
@@ -69,6 +71,17 @@ public class JobDTOValidationTest {
     }
     
     @Test
+    public void testJobDTONoFutureStartDate() {
+        jobDTO.setStartDate(new Date(System.currentTimeMillis() + 1000));
+        jobDTO.setEndDate(null);
+
+        Set<ConstraintViolation<JobDTO>> violations = validator.validate(jobDTO);
+
+        assert(violations.size() == 1);
+        assert(violations.iterator().next().getMessage().equals("startDate must not be in the future."));
+    }
+    
+    @Test
     public void testJobDTOStartDateBeforeEndDate() {
         jobDTO.setEndDate(new Date(jobDTO.getStartDate().getTime() - 1000));
 
@@ -76,5 +89,15 @@ public class JobDTOValidationTest {
 
         assert(violations.size() == 1);
         assert(violations.iterator().next().getMessage().equals("startDate must be before endDate."));
+    }
+    
+    @Test
+    public void testJobDTONoFutureEndDate() {
+        jobDTO.setEndDate(new Date(System.currentTimeMillis() + 1000));
+
+        Set<ConstraintViolation<JobDTO>> violations = validator.validate(jobDTO);
+
+        assert(violations.size() == 1);
+        assert(violations.iterator().next().getMessage().equals("endDate must not be in the future."));
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.senior.project.backend.job.JobDTO;
 import com.senior.project.backend.project.ProjectDTO;
 
 import jakarta.validation.ConstraintViolation;
@@ -24,10 +25,10 @@ public class ProjectDTOValidationTest {
     
     @BeforeEach
     public void eachSetup() {
-        projectDTO.setName("Test Job");
-        projectDTO.setDescription("Description");
-        projectDTO.setStartDate(new Date(1704085200));
-        projectDTO.setEndDate(new Date(1704085300));
+        projectDTO.setName("Test Project");
+        projectDTO.setDescription("Test Description");
+        projectDTO.setStartDate(new Date(System.currentTimeMillis() - 10000));
+        projectDTO.setEndDate(new Date(System.currentTimeMillis() - 5000));
     }
 
     @Test
@@ -68,6 +69,17 @@ public class ProjectDTOValidationTest {
     }
     
     @Test
+    public void testNoFutureStartDate() {
+        projectDTO.setStartDate(new Date(System.currentTimeMillis() + 1000));
+        projectDTO.setEndDate(null);
+
+        Set<ConstraintViolation<ProjectDTO>> violations = validator.validate(projectDTO);
+
+        assert(violations.size() == 1);
+        assert(violations.iterator().next().getMessage().equals("startDate must not be in the future."));
+    }
+    
+    @Test
     public void testStartDateBeforeEndDate() {
         projectDTO.setEndDate(new Date(projectDTO.getStartDate().getTime() - 1000));
 
@@ -75,5 +87,15 @@ public class ProjectDTOValidationTest {
 
         assert(violations.size() == 1);
         assert(violations.iterator().next().getMessage().equals("startDate must be before endDate."));
+    }
+    
+    @Test
+    public void testNoFutureEndDate() {
+        projectDTO.setEndDate(new Date(System.currentTimeMillis() + 1000));
+
+        Set<ConstraintViolation<ProjectDTO>> violations = validator.validate(projectDTO);
+
+        assert(violations.size() == 1);
+        assert(violations.iterator().next().getMessage().equals("endDate must not be in the future."));
     }
 }
