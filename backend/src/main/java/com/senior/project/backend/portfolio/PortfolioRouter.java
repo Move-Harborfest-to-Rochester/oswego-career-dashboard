@@ -16,6 +16,7 @@ import com.senior.project.backend.util.Endpoints;
 public class PortfolioRouter {
     @Bean
     RouterFunction<ServerResponse> portfolioRoutes(PortfolioHandler portfolioHandler) {
-        return route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation);
+        return route(PATCH(Endpoints.PERSONAL_INFO.uri()), portfolioHandler::savePersonalInfo)
+            .and(route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation));
     }
 }

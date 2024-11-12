@@ -1,4 +1,5 @@
 import { LangUtils } from "src/app/util/lang-utils";
+import PersonalInfo from "src/domain/PersonalInfo";
 import Education from "src/domain/Education";
 import { StudentDetails, StudentDetailsJSON } from "src/domain/StudentDetails";
 
@@ -28,20 +29,19 @@ export interface UserJSON {
  */
 export class User {
     readonly id: string;
-    readonly email: string;
+    email: string;
     phoneNumber: string;
     readonly dateCreated: Date;
     readonly lastLogin: Date;
-    readonly firstName: string;
-    readonly lastName: string;
-    readonly fullName: string;
+    firstName: string;
+    lastName: string;
     preferredName: string;
     readonly signedUp: boolean;
     canEmail: boolean;
     canText: boolean;
     studentDetails?: StudentDetails
     role: Role;
-    readonly linkedin: string;
+    linkedin: string;
     readonly profilePictureId: number;
     profilePictureURL: string | null = null;
 
@@ -61,7 +61,6 @@ export class User {
             this.studentDetails = new StudentDetails(json.studentDetails!)
         }
         this.role = json.role;
-        this.fullName = this.firstName + " " + this.lastName;
         this.linkedin = json.linkedin;
         this.profilePictureId = json.profilePictureId;
     }
@@ -119,6 +118,35 @@ export class User {
         return 'Super Admin';
       }
       return this.role;
+    }
+
+    get fullName(): string {
+      const name = this.preferredName ? this.preferredName : this.firstName;
+      return `${name} ${this.lastName}`;
+    }
+
+    getPersonalInfo(): PersonalInfo {
+      return new PersonalInfo({
+        firstName: this.firstName,
+        preferredName: this.preferredName,
+        lastName: this.lastName,
+        email: this.email,
+        phoneNumber: this.phoneNumber,
+        linkedIn: this.linkedin,
+        description: this.studentDetails?.description
+      });
+    }
+
+    setPersonalInfo(personalInfo: PersonalInfo): void {
+      this.firstName = personalInfo.firstName ?? '';
+      this.preferredName = personalInfo.preferredName ?? '';
+      this.lastName = personalInfo.lastName ?? '';
+      this.email = personalInfo.email ?? '';
+      this.phoneNumber = personalInfo.phoneNumber ?? '';
+      this.linkedin = personalInfo.linkedIn ?? '';
+      if (this.studentDetails) {
+        this.studentDetails.description = personalInfo.description ?? '';
+      }
     }
 }
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from '@angular/material/icon';
+import { EditPersonalInfoDialogModule } from './edit-personal-info-dialog/edit-personal-info-dialog.module';
 import { AddProjectModalComponent } from './add-project-modal/add-project-modal.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     SaveJobDialogModule,
     ConfirmationDialogModule,
+    EditPersonalInfoDialogModule,
     EducationSectionModule,
     HttpClientModule
 
