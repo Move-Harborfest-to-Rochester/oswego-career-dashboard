@@ -9,7 +9,7 @@ export class SupportSectionComponent implements AfterViewInit {
   tabs = [
     { label: 'Faculty Career Mentor' },
     { label: 'BASAC Office' },
-    { label: 'Resume & CV Templates' },
+    { label: 'Professional Templates' },
     { label: 'LinkedIn Learning' },
     { label: 'Contacts for Support' }
   ];
