@@ -1,0 +1,45 @@
+<div class="support-links-container">
+  <div class="title-bar">School of Business Support Links</div>
+  <div class="content">
+    <div class="tabs">
+      <button *ngFor="let tab of tabs; let i = index"
+              (click)="selectTab(i)"
+              [class.active]="selectedTab === i">
+        {{ tab.label }}
+      </button>
+    </div>
+    <div class="tab-content">
+      <ng-container [ngSwitch]="selectedTab">
+        <div *ngSwitchCase="0">
+          <h3>Maureen Melville</h3>
+          <p>mmelvill@oswego.edu</p>
+
+        </div>
+        <div *ngSwitchCase="1">
+          <h3>Business Administration Student Advisement Center (BASAC)</h3>
+          <p>To schedule time with the Business Administration Student Advisement Center email basac@oswego.edu</p>
+          <p>Alicia King</p>
+          <p>Director, School of Business Advertisement</p>
+          <p>alicia.king@oswego.edu</p>
+
+        </div>
+        <div *ngSwitchCase="2">
+          <h3>Resume Templates</h3>
+          <p>Our templates help you communicate your skills, experience, and accomplishments to make a strong impression on employers.</p>
+          <p>Cover Letter Templates: Introduce yourself confidently with a cover letter suited for business roles.</p>
+        </div>
+        <div *ngSwitchCase="3">
+          <h3>LinkedIn Learning</h3>
+          <p>LinkedIn Learning offers a variety of courses that allow you to enhance your career readiness. Gain in-demand skills and earn certificates that boost your resume.</p>
+          <a href="https://oswego.edu">Oswego State's LinkedIn Learning</a>
+        </div>
+        <div *ngSwitchCase="4">
+          <h3>Contacts for Support</h3>
+          <p>School of Business<br>238 Rich Hall<br>315-312-2272<br>business@oswego.edu</p>
+          <p>Admissions<br>Undergraduate Admissions : 315-312-2250<br>Graduate Admissions : 315-312-3152</p>
+          <p>Advisement Center<br>151 Marano Campus Center<br>315-312-2387<br>advisement@oswego.edu</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

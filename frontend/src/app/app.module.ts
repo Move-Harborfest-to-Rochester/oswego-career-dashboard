@@ -60,7 +60,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     AppComponent,
     ApiDocumentationsComponent,
     NavbarComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
