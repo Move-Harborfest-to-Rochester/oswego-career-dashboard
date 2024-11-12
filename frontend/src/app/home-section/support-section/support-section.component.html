@@ -8,12 +8,11 @@
         {{ tab.label }}
       </button>
     </div>
-    <div class="tab-content">
+    <div class="tab-content" #tabContent>
       <ng-container [ngSwitch]="selectedTab">
         <div *ngSwitchCase="0">
           <h3>Maureen Melville</h3>
           <p>mmelvill@oswego.edu</p>
-
         </div>
         <div *ngSwitchCase="1">
           <h3>Business Administration Student Advisement Center (BASAC)</h3>
@@ -21,7 +20,6 @@
           <p>Alicia King</p>
           <p>Director, School of Business Advertisement</p>
           <p>alicia.king@oswego.edu</p>
-
         </div>
         <div *ngSwitchCase="2">
           <h3>Resume Templates</h3>
@@ -43,3 +41,4 @@
     </div>
   </div>
 </div>
+
