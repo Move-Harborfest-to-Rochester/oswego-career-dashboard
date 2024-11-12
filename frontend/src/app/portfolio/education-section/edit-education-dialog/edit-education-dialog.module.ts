@@ -9,20 +9,22 @@ import { MatSelectModule } from '@angular/material/select';
 import { DegreeProgramListInputModule } from './degree-program-list-input/degree-program-list-input.module';
 import { EditEducationDialogComponent } from './edit-education-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MultiMajorInputModule } from "./multi-major-input/multi-major-input.module";
 
 @NgModule({
-  declarations: [EditEducationDialogComponent],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    DegreeProgramListInputModule,
-    MatSnackBarModule,
-  ],
-  exports: [EditEducationDialogComponent],
+    declarations: [EditEducationDialogComponent],
+    exports: [EditEducationDialogComponent],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        DegreeProgramListInputModule,
+        MatSnackBarModule,
+        MultiMajorInputModule
+    ]
 })
 export class EditEducationDialogModule {}

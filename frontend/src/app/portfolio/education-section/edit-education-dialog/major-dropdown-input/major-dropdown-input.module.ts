@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     ReactiveFormsModule,
     MatDividerModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   exports: [
     MajorDropdownInputComponent,

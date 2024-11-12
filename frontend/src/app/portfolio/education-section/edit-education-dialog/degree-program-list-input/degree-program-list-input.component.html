@@ -23,9 +23,6 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
-      <mat-error *ngIf="control.hasError('required') && control.touched">
-        Please specify a value.
-      </mat-error>
     </mat-form-field>
   </div>
   <button class="add-button" type="button" mat-button (click)="addInput()">

@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<mat-form-field>
-  <mat-label>Major</mat-label>
+<mat-form-field appearance="outline">
   <input type="text" aria-label="Major" matInput [formControl]="majorControl" [matAutocomplete]="auto" />
-  <mat-autocomplete #auto="matAutocomplete">
-    <div *ngFor="let major of filteredMajors">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayMajorName" >
+    <div *ngFor="let major of filteredMajors | async">
       <mat-option class="option" [value]="major">
-        {{ major }}
+        {{ major.name }}
       </mat-option>
       <mat-divider></mat-divider>
     </div>
   </mat-autocomplete>
+  <button
+    type="button"
+    mat-icon-button
+    matSuffix
+    (click)="onDelete.emit()"
+    [attr.aria-label]="'Delete item {{ i }}'"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <mat-error *ngIf="majorControl.hasError('required') && majorControl.touched">
+    Please specify a value.
+  </mat-error>
 </mat-form-field>

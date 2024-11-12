@@ -29,14 +29,12 @@
         Please specify a valid GPA.
       </mat-error>
     </mat-form-field>
-    <degree-program-list-input
+    <multi-major-input
       id="majors"
       label="Majors"
-      addText="Add Major"
       formArrayName="majors"
       [formGroup]="form"
       [formArray]="majors"
-      [defaultValue]="getDefaultDegreeProgramOperation(false)"
     />
     <degree-program-list-input
       id="minors"
