@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<mat-form-field>
+  <mat-label>Major</mat-label>
+  <input type="text" aria-label="Major" matInput [formControl]="majorControl" [matAutocomplete]="auto" />
+  <mat-autocomplete #auto="matAutocomplete">
+    <div *ngFor="let major of filteredMajors">
+      <mat-option class="option" [value]="major">
+        {{ major }}
+      </mat-option>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-autocomplete>
+</mat-form-field>
