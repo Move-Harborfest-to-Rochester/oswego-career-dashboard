@@ -85,7 +85,7 @@ describe('EditEducationDialogComponent', () => {
       name: allMajors[0],
       isMinor: false,
     }, {
-      validators: component.majorValidators
+      validators: component.majorNameValidators
     });
     (component.form.get('majors') as FormArray).push(majorControl);
     fixture.detectChanges();

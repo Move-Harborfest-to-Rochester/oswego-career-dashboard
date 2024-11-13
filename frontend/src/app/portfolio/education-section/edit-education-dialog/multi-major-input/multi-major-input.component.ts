@@ -1,12 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
+
+export type DegreeProgramOperationGroup = FormGroup<{
+  id: FormControl<string | null>;
+  operation: FormControl<'Create' | 'Edit' | 'Delete' | null>;
+  name: FormControl<string | null>;
+  isMinor: FormControl<boolean | null>;
+}>
 
 @Component({
   selector: 'multi-major-input',
@@ -17,42 +25,36 @@ export class MultiMajorInputComponent {
   @Input() label!: string;
   readonly addText: string = 'Add Major';
   @Input() formGroup!: FormGroup;
-  @Input() formArray!: FormArray<FormControl<DegreeProgramOperation | null>>;
+  @Input() formArray!: FormArray<DegreeProgramOperationGroup>;
   @Input() formArrayName!: string;
-  @Input() majorValidators: ValidatorFn[] = [];
-  deleted: Set<number> = new Set();
+  @Input() majorNameValidators!: ValidatorFn[];
+  deleted: Set<number>;
+  @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor() {
+    this.deleted = new Set();
+  }
 
   ngOnInit(): void {
-    const currentMajors = this.formArray.controls as FormControl<DegreeProgramOperation>[];
+    const currentMajors = this.formArray.controls;
     for (const control of currentMajors) {
       const newValue = control.value;
       newValue.operation = 'Edit';
-      control.setValue(newValue);
-    };
-    console.log(this.formArray.controls);
-  }
-
-  getDefaultValue(): DegreeProgramOperation {
-    return {
-      operation: 'Create',
-      name: '',
-      isMinor: false,
+      control.setValue(newValue as any);
     };
   }
 
   addInput(): void {
-    this.formArray.push(
-      this.formBuilder.control<DegreeProgramOperation>(
-        this.getDefaultValue(),
-        this.majorValidators,
-      )
-    );
+    this.formArray.push(new FormGroup({
+      id: new FormControl(''),
+      operation: new FormControl<'Create' | 'Edit' | 'Delete'>('Create'),
+      name: new FormControl('', this.majorNameValidators),
+      isMinor: new FormControl(false),
+    }));
   }
 
-  arrayControls(): FormControl<DegreeProgramOperation>[] {
-    return this.formArray.controls as FormControl<DegreeProgramOperation>[];
+  majorNameControls(): FormControl<string>[] {
+    return this.formArray.controls.map((control) => control.get('name') as FormControl<string>);
   }
 
   setValue(control: FormControl<DegreeProgramOperation>, event: Event) {
@@ -65,16 +67,18 @@ export class MultiMajorInputComponent {
     control.setValue(currentValue);
   }
 
-  delete(control: FormControl<DegreeProgramOperation>, index: number) {
-    const currentValue = control.value;
-    if (currentValue.operation === 'Create') {
+  delete(index: number) {
+    if (this.formArray.at(index).value.operation === 'Create') {
       this.deleted.delete(index);
-      this.formArray.removeAt(index);
-      return;
+    } else {
+      this.deleted.add(index);
     }
-    this.deleted.add(index);
-    currentValue.operation = 'Delete';
-    control.setValue(currentValue);
+    this.onDelete.emit(index);
+  }
+
+
+  isDeleted(index: number): boolean {
+    return this.deleted.has(index);
   }
 }
 

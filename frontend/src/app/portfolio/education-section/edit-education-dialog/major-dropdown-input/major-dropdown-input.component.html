@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <mat-form-field appearance="outline">
-  <input type="text" aria-label="Major" matInput [value]="majorControl.value?.name" [matAutocomplete]="auto" (blur)="onInputBlur($event)" />
-  <mat-autocomplete requireSelection [displayWith]="getMajorName" #auto>
+  <input type="text" aria-label="Major" matInput [formControl]="majorNameControl" [matAutocomplete]="auto" (blur)="onInputBlur($event)" />
+  <mat-autocomplete requireSelection #auto>
     <div *ngFor="let major of filteredMajors | async">
-      <mat-option (onSelectionChange)="onSelectionChange($event)" class="option" [value]="major">
+      <mat-option class="option" [value]="major">
         {{ major }}
       </mat-option>
       <mat-divider></mat-divider>
@@ -18,10 +18,10 @@
   >
     <mat-icon>delete</mat-icon>
   </button>
-  <mat-error *ngIf="majorControl.hasError('invalidMajor') && majorControl.touched">
+  <mat-error *ngIf="majorNameControl.hasError('invalidMajor') && majorNameControl.touched">
     Please specify a valid major.
   </mat-error>
-  <mat-error *ngIf="majorControl.hasError('required') && majorControl.touched">
+  <mat-error *ngIf="majorNameControl.hasError('required') && majorNameControl.touched">
     Please specify a value.
   </mat-error>
 </mat-form-field>

@@ -40,7 +40,7 @@ describe('MajorDropdownInputComponent', () => {
       name: allMajors[0],
       isMinor: false,
     });
-    component.majorControl = majorControl;
+    component.majorNameControl = majorControl;
     fixture.detectChanges();
   });
 
@@ -52,7 +52,7 @@ describe('MajorDropdownInputComponent', () => {
     const majorName = allMajors[0];
     majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
 
-    component.setMajorName(majorName);
+    component.setMajorNameOrDefault(majorName);
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
   });
@@ -61,7 +61,7 @@ describe('MajorDropdownInputComponent', () => {
     const majorName = 'Not a Real Major';
     majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
 
-    component.setMajorName(majorName);
+    component.setMajorNameOrDefault(majorName);
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: '', isMinor: false });
   });

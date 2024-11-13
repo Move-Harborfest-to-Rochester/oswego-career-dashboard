@@ -3,11 +3,11 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
+  FormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
   type FormArray,
-  type FormGroup,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DegreeProgramOperation, PortfolioService } from '../../portfolio.service';
@@ -20,6 +20,7 @@ import { LangUtils } from 'src/app/util/lang-utils';
 import { User } from 'src/app/security/domain/user';
 import Education from 'src/domain/Education';
 import { allMajors } from 'src/app/util/major-list';
+import { DegreeProgramOperationGroup } from './multi-major-input/multi-major-input.component';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -52,6 +53,7 @@ export class EditEducationDialogComponent implements OnInit {
   @Input() defaultValues?: EditEducationFormValues;
   private user: User = User.makeEmpty();
   isSubmitting: boolean = false;
+  deleted: Set<number>;
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
@@ -61,7 +63,9 @@ export class EditEducationDialogComponent implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.deleted = new Set();
+  }
 
   ngOnInit() {
     this.createForm();
@@ -92,9 +96,14 @@ export class EditEducationDialogComponent implements OnInit {
       ],
       year: [this.defaultValues?.year ?? null],
       gpa: [this.defaultValues?.gpa ?? '', [this.gpaValidator()]],
-      majors: this.formBuilder.array<FormControl>(
+      majors: this.formBuilder.array<DegreeProgramOperationGroup>(
         this.defaultValues?.majors.map((major) =>
-          this.formBuilder.control(major, this.majorValidators)
+          this.formBuilder.group({
+            id: this.formBuilder.control(major.id ?? null),
+            operation: this.formBuilder.control(major.operation, [Validators.required]),
+            name: this.formBuilder.control(major.name, this.majorNameValidators),
+            isMinor: this.formBuilder.control(false, [Validators.required]),
+          })
         ) ?? []
       ),
       minors: this.formBuilder.array<FormControl>(
@@ -133,28 +142,26 @@ export class EditEducationDialogComponent implements OnInit {
     };
   }
 
-  majorValidator(): ValidatorFn {
-    return (majorControl: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
-      const value = majorControl.value;
-      if (!value) {
-        return { invalidMajor: true };
-      }
-      if (this.isValidDeleteOperation(value)) {
+  majorNameValidator(): ValidatorFn {
+    return (majorNameControl: AbstractControl<string>): ValidationErrors | null => {
+      const majorFormGroup = (majorNameControl.parent as DegreeProgramOperationGroup | null);
+      if (isValidDeleteOperation(majorFormGroup?.value as Partial<DegreeProgramOperation> | null)) {
         return null;
       }
-      if (!allMajors.includes(value.name)) {
+      const majorName = majorNameControl.value;
+      if (!majorName) {
+        return { invalidMajor: true };
+      }
+      if (!allMajors.includes(majorName)) {
         return { invalidMajor: true };
       }
       return null;
     };
   }
 
-  private isValidDeleteOperation(value: DegreeProgramOperation) {
-    return value.operation === 'Delete' && value.id;
-  }
-
   saveChanges(): void {
     if (this.form.invalid) {
+      console.warn('Form is invalid:', this.form);
       return;
     }
     const alertDurationMs = 5000;
@@ -181,6 +188,19 @@ export class EditEducationDialogComponent implements OnInit {
     });
   }
 
+  deleteMajor(index: number) {
+    const control = this.majors.at(index);
+    const currentValue = control.value;
+    if (currentValue.operation === 'Create') {
+      this.deleted.delete(index);
+      this.majors.removeAt(index);
+      return;
+    }
+    this.deleted.add(index);
+    control.get('operation')?.setValue('Delete');
+    control.get('name')?.setValue('deleted');
+  }
+
   getDefaultDegreeProgramOperation(isMinor: boolean): DegreeProgramOperation {
     return {
       operation: 'Create',
@@ -193,16 +213,26 @@ export class EditEducationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  get majors(): FormArray<FormControl> {
-    return this.form?.controls['majors'] as FormArray<FormControl>;
+  isDeleted(index: number): boolean {
+    return this.deleted?.has(index);
+  }
+
+  get majors(): FormArray<DegreeProgramOperationGroup> {
+    return this.form?.controls['majors'] as FormArray<DegreeProgramOperationGroup>;
   }
 
   get minors(): FormArray<FormControl> {
     return this.form?.controls['minors'] as FormArray<FormControl>;
   }
 
-  get majorValidators(): ValidatorFn[] {
-    return [Validators.required, this.majorValidator()];
+  get majorNameValidators(): ValidatorFn[] {
+    return [Validators.required, this.majorNameValidator()];
   }
 }
 
+function isValidDeleteOperation(value: Partial<DegreeProgramOperation> | null): boolean {
+  if (!value) {
+    return false;
+  }
+  return value.operation === 'Delete' && !!value.id;
+}

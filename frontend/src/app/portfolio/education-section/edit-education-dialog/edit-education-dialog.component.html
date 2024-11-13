@@ -35,7 +35,8 @@
       formArrayName="majors"
       [formGroup]="form"
       [formArray]="majors"
-      [majorValidators]="majorValidators"
+      [majorNameValidators]="majorNameValidators"
+      (onDelete)="deleteMajor($event)"
     />
     <degree-program-list-input
       id="minors"

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <div class="list-input">
   <label class="label">{{ label }}</label>
-  <div class="major-container" *ngFor="let control of arrayControls(); let i = index">
-    <major-dropdown-input (onDelete)="delete(control, i)" [majorControl]="control" [hidden]="deleted.has(i)" />
+  <div class="major-container" *ngFor="let control of majorNameControls(); let i = index">
+    <major-dropdown-input (onDelete)="delete(i)" [majorNameControl]="control" [hidden]="isDeleted(i)" />
   </div>
   <button class="add-button" type="button" mat-button (click)="addInput()">
     {{ addText }}
