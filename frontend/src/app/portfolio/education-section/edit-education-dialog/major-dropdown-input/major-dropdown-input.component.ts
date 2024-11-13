@@ -36,19 +36,6 @@ export class MajorDropdownInputComponent {
     this.majorControl.setValue(newValue);
   }
 
-  onInputBlur(event: FocusEvent) {
-    const value = (event.target as HTMLInputElement).value;
-    this.setIfValidMajor(value);
-  }
-
-  setIfValidMajor(value: string) {
-    if (MAJORS.includes(value)) {
-      this.setValueToMajor(value);
-      return;
-    }
-    this.setValueToMajor('');
-  }
-
   setValueToMajor(value: string) {
     const currentControlValue = this.majorControl.value;
     console.log('set to major; current value:', currentControlValue);
@@ -63,6 +50,19 @@ export class MajorDropdownInputComponent {
       this.majorControl.setValue({ ...currentControlValue, name: value });
     }
     console.log('new value', this.majorControl.value);
+  }
+
+  onInputBlur(event: FocusEvent) {
+    const value = (event.target as HTMLInputElement).value;
+    this.setIfValidMajor(value);
+  }
+
+  setIfValidMajor(value: string) {
+    if (MAJORS.includes(value)) {
+      this.setValueToMajor(value);
+      return;
+    }
+    this.setValueToMajor('');
   }
 
   onInputChange(event: Event) {

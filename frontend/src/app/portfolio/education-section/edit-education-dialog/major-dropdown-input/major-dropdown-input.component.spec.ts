@@ -85,4 +85,30 @@ describe('MajorDropdownInputComponent', () => {
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
   });
+
+  it('should set major if valid on blur', () => {
+    const majorName = allMajors[0];
+    majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
+
+    component.onSelectionChange({
+      source: {
+        value: majorName,
+      }
+    } as unknown as MatOptionSelectionChange<string>);
+
+    expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
+  });
+
+  it('should empty major if invalid on blur', () => {
+    const majorName = 'Not a Real Major';
+    majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
+
+    component.onInputBlur({
+      target: {
+        value: majorName,
+      }
+    } as unknown as FocusEvent);
+
+    expect(majorControl.value).toEqual({ operation: 'Edit', name: '', isMinor: false });
+  });
 });
