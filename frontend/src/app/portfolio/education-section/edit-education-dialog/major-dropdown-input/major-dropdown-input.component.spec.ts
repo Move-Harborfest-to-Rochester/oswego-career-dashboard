@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { allMajors } from 'src/app/util/major-list';
-import { MatOptionSelectionChange } from '@angular/material/core';
 
 describe('MajorDropdownInputComponent', () => {
   let component: MajorDropdownInputComponent;

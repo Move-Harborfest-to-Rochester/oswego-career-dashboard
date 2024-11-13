@@ -30,15 +30,24 @@ export class MajorDropdownInputComponent {
     );
   }
 
+  private filterMajors(filter: string): string[] {
+    const filterValue = filter.toLowerCase();
+
+    return MAJORS
+      .filter(option => option.toLowerCase().includes(filterValue));
+  }
+
   onSelectionChange(selectionChangeEvent: MatOptionSelectionChange<string>) {
     this.setMajorName(selectionChangeEvent.source.value);
   }
 
+  onInputBlur(blurEvent: FocusEvent) {
+    const value = (blurEvent.target as HTMLInputElement).value;
+    this.setMajorName(value);
+  }
+
   setMajorName(majorName: string) {
     const currentControlValue = this.majorControl.value;
-    if (currentControlValue?.name === majorName) {
-      return;
-    }
     if (!MAJORS.includes(majorName)) {
       majorName = '';
     }
@@ -47,18 +56,6 @@ export class MajorDropdownInputComponent {
     } else {
       this.majorControl.setValue(createMajor(majorName));
     }
-  }
-
-  onInputBlur(blurEvent: FocusEvent) {
-    const value = (blurEvent.target as HTMLInputElement).value;
-    this.setMajorName(value);
-  }
-
-  private filterMajors(filter: string): string[] {
-    const filterValue = filter.toLowerCase();
-
-    return MAJORS
-      .filter(option => option.toLowerCase().includes(filterValue));
   }
 
   getMajorName(major: DegreeProgramOperation): string {
