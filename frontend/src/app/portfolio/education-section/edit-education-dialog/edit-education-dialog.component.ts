@@ -134,12 +134,12 @@ export class EditEducationDialogComponent implements OnInit {
   }
 
   majorValidator(): ValidatorFn {
-    return (control: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
-      const value = control.value;
+    return (majorControl: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
+      const value = majorControl.value;
       if (!value) {
         return { invalidMajor: true };
       }
-      if (value.operation === 'Delete' && value.id) {
+      if (this.isValidDeleteOperation(value)) {
         return null;
       }
       if (!allMajors.includes(value.name)) {
@@ -147,6 +147,10 @@ export class EditEducationDialogComponent implements OnInit {
       }
       return null;
     };
+  }
+
+  private isValidDeleteOperation(value: DegreeProgramOperation) {
+    return value.operation === 'Delete' && value.id;
   }
 
   saveChanges(): void {
@@ -201,3 +205,4 @@ export class EditEducationDialogComponent implements OnInit {
     return [Validators.required, this.majorValidator()];
   }
 }
+
