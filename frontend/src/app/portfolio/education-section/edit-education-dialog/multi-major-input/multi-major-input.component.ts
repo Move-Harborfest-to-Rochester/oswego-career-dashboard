@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  ValidatorFn,
 } from '@angular/forms';
 import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
 
@@ -19,9 +19,20 @@ export class MultiMajorInputComponent {
   @Input() formGroup!: FormGroup;
   @Input() formArray!: FormArray<FormControl<DegreeProgramOperation | null>>;
   @Input() formArrayName!: string;
+  @Input() majorValidators: ValidatorFn[] = [];
   deleted: Set<number> = new Set();
 
   constructor(private formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
+    const currentMajors = this.formArray.controls as FormControl<DegreeProgramOperation>[];
+    for (const control of currentMajors) {
+      const newValue = control.value;
+      newValue.operation = 'Edit';
+      control.setValue(newValue);
+    };
+    console.log(this.formArray.controls);
+  }
 
   getDefaultValue(): DegreeProgramOperation {
     return {
@@ -35,17 +46,13 @@ export class MultiMajorInputComponent {
     this.formArray.push(
       this.formBuilder.control<DegreeProgramOperation>(
         this.getDefaultValue(),
-        Validators.required
+        this.majorValidators,
       )
     );
   }
 
   arrayControls(): FormControl<DegreeProgramOperation>[] {
     return this.formArray.controls as FormControl<DegreeProgramOperation>[];
-  }
-
-  getValue(operation: DegreeProgramOperation): string {
-    return operation.name;
   }
 
   setValue(control: FormControl<DegreeProgramOperation>, event: Event) {
