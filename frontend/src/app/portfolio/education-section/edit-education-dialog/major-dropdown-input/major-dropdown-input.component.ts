@@ -30,20 +30,9 @@ export class MajorDropdownInputComponent {
     );
   }
 
-  onChange(event: Event) {
-    const newValue = (event.target as HTMLInputElement).value;
-    if (!newValue) {
-      this.majorControl.setValue(null);
-      return;
-    }
-  }
-
   onSelectionChange(event: MatOptionSelectionChange<string>) {
-    const currentValue = this.majorControl.value;
-    console.log('selection change', currentValue);
     this.setValueToMajor(event.source.value);
     const newValue = this.majorControl.value;
-    console.log('new value', newValue);
     this.majorControl.setValue(newValue);
   }
 

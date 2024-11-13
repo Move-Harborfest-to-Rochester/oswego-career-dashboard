@@ -11,10 +11,13 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { allMajors } from 'src/app/util/major-list';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 describe('MajorDropdownInputComponent', () => {
   let component: MajorDropdownInputComponent;
   let fixture: ComponentFixture<MajorDropdownInputComponent>;
+  let majorControl: FormControl<DegreeProgramOperation | null>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,11 +36,53 @@ describe('MajorDropdownInputComponent', () => {
     });
     fixture = TestBed.createComponent(MajorDropdownInputComponent);
     component = fixture.componentInstance;
-    component.majorControl = new FormControl<DegreeProgramOperation | null>(null);
+    majorControl = new FormControl<DegreeProgramOperation | null>({
+      operation: 'Create',
+      name: allMajors[0],
+      isMinor: false,
+    });
+    component.majorControl = majorControl;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should update empty value of new major on selection', () => {
+    const majorName = '';
+
+    component.onSelectionChange({
+      source: {
+        value: '',
+      }
+    } as unknown as MatOptionSelectionChange<string>);
+
+    expect(majorControl.value).toEqual({ operation: 'Create', name: majorName, isMinor: false });
+  });
+
+  it('should update name of new major on selection', () => {
+    const majorName = allMajors[0];
+
+    component.onSelectionChange({
+      source: {
+        value: majorName,
+      }
+    } as unknown as MatOptionSelectionChange<string>);
+
+    expect(majorControl.value).toEqual({ operation: 'Create', name: majorName, isMinor: false });
+  });
+
+  it('should update name of existing major on selection', () => {
+    const majorName = allMajors[0];
+    majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
+
+    component.onSelectionChange({
+      source: {
+        value: majorName,
+      }
+    } as unknown as MatOptionSelectionChange<string>);
+
+    expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
   });
 });
