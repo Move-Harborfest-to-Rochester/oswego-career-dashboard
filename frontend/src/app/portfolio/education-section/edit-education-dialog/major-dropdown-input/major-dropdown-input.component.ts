@@ -38,18 +38,14 @@ export class MajorDropdownInputComponent {
 
   setValueToMajor(value: string) {
     const currentControlValue = this.majorControl.value;
-    console.log('set to major; current value:', currentControlValue);
     if (currentControlValue?.name === value) {
       return;
     }
-    if (!currentControlValue) {
-      console.log('no value, creating new major');
-      this.majorControl.setValue(createMajor(value));
-    } else {
-      console.log('updating existing major');
+    if (currentControlValue) {
       this.majorControl.setValue({ ...currentControlValue, name: value });
+    } else {
+      this.majorControl.setValue(createMajor(value));
     }
-    console.log('new value', this.majorControl.value);
   }
 
   onInputBlur(event: FocusEvent) {
