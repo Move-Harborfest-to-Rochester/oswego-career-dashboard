@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteActivatedEvent, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { map, Observable, startWith } from 'rxjs';
 import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
@@ -18,7 +17,6 @@ function createMajor(name: string): DegreeProgramOperation {
 export class MajorDropdownInputComponent {
   filteredMajors!: Observable<string[]>;
 
-  @ViewChild(MatAutocomplete) autocomplete!: MatAutocomplete;
   @Input() majorControl!: FormControl<DegreeProgramOperation | null>;
   @Output() onDelete: EventEmitter<void> = new EventEmitter<void>();
 

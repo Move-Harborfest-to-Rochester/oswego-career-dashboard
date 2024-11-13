@@ -137,9 +137,9 @@ export class EditEducationDialogComponent implements OnInit {
     return (control: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
       const value = control.value;
       if (!value) {
-        return null;
+        return { invalidMajor: true };
       }
-      if (value.operation === 'Delete') {
+      if (value.operation === 'Delete' && value.id) {
         return null;
       }
       if (!allMajors.includes(value.name)) {
