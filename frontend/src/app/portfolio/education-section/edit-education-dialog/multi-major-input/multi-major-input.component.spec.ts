@@ -28,7 +28,6 @@ describe('ListInputComponent', () => {
     ) as unknown as FormArray<FormControl>;
     component.formArrayName = 'majors';
     component.label = 'Majors';
-    component.defaultValue = { name: '', operation: 'Create', isMinor: false };
     component.formArray = new FormArray<FormControl<DegreeProgramOperation | null>>([]);
     fixture.detectChanges();
   });
