@@ -30,52 +30,39 @@ export class MajorDropdownInputComponent {
     );
   }
 
-  onSelectionChange(event: MatOptionSelectionChange<string>) {
-    this.setMajorName(event.source.value);
+  onSelectionChange(selectionChangeEvent: MatOptionSelectionChange<string>) {
+    this.setMajorName(selectionChangeEvent.source.value);
   }
 
-  setMajorName(value: string) {
+  setMajorName(majorName: string) {
     const currentControlValue = this.majorControl.value;
-    if (currentControlValue?.name === value) {
+    if (currentControlValue?.name === majorName) {
       return;
     }
-    if (!MAJORS.includes(value)) {
-      value = '';
+    if (!MAJORS.includes(majorName)) {
+      majorName = '';
     }
     if (currentControlValue) {
-      this.majorControl.setValue({ ...currentControlValue, name: value });
+      this.majorControl.setValue({ ...currentControlValue, name: majorName });
     } else {
-      this.majorControl.setValue(createMajor(value));
+      this.majorControl.setValue(createMajor(majorName));
     }
   }
 
-  onInputBlur(event: FocusEvent) {
-    const value = (event.target as HTMLInputElement).value;
+  onInputBlur(blurEvent: FocusEvent) {
+    const value = (blurEvent.target as HTMLInputElement).value;
     this.setMajorName(value);
   }
 
-  onInputChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.setValueToNullIfEmpty(value);
-  }
-
-  setValueToNullIfEmpty(value: string) {
-    if (value) {
-      return;
-    }
-    console.log('empty, setting to null')
-    this.majorControl.setValue(null);
-  }
-
-  filterMajors(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private filterMajors(filter: string): string[] {
+    const filterValue = filter.toLowerCase();
 
     return MAJORS
       .filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  displayFn(value: DegreeProgramOperation): string {
-    return value?.name || '';
+  getMajorName(major: DegreeProgramOperation): string {
+    return major?.name || '';
   }
 }
 
