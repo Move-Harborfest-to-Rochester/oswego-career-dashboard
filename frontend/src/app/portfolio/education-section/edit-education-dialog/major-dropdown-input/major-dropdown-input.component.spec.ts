@@ -49,65 +49,20 @@ describe('MajorDropdownInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should update empty value of new major on selection', () => {
-    const majorName = '';
-
-    component.onSelectionChange({
-      source: {
-        value: '',
-      }
-    } as unknown as MatOptionSelectionChange<string>);
-
-    expect(majorControl.value).toEqual({ operation: 'Create', name: majorName, isMinor: false });
-  });
-
-  it('should update name of new major on selection', () => {
-    const majorName = allMajors[0];
-
-    component.onSelectionChange({
-      source: {
-        value: majorName,
-      }
-    } as unknown as MatOptionSelectionChange<string>);
-
-    expect(majorControl.value).toEqual({ operation: 'Create', name: majorName, isMinor: false });
-  });
-
-  it('should update name of existing major on selection', () => {
+  it('should set major name if valid', () => {
     const majorName = allMajors[0];
     majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
 
-    component.onSelectionChange({
-      source: {
-        value: majorName,
-      }
-    } as unknown as MatOptionSelectionChange<string>);
+    component.setMajorName(majorName);
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
   });
 
-  it('should set major if valid on blur', () => {
-    const majorName = allMajors[0];
-    majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
-
-    component.onSelectionChange({
-      source: {
-        value: majorName,
-      }
-    } as unknown as MatOptionSelectionChange<string>);
-
-    expect(majorControl.value).toEqual({ operation: 'Edit', name: majorName, isMinor: false });
-  });
-
-  it('should empty major if invalid on blur', () => {
+  it('should empty major when setting invalid major name', () => {
     const majorName = 'Not a Real Major';
     majorControl.setValue({ operation: 'Edit', name: majorName, isMinor: false });
 
-    component.onInputBlur({
-      target: {
-        value: majorName,
-      }
-    } as unknown as FocusEvent);
+    component.setMajorName(majorName);
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: '', isMinor: false });
   });
