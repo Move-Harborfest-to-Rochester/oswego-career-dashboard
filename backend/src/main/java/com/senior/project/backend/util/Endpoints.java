@@ -44,6 +44,7 @@ public enum Endpoints {
   
     // Portfolio
     EDUCATION("student/education", true),
+    PERSONAL_INFO("personal-info", true),
 
     // Jobs
     JOBS("jobs", true),

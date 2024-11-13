@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location} from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
@@ -19,11 +20,12 @@ import { ScreenSizeService } from "../util/screen-size.service";
 import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.component';
 import { JobService } from './job/job.service';
 
+import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.less', './job/jobs.less']
+  styleUrls: ['./portfolio.component.less', './personal-info.component.less', './job/jobs.less']
 })
 export class PortfolioComponent implements OnInit {
   user: User = User.makeEmpty();
@@ -45,10 +47,11 @@ export class PortfolioComponent implements OnInit {
     private readonly milestoneService: MilestoneService,
 
     private readonly addProjectDialogue : MatDialog,
+    private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
-
+    private location: Location,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
 
@@ -90,6 +93,11 @@ export class PortfolioComponent implements OnInit {
     });
   }
 
+  goBack() {
+    this.location.back()
+  }
+
+
   loadProfilePicture() {
     this.artifactService.getArtifactFile(this.user.profilePictureId)
       .subscribe((blob) => {
@@ -99,6 +107,16 @@ export class PortfolioComponent implements OnInit {
 
   goToLinkedIn() {
     location.href = this.user.linkedin;
+  }
+
+  openEditPersonalInfoDialog() {
+    const dialogRef = this.editPersonalInfoDialog.open(EditPersonalInfoDialogComponent);
+    dialogRef.afterClosed().subscribe((personalInfo) => {
+      if (!personalInfo) {
+        return;
+      }
+      this.user.setPersonalInfo(personalInfo);
+    });
   }
 
   skills(): string[] {

@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.portfolio.dto.EducationDTO;
+import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
 
 import reactor.core.publisher.Mono;
 
@@ -19,5 +20,11 @@ public class PortfolioHandler {
         return request.bodyToMono(EditEducationDTO.class)
                 .flatMap(portfolioService::saveEducation)
                 .flatMap((education) -> ServerResponse.ok().body(Mono.just(education), EducationDTO.class));
+    }
+
+    public Mono<ServerResponse> savePersonalInfo(ServerRequest request) {
+        return request.bodyToMono(PersonalInfoDTO.class)
+                .flatMap(portfolioService::savePersonalInfo)
+                .flatMap((personalInfo) -> ServerResponse.ok().bodyValue(personalInfo));
     }
 }

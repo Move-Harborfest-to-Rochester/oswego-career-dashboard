@@ -1,7 +1,10 @@
 <div class="portfolio-container" [class.mobile]="isMobile$ | async">
   <div class="section-container">
     <div class="section">
-      <h1>Portfolio</h1>
+      <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back
+      </button>
+      <h1 id="portfolio-block">Portfolio</h1>
       <div class="card-body">
         <div class="card-body-section" [class.mobile]="personalSectionResize$ | async">
           <div class="card-body-section-header">
@@ -13,31 +16,37 @@
                 alt="User Image">
               <mat-icon class="profile-picture" *ngIf="user.profilePictureURL == null">account_circle</mat-icon>
             </div>
-            <div class="card-body-section-data content">
-              <div>
-                <span class="title">Name</span>
-                <span>{{user.preferredName}} {{user.lastName}}</span>
+            <div class="card-body-section-data content personal-info">
+              <div class="attributes">
+                <div>
+                  <span class="title">Name</span>
+                  <span>{{user.fullName}}</span>
+                </div>
+                <div>
+                  <span class="title">Email</span>
+                  <span>{{user.email}}</span>
+                </div>
+                <div>
+                  <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
+                  <span class="title" *ngIf="isMobile$| async">Phone</span>
+                  <span>{{user.phoneNumber}}</span>
+                </div>
+                <div *ngIf="user.linkedin">
+                  <span class="title">LinkedIn</span>
+                  <span>
+                    <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''" (click)="goToLinkedIn()">link</mat-icon>
+                  </span>
+                  <span *ngIf="user.linkedin === null">No LinkedIn</span>
+                </div>
+                <div class="verticle" *ngIf="user.studentDetails?.description">
+                  <p class="title">Description</p>
+                  <p>{{user.studentDetails!.description}}</p>
+                </div>
               </div>
-              <div>
-                <span class="title">Email</span>
-                <span>{{user.email}}</span>
-              </div>
-              <div>
-                <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
-                <span class="title" *ngIf="isMobile$| async">Phone</span>
-                <span>{{user.phoneNumber}}</span>
-              </div>
-              <div>
-                <span class="title">LinkedIn</span>
-                <span>
-                  <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''"
-                    (click)="goToLinkedIn()">link</mat-icon>
-                </span>
-                <span *ngIf="user.linkedin === null">No LinkedIn</span>
-              </div>
-              <div class="verticle">
-                <p class="title">Description</p>
-                <p>{{user.studentDetails?.description}}</p>
+              <div class="actions">
+                <button mat-mini-fab (click)="openEditPersonalInfoDialog()">
+                  <mat-icon>edit</mat-icon>
+                </button>
               </div>
             </div>
           </div>

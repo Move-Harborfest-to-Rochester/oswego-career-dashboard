@@ -14,6 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import com.senior.project.backend.domain.YearLevel;
 import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.portfolio.dto.EducationDTO;
+import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
 import com.senior.project.backend.util.Endpoints;
 
 import reactor.core.publisher.Mono;
@@ -27,6 +28,17 @@ public class PortfolioHandlerTest {
 
     @Mock
     private PortfolioService portfolioService;
+
+    @Test
+    public void testSavePersonalInfo() {
+        when(portfolioService.savePersonalInfo(any(PersonalInfoDTO.class))).thenReturn(Mono.just(new PersonalInfoDTO()));
+
+        webTestClient.patch()
+                .uri(Endpoints.PERSONAL_INFO.uri())
+                .bodyValue(new PersonalInfoDTO())
+                .exchange()
+                .expectStatus().isOk();
+    }
 
     @BeforeEach
     public void setup() {
