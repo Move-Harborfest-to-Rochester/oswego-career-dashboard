@@ -163,6 +163,11 @@ export class ImageUploadComponent implements OnInit {
     this.http.post(url, updateData).subscribe({
       next: (data) => {
         if (data) {
+          this._snackBar.open("Image Set to Default", 'close', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 3000,
+          });
           this.closeModal();
         } else {
           console.error("No data returned from backend.");
@@ -176,12 +181,6 @@ export class ImageUploadComponent implements OnInit {
           duration: 3000,
         });
       }
-    });
-
-    this._snackBar.open("Image Set to Default", 'close', {
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      duration: 3000,
     });
   }
 }
