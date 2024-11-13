@@ -15,10 +15,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 
-import com.senior.project.backend.Constants;
 import com.senior.project.backend.domain.Job;
 import com.senior.project.backend.domain.StudentDetails;
 
+import jakarta.validation.Validator;
 import reactor.core.publisher.Mono;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +27,8 @@ public class JobHandlerTest {
     private JobHandler jobHandler;
     @Mock
     private JobService jobService;
+    @Mock
+    private Validator validator;
 
     private WebTestClient web;
 
@@ -45,7 +47,7 @@ public class JobHandlerTest {
         request.setDescription("Test Description");
         request.setLocation("Test Location");
         request.setCoop(true);
-        request.setStartDate(new Date());
+        request.setStartDate(new Date(1704085200));
         Job job = new Job(
             UUID.randomUUID(),
             request.getName(),
