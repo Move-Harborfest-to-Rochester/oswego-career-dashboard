@@ -65,4 +65,10 @@ describe('MajorDropdownInputComponent', () => {
 
     expect(majorControl.value).toEqual({ operation: 'Edit', name: '', isMinor: false });
   });
+
+  it('should get major name from major', () => {
+    const majorName = component.getMajorName({ operation: 'Edit', name: allMajors[0], isMinor: false });
+
+    expect(majorName).toEqual(allMajors[0]);
+  });
 });
