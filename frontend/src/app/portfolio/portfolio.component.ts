@@ -179,7 +179,11 @@ export class PortfolioComponent implements OnInit {
 
       console.log(patch);
       // Optional: Call the service with the generated patch
-      // this.portfolioService.editSkillsPatch(patch);
+      // this.portfolioService.editSkillsPatch(patch, this.user.studentDetails?.id!).subscribe(
+      //   value => {
+      //
+      //   }
+      // );
     });
   }
 
