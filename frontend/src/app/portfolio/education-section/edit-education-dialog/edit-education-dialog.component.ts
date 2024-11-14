@@ -9,7 +9,15 @@ import {
   type FormGroup,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DegreeProgramOperation } from '../../portfolio.service';
+import { DegreeProgramOperation, PortfolioService } from '../../portfolio.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/security/auth.service';
+import { UserService } from 'src/app/security/user.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { mergeMap, zipWith, map } from 'rxjs';
+import { LangUtils } from 'src/app/util/lang-utils';
+import { User } from 'src/app/security/domain/user';
+import Education from 'src/domain/Education';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -30,8 +38,8 @@ export type EditEducationFormValues = {
   ],
 })
 export class EditEducationDialogComponent implements OnInit {
+  form!: FormGroup;
   protected title = 'Education';
-  protected form!: FormGroup;
   protected readonly yearLevels = [
     null,
     'Freshman',
@@ -40,17 +48,38 @@ export class EditEducationDialogComponent implements OnInit {
     'Senior',
   ];
   @Input() defaultValues?: EditEducationFormValues;
+  private user: User = User.makeEmpty();
+  isSubmitting: boolean = false;
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
+    private readonly portfolioService: PortfolioService,
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
-    console.log('hello');
     this.createForm();
     this.dialogRef.addPanelClass('edit-dialog');
-    console.log(this.form);
+
+    this.route.paramMap
+      .pipe(
+        mergeMap((map: ParamMap) => {
+          return map.has('id')
+            ? this.userService.getUser(map.get('id')!)
+            : this.authService.user$;
+        }),
+        zipWith(this.route.url),
+        map(([user, _]) => user)
+      )
+      .subscribe((user) => {
+        if (LangUtils.exists(user)) {
+          this.user = user!;
+        }
+      });
   }
 
   createForm() {
@@ -72,6 +101,14 @@ export class EditEducationDialogComponent implements OnInit {
         ) ?? []
       ),
     });
+  }
+
+  getDefaultDegreeProgramOperation(isMinor: boolean): DegreeProgramOperation {
+    return {
+      operation: 'Create',
+      name: '',
+      isMinor,
+    };
   }
 
   universityIdValidator(): ValidatorFn {
@@ -106,7 +143,28 @@ export class EditEducationDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.dialogRef.close(this.form.value);
+    const alertDurationMs = 5000;
+    this.isSubmitting = true;
+    this.dialogRef.disableClose = true;
+    this.portfolioService.editEducation(this.form.value).subscribe({
+      next: (education: Education) => {
+        this.isSubmitting = false;
+        this.dialogRef.disableClose = false;
+        this.dialogRef.close();
+        this.user.setEducation(education);
+        this.snackBar.open('Education saved successfully.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        this.dialogRef.disableClose = false;
+        console.error('Error saving education:', error);
+        this.snackBar.open('Education failed to save.', 'Close', {
+          duration: alertDurationMs,
+        });
+      },
+    });
   }
 
   closeDialog(): void {

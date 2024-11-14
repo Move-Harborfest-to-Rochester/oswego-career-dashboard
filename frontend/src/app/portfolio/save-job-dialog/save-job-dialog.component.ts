@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Job } from 'src/domain/Job';
 import { JobService } from '../job/job.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { validateEndDateBeforeStartDate } from 'src/app/util/validation-utils';
 
 @Component({
   selector: 'save-job-dialog',
@@ -14,15 +15,7 @@ export class SaveJobDialogComponent {
   title: string = 'Create Job';
 
   readonly today: Date = new Date();
-  readonly form: FormGroup = this.fb.group({
-    id: [''],
-    name: [''],
-    location: [''],
-    description: [''],
-    startDate: [null],
-    endDate: [null],
-    coop: [false],
-  });
+  form!: FormGroup;
 
   constructor(
     private readonly jobService: JobService,
@@ -37,18 +30,33 @@ export class SaveJobDialogComponent {
     if (this.job) {
       this.title = 'Edit Job';
     }
-    this.form.reset({
-      id: this.job?.id ?? '',
-      name: this.job?.name ?? '',
-      location: this.job?.location ?? '',
-      description: this.job?.description ?? '',
-      startDate: this.job?.startDate ?? null,
-      endDate: this.job?.endDate ?? null,
-      coop: this.job?.isCoop ?? false,
-    })
+    this.form = this.fb.group({
+      id: [this.job?.id ?? ''],
+      name: [this.job?.name ?? '', Validators.required],
+      location: [this.job?.location ?? '', Validators.required],
+      description: [this.job?.description ?? ''],
+      startDate: [this.job?.startDate ?? null, [Validators.required]],
+      endDate: [this.job?.endDate ?? null],
+      coop: [this.job?.isCoop ?? false],
+    }, {
+      validators: this.dateRangeValidator
+    });
+  }
+
+  dateRangeValidator(formControl: AbstractControl): ValidationErrors | null {
+    const startDate = formControl.get('startDate')?.value;
+    const endDate = formControl.get('endDate')?.value;
+
+    return validateEndDateBeforeStartDate(startDate, endDate);
+  }
+
+  hasError(error: string): boolean {
+    console.log(error, this.form.errors);
+    return this.form.hasError(error) && (this.form.touched || this.form.dirty)
   }
 
   saveJob(): void {
+      console.log(this.form.errors);
       if (this.form.invalid) {
         return;
       }
@@ -73,3 +81,4 @@ export class SaveJobDialogComponent {
     this.dialogRef.close();
   }
 }
+

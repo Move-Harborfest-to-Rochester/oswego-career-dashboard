@@ -1,13 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { Location} from "@angular/common";
+import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable, map, mergeMap, tap, zipWith } from 'rxjs';
+import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
 import { Job } from 'src/domain/Job';
-import { ArtifactService } from '../file-upload/artifact.service';
-import { MilestoneService } from '../milestones-page/milestones/milestone.service';
+import { ArtifactService } from "../file-upload/artifact.service";
+import { MilestoneService } from "../milestones-page/milestones/milestone.service";
 import { AuthService } from '../security/auth.service';
 import { User } from '../security/domain/user';
 import { UserService } from '../security/user.service';
+import { Project } from 'src/domain/Project'
+import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
+import { SaveProjectRequest, ProjectService } from './project/project.service';
 import { LangUtils } from '../util/lang-utils';
+import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 import { ScreenSizeService } from '../util/screen-size.service';
 import {
   DegreeProgramOperation,
@@ -19,7 +25,6 @@ import {
   EditEducationDialogComponent,
   EditEducationFormValues
 } from "./education-section/edit-education-dialog/edit-education-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
 import {
   EditSkillsDefaultValues,
   EditSkillsDialogComponent
@@ -38,10 +43,9 @@ import {
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.less'],
+  styleUrls: ['./portfolio.component.less', './personal-info.component.less', './job/jobs.less']
 })
 export class PortfolioComponent implements OnInit {
-
   user: User = User.makeEmpty();
   external: boolean = false;
   profileURL: string | null = null;
@@ -54,13 +58,18 @@ export class PortfolioComponent implements OnInit {
     private readonly userService: UserService,
     private readonly jobService: JobService,
     private readonly artifactService: ArtifactService,
+    private readonly projectService: ProjectService,
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
+
+    private readonly addProjectDialogue : MatDialog,
+    private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
+    private location: Location,
     private readonly portfolioService: PortfolioService,
     private readonly editDialog: MatDialog,
   ) {
@@ -110,9 +119,13 @@ export class PortfolioComponent implements OnInit {
       });
   }
 
+  goBack() {
+    this.location.back()
+  }
+
+
   loadProfilePicture() {
-    this.artifactService
-      .getArtifactFile(this.user.profilePictureId)
+    this.artifactService.getArtifactFile(this.user.profilePictureId)
       .subscribe((blob) => {
         this.user.profilePictureURL = URL.createObjectURL(blob);
       });
@@ -214,6 +227,16 @@ export class PortfolioComponent implements OnInit {
     .filter((d) => d.isMinor)
     .map((d) => d.name);
   }
+  openEditPersonalInfoDialog() {
+    const dialogRef = this.editPersonalInfoDialog.open(EditPersonalInfoDialogComponent);
+    dialogRef.afterClosed().subscribe((personalInfo) => {
+      if (!personalInfo) {
+        return;
+      }
+      this.user.setPersonalInfo(personalInfo);
+    });
+  }
+
   skills(): string[] {
     return (this.user.studentDetails?.skills ?? [])
       .filter((s) => !s.isLanguage)
@@ -221,7 +244,8 @@ export class PortfolioComponent implements OnInit {
   }
 
   jobs(): Job[] {
-    return (this.user.studentDetails?.jobs ?? []).filter((s) => !s.isCoop);
+    return (this.user.studentDetails?.jobs ?? [])
+      .filter((s) => !s.isCoop)
   }
 
   createJob(): void {
@@ -285,7 +309,8 @@ export class PortfolioComponent implements OnInit {
 
 
   coops(): Job[] {
-    return (this.user.studentDetails?.jobs ?? []).filter((s) => s.isCoop);
+    return (this.user.studentDetails?.jobs ?? [])
+      .filter((s) => s.isCoop)
   }
 
   languages(): string[] {
@@ -298,17 +323,96 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
-  formatDate(date: Date) {
-    return this.isMobile$
-      ? date.toLocaleString('en-US', {
-          month: 'numeric',
-          year: 'numeric',
-          day: 'numeric',
-        })
-      : date.toLocaleString('en-US', {
-          month: 'long',
-          year: 'numeric',
-          day: 'numeric',
+
+  formatDate(date: Date | null){
+    if(!date){
+      return 'present'
+    }
+    return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
+      date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+
+  }
+
+  openAddProjectModal() {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
+        width: '500px',
+        data: { header: "Add New Project"}
+      });
+    dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      this.projectService.saveProject(result).subscribe((project) => {
+        this.user.studentDetails?.projects?.push(project);
+      });
+    });
+  }
+  openEditProjectModal(project: Project): void {
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
+      width: '500px',
+      data: {
+        header: "Edit Project",
+        Project: project
+      }
+    });
+    dialogRef.afterClosed().subscribe((result?: SaveProjectRequest) => {
+      if (!result) {
+        return;
+      }
+      if (!this.user.studentDetails) {
+        this.user.studentDetails = StudentDetails.makeEmpty();
+      }
+      const updatedProject: Project = {
+        ...result,
+        id: project.id,
+        studentDetailsID: this.user.studentDetails.id,
+      };
+
+      this.user.studentDetails.projects = this.user.studentDetails.projects.map((p) =>
+        p.id === updatedProject.id ? updatedProject : p
+      );
+
+
+      this.projectService.saveProject(updatedProject).subscribe(
+        (project) => {
+        },
+        (error) => {
+          alert('Failed to save project: ' + error.message);
+        }
+      );
+    });
+  }
+
+  confirmProjectDelete(project: Project) {
+    const alertDurationMs = 5000;
+    this.projectService.deleteProject(project.id).subscribe({
+      next: () => {
+        if (!this.user.studentDetails) {
+          this.user.studentDetails = StudentDetails.makeEmpty();
+        }
+        this.user.studentDetails.projects = this.user.studentDetails?.projects.filter((p) => p.id !== project.id);
+        this.deleteDialog.closeAll();
+        this.snackBar.open('Project deleted successfully.', 'Close', {
+          duration: alertDurationMs,
         });
+      },
+      error: (error: unknown) => {
+        console.error(error);
+        this.snackBar.open('Failed to delete Project.', 'Close', {
+          duration: alertDurationMs,
+        });
+      }
+    });
+  }
+  deleteProject(project: Project){
+    const dialogueRef: ConfirmationDialogData = {
+      entityId : project.id,
+      title: 'Delete this Project?',
+      action: `delete the project "${project.name}"?`,
+      onConfirm: () => this.confirmProjectDelete(project)
+    };
+    this.addProjectDialogue.open(ConfirmationDialogComponent, {
+      data: dialogueRef
+    })
   }
 }

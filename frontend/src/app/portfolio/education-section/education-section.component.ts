@@ -9,12 +9,9 @@ import { LangUtils } from 'src/app/util/lang-utils';
 import { ScreenSizeService } from 'src/app/util/screen-size.service';
 import {
   DegreeProgramOperation,
-  EditEducationRequest,
-  PortfolioService,
 } from '../portfolio.service';
 import {
   EditEducationDialogComponent,
-  EditEducationFormValues,
 } from './edit-education-dialog/edit-education-dialog.component';
 
 @Component({
@@ -32,7 +29,6 @@ export class EducationSectionComponent implements OnInit {
     private readonly screenSizeSvc: ScreenSizeService,
     private readonly route: ActivatedRoute,
     private readonly editDialog: MatDialog,
-    private readonly portfolioService: PortfolioService
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
   }
@@ -57,6 +53,7 @@ export class EducationSectionComponent implements OnInit {
 
   openEditDialog(): void {
     const dialogRef = this.editDialog.open(EditEducationDialogComponent);
+    dialogRef.addPanelClass('edit-dialog');
     dialogRef.componentInstance.defaultValues = {
       universityId: this.user.studentDetails?.universityId ?? '',
       year: this.user.studentDetails?.yearLevel ?? '',
@@ -64,22 +61,6 @@ export class EducationSectionComponent implements OnInit {
       majors: this.getMajorsFromUser() ?? [],
       minors: this.getMinorsFromUser() ?? [],
     };
-
-    dialogRef.afterClosed().subscribe((result?: EditEducationFormValues) => {
-      if (!result) {
-        return;
-      }
-      const request: EditEducationRequest = {
-        gpa: Number(result.gpa),
-        universityId: Number(result.universityId),
-        year: result.year,
-        degreeProgramOperations: [...result.majors, ...result.minors],
-      };
-      this.portfolioService.editEducation(request).subscribe((user) => {
-        console.log(user);
-        console.log('Edit dialog closed:', result);
-      });
-    });
   }
 
   getMajorsFromUser(): DegreeProgramOperation[] {
@@ -118,5 +99,12 @@ export class EducationSectionComponent implements OnInit {
     return (this.user.studentDetails?.degreePrograms ?? [])
       .filter((d) => d.isMinor)
       .map((d) => d.name);
+  }
+
+
+  disableEnterKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
   }
 }

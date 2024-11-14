@@ -9,6 +9,10 @@ h3 {
   font-size: medium;
   font-weight: bold;
 }
+.add-project-container {
+  display: flex;
+  justify-content: space-between;
+}
 
 .portfolio-container {
   width: 95%;
@@ -30,6 +34,9 @@ h3 {
       max-width: 150px; /* You can set a max-width to ensure they don't extend too far */
       margin-bottom: 10px; /* Add margin for spacing */
     }
+  }
+  #portfolio-block {
+    padding-top: 15px;
   }
 
   .content {
@@ -74,10 +81,13 @@ h3 {
     gap: 10px;
 
     .project {
+      display: flex;
+      //
       padding: 20px;
       border-radius: 1em;
       box-shadow: @oswego-box-shadow;
       background-color: @oswego-gray;
+      justify-content: space-between; // used to be flexstart
 
       .date-row {
         width: 100%;
@@ -107,6 +117,16 @@ h3 {
       .project-description {
         padding-top: 10px;
       }
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
     }
   }
 
@@ -166,7 +186,6 @@ h3 {
         width: 100%;
       }
     }
-
   }
 
   .section {
