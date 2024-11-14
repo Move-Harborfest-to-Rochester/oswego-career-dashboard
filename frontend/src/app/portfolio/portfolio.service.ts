@@ -37,11 +37,18 @@ export class PortfolioService {
   constructor(private readonly http: HttpClient) {}
 
   // Edit Education (Service Method)
-  editEducation(request: EditEducationRequest): Observable<User> {
+  editEducation(formValues: EditEducationFormValues): Observable<Education> {
+    const request: EditEducationRequest = {
+      gpa: Number(formValues.gpa),
+      universityId: Number(formValues.universityId),
+      year: formValues.year,
+      degreeProgramOperations: [...formValues.majors, ...formValues.minors],
+    };
     return this.http
-    .put<UserJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
-    .pipe(map((user) => new User(user)));
+    .put<EducationJSON>(constructBackendRequest(Endpoints.EDIT_EDUCATION), request)
+    .pipe(map((json) => new Education(json)));
   }
+
 
   // Edit Skills Patch (Service Method)
   editSkillsPatch(patch: any[], studentDetailsID: string): Observable<User> {

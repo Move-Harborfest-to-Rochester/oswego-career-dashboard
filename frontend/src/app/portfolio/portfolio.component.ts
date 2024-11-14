@@ -68,6 +68,7 @@ export class PortfolioComponent implements OnInit {
     private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
+    private readonly editInterestDialog: MatDialog,
     private readonly snackBar: MatSnackBar,
     private location: Location,
     private readonly portfolioService: PortfolioService,
@@ -143,6 +144,12 @@ export class PortfolioComponent implements OnInit {
               isLanguage: skill.isLanguage
             }))?? []
       )
+  }
+
+  openEditInterests() : void {
+    const dialogRef = this.editInterestDialog.open();
+
+
   }
 
   openEditDialog(isLanguages: boolean): void {

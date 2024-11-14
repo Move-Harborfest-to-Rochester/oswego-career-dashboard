@@ -25,6 +25,8 @@ import { SkillsSectionComponent } from './skills-section/skills-section.componen
 import { EditSkillsDialogComponent } from './skills-section/edit-skills-dialog/edit-skills-dialog.component';
 import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/skills-list-input/skills-list-input.component';
 import { AddProjectModalComponent } from './add-project-modal/add-project-modal.component';
+import { EditInterestsComponent } from './edit-interests/edit-interests.component';
+import { InterestListInputComponent } from './edit-interests/interest-list-input/interest-list-input.component';
 
 
 @NgModule({
@@ -34,6 +36,8 @@ import { AddProjectModalComponent } from './add-project-modal/add-project-modal.
     EditSkillsDialogComponent,
     SkillsListInputComponent,
     AddProjectModalComponent,
+    EditInterestsComponent,
+    InterestListInputComponent,
   ],
   exports: [],
   imports: [
