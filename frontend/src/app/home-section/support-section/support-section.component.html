@@ -11,19 +11,28 @@
     <div class="tab-content" #tabContent>
       <ng-container [ngSwitch]="selectedTab">
         <div *ngSwitchCase="0">
-          <div class = "tab-header">
-          <h3>Maureen Melville</h3>
-          </div>
-          <p>mmelvill@oswego.edu</p>
-          <a href ='https://professormoville.youcanbook.me/'>Schedule a Time</a>
-          <h4>Fall 2024 Office Hours:</h4>
-          <p>Available on Campus:</p>
-          <p>Tuesday,  9 am-2 pm</p>
-          <p>Friday, 12:30-2 pm</p>
 
-          <p>Available Zoom only:</p>
-          <p>Thursday, 9 am-1:30 pm (Zoom Only)</p>
-        </div>
+            <h3>Maureen Melville</h3>
+            <p>Email: <a href="mailto:mmelvill@oswego.edu">mmelvill@oswego.edu</a></p>
+
+            <p>
+              <a href="https://professormoville.youcanbook.me/" class="schedule-button">Schedule a Time</a>
+            </p>
+
+            <div class="office-hours">
+              <h5>Fall 2024 Office Hours:</h5>
+              <div class="on-campus">
+                <h6>Available on Campus:</h6>
+                <p>Tuesday, 9 am - 2 pm</p>
+                <p>Friday, 12:30 - 2 pm</p>
+              </div>
+              <div class="zoom-only">
+                <h6>Available Zoom Only:</h6>
+                <p>Thursday, 9 am - 1:30 pm</p>
+              </div>
+            </div>
+          </div>
+
         <div *ngSwitchCase="1">
           <div class="basac-container">
             <h3>Business Administration Student Advisement Center (BASAC)</h3>
