@@ -62,16 +62,15 @@ export class EventMainPageComponent implements OnInit {
     dialogConfig.height = "75%";
     dialogConfig.width = "500px";
     dialogConfig.data = {
-      event: event
+      event: event,
+      hasImage: !!event?.imageId
     }
 
     const modalDialog = this.matDialog.open(EventImageModalComponent, dialogConfig);
 
     modalDialog.afterClosed().subscribe(result => {
-      if (result != null) {
-        event.imageId = result;
-      }
-    })
+
+    });
   }
 
   protected readonly Endpoints = Endpoints;

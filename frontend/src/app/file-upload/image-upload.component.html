@@ -4,6 +4,7 @@
       <mat-icon>upload_file</mat-icon>
       <input #fileInput type="file" [accept]="acceptedFileTypes" (change)="onChange($event)" style="display:none;"/>
     </button>
+    <ng-container *ngTemplateOutlet="removeButton"></ng-container>
     <ng-container *ngTemplateOutlet="backButton"></ng-container>
   </ng-container>
   <ng-template #fileDetails>
@@ -63,6 +64,12 @@
         </ng-container>
       </ng-container>
     </div>
+  </ng-template>
+
+  <ng-template #removeButton>
+    <button *ngIf="hasImage" mat-raised-button id="modal-remove-button" color="accent" (click)="removeImage()">
+      Remove Image
+    </button>
   </ng-template>
 
   <ng-template #backButton>
