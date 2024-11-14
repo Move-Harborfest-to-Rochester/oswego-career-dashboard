@@ -11,7 +11,9 @@
     <div class="tab-content" #tabContent>
       <ng-container [ngSwitch]="selectedTab">
         <div *ngSwitchCase="0">
+          <div class = "tab-header">
           <h3>Maureen Melville</h3>
+          </div>
           <p>mmelvill@oswego.edu</p>
           <a href ='https://professormoville.youcanbook.me/'>Schedule a Time</a>
           <h4>Fall 2024 Office Hours:</h4>
@@ -23,17 +25,56 @@
           <p>Thursday, 9 am-1:30 pm (Zoom Only)</p>
         </div>
         <div *ngSwitchCase="1">
-          <h3>Business Administration Student Advisement Center (BASAC)</h3>
-          <p>To schedule time with the Business Administration Student Advisement Center email basac@oswego.edu</p>
-          <p>Alicia King</p>
-          <p>Director, School of Business Advertisement</p>
-          <p>alicia.king@oswego.edu</p>
+          <div class="basac-container">
+            <h3>Business Administration Student Advisement Center (BASAC)</h3>
+            <p>To schedule time with the Business Administration Student Advisement Center email <a href="mailto:basac@oswego.edu">basac@oswego.edu</a></p>
+
+            <div class="contact-info">
+              <div class="contact-item">
+                <p class="name">Alicia King</p>
+                <p class="role">Director, School of Business Advisement</p>
+                <p class="email"><a href="mailto:alicia.king@oswego.edu">alicia.king@oswego.edu</a></p>
+              </div>
+
+              <div class="contact-item">
+                <p class="name">Julia Lamb</p>
+                <p class="role">Student Academic Success Business Advisor</p>
+                <p class="email"><a href="mailto:basac@oswego.edu">basac@oswego.edu</a></p>
+              </div>
+            </div>
+
+            <p class="basac-description">
+              BASAC offers students with the guidance and resources they need to make informed academic decisions, while working towards completion of their degree program.
+            </p>
+          </div>
         </div>
         <div *ngSwitchCase="2">
           <h3>Document Templates</h3>
-          <p>Resume Templates : Our templates help you communicate your skills, experiences, and accomplishments to make a strong impression on employers.</p>
-          <p>Cover Letter Templates: Introduce yourself confidently with a cover letter suited for business roles.</p>
+          <div class="template-container">
+            <div class="template-item">
+              <div class="logo-circle">
+
+                <img src="resume-logo.png" alt="Resume Logo">
+              </div>
+              <div class="template-content">
+                <h4>Resume Templates</h4>
+                <p>Our templates help you communicate your skills, experiences, and accomplishments to make a strong impression on employers.</p>
+              </div>
+            </div>
+
+            <div class="template-item">
+              <div class="logo-circle">
+
+                <img src="cover-letter-logo.png" alt="Cover Letter Logo">
+              </div>
+              <div class="template-content">
+                <h4>Cover Letter Templates</h4>
+                <p>Introduce yourself confidently with a cover letter suited for business roles.</p>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div *ngSwitchCase="3">
           <h3>LinkedIn Learning</h3>
           <p>LinkedIn Learning offers a variety of courses that allow you to enhance your career readiness. Gain in-demand skills and earn certificates that boost your resume.</p>
@@ -41,9 +82,28 @@
         </div>
         <div *ngSwitchCase="4">
           <h3>Contacts for Support</h3>
-          <p>School of Business<br>238 Rich Hall<br>315-312-2272<br>business@oswego.edu</p>
-          <p>Admissions<br>Undergraduate Admissions : 315-312-2250<br>Graduate Admissions : 315-312-3152</p>
-          <p>Advisement Center<br>151 Marano Campus Center<br>315-312-2387<br>advisement@oswego.edu</p>
+
+          <div class="contact-sections">
+            <div class="contact-item">
+              <h4>School of Business</h4>
+              <p>238 Rich Hall</p>
+              <p>Phone: 315-312-2272</p>
+              <p>Email: <a href="mailto:business@oswego.edu">business@oswego.edu</a></p>
+            </div>
+
+            <div class="contact-item">
+              <h4>Admissions</h4>
+              <p>Undergraduate Admissions: 315-312-2250</p>
+              <p>Graduate Admissions: 315-312-3152</p>
+            </div>
+
+            <div class="contact-item">
+              <h4>Advisement Center</h4>
+              <p>151 Marano Campus Center</p>
+              <p>Phone: 315-312-2387</p>
+              <p>Email: <a href="mailto:advisement@oswego.edu">advisement@oswego.edu</a></p>
+            </div>
+          </div>
         </div>
       </ng-container>
     </div>
