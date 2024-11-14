@@ -45,37 +45,55 @@ export class EditSkillsDialogComponent implements OnInit {
     });
   }
   handleEdits(formValue: { skills: SkillsOperation[] }): Skill[] {
-    let skills: Skill[] = [];
+    let updatedSkillsList: Skill[] = this.defaultValues?.skills.map(skill => ({
+      id: skill.id ?? '', // Ensure id is defined
+      name: skill.name,
+      isLanguage: skill.isLanguage,
+    })) || [];
 
     formValue.skills.forEach((skillOperation) => {
       if (skillOperation.operation === "Create") {
-        // Handle new skills to be added
-        skills.push({
-          id: skillOperation.id ?? '',  // Create a new ID if necessary
+        // Add new skill
+        updatedSkillsList.push({
+          id: skillOperation.id ?? '',  // Ensure id is a string
           name: skillOperation.name,
-          isLanguage: skillOperation.isLanguage
+          isLanguage: skillOperation.isLanguage,
         });
       } else if (skillOperation.operation === "Edit") {
-        // Find the existing skill and update its properties
-        const skillIndex = this.defaultValues?.skills.findIndex(
-          (existingSkill) => existingSkill.id === skillOperation.id
-        );
-        if (skillIndex !== undefined && skillIndex !== -1) {
-          const updatedSkill = {
-            id: this.defaultValues!.skills[skillIndex].id || '',
+        // Update an existing skill
+        const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
+        if (index !== -1) {
+          updatedSkillsList[index] = {
+            id: updatedSkillsList[index].id, // Keep original id
             name: skillOperation.name,
             isLanguage: skillOperation.isLanguage,
           };
-          skills.push(updatedSkill);
         }
       } else if (skillOperation.operation === "Delete") {
-        // Filter out skills that match the 'Delete' operation
-        skills = skills.filter(skill => skill.id !== skillOperation.id);
+        // Remove skill by id
+        updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
       }
     });
 
-    return skills;
+    console.log("Updated skills list after operations:", updatedSkillsList);
+
+    // Patch the form array to match the new list of skills
+    this.updateFormArray(updatedSkillsList);
+
+    return updatedSkillsList;
   }
+
+  updateFormArray(updatedSkillsList: Skill[]): void {
+    const formArray = this.skills;
+    formArray.clear();  // Clear existing controls
+    updatedSkillsList.forEach(skill => {
+      formArray.push(this.formBuilder.control(skill));  // Re-add updated list to FormArray
+    });
+    console.log("Form array length after update:", formArray.length);
+  }
+
+
+
 
 
   saveChanges(): void {

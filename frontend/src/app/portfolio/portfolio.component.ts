@@ -137,25 +137,64 @@ export class PortfolioComponent implements OnInit {
     dialogRef.componentInstance.defaultValues = {
       skills: this.getSkills(isLanguages),
     };
+    dialogRef.componentInstance.isLanguageParent = isLanguages;
 
     dialogRef.afterClosed().subscribe((result?: Skill[]) => {
-      if (!result) {
-        return;
+      if (!result) return;
+
+      const oldSkills = this.user.studentDetails!.skills;
+      const newSkills = result;
+
+      const patch: Operation[] = [];
+
+      // Maps for comparing old and new skills by id
+      const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
+      const newSkillsMap = new Map(newSkills.map(skill => [skill.id, skill]));
+
+      // Step 1: Add and replace operations
+      newSkills.forEach((newSkill) => {
+        const oldSkill = oldSkillsMap.get(newSkill.id);
+        const fullIndex = oldSkills.findIndex(skill => skill.id === newSkill.id);
+
+        if (!oldSkill) {
+          // New skill to be added at the correct position in the full skills list
+          const addIndex = this.findFullIndexForNewSkill(newSkill, isLanguages, oldSkills);
+          patch.push({ op: 'add', path: `/skills/${addIndex}`, value: newSkill });
+        } else if (fullIndex !== -1) {
+          // Existing skill - check if it needs updating
+          if (oldSkill.name !== newSkill.name || oldSkill.isLanguage !== newSkill.isLanguage) {
+            patch.push({ op: 'replace', path: `/skills/${fullIndex}`, value: newSkill });
+          }
+        }
+      });
+
+      // Step 2: Remove operations
+      for (let i = oldSkills.length - 1; i >= 0; i--) {
+        const oldSkill = oldSkills[i];
+        if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
+          // Skill was removed - use the actual index in the full skills list
+          patch.push({ op: 'remove', path: `/skills/${i}` });
+        }
       }
 
-      const oldStudentDetails = this.user.studentDetails!
-
-      // this.user.studentDetails!.skills = result;
-      const newStudentDetails: StudentDetails = {...oldStudentDetails, skills: result}
-
-      const patch:Operation[] = createPatch(oldStudentDetails, newStudentDetails);
-      console.log(patch)
-      // this.portfolioService.editSkillsPatch(createPatch(oldStudentDetails, newStudentDetails))
-
-
-
+      console.log(patch);
+      // Optional: Call the service with the generated patch
+      // this.portfolioService.editSkillsPatch(patch);
     });
   }
+
+// Helper to find the correct index in the full `skills` list for new additions
+  private findFullIndexForNewSkill(newSkill: Skill, isLanguages: boolean, oldSkills: Skill[]): number {
+    // Find the correct position based on language vs non-language
+    if (isLanguages) {
+      const firstNonLanguageIndex = oldSkills.findIndex(skill => !skill.isLanguage);
+      return firstNonLanguageIndex !== -1 ? firstNonLanguageIndex : oldSkills.length;
+    } else {
+      return oldSkills.length;
+    }
+  }
+
+
   goToLinkedIn() {
     location.href = this.user.linkedin;
   }
