@@ -1,26 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {
   AbstractControl,
+  type FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
-  type FormArray,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { DegreeProgramOperation, PortfolioService } from '../../portfolio.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/security/auth.service';
-import { UserService } from 'src/app/security/user.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { mergeMap, zipWith, map } from 'rxjs';
-import { LangUtils } from 'src/app/util/lang-utils';
-import { User } from 'src/app/security/domain/user';
+import {MatDialogRef} from '@angular/material/dialog';
+import {
+  DegreeProgramOperation,
+  PortfolioService
+} from '../../portfolio.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AuthService} from 'src/app/security/auth.service';
+import {UserService} from 'src/app/security/user.service';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {map, mergeMap, zipWith} from 'rxjs';
+import {LangUtils} from 'src/app/util/lang-utils';
+import {User} from 'src/app/security/domain/user';
 import Education from 'src/domain/Education';
-import { allMajors } from 'src/app/util/major-list';
-import { DegreeProgramOperationGroup } from './multi-major-input/multi-major-input.component';
+import {allMajors} from 'src/app/util/major-list';
+import {
+  DegreeProgramOperationGroup
+} from './multi-major-input/multi-major-input.component';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -42,6 +47,9 @@ export type EditEducationFormValues = {
 })
 export class EditEducationDialogComponent implements OnInit {
   form!: FormGroup;
+  @Input() defaultValues?: EditEducationFormValues;
+  isSubmitting: boolean = false;
+  deleted: Set<number>;
   protected title = 'Education';
   protected readonly yearLevels = [
     null,
@@ -50,10 +58,7 @@ export class EditEducationDialogComponent implements OnInit {
     'Junior',
     'Senior',
   ];
-  @Input() defaultValues?: EditEducationFormValues;
   private user: User = User.makeEmpty();
-  isSubmitting: boolean = false;
-  deleted: Set<number>;
 
   public constructor(
     private readonly dialogRef: MatDialogRef<EditEducationDialogComponent>,
@@ -65,6 +70,18 @@ export class EditEducationDialogComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.deleted = new Set();
+  }
+
+  get majors(): FormArray<DegreeProgramOperationGroup> {
+    return this.form?.controls['majors'] as FormArray<DegreeProgramOperationGroup>;
+  }
+
+  get minors(): FormArray<FormControl> {
+    return this.form?.controls['minors'] as FormArray<FormControl>;
+  }
+
+  get majorNameValidators(): ValidatorFn[] {
+    return [Validators.required, this.majorNameValidator()];
   }
 
   ngOnInit() {
@@ -122,7 +139,7 @@ export class EditEducationDialogComponent implements OnInit {
       }
       const regex = new RegExp(/^\d+$/);
       if (!regex.test(value)) {
-        return { notInteger: true };
+        return {notInteger: true};
       }
       return null;
     };
@@ -136,7 +153,7 @@ export class EditEducationDialogComponent implements OnInit {
       }
       const regex = new RegExp(/^\d+(\.\d{1,2})?$/);
       if (!regex.test(value)) {
-        return { invalidNumber: true };
+        return {invalidNumber: true};
       }
       return null;
     };
@@ -149,11 +166,25 @@ export class EditEducationDialogComponent implements OnInit {
         return null;
       }
       const majorName = majorNameControl.value;
+      if (this.majorAppearsTwice(majorName, majorFormGroup)) {
+        return {duplicateMajor: true};
+      }
       if (!majorName) {
-        return { invalidMajor: true };
+        return {invalidMajor: true};
       }
       if (!allMajors.includes(majorName)) {
-        return { invalidMajor: true };
+        return {invalidMajor: true};
+      }
+      return null;
+    };
+  }
+
+  minorValidator(): ValidatorFn {
+    return (minorControl: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
+      const minorsFormArray = (minorControl.parent as FormArray<FormControl<DegreeProgramOperation>> | null);
+      const minorName = minorControl.value.name;
+      if (this.minorAppearsTwice(minorName, minorsFormArray)) {
+        return {duplicateMinor: true};
       }
       return null;
     };
@@ -213,20 +244,31 @@ export class EditEducationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  isDeleted(index: number): boolean {
-    return this.deleted?.has(index);
+  private majorAppearsTwice(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {
+    if (!majorFormGroup) {
+      return false;
+    }
+    let count = 0;
+    (this.form.get('majors') as FormArray<DegreeProgramOperationGroup>).controls.forEach((control) => {
+      if (control.get('name')?.value === majorName) {
+        count++;
+      }
+    })
+    return count > 1;
   }
 
-  get majors(): FormArray<DegreeProgramOperationGroup> {
-    return this.form?.controls['majors'] as FormArray<DegreeProgramOperationGroup>;
-  }
-
-  get minors(): FormArray<FormControl> {
-    return this.form?.controls['minors'] as FormArray<FormControl>;
-  }
-
-  get majorNameValidators(): ValidatorFn[] {
-    return [Validators.required, this.majorNameValidator()];
+  private minorAppearsTwice(minorName: string, minors: FormArray<FormControl<DegreeProgramOperation>> | null) {
+    console.log('minorAppearsTwice', minorName, minors);
+    if (!minors) {
+      return false;
+    }
+    let count = 0;
+    (this.form.get('minors') as FormArray<FormControl<DegreeProgramOperation>>).controls.forEach((control) => {
+      if (control.value.name === minorName) {
+        count++;
+      }
+    })
+    return count > 1;
   }
 }
 

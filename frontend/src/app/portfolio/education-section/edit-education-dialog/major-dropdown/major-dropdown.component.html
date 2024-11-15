@@ -22,4 +22,16 @@
   >
     <mat-icon>delete</mat-icon>
   </button>
+  <mat-error
+    *ngIf="majorNameControl.hasError('duplicateMajor') && majorNameControl.touched">
+    You've already added '{{ majorNameControl.value }}' as a major.
+  </mat-error>
+  <mat-error
+    *ngIf="majorNameControl.hasError('invalidMajor') && majorNameControl.touched">
+    Please specify a valid major.
+  </mat-error>
+  <mat-error
+    *ngIf="majorNameControl.hasError('required') && majorNameControl.touched">
+    Please specify a value.
+  </mat-error>
 </mat-form-field>

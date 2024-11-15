@@ -5,7 +5,7 @@ import {allMajors} from "../../../../util/major-list";
 import {MatAutocomplete} from "@angular/material/autocomplete";
 
 @Component({
-  selector: 'new-autocomplete',
+  selector: 'major-dropdown',
   templateUrl: './major-dropdown.component.html',
   styleUrls: ['./major-dropdown.component.less']
 })

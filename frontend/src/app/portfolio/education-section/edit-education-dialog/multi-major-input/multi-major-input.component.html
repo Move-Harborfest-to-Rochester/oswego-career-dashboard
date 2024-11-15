@@ -3,8 +3,8 @@
   <label class="label">{{ label }}</label>
   <div *ngFor="let control of majorNameControls(); let i = index"
        class="major-container">
-    <new-autocomplete (onDelete)="delete(i)" [hidden]="isDeleted(i)"
-                      [majorNameControl]="control"></new-autocomplete>
+    <major-dropdown (onDelete)="delete(i)" [hidden]="isDeleted(i)"
+                    [majorNameControl]="control"></major-dropdown>
   </div>
   <button (click)="addInput()" class="add-button" mat-button type="button">
     {{ addText }}
