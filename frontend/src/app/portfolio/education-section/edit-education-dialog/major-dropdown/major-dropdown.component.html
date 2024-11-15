@@ -1,0 +1,25 @@
+<mat-form-field appearance="outline">
+  <input [formControl]="majorNameControl" [matAutocomplete]="auto"
+         aria-label="Major"
+         matInput type="text"/>
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <ng-container *ngIf="(filteredMajors | async)!.length > 0">
+      <mat-option *ngFor="let option of filteredMajors | async"
+                  [value]="option">
+        {{ option }}
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf="(filteredMajors | async)!.length == 0">
+      <mat-option disabled>No results</mat-option>
+    </ng-container>
+  </mat-autocomplete>
+  <button
+    (click)="onDelete.emit()"
+    [attr.aria-label]="'Delete item {{ i }}'"
+    mat-icon-button
+    matSuffix
+    type="button"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-form-field>
