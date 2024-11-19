@@ -49,7 +49,6 @@ export class EditEducationDialogComponent implements OnInit {
   form!: FormGroup;
   @Input() defaultValues?: EditEducationFormValues;
   isSubmitting: boolean = false;
-  deleted: Set<number>;
   protected title = 'Education';
   protected readonly yearLevels = [
     null,
@@ -69,7 +68,6 @@ export class EditEducationDialogComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private formBuilder: FormBuilder
   ) {
-    this.deleted = new Set();
   }
 
   get majors(): FormArray<DegreeProgramOperationGroup> {
@@ -217,19 +215,6 @@ export class EditEducationDialogComponent implements OnInit {
         });
       },
     });
-  }
-
-  deleteMajor(index: number) {
-    const control = this.majors.at(index);
-    const currentValue = control.value;
-    if (currentValue.operation === 'Create') {
-      this.deleted.delete(index);
-      this.majors.removeAt(index);
-      return;
-    }
-    this.deleted.add(index);
-    control.get('operation')?.setValue('Delete');
-    control.get('name')?.setValue('deleted');
   }
 
   getDefaultDegreeProgramOperation(isMinor: boolean): DegreeProgramOperation {

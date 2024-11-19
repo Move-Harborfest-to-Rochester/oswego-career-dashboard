@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
-import { MultiMajorInputComponent } from './multi-major-input.component';
+import {FormArray, FormControl, FormGroup, FormsModule} from '@angular/forms';
+import {DegreeProgramOperation} from 'src/app/portfolio/portfolio.service';
+import {MultiMajorInputComponent} from './multi-major-input.component';
 
 describe('ListInputComponent', () => {
   let component: MultiMajorInputComponent;
@@ -53,7 +53,7 @@ describe('ListInputComponent', () => {
       nonNullable: true,
     });
     const event = {
-      target: { value: 'Computer Science' },
+      target: {value: 'Computer Science'},
     } as unknown as Event;
 
     component.setValue(control, event);
@@ -72,7 +72,7 @@ describe('ListInputComponent', () => {
       nonNullable: true,
     });
     const event = {
-      target: { value: 'Computer Science' },
+      target: {value: 'Computer Science'},
     } as unknown as Event;
 
     component.setValue(control, event);
@@ -92,7 +92,7 @@ describe('ListInputComponent', () => {
     component.formArray.push(control);
     const index = component.formArray.length - 1;
 
-    component.delete(control, index);
+    component.deleteMajor(control, index);
 
     expect(component.formArray.controls).not.toContain(control);
     expect(component.deleted.has(index)).toBe(false);
@@ -111,7 +111,7 @@ describe('ListInputComponent', () => {
     component.formArray.push(control);
     const index = component.formArray.length - 1;
 
-    component.delete(control, index);
+    component.deleteMajor(control, index);
 
     expect(component.formArray.controls).toHaveSize(1);
     expect(component.formArray.controls[0].value?.id).toBe('1');

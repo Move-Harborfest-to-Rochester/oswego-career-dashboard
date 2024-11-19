@@ -1,13 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormArray, FormControl, FormGroup, ValidatorFn,} from '@angular/forms';
+import {DegreeProgramOperation} from 'src/app/portfolio/portfolio.service';
 
 export type DegreeProgramOperationGroup = FormGroup<{
   id: FormControl<string | null>;
@@ -41,7 +34,8 @@ export class MultiMajorInputComponent {
       const newValue = control.value;
       newValue.operation = 'Edit';
       control.setValue(newValue as any);
-    };
+    }
+    ;
   }
 
   addInput(): void {
@@ -67,15 +61,17 @@ export class MultiMajorInputComponent {
     control.setValue(currentValue);
   }
 
-  delete(index: number) {
+  deleteMajor(index: number) {
     if (this.formArray.at(index).value.operation === 'Create') {
       this.deleted.delete(index);
+      this.formArray.removeAt(index);
     } else {
       this.deleted.add(index);
     }
-    this.onDelete.emit(index);
+    const control = this.formArray.at(index);
+    control.get('operation')?.setValue('Delete');
+    control.get('name')?.setValue('deleted');
   }
-
 
   isDeleted(index: number): boolean {
     return this.deleted.has(index);
