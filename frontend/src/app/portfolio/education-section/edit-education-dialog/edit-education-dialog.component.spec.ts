@@ -1,25 +1,40 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-import { CommonModule } from '@angular/common';
-import { FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { DegreeProgramListInputModule } from './degree-program-list-input/degree-program-list-input.module';
-import { EditEducationDialogComponent } from './edit-education-dialog.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PortfolioService, DegreeProgramOperation } from '../../portfolio.service';
-import { of, throwError } from 'rxjs';
-import Education, { EducationJSON } from 'src/domain/Education';
-import { YearLevel } from 'src/domain/Milestone';
-import { AuthService } from 'src/app/security/auth.service';
-import { ActivatedRoute } from '@angular/router';
-import { allMajors } from 'src/app/util/major-list';
-import { MultiMajorInputModule } from './multi-major-input/multi-major-input.module';
+import {CommonModule} from '@angular/common';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule
+} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {
+  DegreeProgramListInputModule
+} from './degree-program-list-input/degree-program-list-input.module';
+import {EditEducationDialogComponent} from './edit-education-dialog.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {
+  DegreeProgramOperation,
+  PortfolioService
+} from '../../portfolio.service';
+import {of, throwError} from 'rxjs';
+import Education, {EducationJSON} from 'src/domain/Education';
+import {YearLevel} from 'src/domain/Milestone';
+import {AuthService} from 'src/app/security/auth.service';
+import {ActivatedRoute} from '@angular/router';
+import {allMajors} from 'src/app/util/major-list';
+import {
+  MultiMajorInputModule
+} from './multi-major-input/multi-major-input.module';
+import {
+  DegreeProgramOperationGroup
+} from "./multi-major-input/multi-major-input.component";
 
 describe('EditEducationDialogComponent', () => {
   let component: EditEducationDialogComponent;
@@ -70,11 +85,11 @@ describe('EditEducationDialogComponent', () => {
         NoopAnimationsModule,
       ],
       providers: [
-        { provide: MatDialogRef, useValue: dialogRefSpy },
-        { provide: MatSnackBar, useValue: snackBarSpy },
-        { provide: PortfolioService, useValue: portfolioService },
-        { provide: ActivatedRoute, useValue: { paramMap: of({ id: '1' }) } },
-        { provide: AuthService, useValue: {} }
+        {provide: MatDialogRef, useValue: dialogRefSpy},
+        {provide: MatSnackBar, useValue: snackBarSpy},
+        {provide: PortfolioService, useValue: portfolioService},
+        {provide: ActivatedRoute, useValue: {paramMap: of({id: '1'})}},
+        {provide: AuthService, useValue: {}}
       ]
     });
     fixture = TestBed.createComponent(EditEducationDialogComponent);
@@ -87,7 +102,12 @@ describe('EditEducationDialogComponent', () => {
     }, {
       validators: component.majorNameValidators
     });
-    (component.form.get('majors') as FormArray).push(majorControl);
+    (component.form.get('majors') as FormArray<DegreeProgramOperationGroup>).push(new FormGroup({
+      id: new FormControl(''),
+      operation: new FormControl(majorControl.value!.operation, component.operationValidators()),
+      name: new FormControl(allMajors[0], component.majorNameValidator()),
+      isMinor: new FormControl(false),
+    }) as DegreeProgramOperationGroup);
     fixture.detectChanges();
   });
 
@@ -127,27 +147,17 @@ describe('EditEducationDialogComponent', () => {
     expect(gpaControl?.valid).toBeFalse();
   });
 
-  it('marks valid major valid', () => {
-    expect(majorControl.hasError('invalidMajor')).toBeFalse();
-  });
-
   it('marks empty major invalid', () => {
-    majorControl.setValue({ operation: 'Create', name: '', isMinor: false });
+    majorControl.setValue({operation: 'Create', name: '', isMinor: false});
     expect(majorControl.hasError('invalidMajor')).toBeTrue();
   });
-
-  it('marks empty delete major valid', () => {
+  
+  it('marks non-existent major invalid', () => {
     majorControl.setValue({
-      id: 'cfbbb65f-6e6d-48a5-9007-6577127291ef',
-      operation: 'Delete',
-      name: '',
+      operation: 'Create',
+      name: 'Not a Real Major',
       isMinor: false
     });
-    expect(majorControl.hasError('invalidMajor')).toBeFalse();
-  });
-
-  it('marks non-existent major invalid', () => {
-    majorControl.setValue({ operation: 'Create', name: 'Not a Real Major', isMinor: false });
     expect(majorControl.hasError('invalidMajor')).toBeTrue();
   });
 

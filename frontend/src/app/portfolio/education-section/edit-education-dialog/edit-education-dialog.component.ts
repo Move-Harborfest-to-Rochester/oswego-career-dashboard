@@ -115,9 +115,9 @@ export class EditEducationDialogComponent implements OnInit {
         this.defaultValues?.majors.map((major) =>
           this.formBuilder.group({
             id: this.formBuilder.control(major.id ?? null),
-            operation: this.formBuilder.control(major.operation, [Validators.required]),
+            operation: this.formBuilder.control(major.operation, this.operationValidators()),
             name: this.formBuilder.control(major.name, this.majorNameValidators),
-            isMinor: this.formBuilder.control(false, [Validators.required]),
+            isMinor: this.formBuilder.control(false),
           })
         ) ?? []
       ),
@@ -216,6 +216,10 @@ export class EditEducationDialogComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  operationValidators(): ValidatorFn[] {
+    return [Validators.required];
   }
 
   private majorIsDuplicate(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {

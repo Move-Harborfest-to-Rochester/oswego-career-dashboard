@@ -62,15 +62,15 @@ export class MultiMajorInputComponent {
   }
 
   deleteMajor(index: number) {
+    const control = this.formArray.at(index);
     if (this.formArray.at(index).value.operation === 'Create') {
       this.deleted.delete(index);
       this.formArray.removeAt(index);
     } else {
       this.deleted.add(index);
     }
-    const control = this.formArray.at(index);
-    control.get('operation')?.setValue('Delete');
     control.get('name')?.setValue('deleted');
+    control.get('operation')?.setValue('Delete');
   }
 
   isDeleted(index: number): boolean {

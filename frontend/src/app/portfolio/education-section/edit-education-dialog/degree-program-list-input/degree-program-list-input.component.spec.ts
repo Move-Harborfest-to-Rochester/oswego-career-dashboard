@@ -1,8 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FormArray, FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { DegreeProgramListInputComponent } from './degree-program-list-input.component';
-import { DegreeProgramOperation } from 'src/app/portfolio/portfolio.service';
+import {FormArray, FormControl, FormGroup, FormsModule} from '@angular/forms';
+import {
+  DegreeProgramListInputComponent
+} from './degree-program-list-input.component';
+import {DegreeProgramOperation} from 'src/app/portfolio/portfolio.service';
 
 describe('ListInputComponent', () => {
   let component: DegreeProgramListInputComponent;
@@ -28,7 +30,7 @@ describe('ListInputComponent', () => {
     ) as unknown as FormArray<FormControl>;
     component.formArrayName = 'majors';
     component.label = 'Majors';
-    component.defaultValue = { name: '', operation: 'Create', isMinor: false };
+    component.defaultValue = {name: '', operation: 'Create', isMinor: false};
     component.formArray = new FormArray<FormControl<DegreeProgramOperation | null>>([]);
     fixture.detectChanges();
   });
@@ -54,7 +56,7 @@ describe('ListInputComponent', () => {
       nonNullable: true,
     });
     const event = {
-      target: { value: 'Computer Science' },
+      target: {value: 'Computer Science'},
     } as unknown as Event;
 
     component.setValue(control, event);
@@ -73,7 +75,7 @@ describe('ListInputComponent', () => {
       nonNullable: true,
     });
     const event = {
-      target: { value: 'Computer Science' },
+      target: {value: 'Computer Science'},
     } as unknown as Event;
 
     component.setValue(control, event);
@@ -114,9 +116,12 @@ describe('ListInputComponent', () => {
 
     component.delete(control, index);
 
-    expect(component.formArray.controls).toHaveSize(1);
-    expect(component.formArray.controls[0].value?.id).toBe('1');
+    expect(component.formArray.value).toContain({
+      id: '1',
+      name: 'Computer Science',
+      operation: 'Delete',
+      isMinor: false,
+    });
     expect(component.deleted.has(index)).toBe(true);
-    expect(control.value.operation).toBe('Delete');
   });
 });

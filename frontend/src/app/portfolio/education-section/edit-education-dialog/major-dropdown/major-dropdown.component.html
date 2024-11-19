@@ -2,7 +2,7 @@
   <input [formControl]="majorNameControl" [matAutocomplete]="auto"
          aria-label="Major"
          matInput type="text"/>
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-autocomplete #auto [displayWith]="displayFn">
     <ng-container *ngIf="(filteredMajors | async)!.length > 0">
       <mat-option *ngFor="let option of filteredMajors | async"
                   [value]="option">
