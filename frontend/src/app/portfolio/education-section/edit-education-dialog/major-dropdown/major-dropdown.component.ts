@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {allMajors} from "../../../../util/major-list";
-import {MatAutocomplete} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'major-dropdown',
@@ -12,7 +11,6 @@ import {MatAutocomplete} from "@angular/material/autocomplete";
 export class MajorDropdownComponent {
   filteredMajors!: Observable<string[]>;
   @Input() majorNameControl!: FormControl<string>;
-  @ViewChild('auto') autocomplete!: MatAutocomplete;
   @Output() onDelete = new EventEmitter<number>();
 
   ngOnInit() {
