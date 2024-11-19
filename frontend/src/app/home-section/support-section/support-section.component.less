@@ -92,34 +92,41 @@
 }
 .template-container {
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  align-items: center;
+}
+.template-row {
+  display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
 }
 
 .template-item {
-  display: flex;
-  align-items: center;
-  background-color: #f1f1f1;
-  padding: 15px;
-  border-radius: 8px;
-  flex: 1;
+  padding: 10px;
+}
+
+.template-item.left {
+  text-align: center;
+}
+
+.template-item.right {
+  text-align: left;
 }
 
 .logo-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  margin-right: 15px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .logo-circle img {
-  width: 40px;
-  height: 40px;
+  max-width: 100%;
+  height: auto;
 }
 
 .template-content h4 {
@@ -135,15 +142,11 @@
 }
 .basac-container {
   background-color: #f1f1f1;
-  padding: 20px;
   border-radius: 8px;
   color: #333;
 }
 
 .basac-container h3 {
-  text-align: center;
-  font-size: 1.4em;
-  color: @oswego-green;
   margin-bottom: 10px;
 }
 
@@ -224,16 +227,12 @@
 .contact-item a {
   color: @oswego-green;
 }
-
-.contact-item a:hover {
-  text-decoration: underline;
-}
 .contact-item {
    background-color: #f9f9f9;
    padding: 15px;
    border-radius: 8px;
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   margin-bottom: 20px;
+   margin-bottom: 10px;
  }
 
 
@@ -257,22 +256,34 @@
   margin-top: 5px;
 
 }
-
-.office-hours {
-  margin-top: 15px;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .office-hours h5 {
   font-size: 1.4em;
   color: #333;
-  margin-bottom: 10px;
+
+}
+.office-container {
+  background-color: #f9f9f9;
+  padding: 5px 50px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
 }
 
 .on-campus h6,
 .zoom-only h6 {
-  font-size: 0.9em;
+  font-size: 1.15em;
   color: @oswego-green;
   margin-top: 10px;
+
 }
 
 .on-campus p,

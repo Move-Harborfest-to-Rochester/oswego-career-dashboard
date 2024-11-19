@@ -13,24 +13,27 @@
         <div *ngSwitchCase="0">
 
             <h3>Maureen Melville</h3>
+          <div class = "container">
             <p>Email: <a href="mailto:mmelvill@oswego.edu">mmelvill@oswego.edu</a></p>
 
-            <p>
-              <a href="https://professormoville.youcanbook.me/" class="schedule-button">Schedule a Time</a>
-            </p>
-
+            <div class = "office-container">
             <div class="office-hours">
               <h5>Fall 2024 Office Hours:</h5>
               <div class="on-campus">
                 <h6>Available on Campus:</h6>
                 <p>Tuesday, 9 am - 2 pm</p>
-                <p>Friday, 12:30 - 2 pm</p>
+                <p>Friday, 12:30 pm - 2 pm</p>
               </div>
               <div class="zoom-only">
                 <h6>Available Zoom Only:</h6>
                 <p>Thursday, 9 am - 1:30 pm</p>
               </div>
+              </div>
             </div>
+            <p>
+              <a href="https://professormoville.youcanbook.me/" class="schedule-button">Schedule a Time</a>
+            </p>
+          </div>
           </div>
 
         <div *ngSwitchCase="1">
@@ -60,25 +63,31 @@
         <div *ngSwitchCase="2">
           <h3>Document Templates</h3>
           <div class="template-container">
-            <div class="template-item">
-              <div class="logo-circle">
-
-                <img src="resume-logo.png" alt="Resume Logo">
+            <div class="template-row">
+              <div class="template-item left">
+                <div class="logo-circle">
+                  <img src="assets/images/resume-logo.png" alt="Resume Logo">
+                </div>
               </div>
-              <div class="template-content">
-                <h4>Resume Templates</h4>
-                <p>Our templates help you communicate your skills, experiences, and accomplishments to make a strong impression on employers.</p>
+              <div class="template-item right">
+                <div class="template-content">
+                  <h4>Resume Templates</h4>
+                  <p>Our templates help you communicate your skills, experiences, and accomplishments to make a strong impression on employers.</p>
+                </div>
               </div>
             </div>
+            <div class="template-row">
+              <div class="template-item left">
+                <div class="logo-circle">
+                  <img src="assets/images/Cover-Letter.png" alt="Cover Letter Logo">
 
-            <div class="template-item">
-              <div class="logo-circle">
-
-                <img src="cover-letter-logo.png" alt="Cover Letter Logo">
+                </div>
               </div>
-              <div class="template-content">
-                <h4>Cover Letter Templates</h4>
-                <p>Introduce yourself confidently with a cover letter suited for business roles.</p>
+              <div class="template-item right">
+                <div class="template-content">
+                  <h4>Cover Letter Templates</h4>
+                  <p>Introduce yourself confidently with a cover letter suited for business roles.</p>
+                </div>
               </div>
             </div>
           </div>
