@@ -17,7 +17,7 @@ import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edi
 import { ScreenSizeService } from '../util/screen-size.service';
 import {
   DegreeProgramOperation,
-  EditEducationRequest,
+  EditEducationRequest, InterestOperation,
   PortfolioService,
   SkillsOperation
 } from "./portfolio.service";
@@ -39,6 +39,7 @@ import {
   ConfirmationDialogComponent,
   ConfirmationDialogData
 } from "../common/confirmation-dialog/confirmation-dialog.component";
+import {EditInterestsComponent} from "./edit-interests/edit-interests.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -146,10 +147,26 @@ export class PortfolioComponent implements OnInit {
       )
   }
 
+  getInterests(): InterestOperation[]{
+    return (
+      this.user.studentDetails?.interests
+        .map((interest) => ({
+            id: interest.id,
+            operation: 'Edit',
+            name: interest.name
+        }))?? []
+    )
+  }
+
   openEditInterests() : void {
-    const dialogRef = this.editInterestDialog.open();
+    const dialogRef = this.editInterestDialog.open(EditInterestsComponent);
+    dialogRef.componentInstance.defaultValues = {
+      interests: this.getInterests(),
+    };
 
-
+    dialogRef.afterClosed().subscribe((form) => {
+      console.log(form)
+    })
   }
 
   openEditDialog(isLanguages: boolean): void {

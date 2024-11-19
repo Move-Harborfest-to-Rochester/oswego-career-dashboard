@@ -22,6 +22,12 @@ export type SkillsOperation = {
   isLanguage: boolean;
 };
 
+export type InterestOperation = {
+  id?: string;
+  operation: 'Create' | 'Edit' | 'Delete';
+  name: string;
+}
+
 export type EditEducationRequest = {
   universityId: number;
   year: string;

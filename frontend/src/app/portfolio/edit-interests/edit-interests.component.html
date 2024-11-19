@@ -1,1 +1,22 @@
-<p>edit-interests works!</p>
+<!DOCTYPE html>
+<!--<link rel="stylesheet" href="../skills-section.component.less"><h2 mat-dialog-title>Skills</h2>-->
+<form [formGroup]="form" (ngSubmit)="saveChanges()">
+  <mat-dialog-content>
+    <app-interest-list-input
+      id="Interests"
+      label="Interests"
+      addText="Add Interest"
+      formArrayName="interests"
+      [formGroup]="form"
+      [formArray]="interests"
+      [defaultValue]="{
+        operation: 'Create',
+        name: '',
+      }"
+    />
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()" type="button">Cancel</button>
+    <button mat-button [disabled]="!form.valid" type="submit">Save</button>
+  </mat-dialog-actions>
+</form>
