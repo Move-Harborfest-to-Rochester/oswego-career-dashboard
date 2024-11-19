@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <h2 mat-dialog-title>{{ title }}</h2>
-<form [formGroup]="form" (ngSubmit)="saveChanges()">
+<form (ngSubmit)="saveChanges()" [formGroup]="form">
   <mat-dialog-content>
     <mat-form-field>
       <mat-label for="universityId">University ID</mat-label>
       <input
-        id="universityId"
-        type="text"
         formControlName="universityId"
+        id="universityId"
         matInput
+        type="text"
       />
       <mat-error *ngIf="form.controls['universityId'].hasError('notInteger')">
         Please specify a valid university ID.
@@ -16,7 +16,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label for="year">Year</mat-label>
-      <mat-select id="year" formControlName="year">
+      <mat-select formControlName="year" id="year">
         <mat-option *ngFor="let year of yearLevels" [value]="year">
           {{ year }}
         </mat-option>
@@ -24,32 +24,35 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label for="gpa">GPA</mat-label>
-      <input id="gpa" type="text" formControlName="gpa" matInput />
+      <input formControlName="gpa" id="gpa" matInput type="text"/>
       <mat-error *ngIf="form.controls['gpa'].hasError('invalidNumber')">
         Please specify a valid GPA.
       </mat-error>
     </mat-form-field>
-    <degree-program-list-input
+    <multi-major-input
+      [formArray]="majors"
+      [formGroup]="form"
+      [majorNameValidators]="majorNameValidators"
+      formArrayName="majors"
       id="majors"
       label="Majors"
-      addText="Add Major"
-      formArrayName="majors"
-      [formGroup]="form"
-      [formArray]="majors"
-      [defaultValue]="getDefaultDegreeProgramOperation(false)"
     />
     <degree-program-list-input
-      id="minors"
-      label="Minors"
+      [defaultValue]="getDefaultDegreeProgramOperation(true)"
+      [formArray]="minors"
+      [formGroup]="form"
       addText="Add Minor"
       formArrayName="minors"
-      [formGroup]="form"
-      [formArray]="minors"
-      [defaultValue]="getDefaultDegreeProgramOperation(true)"
+      id="minors"
+      label="Minors"
     />
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="closeDialog()" [disabled]="isSubmitting" type="button">Cancel</button>
-    <button mat-button [disabled]="!form.valid || isSubmitting" type="submit">Save</button>
+    <button (click)="closeDialog()" [disabled]="isSubmitting" mat-button
+            type="button">Cancel
+    </button>
+    <button [disabled]="!form.valid || isSubmitting" mat-button type="submit">
+      Save
+    </button>
   </mat-dialog-actions>
 </form>

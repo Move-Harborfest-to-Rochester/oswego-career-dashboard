@@ -3,32 +3,32 @@
   <label class="label">{{ label }}</label>
   <div *ngFor="let control of arrayControls(); let i = index">
     <mat-form-field
-      class="list-item"
-      appearance="outline"
       [hidden]="deleted.has(i)"
+      appearance="outline"
+      class="list-item"
     >
       <input
-        matInput
-        [value]="getValue(control.value)"
         (input)="setValue(control, $event)"
+        [value]="getValue(control.value)"
         id="item-{{ i }}"
+        matInput
         type="text"
       />
       <button
-        type="button"
-        mat-icon-button
-        matSuffix
         (click)="delete(control, i)"
         [attr.aria-label]="'Delete item {{ i }}'"
+        mat-icon-button
+        matSuffix
+        type="button"
       >
         <mat-icon>delete</mat-icon>
       </button>
-      <mat-error *ngIf="control.hasError('required') && control.touched">
-        Please specify a value.
-      </mat-error>
     </mat-form-field>
+    <mat-error *ngIf="control.hasError('required') && control.touched">
+      Please specify a value.
+    </mat-error>
   </div>
-  <button class="add-button" type="button" mat-button (click)="addInput()">
+  <button (click)="addInput()" class="add-button" mat-button type="button">
     {{ addText }}
   </button>
 </div>
