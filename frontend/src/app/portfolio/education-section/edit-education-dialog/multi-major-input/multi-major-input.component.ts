@@ -67,10 +67,11 @@ export class MultiMajorInputComponent {
       this.deleted.delete(index);
       this.formArray.removeAt(index);
     } else {
+      control.get('name')?.setValue('deleted');
       this.deleted.add(index);
     }
-    control.get('name')?.setValue('deleted');
     control.get('operation')?.setValue('Delete');
+    this.onDelete.emit(index);
   }
 
   isDeleted(index: number): boolean {

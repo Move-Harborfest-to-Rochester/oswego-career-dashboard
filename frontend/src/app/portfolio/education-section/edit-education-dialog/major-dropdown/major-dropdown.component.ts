@@ -27,8 +27,6 @@ export class MajorDropdownComponent {
 
   private filterMajors(filter: string): string[] {
     const filterValue = filter.toLowerCase();
-    console.log('filtering majors', filter);
-
     return allMajors.filter(option => option.toLowerCase().includes(filterValue));
   }
 }

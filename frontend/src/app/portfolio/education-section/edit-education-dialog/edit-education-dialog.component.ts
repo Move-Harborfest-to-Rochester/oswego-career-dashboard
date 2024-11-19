@@ -160,7 +160,7 @@ export class EditEducationDialogComponent implements OnInit {
   majorNameValidator(): ValidatorFn {
     return (majorNameControl: AbstractControl<string>): ValidationErrors | null => {
       const majorFormGroup = (majorNameControl.parent as DegreeProgramOperationGroup | null);
-      if (isValidDeleteOperation(majorFormGroup?.value as Partial<DegreeProgramOperation> | null)) {
+      if (isValidDeleteOperation(majorNameControl.value)) {
         return null;
       }
       const majorName = majorNameControl.value;
@@ -236,9 +236,9 @@ export class EditEducationDialogComponent implements OnInit {
   }
 }
 
-function isValidDeleteOperation(value: Partial<DegreeProgramOperation> | null): boolean {
-  if (!value) {
+function isValidDeleteOperation(majorName: string): boolean {
+  if (!majorName) {
     return false;
   }
-  return value.operation === 'Delete' && !!value.id;
+  return majorName === 'deleted';
 }
