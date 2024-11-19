@@ -262,6 +262,7 @@ export class PortfolioComponent implements OnInit {
   }
 
   skills(): string[] {
+    console.log(this.user.studentDetails?.skills)
     return (this.user.studentDetails?.skills ?? [])
       .filter((s) => !s.isLanguage)
       .map((s) => s.name);
