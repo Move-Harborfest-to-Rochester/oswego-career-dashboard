@@ -166,7 +166,7 @@ export class EditEducationDialogComponent implements OnInit {
         return null;
       }
       const majorName = majorNameControl.value;
-      if (this.majorAppearsTwice(majorName, majorFormGroup)) {
+      if (this.majorIsDuplicate(majorName, majorFormGroup)) {
         return {duplicateMajor: true};
       }
       if (!majorName) {
@@ -244,7 +244,7 @@ export class EditEducationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private majorAppearsTwice(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {
+  private majorIsDuplicate(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {
     if (!majorFormGroup) {
       return false;
     }
