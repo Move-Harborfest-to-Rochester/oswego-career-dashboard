@@ -177,17 +177,6 @@ export class EditEducationDialogComponent implements OnInit {
     };
   }
 
-  minorValidator(): ValidatorFn {
-    return (minorControl: AbstractControl<DegreeProgramOperation>): ValidationErrors | null => {
-      const minorsFormArray = (minorControl.parent as FormArray<FormControl<DegreeProgramOperation>> | null);
-      const minorName = minorControl.value.name;
-      if (this.minorAppearsTwice(minorName, minorsFormArray)) {
-        return {duplicateMinor: true};
-      }
-      return null;
-    };
-  }
-
   saveChanges(): void {
     if (this.form.invalid) {
       console.warn('Form is invalid:', this.form);
@@ -236,20 +225,6 @@ export class EditEducationDialogComponent implements OnInit {
     let count = 0;
     (this.form.get('majors') as FormArray<DegreeProgramOperationGroup>).controls.forEach((control) => {
       if (control.get('name')?.value === majorName) {
-        count++;
-      }
-    })
-    return count > 1;
-  }
-
-  private minorAppearsTwice(minorName: string, minors: FormArray<FormControl<DegreeProgramOperation>> | null) {
-    console.log('minorAppearsTwice', minorName, minors);
-    if (!minors) {
-      return false;
-    }
-    let count = 0;
-    (this.form.get('minors') as FormArray<FormControl<DegreeProgramOperation>>).controls.forEach((control) => {
-      if (control.value.name === minorName) {
         count++;
       }
     })
