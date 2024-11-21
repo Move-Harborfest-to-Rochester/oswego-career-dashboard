@@ -54,6 +54,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
+import { CareerSearchComponent } from './home-section/career-search/career-search.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     ApiDocumentationsComponent,
     NavbarComponent,
     NotFoundComponent,
+    CareerSearchComponent,
   ],
   imports: [
     BrowserModule,
