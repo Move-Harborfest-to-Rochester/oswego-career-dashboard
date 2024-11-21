@@ -1,0 +1,90 @@
+@import "../../../common";
+
+.career-search-container {
+  padding: 20px 110px;
+  color: @oswego-green;
+  border-radius: 8px;
+}
+.section-title {
+  background-color: @oswego-sunset-gold;
+  padding: 15px 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: @oswego-green;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+
+.platforms-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: @oswego-green;
+  padding: 30px;
+  border-radius: 0 0 8px 8px;
+}
+
+
+.platform-logo {
+  max-width: 150px;
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+  border-radius: 0 0 12px 12px;
+}
+
+.platform-card h3 {
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 5px;
+  border-bottom: 3px solid @oswego-sunset-gold;
+  max-width: fit-content;
+}
+
+.platform-card{
+  flex: 1 1 30%;
+  background-color: #ffffff;
+  color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content */
+  justify-content: space-between;
+}
+
+.platform-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.platform-card a {
+  text-decoration: none;
+  color: @oswego-green;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.platform-card a:hover {
+  text-decoration: underline;
+}
+.platform-link:hover {
+  color: #0c56a4;
+  text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+  .platform-card {
+    flex: 1 1 100%;
+  }
+
+  .platforms-content {
+    padding: 10px;
+  }
+}
