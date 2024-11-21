@@ -19,5 +19,6 @@ public class PortfolioRouter {
         return route(PATCH(Endpoints.PERSONAL_INFO.uri()), portfolioHandler::savePersonalInfo)
             .and(route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation))
             .andRoute(PATCH(Endpoints.EDIT_SKILLS.uri()), portfolioHandler::editSkills);
+//            .andRoute(PUT(Endpoints.EDIT_INTERESTS.uri()), portfolioHandler::editInterests);
     }
 }

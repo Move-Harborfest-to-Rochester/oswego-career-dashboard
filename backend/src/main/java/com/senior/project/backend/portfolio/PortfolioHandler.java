@@ -2,10 +2,12 @@ package com.senior.project.backend.portfolio;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import com.senior.project.backend.domain.Skill;
+import com.senior.project.backend.portfolio.dto.InterestDTO;
 import com.senior.project.backend.portfolio.dto.SkillDTO;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -40,6 +42,11 @@ public class PortfolioHandler {
             .flatMap(updatedStudent -> ServerResponse.ok().bodyValue(updatedStudent))
             .onErrorResume(e -> ServerResponse.badRequest().bodyValue("Invalid Patch Request: " + e.getMessage()));
     }
+
+//    public Mono<ServerResponse> editInterests(ServerRequest request) {
+//        UUID userId = UUID.fromString(request.pathVariable("userId"));
+//        return request.bodyToMono(new ParameterizedTypeReference<List<InterestDTO>>() {})
+//    }
 
 
 }

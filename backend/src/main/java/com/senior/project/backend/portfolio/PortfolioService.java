@@ -137,26 +137,6 @@ public class PortfolioService {
     user.getStudentDetails().setDegreePrograms(programsToSave);
   }
 
-  public Mono<StudentDetails> patchSkills(UUID studentId, JsonPatch patch) {
-    return Mono.justOrEmpty(studentDetailsRepository.findById(studentId))
-        .flatMap(studentDetails -> {
-          List<Skill> currentSkills = skillRepository.findByStudentDetailsId(studentId);
-          JsonNode skillsJson = objectMapper.convertValue(currentSkills, JsonNode.class);
-          try {
-            JsonNode patchedSkillsJson = patch.apply(skillsJson);
-            List<Skill> patchedSkills = objectMapper.readValue(
-                patchedSkillsJson.traverse(),
-                new TypeReference<List<Skill>>() {}
-            );
-            skillRepository.deleteByStudentDetailsId(studentId);
-            skillRepository.saveAll(patchedSkills);
-            return Mono.justOrEmpty(studentDetailsRepository.findById(studentId));
-          } catch (Exception e) {
-            return Mono.error(new IllegalArgumentException("Invalid patch operation", e));
-          }
-        });
-  }
-
   public Mono<StudentDetails> patchStudentDetails(UUID studentDetailsId, JsonPatch patch) {
     return Mono.justOrEmpty(studentDetailsRepository.findById(studentDetailsId))
         .flatMap(studentDetails -> {

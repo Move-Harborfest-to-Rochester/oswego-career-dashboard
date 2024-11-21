@@ -165,7 +165,8 @@ export class PortfolioComponent implements OnInit {
     };
 
     dialogRef.afterClosed().subscribe((form) => {
-      console.log(form)
+      if (!form) return;
+
     })
   }
 
@@ -205,7 +206,6 @@ export class PortfolioComponent implements OnInit {
         }
       });
 
-      // Step 2: Remove operations
       for (let i = oldSkills.length - 1; i >= 0; i--) {
         const oldSkill = oldSkills[i];
         if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
@@ -215,12 +215,11 @@ export class PortfolioComponent implements OnInit {
       }
 
       console.log(patch);
-      // Optional: Call the service with the generated patch
-      // this.portfolioService.editSkillsPatch(patch, this.user.studentDetails?.id!).subscribe(
-      //   value => {
-      //
-      //   }
-      // );
+      this.portfolioService.editSkillsPatch(patch, this.user.studentDetails?.id!).subscribe(
+        value => {
+          this.ngOnInit();
+        }
+      );
     });
   }
 
@@ -262,7 +261,6 @@ export class PortfolioComponent implements OnInit {
   }
 
   skills(): string[] {
-    console.log(this.user.studentDetails?.skills)
     return (this.user.studentDetails?.skills ?? [])
       .filter((s) => !s.isLanguage)
       .map((s) => s.name);

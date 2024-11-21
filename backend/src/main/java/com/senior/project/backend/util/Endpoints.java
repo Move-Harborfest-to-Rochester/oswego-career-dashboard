@@ -49,6 +49,8 @@ public enum Endpoints {
 
     EDIT_SKILLS("student/skills/{studentDetailsID}", true),
 
+    EDIT_INTERESTS("student/interests/{userId}", true),
+
     // Jobs
     JOBS("jobs", true),
     JOBS_ID("jobs/{id}", true),

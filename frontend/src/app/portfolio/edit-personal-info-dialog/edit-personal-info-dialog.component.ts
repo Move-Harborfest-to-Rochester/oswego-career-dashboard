@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PortfolioService } from '../portfolio.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,7 +22,7 @@ export interface EditPersonalInfoRequest {
   templateUrl: './edit-personal-info-dialog.component.html',
   styleUrls: ['./edit-personal-info-dialog.component.less', '../../../common.less']
 })
-export class EditPersonalInfoDialogComponent {
+export class EditPersonalInfoDialogComponent implements OnInit {
   readonly title: string = 'Edit Profile';
   isSubmitting: boolean = false;
   form!: FormGroup;

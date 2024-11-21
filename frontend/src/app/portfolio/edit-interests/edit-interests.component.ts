@@ -33,8 +33,9 @@ export class EditInterestsComponent implements OnInit {
   }
 
   createForm() {
+    console.log(this.defaultValues)
     this.form = this.formBuilder.group({
-      skills: this.formBuilder.array<FormControl>(
+      interests: this.formBuilder.array<FormControl>(
         this.defaultValues?.interests.map((interest) =>
           this.formBuilder.control(interest)
         ) ?? []
@@ -83,8 +84,8 @@ export class EditInterestsComponent implements OnInit {
   // updateFormArray(updatedSkillsList: Interest[]): void {
   //   const formArray = this.interests;
   //   formArray.clear();  // Clear existing controls
-  //   updatedSkillsList.forEach(skill => {
-  //     formArray.push(this.formBuilder.control(skill));  // Re-add updated list to FormArray
+  //   updatedSkillsList.forEach(interest => {
+  //     formArray.push(this.formBuilder.control(interest));  // Re-add updated list to FormArray
   //   });
   //   console.log("Form array length after update:", formArray.length);
   // }
@@ -93,8 +94,6 @@ export class EditInterestsComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
-    // this.dialogRef.close(this.handleEdits(this.form.value));
     this.dialogRef.close(this.form.value)
   }
 
