@@ -7,9 +7,8 @@
             [noWrap]="!noWrap"
             [interval]="0"
             [startFromIndex]="0"
-            [showIndicators]="false"
-            [isAnimated]="true">
-    <slide *ngFor="let slide of slides; let index=index">
+            [showIndicators]="false">
+    <slide class="animated fadeIn" *ngFor="let slide of slides; let index=index">
       <img [class.default-logo]="slide.img == defaultLogoURL" class="event-image"
            [ngSrc]="slide.img" width="500" height="200" alt="event image">
       <div class="carousel-caption">

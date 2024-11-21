@@ -10,7 +10,7 @@ import {ArtifactService} from "../../file-upload/artifact.service";
 })
 export class EventsComponent implements OnInit{
 
-  itemsPerSlide = 2; //animation only appears when there is 1 item
+  itemsPerSlide = 4; //animation only appears when there is 1 item
   slides: any[] = [];
   singleSlideOffset = false;
   noWrap = false;

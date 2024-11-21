@@ -1,24 +1,34 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FormArray, FormControl, FormGroup, FormsModule} from '@angular/forms';
-import {
-  DegreeProgramListInputComponent
-} from './degree-program-list-input.component';
 import {DegreeProgramOperation} from 'src/app/portfolio/portfolio.service';
+import {
+  DegreeProgramOperationGroup,
+  MultiMajorInputComponent
+} from './multi-major-input.component';
 
-describe('ListInputComponent', () => {
-  let component: DegreeProgramListInputComponent;
-  let fixture: ComponentFixture<DegreeProgramListInputComponent>;
+export function createFormGroupFromMajor(majorName: string, id?: string): DegreeProgramOperationGroup {
+  return new FormGroup({
+    id: new FormControl(id ?? ''),
+    operation: new FormControl<'Create' | 'Edit' | 'Delete'>(id ? 'Edit' : 'Create'),
+    name: new FormControl(majorName),
+    isMinor: new FormControl(false),
+  })
+}
+
+describe('MultiMajorInputComponent', () => {
+  let component: MultiMajorInputComponent;
+  let fixture: ComponentFixture<MultiMajorInputComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DegreeProgramListInputComponent],
+      declarations: [MultiMajorInputComponent],
       imports: [
         FormsModule
       ],
       providers: []
     });
-    fixture = TestBed.createComponent(DegreeProgramListInputComponent);
+    fixture = TestBed.createComponent(MultiMajorInputComponent);
     component = fixture.componentInstance;
     const form = new FormGroup({
       majors: new FormArray([]),
@@ -27,11 +37,10 @@ describe('ListInputComponent', () => {
     component.formGroup = form;
     component.formArray = form.get(
       'majors'
-    ) as unknown as FormArray<FormControl>;
+    ) as unknown as FormArray<DegreeProgramOperationGroup>;
     component.formArrayName = 'majors';
     component.label = 'Majors';
-    component.defaultValue = {name: '', operation: 'Create', isMinor: false};
-    component.formArray = new FormArray<FormControl<DegreeProgramOperation | null>>([]);
+    component.formArray = new FormArray<DegreeProgramOperationGroup>([]);
     fixture.detectChanges();
   });
 
@@ -84,44 +93,27 @@ describe('ListInputComponent', () => {
     expect(control.value.operation).toBe('Edit');
   });
 
-  it('should delete new control', () => {
-    const control = new FormControl<DegreeProgramOperation>({
-      name: '',
-      operation: 'Create',
-      isMinor: false,
-    }, {
-      nonNullable: true,
-    });
+  it('should handle deleting new control', () => {
+    const control = createFormGroupFromMajor('');
     component.formArray.push(control);
     const index = component.formArray.length - 1;
 
-    component.delete(control, index);
+    component.deleteMajor(index);
 
-    expect(component.formArray.controls).not.toContain(control);
+    expect(component.formArray.controls.length).toBe(0);
     expect(component.deleted.has(index)).toBe(false);
-    expect(control.value.operation).toBe('Create');
   });
 
-  it('should delete existing control', () => {
-    const control = new FormControl<DegreeProgramOperation>({
-      id: '1',
-      name: 'Computer Science',
-      operation: 'Edit',
-      isMinor: false,
-    }, {
-      nonNullable: true,
-    });
+  it('should handle deleting existing control', () => {
+    const control = createFormGroupFromMajor('Computer Science', '1');
     component.formArray.push(control);
     const index = component.formArray.length - 1;
 
-    component.delete(control, index);
+    component.deleteMajor(index);
 
-    expect(component.formArray.value).toContain({
-      id: '1',
-      name: 'Computer Science',
-      operation: 'Delete',
-      isMinor: false,
-    });
+    expect(component.formArray.controls).toHaveSize(1);
+    expect(component.formArray.controls[0].value?.id).toBe('1');
     expect(component.deleted.has(index)).toBe(true);
+    expect(control.value.operation).toBe('Delete');
   });
 });
