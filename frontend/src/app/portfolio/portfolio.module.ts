@@ -17,14 +17,12 @@ import { ResumeModule } from './resume/resume.module';
 import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
 import { EducationSectionModule } from './education-section/education-section.module';
 import { HttpClientModule } from '@angular/common/http';
-import { SupportSectionComponent } from '../home-section/support-section/support-section.component';
 
 
 @NgModule({
   declarations: [
     PortfolioComponent,
     AddProjectModalComponent,
-    SupportSectionComponent
   ],
   exports: [
   ],
