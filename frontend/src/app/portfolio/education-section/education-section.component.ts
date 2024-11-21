@@ -22,6 +22,7 @@ import {
 export class EducationSectionComponent implements OnInit {
   user: User = User.makeEmpty();
   isMobile$: Observable<boolean>;
+  external: boolean = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -37,9 +38,12 @@ export class EducationSectionComponent implements OnInit {
     this.route.paramMap
       .pipe(
         mergeMap((map: ParamMap) => {
-          return map.has('id')
-            ? this.userService.getUser(map.get('id')!)
-            : this.authService.user$;
+          if (map.has('id')) {
+            this.external = true;
+            return this.userService.getUser(map.get('id')!);
+          } else {
+            return this.authService.user$;
+          }
         }),
         zipWith(this.route.url),
         map(([user, _]) => user)
