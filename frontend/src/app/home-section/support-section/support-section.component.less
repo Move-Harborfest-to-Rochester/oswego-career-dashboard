@@ -4,7 +4,6 @@
   padding: 20px 110px;
   color: @oswego-green;
   border-radius: 8px;
-  margin: 0 auto;
 }
 .title-bar {
   background-color: @oswego-sunset-gold;
@@ -35,12 +34,10 @@
   color: @oswego-green;
   padding: 10px 15px;
   text-align: left;
-  cursor: pointer;
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 8px;
   margin-bottom: 10px;
-  transition: background-color 0.3s, color 0.3s;
   white-space: nowrap;
 }
 
@@ -156,6 +153,7 @@
 .contact-info {
   display: flex;
   justify-content: space-around;
+  text-align: center;
   margin-top: 15px;
 }
 
@@ -256,18 +254,17 @@
   text-align: center;
 }
 
-.office-hours h5 {
-  font-size: 1.4em;
-  color: #333;
-
-}
 .office-container {
   background-color: #f9f9f9;
-  padding: 5px 50px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-
+}
+.office-container p{
+  padding: 5px;
+}
+a {
+  color: @oswego-green;
 }
 
 .on-campus h6,
