@@ -7,8 +7,8 @@ import { Component, AfterViewInit, QueryList, ViewChildren, ElementRef } from '@
 })
 export class SupportSectionComponent{
   tabs = [
-    { label: 'Faculty Career Mentor' },
     { label: 'BASAC Office' },
+    { label: 'Faculty Career Mentor' },
     { label: 'Professional Templates' },
     { label: 'LinkedIn Learning' },
     { label: 'Contacts for Support' }
