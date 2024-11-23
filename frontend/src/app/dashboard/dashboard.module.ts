@@ -10,12 +10,14 @@ import { TasksModule } from "../tasks/tasks.module";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HotlinkModule } from '../hotlink/hotlink.module';
+import { JobSitesComponent } from './job-sites/job-sites.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     EventsComponent,
+    JobSitesComponent
   ],
   exports: [
   ],

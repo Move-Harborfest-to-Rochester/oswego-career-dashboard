@@ -5,6 +5,7 @@ import {EventsComponent} from "./events/events.component";
 import {MilestonesComponent} from "../milestones-page/milestones/milestones.component";
 import { TasksComponent } from '../tasks/tasks.component';
 import { HotlinkModule } from '../hotlink/hotlink.module';
+import { JobSitesComponent } from './job-sites/job-sites.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -12,7 +13,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardComponent, MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent)],
+      declarations: [DashboardComponent, , MockComponent(JobSitesComponent), MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent)],
       imports: [
         HotlinkModule
       ]
