@@ -43,10 +43,4 @@ public class PortfolioHandler {
             .onErrorResume(e -> ServerResponse.badRequest().bodyValue("Invalid Patch Request: " + e.getMessage()));
     }
 
-//    public Mono<ServerResponse> editInterests(ServerRequest request) {
-//        UUID userId = UUID.fromString(request.pathVariable("userId"));
-//        return request.bodyToMono(new ParameterizedTypeReference<List<InterestDTO>>() {})
-//    }
-
-
 }

@@ -138,6 +138,7 @@ public class PortfolioService {
   }
 
   public Mono<StudentDetails> patchStudentDetails(UUID studentDetailsId, JsonPatch patch) {
+    // Switch to use userID, then add the student details if necessary
     return Mono.justOrEmpty(studentDetailsRepository.findById(studentDetailsId))
         .flatMap(studentDetails -> {
           JsonNode studentJson = objectMapper.convertValue(studentDetails, JsonNode.class);
@@ -146,6 +147,9 @@ public class PortfolioService {
             StudentDetails patchedStudent = objectMapper.treeToValue(patchedStudentJson, StudentDetails.class);
             if (patchedStudent.getSkills() != null) {
               patchedStudent.getSkills().forEach(skill -> skill.setStudentDetails(studentDetails));
+            }
+            if (patchedStudent.getInterests() != null) {
+              patchedStudent.getInterests().forEach(interest -> interest.setStudentDetails(studentDetails));
             }
             return Mono.just(studentDetailsRepository.save(patchedStudent));
           } catch (Exception e) {

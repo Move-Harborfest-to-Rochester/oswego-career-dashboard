@@ -60,6 +60,6 @@ public class StudentDetails {
 	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER)
 	private List<Club> clubs;
 
-	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "studentDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Interest> interests;
 }

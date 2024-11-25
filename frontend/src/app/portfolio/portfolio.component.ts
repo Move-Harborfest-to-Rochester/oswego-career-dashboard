@@ -166,8 +166,8 @@ export class PortfolioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((form) => {
       if (!form) return;
-
     })
+
   }
 
   openEditDialog(isLanguages: boolean): void {

@@ -4,8 +4,8 @@
   <mat-dialog-content>
     <skills-list-input-component
       id="Skills"
-      label="Skills"
-      addText="Add Skill"
+      label="{{isLanguageParent ? 'Add Language' : 'Add Skill'}}"
+      addText="{{isLanguageParent ? 'Add Language' : 'Add Skill'}}"
       formArrayName="skills"
       [formGroup]="form"
       [formArray]="skills"
