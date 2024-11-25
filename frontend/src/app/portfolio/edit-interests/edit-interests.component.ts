@@ -32,6 +32,14 @@ export class EditInterestsComponent implements OnInit {
     this.dialogRef.addPanelClass('edit-dialog');
   }
 
+  getDefaultInterest(): InterestOperation {
+    return {
+      operation: 'Create',
+      name: '',
+    }
+  }
+
+
   createForm() {
     console.log(this.defaultValues)
     this.form = this.formBuilder.group({

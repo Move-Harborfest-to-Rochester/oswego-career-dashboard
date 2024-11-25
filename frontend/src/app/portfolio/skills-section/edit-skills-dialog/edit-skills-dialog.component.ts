@@ -35,6 +35,14 @@ export class EditSkillsDialogComponent implements OnInit {
     this.dialogRef.addPanelClass('edit-dialog');
   }
 
+  getDefaultValue(): SkillsOperation {
+    return {
+      operation: 'Create',
+      name: '',
+      isLanguage: this.isLanguageParent!,
+    }
+  }
+
   createForm() {
     this.form = this.formBuilder.group({
       skills: this.formBuilder.array<FormControl>(

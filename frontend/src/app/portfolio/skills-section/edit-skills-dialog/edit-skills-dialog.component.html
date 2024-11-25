@@ -9,11 +9,7 @@
       formArrayName="skills"
       [formGroup]="form"
       [formArray]="skills"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-        isLanguage: isLanguageParent!,
-      }"
+      [defaultValue]="getDefaultValue()"
       />
   </mat-dialog-content>
   <mat-dialog-actions align="end">

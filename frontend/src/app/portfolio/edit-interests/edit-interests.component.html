@@ -9,10 +9,7 @@
       formArrayName="interests"
       [formGroup]="form"
       [formArray]="interests"
-      [defaultValue]="{
-        operation: 'Create',
-        name: '',
-      }"
+      [defaultValue]="getDefaultInterest()"
     />
   </mat-dialog-content>
   <mat-dialog-actions align="end">
