@@ -47,6 +47,7 @@ public enum Endpoints {
     PERSONAL_INFO("personal-info", true),
 
 
+    // Edit student Details, used for skills and clubs.
     EDIT_SKILLS("student/skills/{studentDetailsID}", true),
 
     EDIT_INTERESTS("student/interests/{userId}", true),

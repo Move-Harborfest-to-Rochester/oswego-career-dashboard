@@ -113,6 +113,8 @@ export class User {
       ];
     }
 
+
+
     get formattedRole(): string {
       if (this.role === Role.SuperAdmin) {
         return 'Super Admin';

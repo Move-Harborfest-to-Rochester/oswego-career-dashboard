@@ -56,6 +56,8 @@ export class SkillsListInputComponent {
     const currentValue = control.value;
     this.deleted.add(index);
     if (currentValue.operation === 'Create') {
+      this.deleted.delete(index);
+      this.formArray.removeAt(index);
       return;
     }
     currentValue.operation = 'Delete';

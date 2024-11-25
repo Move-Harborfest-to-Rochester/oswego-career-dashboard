@@ -75,9 +75,6 @@ export class EditSkillsDialogComponent implements OnInit {
       }
     });
 
-    console.log("Updated skills list after operations:", updatedSkillsList);
-
-    // Patch the form array to match the new list of skills
     this.updateFormArray(updatedSkillsList);
 
     return updatedSkillsList;
@@ -100,8 +97,7 @@ export class EditSkillsDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
-    this.dialogRef.close(this.handleEdits(this.form.value)); // Return new student skills here ?
+    this.dialogRef.close(this.handleEdits(this.form.value));
   }
 
   closeDialog(): void {

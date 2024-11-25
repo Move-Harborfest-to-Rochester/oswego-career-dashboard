@@ -56,8 +56,7 @@ export class PortfolioService {
   }
 
 
-  // Edit Skills Patch (Service Method)
-  editSkillsPatch(patch: any[], studentDetailsID: string): Observable<User> {
+  editStudentDetails(patch: any[], studentDetailsID: string): Observable<User> {
     const url = constructBackendRequest(Endpoints.EDIT_SKILLS + studentDetailsID);
     return this.http.patch<UserJSON>(url, patch).pipe(map((response) => new User(response)));
   }

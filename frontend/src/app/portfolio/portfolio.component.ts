@@ -214,10 +214,10 @@ export class PortfolioComponent implements OnInit {
         }
       }
 
-      console.log(patch);
-      this.portfolioService.editSkillsPatch(patch, this.user.studentDetails?.id!).subscribe(
+      this.portfolioService.editStudentDetails(patch, this.user.studentDetails?.id!).subscribe(
         value => {
           this.ngOnInit();
+          // Use the setSkills in user class
         }
       );
     });
