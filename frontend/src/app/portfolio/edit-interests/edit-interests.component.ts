@@ -41,7 +41,6 @@ export class EditInterestsComponent implements OnInit {
 
 
   createForm() {
-    console.log(this.defaultValues)
     this.form = this.formBuilder.group({
       interests: this.formBuilder.array<FormControl>(
         this.defaultValues?.interests.map((interest) =>
@@ -50,59 +49,52 @@ export class EditInterestsComponent implements OnInit {
       ),
     });
   }
-  // handleEdits(formValue: { skills: SkillsOperation[] }): Skill[] {
-  //   let updatedSkillsList: Skill[] = this.defaultValues?.skills.map(skill => ({
-  //     id: skill.id ?? '', // Ensure id is defined
-  //     name: skill.name,
-  //     isLanguage: skill.isLanguage,
-  //   })) || [];
-  //
-  //   formValue.skills.forEach((skillOperation) => {
-  //     if (skillOperation.operation === "Create") {
-  //       // Add new skill
-  //       updatedSkillsList.push({
-  //         id: skillOperation.id ?? '',  // Ensure id is a string
-  //         name: skillOperation.name,
-  //         isLanguage: skillOperation.isLanguage,
-  //       });
-  //     } else if (skillOperation.operation === "Edit") {
-  //       // Update an existing skill
-  //       const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
-  //       if (index !== -1) {
-  //         updatedSkillsList[index] = {
-  //           id: updatedSkillsList[index].id, // Keep original id
-  //           name: skillOperation.name,
-  //           isLanguage: skillOperation.isLanguage,
-  //         };
-  //       }
-  //     } else if (skillOperation.operation === "Delete") {
-  //       // Remove skill by id
-  //       updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
-  //     }
-  //   });
-  //
-  //   console.log("Updated skills list after operations:", updatedSkillsList);
-  //
-  //   // Patch the form array to match the new list of skills
-  //   this.updateFormArray(updatedSkillsList);
-  //
-  //   return updatedSkillsList;
-  // }
+  handleEdits(formValue: { interests: InterestOperation[] }): Interest[] {
+    // Create a util out of this method ?
+    let updatedSkillsList: Interest[] = this.defaultValues?.interests.map(interest => ({
+      id: interest.id ?? '',
+      name: interest.name ?? '',
+    })) || [];
 
-  // updateFormArray(updatedSkillsList: Interest[]): void {
-  //   const formArray = this.interests;
-  //   formArray.clear();  // Clear existing controls
-  //   updatedSkillsList.forEach(interest => {
-  //     formArray.push(this.formBuilder.control(interest));  // Re-add updated list to FormArray
-  //   });
-  //   console.log("Form array length after update:", formArray.length);
-  // }
+    formValue.interests.forEach((skillOperation) => {
+      if (skillOperation.operation === "Create") {
+        // Add new skill
+        updatedSkillsList.push({
+          id: skillOperation.id ?? '',  // Ensure id is a string
+          name: skillOperation.name,
+        });
+      } else if (skillOperation.operation === "Edit") {
+        // Update an existing skill
+        const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
+        if (index !== -1) {
+          updatedSkillsList[index] = {
+            id: updatedSkillsList[index].id, // Keep original id
+            name: skillOperation.name,
+          };
+        }
+      } else if (skillOperation.operation === "Delete") {
+        // Remove skill by id
+        updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
+      }
+    });
+    this.updateFormArray(updatedSkillsList);
+    return updatedSkillsList;
+  }
+
+  updateFormArray(updatedSkillsList: Interest[]): void {
+    const formArray = this.interests;
+    formArray.clear();  // Clear existing controls
+    updatedSkillsList.forEach(interest => {
+      formArray.push(this.formBuilder.control(interest));  // Re-add updated list to FormArray
+    });
+    console.log("Form array length after update:", formArray.length);
+  }
 
   saveChanges(): void {
     if (this.form.invalid) {
       return;
     }
-    this.dialogRef.close(this.form.value)
+    this.dialogRef.close(this.handleEdits(this.form.value))
   }
 
   closeDialog(): void {

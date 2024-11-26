@@ -40,6 +40,8 @@ import {
   ConfirmationDialogData
 } from "../common/confirmation-dialog/confirmation-dialog.component";
 import {EditInterestsComponent} from "./edit-interests/edit-interests.component";
+import {Interest} from "../../domain/Interest";
+import {diffArrays} from "rfc6902/diff";
 
 @Component({
   selector: 'app-portfolio',
@@ -164,8 +166,16 @@ export class PortfolioComponent implements OnInit {
       interests: this.getInterests(),
     };
 
-    dialogRef.afterClosed().subscribe((form) => {
+    dialogRef.afterClosed().subscribe((form: Interest[]) => {
       if (!form) return;
+
+      const patch = this.generateInterestsPatch(this.user.studentDetails!.interests, form)
+      this.portfolioService.editStudentDetails(patch, this.user.studentDetails?.id!).subscribe(
+        value => {
+          this.ngOnInit();
+          // Use the setSkills in user class
+        }
+      );
     })
 
   }
@@ -221,6 +231,43 @@ export class PortfolioComponent implements OnInit {
         }
       );
     });
+  }
+
+
+
+  generateInterestsPatch(
+    oldInterests: Interest[],
+    newInterests: Interest[]
+  ): { op: string; path: string; value?: Interest }[] {
+    const patch: { op: string; path: string; value?: Interest }[] = [];
+
+    // Maps for comparing old and new interests by id
+    const oldInterestsMap = new Map(oldInterests.map(interest => [interest.id, interest]));
+    const newInterestsMap = new Map(newInterests.map(interest => [interest.id, interest]));
+
+    // Step 1: Add or replace operations
+    newInterests.forEach((newInterest, newIndex) => {
+      const oldInterest = oldInterestsMap.get(newInterest.id);
+      const fullIndex = oldInterests.findIndex(interest => interest.id === newInterest.id);
+
+      if (!oldInterest) {
+        // New interest to be added
+        patch.push({ op: 'add', path: `/interests/${newIndex}`, value: newInterest });
+      } else if (fullIndex !== newIndex || oldInterest.name !== newInterest.name) {
+        // Interest exists but needs to be updated or reordered
+        patch.push({ op: 'replace', path: `/interests/${newIndex}`, value: newInterest });
+      }
+    });
+
+    // Step 2: Remove operations (process in reverse order)
+    for (let i = oldInterests.length - 1; i >= 0; i--) {
+      const oldInterest = oldInterests[i];
+      if (!newInterestsMap.has(oldInterest.id)) {
+        patch.push({ op: 'remove', path: `/interests/${i}` });
+      }
+    }
+
+    return patch;
   }
 
 // Helper to find the correct index in the full `skills` list for new additions
