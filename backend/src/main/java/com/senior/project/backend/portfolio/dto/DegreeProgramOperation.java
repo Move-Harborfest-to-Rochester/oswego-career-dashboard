@@ -1,17 +1,13 @@
 package com.senior.project.backend.portfolio.dto;
 
-import java.util.UUID;
-
 import com.senior.project.backend.domain.DegreeProgram;
 import com.senior.project.backend.domain.StudentDetails;
-
+import com.senior.project.backend.util.OperationType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @Setter
