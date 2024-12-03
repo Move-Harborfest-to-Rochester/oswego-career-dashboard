@@ -15,6 +15,8 @@ import {SettingsPageComponent} from "./settings/settings-page.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import { MilestonesComponent } from './milestones-page/milestones/milestones.component';
 import { MilestonesFacultyComponent } from './milestones-page/milestones-faculty/milestones-faculty.component';
+import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
+
 
 const studentRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
@@ -36,6 +38,7 @@ const adminRoutes: Routes = [
   {path: 'admin/milestone-edit/:name', component: MilestoneEditComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/tasks', component: TaskMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/events', component: EventMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
+  {path: 'admin/analytics', component: AnalyticsDashboardComponent, canActivate: [authGuard, adminRoleGuard]},
 ]
 
 const routes: Routes = [

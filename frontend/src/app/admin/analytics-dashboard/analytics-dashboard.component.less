@@ -1,0 +1,125 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 120vh;
+  width: 100%;
+  position: relative;
+}
+
+.left-bar {
+  width: 250px;
+  min-width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  height: 100%;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  left: 0;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px 40px;
+}
+
+.title {
+  text-align: center; /* Center the title */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.separator {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Adjust font size for the labels */
+.radio-group label {
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Adjust font size for the radio button inputs */
+.radio-group input {
+  margin-right: 10px;
+  transform: scale(0.8);
+}
+
+.top {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.pie {
+  width: 25vw;
+  height: 25vw;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.tablebg {
+  width: 50vw;
+  height: 25vw;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.table {
+  width: 90%; /* Adjust table width */
+  height: 90%; /* Adjust table height */
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  width: 33%; /* Adjust cell width */
+  height: 50px; /* Adjust cell height */
+  border: 1px solid black;
+  text-align: center;
+}
+
+.table th {
+  background-color: #cccccc;
+}
+
+.bar {
+  width: calc(100% - 150px);
+  height: 30vw;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+

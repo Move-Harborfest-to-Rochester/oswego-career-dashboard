@@ -43,6 +43,8 @@ export class NavbarComponent {
     { path: "/admin/milestones", label: "Milestones"},
     { path: "/admin/tasks", label: "Tasks"},
     { path: "/admin/events", label: "Events"},
+    { path: "/admin/analytics", label: "Analytics"},
+
   ]
 
 }

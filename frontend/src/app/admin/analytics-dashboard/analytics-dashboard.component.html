@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="left-bar">
+    <div class="title">Major</div>
+    <div class="separator"></div>
+
+    <!-- Major Selector -->
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="option1" value="All" [(ngModel)]="selectedOption1" />
+        All
+      </label>
+      <label>
+        <input type="radio" name="option1" value="BusinessAdministration " [(ngModel)]="selectedOption1" />
+        Business Administration
+      </label>
+      <label>
+        <input type="radio" name="option1" value="Finance" [(ngModel)]="selectedOption1" />
+        Finance
+      </label>
+      <label>
+        <input type="radio" name="option1" value="HumanResourceManagement" [(ngModel)]="selectedOption1" />
+        HR Management
+      </label>
+      <label>
+        <input type="radio" name="option1" value="Marketing" [(ngModel)]="selectedOption1" />
+        Marketing
+      </label>
+      <label>
+        <input type="radio" name="option1" value="OperationsManagementAndInformationSystems" [(ngModel)]="selectedOption1" />
+        Information Systems
+      </label>
+      <label>
+        <input type="radio" name="option1" value="RiskManagementAndInsurance" [(ngModel)]="selectedOption1" />
+        Risk Management
+      </label>
+    </div>
+
+    <div class="title">Insights</div>
+    <div class="separator"></div>
+
+    <!-- Insight Selector -->
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="option2" value="Resume" [(ngModel)]="selectedOption2" />
+        Submitted Resume
+      </label>
+      <label>
+        <input type="radio" name="option2" value="Internship" [(ngModel)]="selectedOption2" />
+        Completed Internship
+      </label>
+      <label>
+        <input type="radio" name="option2" value="InternshipThisYear" [(ngModel)]="selectedOption2" />
+        Completed Internship This Year
+      </label>
+      <label>
+        <input type="radio" name="option2" value="InternshipLastYear" [(ngModel)]="selectedOption2" />
+        Completed Internship Last Year
+      </label>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class ="top">
+
+      <div class="pie">
+        <p>Pie Tasty</p>
+
+      </div>
+
+      <div class="tablebg">
+        <table class="table" border="2">
+          <thead>
+          <tr>
+            <th>Year</th>
+            <th>Yes</th>
+            <th>No</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th>All</th>
+            <td>Data 1-1</td>
+            <td>Data 1-2</td>
+          </tr>
+          <tr>
+            <th>Freshman</th>
+            <td>Data 2-1</td>
+            <td>Data 2-2</td>
+          </tr>
+          <tr>
+            <th>Sophomore</th>
+            <td>Data 3-1</td>
+            <td>Data 3-2</td>
+          </tr>
+          <tr>
+            <th>Junior</th>
+            <td>Data 4-1</td>
+            <td>Data 4-2</td>
+          </tr>
+          <tr>
+            <th>Senior</th>
+            <td>Data 5-1</td>
+            <td>Data 5-2</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <div class="bar">
+      <p>Bar Crawl</p>
+    </div>
+  </div>
+
+</div>
