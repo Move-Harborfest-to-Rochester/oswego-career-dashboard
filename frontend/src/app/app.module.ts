@@ -55,12 +55,14 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     ApiDocumentationsComponent,
     NavbarComponent,
-    NotFoundComponent
+    NotFoundComponent,
+
   ],
   imports: [
     BrowserModule,
