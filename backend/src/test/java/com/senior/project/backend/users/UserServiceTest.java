@@ -167,6 +167,7 @@ public class UserServiceTest {
 
     @Test
     public void testFindByIdHappy() {
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
         when(userRepository.findById(any())).thenReturn(Optional.of(Constants.userAdmin));
         Mono<User> res = userService.findById(UUID.randomUUID());
 
