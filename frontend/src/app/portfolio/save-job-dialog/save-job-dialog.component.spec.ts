@@ -14,6 +14,7 @@ import { JobService } from '../job/job.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
 import { Job } from 'src/domain/Job';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 describe('SaveJobDialogComponent', () => {
   let component: SaveJobDialogComponent;
@@ -39,6 +40,7 @@ describe('SaveJobDialogComponent', () => {
         MatNativeDateModule,
         NoopAnimationsModule,
         MatSnackBarModule,
+        MatCheckboxModule,
       ],
       providers: [
         MatDialog,
