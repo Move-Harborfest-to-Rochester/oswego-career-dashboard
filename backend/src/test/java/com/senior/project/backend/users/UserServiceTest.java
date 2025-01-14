@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.senior.project.backend.domain.Role;
+import com.senior.project.backend.security.CurrentUserUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,6 +37,8 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private CurrentUserUtil currentUserUtil;
 
     @Test
     public void testAll() {
@@ -84,6 +87,23 @@ public class UserServiceTest {
         Mono<User> result = userService.findByID(Constants.userAdmin.getId());
         StepVerifier.create(result)
             .expectError();
+    }
+
+    @Test
+    public void findByIdHidesPhoneNumberFromOtherUsers() {
+        User testStudent = User.builder()
+                .id(UUID.randomUUID())
+                .phoneNumber("1234567890")
+                .build();
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
+        when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(testStudent));
+
+        Mono<User> result = userService.findById(Constants.userStudent.getId());
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.getPhoneNumber().isEmpty())
+                .expectComplete()
+                .verify();
     }
 
     @Test
