@@ -107,6 +107,23 @@ public class UserServiceTest {
     }
 
     @Test
+    public void findByIdShowsPhoneNumberForMatchingUser() {
+        User testStudent = User.builder()
+                .id(Constants.userAdmin.getId())
+                .phoneNumber("1234567890")
+                .build();
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
+        when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(testStudent));
+
+        Mono<User> result = userService.findById(Constants.userStudent.getId());
+
+        StepVerifier.create(result)
+                .expectNextMatches(user -> user.getPhoneNumber().equals("1234567890"))
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
     public void findByUsernameHappy() {
         when(userRepository.findUserByEmail(anyString())).thenReturn(Optional.of(Constants.userAdmin));
         
