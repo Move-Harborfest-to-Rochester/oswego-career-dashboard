@@ -80,7 +80,17 @@ public class UserHandler {
             .map(id -> UUID.fromString(id))
             .flatMap(id -> service.findById(id))
             .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found.")))
-            .flatMap(user -> ServerResponse.ok().bodyValue(user));
+            .flatMap(user -> currentUserUtil.getCurrentUser()
+                .flatMap((currentUser) -> {
+                    if (!user.getId().equals(currentUser.getId())) {
+                        hideSensitiveUserInfo(user);
+                    }
+                    return ServerResponse.ok().bodyValue(user);
+                }));
+    }
+
+    private void hideSensitiveUserInfo(User user) {
+        user.setPhoneNumber(null);
     }
 
     /**
