@@ -300,7 +300,7 @@ export class PortfolioComponent implements OnInit {
     })
   }
 
-  currentUserMatchesPortfolio(): Observable<boolean> {
+  currentUserMatchesPortfolioUser(): Observable<boolean> {
     return this.authenticatedUser$
       .pipe(
         map((authenticatedUser) => this.user.id === authenticatedUser?.id)
