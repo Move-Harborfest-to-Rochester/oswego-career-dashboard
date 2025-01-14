@@ -90,7 +90,7 @@ public class UserHandler {
     }
 
     private void hideSensitiveUserInfo(User user) {
-        user.setPhoneNumber(null);
+        user.setPhoneNumber("");
     }
 
     /**
