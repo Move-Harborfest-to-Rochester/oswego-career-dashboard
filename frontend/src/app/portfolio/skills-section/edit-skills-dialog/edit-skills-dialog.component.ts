@@ -63,7 +63,7 @@ export class EditSkillsDialogComponent implements OnInit {
       if (skillOperation.operation === "Create") {
         // Add new skill
         updatedSkillsList.push({
-          id: skillOperation.id ?? '',  // Ensure id is a string
+          id: skillOperation.id ?? '',
           name: skillOperation.name,
           isLanguage: skillOperation.isLanguage,
         });
@@ -72,13 +72,12 @@ export class EditSkillsDialogComponent implements OnInit {
         const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
         if (index !== -1) {
           updatedSkillsList[index] = {
-            id: updatedSkillsList[index].id, // Keep original id
+            id: updatedSkillsList[index].id,
             name: skillOperation.name,
             isLanguage: skillOperation.isLanguage,
           };
         }
       } else if (skillOperation.operation === "Delete") {
-        // Remove skill by id
         updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
       }
     });
@@ -90,9 +89,9 @@ export class EditSkillsDialogComponent implements OnInit {
 
   updateFormArray(updatedSkillsList: Skill[]): void {
     const formArray = this.skills;
-    formArray.clear();  // Clear existing controls
+    formArray.clear();
     updatedSkillsList.forEach(skill => {
-      formArray.push(this.formBuilder.control(skill));  // Re-add updated list to FormArray
+      formArray.push(this.formBuilder.control(skill));
     });
     console.log("Form array length after update:", formArray.length);
   }

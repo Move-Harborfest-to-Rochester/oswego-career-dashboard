@@ -58,9 +58,8 @@ export class EditInterestsComponent implements OnInit {
 
     formValue.interests.forEach((skillOperation) => {
       if (skillOperation.operation === "Create") {
-        // Add new skill
         updatedSkillsList.push({
-          id: skillOperation.id ?? '',  // Ensure id is a string
+          id: skillOperation.id ?? '',
           name: skillOperation.name,
         });
       } else if (skillOperation.operation === "Edit") {
@@ -68,12 +67,11 @@ export class EditInterestsComponent implements OnInit {
         const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
         if (index !== -1) {
           updatedSkillsList[index] = {
-            id: updatedSkillsList[index].id, // Keep original id
+            id: updatedSkillsList[index].id,
             name: skillOperation.name,
           };
         }
       } else if (skillOperation.operation === "Delete") {
-        // Remove skill by id
         updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
       }
     });
@@ -83,9 +81,9 @@ export class EditInterestsComponent implements OnInit {
 
   updateFormArray(updatedSkillsList: Interest[]): void {
     const formArray = this.interests;
-    formArray.clear();  // Clear existing controls
+    formArray.clear();
     updatedSkillsList.forEach(interest => {
-      formArray.push(this.formBuilder.control(interest));  // Re-add updated list to FormArray
+      formArray.push(this.formBuilder.control(interest));
     });
     console.log("Form array length after update:", formArray.length);
   }

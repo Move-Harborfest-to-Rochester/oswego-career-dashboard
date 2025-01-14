@@ -192,24 +192,17 @@ export class PortfolioComponent implements OnInit {
 
       const oldSkills = this.user.studentDetails!.skills;
       const newSkills = result;
-
       const patch: Operation[] = [];
-
-      // Maps for comparing old and new skills by id
       const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
       const newSkillsMap = new Map(newSkills.map(skill => [skill.id, skill]));
-
-      // Step 1: Add and replace operations
       newSkills.forEach((newSkill) => {
         const oldSkill = oldSkillsMap.get(newSkill.id);
         const fullIndex = oldSkills.findIndex(skill => skill.id === newSkill.id);
 
         if (!oldSkill) {
-          // New skill to be added at the correct position in the full skills list
           const addIndex = this.findFullIndexForNewSkill(newSkill, isLanguages, oldSkills);
           patch.push({ op: 'add', path: `/skills/${addIndex}`, value: newSkill });
         } else if (fullIndex !== -1) {
-          // Existing skill - check if it needs updating
           if (oldSkill.name !== newSkill.name || oldSkill.isLanguage !== newSkill.isLanguage) {
             patch.push({ op: 'replace', path: `/skills/${fullIndex}`, value: newSkill });
           }
@@ -219,7 +212,6 @@ export class PortfolioComponent implements OnInit {
       for (let i = oldSkills.length - 1; i >= 0; i--) {
         const oldSkill = oldSkills[i];
         if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
-          // Skill was removed - use the actual index in the full skills list
           patch.push({ op: 'remove', path: `/skills/${i}` });
         }
       }
@@ -241,17 +233,14 @@ export class PortfolioComponent implements OnInit {
   ): { op: string; path: string; value?: Interest }[] {
     const patch: { op: string; path: string; value?: Interest }[] = [];
 
-    // Maps for comparing old and new interests by id
     const oldInterestsMap = new Map(oldInterests.map(interest => [interest.id, interest]));
     const newInterestsMap = new Map(newInterests.map(interest => [interest.id, interest]));
 
-    // Step 1: Add or replace operations
     newInterests.forEach((newInterest, newIndex) => {
       const oldInterest = oldInterestsMap.get(newInterest.id);
       const fullIndex = oldInterests.findIndex(interest => interest.id === newInterest.id);
 
       if (!oldInterest) {
-        // New interest to be added
         patch.push({ op: 'add', path: `/interests/${newIndex}`, value: newInterest });
       } else if (fullIndex !== newIndex || oldInterest.name !== newInterest.name) {
         // Interest exists but needs to be updated or reordered
@@ -259,7 +248,6 @@ export class PortfolioComponent implements OnInit {
       }
     });
 
-    // Step 2: Remove operations (process in reverse order)
     for (let i = oldInterests.length - 1; i >= 0; i--) {
       const oldInterest = oldInterests[i];
       if (!newInterestsMap.has(oldInterest.id)) {
@@ -270,9 +258,7 @@ export class PortfolioComponent implements OnInit {
     return patch;
   }
 
-// Helper to find the correct index in the full `skills` list for new additions
   private findFullIndexForNewSkill(newSkill: Skill, isLanguages: boolean, oldSkills: Skill[]): number {
-    // Find the correct position based on language vs non-language
     if (isLanguages) {
       const firstNonLanguageIndex = oldSkills.findIndex(skill => !skill.isLanguage);
       return firstNonLanguageIndex !== -1 ? firstNonLanguageIndex : oldSkills.length;
