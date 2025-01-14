@@ -26,7 +26,7 @@
                   <span class="title">Email</span>
                   <span>{{user.email}}</span>
                 </div>
-                <div>
+                <div *ngIf="currentUserMatchesPortfolio() | async">
                   <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
                   <span class="title" *ngIf="isMobile$| async">Phone</span>
                   <span>{{user.phoneNumber}}</span>
