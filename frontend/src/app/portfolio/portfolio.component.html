@@ -56,10 +56,13 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2 >Skills</h2>
-            <button mat-mini-fab (click)="openEditDialog(false)" *ngIf="!this.external">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <div class="add-project-container">
+              <h2 >Skills</h2>
+              <button mat-mini-fab (click)="openEditDialog(false)" *ngIf="!this.external">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
             <div class="skills">
@@ -71,10 +74,13 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Languages</h2>
-            <button mat-mini-fab (click)="openEditDialog(true)" *ngIf="!this.external">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <div class="add-project-container">
+                <h2>Languages</h2>
+                <button mat-mini-fab (click)="openEditDialog(true)" *ngIf="!this.external">
+                  <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
             <div class="skills">
@@ -91,7 +97,7 @@
               <button class="add-project-button" mat-mini-fab (click)="openAddProjectModal()" *ngIf="!this.external">
                 <mat-icon>add</mat-icon>
               </button>
-          </div>
+            </div>
 
           </div>
           <div class="card-body-section-body projects">
@@ -226,10 +232,13 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Interests</h2>
-            <button mat-mini-fab (click)="openEditInterests()" *ngIf="!this.external">
-              <mat-icon>edit</mat-icon>
-            </button>
+            <div class="add-project-container">
+              <h2>Interests</h2>
+              <button mat-mini-fab (click)="openEditInterests()" *ngIf="!this.external">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
             <div class="skills" >
