@@ -128,7 +128,7 @@ export class PortfolioComponent implements OnInit {
   jobs(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
       .filter((s) => !s.isCoop)
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
   createJob(): void {
