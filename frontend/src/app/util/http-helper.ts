@@ -31,7 +31,7 @@ export enum Endpoints {
 
     //DASHBOARD_TASKS = 'dashboard_tasks'
     PORTFOLIO = 'portfolio',
-    EDIT_SKILLS = 'student/skills/',
+    EDIT_SKILLS = 'student/skills',
     // faculty
     USERS_SEARCH = 'users/search',
     FACULTY_SUBMISSIONS = 'faculty/milestones',

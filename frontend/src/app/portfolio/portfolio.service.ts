@@ -56,8 +56,8 @@ export class PortfolioService {
   }
 
   // Use this to edit any fields moving forward
-  editStudentDetails(patch: any[], studentDetailsID: string): Observable<User> {
-    const url = constructBackendRequest(Endpoints.EDIT_SKILLS + studentDetailsID);
+  editStudentDetails(patch: any[]): Observable<User> {
+    const url = constructBackendRequest(Endpoints.EDIT_SKILLS);
     return this.http.patch<UserJSON>(url, patch).pipe(map((response) => new User(response)));
   }
 

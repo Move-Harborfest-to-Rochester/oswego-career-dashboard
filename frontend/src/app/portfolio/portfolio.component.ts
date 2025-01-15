@@ -170,7 +170,8 @@ export class PortfolioComponent implements OnInit {
       if (!form) return;
 
       const patch = this.generateInterestsPatch(this.user.studentDetails!.interests, form)
-      this.portfolioService.editStudentDetails(patch, this.user.studentDetails?.id!).subscribe(
+      console.log(patch)
+      this.portfolioService.editStudentDetails(patch).subscribe(
         value => {
           this.ngOnInit();
           // Use the setSkills in user class
@@ -190,7 +191,9 @@ export class PortfolioComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result?: Skill[]) => {
       if (!result) return;
 
-      const oldSkills = this.user.studentDetails!.skills;
+      const oldSkills =  this.user.studentDetails
+        ? this.user.studentDetails.skills
+        : new Array<Skill>()
       const newSkills = result;
       const patch: Operation[] = [];
       const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
@@ -215,8 +218,8 @@ export class PortfolioComponent implements OnInit {
           patch.push({ op: 'remove', path: `/skills/${i}` });
         }
       }
-
-      this.portfolioService.editStudentDetails(patch, this.user.studentDetails?.id!).subscribe(
+      console.log(patch)
+      this.portfolioService.editStudentDetails(patch).subscribe(
         value => {
           this.ngOnInit();
           // Use the setSkills in user class

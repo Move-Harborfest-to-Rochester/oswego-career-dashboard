@@ -31,9 +31,9 @@ public class PortfolioHandler {
     }
 
     public Mono<ServerResponse> editStudentDetails(ServerRequest request) {
-        UUID studentId = UUID.fromString(request.pathVariable("studentDetailsID"));
+//        UUID userId = UUID.fromString(request.pathVariable("userId"));
         return request.bodyToMono(JsonPatch.class)
-            .flatMap(patch -> portfolioService.patchStudentDetails(studentId, patch))
+            .flatMap(patch -> portfolioService.patchStudentDetails(patch))
             .flatMap(updatedStudent -> ServerResponse.ok().bodyValue(updatedStudent))
             .onErrorResume(e -> ServerResponse.badRequest().bodyValue("Invalid Patch Request: " + e.getMessage()));
     }
