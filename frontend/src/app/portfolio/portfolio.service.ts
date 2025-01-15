@@ -7,6 +7,7 @@ import PersonalInfo, { PersonalInfoJSON } from 'src/domain/PersonalInfo';
 import { EditPersonalInfoRequest } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 import { EditEducationFormValues } from './education-section/edit-education-dialog/edit-education-dialog.component';
 import Education, { EducationJSON } from 'src/domain/Education';
+import {StudentDetails, StudentDetailsJSON} from "../../domain/StudentDetails";
 
 export type DegreeProgramOperation = {
   id?: string;
@@ -56,9 +57,9 @@ export class PortfolioService {
   }
 
   // Use this to edit any fields moving forward
-  editStudentDetails(patch: any[]): Observable<User> {
+  editStudentDetails(patch: any[]): Observable<StudentDetails> {
     const url = constructBackendRequest(Endpoints.EDIT_SKILLS);
-    return this.http.patch<UserJSON>(url, patch).pipe(map((response) => new User(response)));
+    return this.http.patch<StudentDetailsJSON>(url, patch).pipe(map((response) => new StudentDetails(response)));
   }
 
   // Edit Personal Info (Service Method)

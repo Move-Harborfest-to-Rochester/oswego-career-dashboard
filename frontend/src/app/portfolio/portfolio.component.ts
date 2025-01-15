@@ -172,9 +172,8 @@ export class PortfolioComponent implements OnInit {
       const patch = this.generateInterestsPatch(this.user.studentDetails!.interests, form)
       console.log(patch)
       this.portfolioService.editStudentDetails(patch).subscribe(
-        value => {
-          this.ngOnInit();
-          // Use the setSkills in user class
+        patchedStudentDetails => {
+          this.user.studentDetails = patchedStudentDetails;
         }
       );
     })
@@ -218,11 +217,9 @@ export class PortfolioComponent implements OnInit {
           patch.push({ op: 'remove', path: `/skills/${i}` });
         }
       }
-      console.log(patch)
       this.portfolioService.editStudentDetails(patch).subscribe(
-        value => {
-          this.ngOnInit();
-          // Use the setSkills in user class
+        patchedStudentDetails => {
+          this.user.studentDetails = patchedStudentDetails
         }
       );
     });

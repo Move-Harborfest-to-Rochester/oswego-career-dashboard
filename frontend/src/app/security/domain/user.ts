@@ -150,6 +150,7 @@ export class User {
         this.studentDetails.description = personalInfo.description ?? '';
       }
     }
+
 }
 
 export enum Role {
