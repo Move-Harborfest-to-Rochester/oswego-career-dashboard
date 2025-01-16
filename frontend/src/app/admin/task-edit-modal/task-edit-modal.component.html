@@ -1,12 +1,12 @@
 <div id="modal-content-wrapper">
   <form *ngIf="dataLoaded" [formGroup]="taskForm" class="form-content" (ngSubmit)="saveTask()">
     <header id="modal-header">
-      <h5>This task is for {{tYearLevel}} </h5>
+      <h4>This task is for {{tYearLevel}} </h4>
       <div *ngIf="taskName == ''">
-        <h4>Create New Task</h4>
+        <h3>Create New Task</h3>
       </div>
       <div *ngIf="taskName != ''">
-        <h4>Editing {{taskName}}</h4>
+        <h3>Editing {{taskName}}</h3>
       </div>
     </header>
     <mat-form-field *ngIf="taskName == ''">
