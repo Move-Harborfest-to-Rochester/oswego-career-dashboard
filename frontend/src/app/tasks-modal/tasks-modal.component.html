@@ -19,13 +19,7 @@
         <p class="content">{{ modalData.task.description }}</p>
       </div>
     </div>
-    <app-submission-content [task]="modalData.task" (cancel)="closeModal()"></app-submission-content>
+    <div id="action-row">
+      <app-submission-content [task]="modalData.task" (cancel)="closeModal()"></app-submission-content>
+    </div>
   </div>
-  <br>
-  <footer id="modal-footer">
-    <button mat-button type="button" id="modal-cancel-button" (click)="closeModal()">
-      Go back
-    </button>
-  </footer>
-</div>
-

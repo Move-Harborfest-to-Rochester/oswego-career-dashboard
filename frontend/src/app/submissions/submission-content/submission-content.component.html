@@ -2,18 +2,21 @@
   <div class="submission-instructions">
     {{task.submissionInstructions}}
   </div>
-  
+
   <ng-container *ngIf="needsArtifact()">
     <div class="submission-file-upload">
         <app-file-upload (artifactIdEmitter)="onArtifactId($event)"></app-file-upload>
     </div>
-  </ng-container> 
-  
+  </ng-container>
+
   <mat-form-field class="submission-comments">
     <textarea matInput [placeholder]="'Comment...'" [(ngModel)]="commentString"></textarea>
   </mat-form-field>
-  
+
   <div class="submission-buttons">
+    <button mat-button id="modal-cancel-button" color="red" type="button" (click)="onCancel()">Cancel</button>
     <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!isEnabled() || !canSubmit()">Submit</button>
+
+
   </div>
 </div>
