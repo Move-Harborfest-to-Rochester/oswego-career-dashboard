@@ -138,8 +138,6 @@ public class PortfolioService {
   }
 
   public Mono<StudentDetails> patchStudentDetails(JsonPatch patch) {
-    // Switch to use userID, then add the student details if necessary
-    // Mono.justOrEmpty(studentDetailsRepository.findById(userId))
     return getOrCreateStudentDetails()
         .flatMap(studentDetails -> {
           JsonNode studentJson = objectMapper.convertValue(studentDetails, JsonNode.class);

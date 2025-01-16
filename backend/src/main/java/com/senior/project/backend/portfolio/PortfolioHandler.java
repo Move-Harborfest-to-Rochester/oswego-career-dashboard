@@ -31,7 +31,6 @@ public class PortfolioHandler {
     }
 
     public Mono<ServerResponse> editStudentDetails(ServerRequest request) {
-//        UUID userId = UUID.fromString(request.pathVariable("userId"));
         return request.bodyToMono(JsonPatch.class)
             .flatMap(patch -> portfolioService.patchStudentDetails(patch))
             .flatMap(updatedStudent -> ServerResponse.ok().bodyValue(updatedStudent))

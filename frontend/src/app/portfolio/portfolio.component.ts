@@ -167,7 +167,7 @@ export class PortfolioComponent implements OnInit {
     };
 
     dialogRef.afterClosed().subscribe((form: Interest[]) => {
-      if (!form) return;
+
 
       const patch = this.generateInterestsPatch(this.user.studentDetails!.interests, form)
       console.log(patch)
