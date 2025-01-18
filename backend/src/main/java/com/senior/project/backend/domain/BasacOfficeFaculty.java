@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupportFaculty {
+public class BasacOfficeFaculty {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
