@@ -1,7 +1,10 @@
 package com.senior.project.backend.basacoffice;
 
+import com.senior.project.backend.domain.BasacOfficeFaculty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class BasacOfficeFacultyService {
@@ -9,5 +12,13 @@ public class BasacOfficeFacultyService {
 
     public BasacOfficeFacultyService(@Autowired BasacOfficeFacultyRepository basacOfficeFacultyRepository) {
         this.basacOfficeFacultyRepository = basacOfficeFacultyRepository;
+    }
+
+    public BasacOfficeFaculty saveBasacOfficeFaculty(BasacOfficeFaculty basacOfficeFaculty) {
+        return basacOfficeFacultyRepository.save(basacOfficeFaculty);
+    }
+
+    public void deleteBasacOfficeFaculty(UUID id) {
+        basacOfficeFacultyRepository.deleteById(id);
     }
 }
