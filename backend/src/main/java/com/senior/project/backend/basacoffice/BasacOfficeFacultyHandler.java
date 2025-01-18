@@ -1,5 +1,6 @@
 package com.senior.project.backend.basacoffice;
 
+import com.senior.project.backend.basacoffice.dto.BasacOfficeFacultyDTO;
 import com.senior.project.backend.common.models.Patch;
 import com.senior.project.backend.domain.BasacOfficeFaculty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ public class BasacOfficeFacultyHandler {
     }
 
     public Mono<ServerResponse> getAllBasacOfficeFaculty(ServerRequest request) {
-        return ServerResponse.ok().bodyValue(basacOfficeFacultyService.getAllBasacOfficeFaculty());
+        return ServerResponse.ok().body(basacOfficeFacultyService.getAllBasacOfficeFaculty(), BasacOfficeFaculty.class);
     }
 
     public Mono<ServerResponse> updateBasacOffice(ServerRequest request) {
-        return request.bodyToMono(new ParameterizedTypeReference<Patch<BasacOfficeFaculty>>() {})
-                .flatMap(patch -> ServerResponse.ok().bodyValue(basacOfficeFacultyService.patchBasacOffice(patch)))
+        return request.bodyToMono(new ParameterizedTypeReference<Patch<BasacOfficeFacultyDTO>>() {})
+                .flatMap(patch -> ServerResponse.ok().body(basacOfficeFacultyService.patchBasacOffice(patch), BasacOfficeFacultyDTO.class))
                 .onErrorResume(error -> {
                     if (error instanceof IllegalArgumentException) {
                         return ServerResponse.badRequest().bodyValue(error.getMessage());

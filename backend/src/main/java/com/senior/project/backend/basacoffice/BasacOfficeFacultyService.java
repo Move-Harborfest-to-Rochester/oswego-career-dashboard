@@ -1,6 +1,8 @@
 package com.senior.project.backend.basacoffice;
 
+import com.senior.project.backend.basacoffice.dto.BasacOfficeFacultyDTO;
 import com.senior.project.backend.common.models.Patch;
+import com.senior.project.backend.common.models.PatchOperation;
 import com.senior.project.backend.domain.BasacOfficeFaculty;
 import com.senior.project.backend.util.NonBlockingExecutor;
 import jakarta.transaction.Transactional;
@@ -32,19 +34,19 @@ public class BasacOfficeFacultyService {
     }
 
     @Transactional
-    public Flux<BasacOfficeFaculty> patchBasacOffice(Patch<BasacOfficeFaculty> patch) {
+    public Flux<BasacOfficeFaculty> patchBasacOffice(Patch<BasacOfficeFacultyDTO> patch) {
         return Flux.fromIterable(patch.getOperations())
                 .concatMap(operation -> {
                     switch (operation.getOp()) {
                         case "add" -> {
-                            return saveBasacOfficeFaculty(operation.getValue());
+                            return saveBasacOfficeFaculty(operation.getValue().toDomain());
                         }
                         case "remove" -> {
-                            deleteBasacOfficeFaculty(operation.getValue().getId());
+                            deleteBasacOfficeFaculty(operation.getId());
                             return Mono.empty();
                         }
                         case "replace" -> {
-                            return patchBasacOfficeFaculty(operation.getId(), operation.getValue());
+                            return patchBasacOfficeFaculty(operation);
                         }
                         default -> {
                             return Flux.error(new IllegalArgumentException("Unsupported operation: " + operation.getOp()));
@@ -54,12 +56,14 @@ public class BasacOfficeFacultyService {
 
     }
 
-    private Mono<BasacOfficeFaculty> patchBasacOfficeFaculty(UUID id, BasacOfficeFaculty basacOfficeFaculty) {
-        return getBasacOfficeFaculty(id).flatMap(facultyToUpdate -> {
-            facultyToUpdate.setName(basacOfficeFaculty.getName());
-            facultyToUpdate.setTitle(basacOfficeFaculty.getTitle());
-            facultyToUpdate.setEmail(basacOfficeFaculty.getEmail());
-            return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.save(facultyToUpdate));
+    private Mono<BasacOfficeFaculty> patchBasacOfficeFaculty(PatchOperation<BasacOfficeFacultyDTO> patchOperation) {
+        return getBasacOfficeFaculty(patchOperation.getId()).flatMap(facultyToUpdate -> {
+            BasacOfficeFacultyDTO facultyToUpdateDTO = facultyToUpdate.toDTO();
+            BasacOfficeFaculty updatedFaculty = patchOperation.applyTo(facultyToUpdateDTO).toDomain();
+            //            facultyToUpdate.setName(patchOperation.getName());
+//            facultyToUpdate.setTitle(patchOperation.getTitle());
+//            facultyToUpdate.setEmail(patchOperation.getEmail());
+            return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.save(updatedFaculty));
         });
     }
 
