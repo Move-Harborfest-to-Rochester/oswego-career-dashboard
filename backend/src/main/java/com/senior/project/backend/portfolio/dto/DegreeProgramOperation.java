@@ -2,7 +2,6 @@ package com.senior.project.backend.portfolio.dto;
 
 import com.senior.project.backend.domain.DegreeProgram;
 import com.senior.project.backend.domain.StudentDetails;
-import com.senior.project.backend.util.OperationType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;

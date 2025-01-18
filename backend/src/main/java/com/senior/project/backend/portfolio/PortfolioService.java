@@ -11,7 +11,7 @@ import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
 import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.studentdetails.StudentDetailsRepository;
 import com.senior.project.backend.users.UserRepository;
-import com.senior.project.backend.util.OperationType;
+import com.senior.project.backend.portfolio.dto.OperationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
