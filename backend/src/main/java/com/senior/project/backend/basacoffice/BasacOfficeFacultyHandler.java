@@ -15,6 +15,10 @@ public class BasacOfficeFacultyHandler {
         this.basacOfficeFacultyService = supportFacultyService;
     }
 
+    public Mono<ServerResponse> getAllBasacOfficeFaculty(ServerRequest request) {
+        return ServerResponse.ok().bodyValue(basacOfficeFacultyService.getAllBasacOfficeFaculty());
+    }
+
     public Mono<ServerResponse> updateBasacOffice(ServerRequest request) {
         return request.bodyToMono(JsonPatch.class)
                 .flatMap(basacOfficeFacultyService::patchBasacOffice)
