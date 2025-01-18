@@ -1,7 +1,7 @@
 package com.senior.project.backend.portfolio.dto;
 
 public enum OperationType {
-    Update,
+    Edit,
     Delete,
     Create
 }
