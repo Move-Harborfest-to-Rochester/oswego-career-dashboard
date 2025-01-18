@@ -17,7 +17,7 @@ public class SupportFacultyService {
         this.supportFacultyRepository = supportFacultyRepository;
     }
 
-    private Flux<SupportFaculty> allSupportFaculties() {
+    private Flux<SupportFaculty> allSupportFaculty() {
         return NonBlockingExecutor.executeMany(supportFacultyRepository::findAll);
     }
 
