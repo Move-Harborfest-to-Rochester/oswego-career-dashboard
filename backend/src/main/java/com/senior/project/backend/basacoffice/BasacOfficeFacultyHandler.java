@@ -1,5 +1,6 @@
 package com.senior.project.backend.basacoffice;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -15,7 +16,8 @@ public class BasacOfficeFacultyHandler {
     }
 
     public Mono<ServerResponse> updateBasacOffice(ServerRequest request) {
-        // TODO: implement
-        return Mono.empty();
+        return request.bodyToMono(JsonPatch.class)
+                .flatMap(basacOfficeFacultyService::patchBasacOffice)
+                .flatMap((basacOfficeFaculty) -> ServerResponse.ok().bodyValue(basacOfficeFaculty));
     }
 }
