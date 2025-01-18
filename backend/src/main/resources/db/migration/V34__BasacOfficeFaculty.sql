@@ -1,4 +1,4 @@
-CREATE TABLE basac_office_faculty
+CREATE TABLE IF NOT EXISTS basac_office_faculty
 (
     id    BINARY(16)   NOT NULL,
     name  VARCHAR(255) NULL,
