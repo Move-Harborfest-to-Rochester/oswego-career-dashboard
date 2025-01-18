@@ -1,8 +1,10 @@
 package com.senior.project.backend.basacoffice;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import com.senior.project.backend.domain.BasacOfficeFaculty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,11 +21,16 @@ public class BasacOfficeFacultyService {
         return basacOfficeFacultyRepository.findAll();
     }
 
-    public BasacOfficeFaculty saveBasacOfficeFaculty(BasacOfficeFaculty basacOfficeFaculty) {
+    private BasacOfficeFaculty saveBasacOfficeFaculty(BasacOfficeFaculty basacOfficeFaculty) {
         return basacOfficeFacultyRepository.save(basacOfficeFaculty);
     }
 
-    public void deleteBasacOfficeFaculty(UUID id) {
+    private void deleteBasacOfficeFaculty(UUID id) {
         basacOfficeFacultyRepository.deleteById(id);
+    }
+
+    public Mono<?> patchBasacOffice(JsonPatch jsonPatch) {
+        // TODO: implement
+        return Mono.empty();
     }
 }
