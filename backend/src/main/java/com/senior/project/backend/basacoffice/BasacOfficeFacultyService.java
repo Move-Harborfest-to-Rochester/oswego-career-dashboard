@@ -1,6 +1,6 @@
 package com.senior.project.backend.basacoffice;
 
-import com.github.fge.jsonpatch.JsonPatch;
+import com.senior.project.backend.common.models.Patch;
 import com.senior.project.backend.domain.BasacOfficeFaculty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class BasacOfficeFacultyService {
         basacOfficeFacultyRepository.deleteById(id);
     }
 
-    public Mono<?> patchBasacOffice(JsonPatch jsonPatch) {
+    public Mono<?> patchBasacOffice(Patch<BasacOfficeFaculty> patch) {
         // TODO: implement
         return Mono.empty();
     }
