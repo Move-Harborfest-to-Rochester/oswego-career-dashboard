@@ -2,11 +2,13 @@ package com.senior.project.backend.basacoffice;
 
 import com.senior.project.backend.common.models.Patch;
 import com.senior.project.backend.domain.BasacOfficeFaculty;
+import com.senior.project.backend.util.NonBlockingExecutor;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -17,20 +19,51 @@ public class BasacOfficeFacultyService {
         this.basacOfficeFacultyRepository = basacOfficeFacultyRepository;
     }
 
-    public List<BasacOfficeFaculty> getAllBasacOfficeFaculty() {
-        return basacOfficeFacultyRepository.findAll();
+    public Flux<BasacOfficeFaculty> getAllBasacOfficeFaculty() {
+        return NonBlockingExecutor.executeMany(basacOfficeFacultyRepository::findAll);
     }
 
-    private BasacOfficeFaculty saveBasacOfficeFaculty(BasacOfficeFaculty basacOfficeFaculty) {
-        return basacOfficeFacultyRepository.save(basacOfficeFaculty);
+    private Mono<BasacOfficeFaculty> saveBasacOfficeFaculty(BasacOfficeFaculty basacOfficeFaculty) {
+        return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.save(basacOfficeFaculty));
     }
 
     private void deleteBasacOfficeFaculty(UUID id) {
         basacOfficeFacultyRepository.deleteById(id);
     }
 
-    public Mono<?> patchBasacOffice(Patch<BasacOfficeFaculty> patch) {
-        // TODO: implement
-        return Mono.empty();
+    @Transactional
+    public Flux<BasacOfficeFaculty> patchBasacOffice(Patch<BasacOfficeFaculty> patch) {
+        return Flux.fromIterable(patch.getOperations())
+                .concatMap(operation -> {
+                    switch (operation.getOp()) {
+                        case "add" -> {
+                            return saveBasacOfficeFaculty(operation.getValue());
+                        }
+                        case "remove" -> {
+                            deleteBasacOfficeFaculty(operation.getValue().getId());
+                            return Mono.empty();
+                        }
+                        case "replace" -> {
+                            return patchBasacOfficeFaculty(operation.getId(), operation.getValue());
+                        }
+                        default -> {
+                            return Flux.error(new IllegalArgumentException("Unsupported operation: " + operation.getOp()));
+                        }
+                    }
+                });
+
+    }
+
+    private Mono<BasacOfficeFaculty> patchBasacOfficeFaculty(UUID id, BasacOfficeFaculty basacOfficeFaculty) {
+        return getBasacOfficeFaculty(id).flatMap(facultyToUpdate -> {
+            facultyToUpdate.setName(basacOfficeFaculty.getName());
+            facultyToUpdate.setTitle(basacOfficeFaculty.getTitle());
+            facultyToUpdate.setEmail(basacOfficeFaculty.getEmail());
+            return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.save(facultyToUpdate));
+        });
+    }
+
+    private Mono<BasacOfficeFaculty> getBasacOfficeFaculty(UUID id) {
+        return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.findById(id).orElse(null));
     }
 }
