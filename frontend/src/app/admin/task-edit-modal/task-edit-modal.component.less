@@ -31,11 +31,38 @@ mat-card-title {
 
 
 #modal-footer {
-
-  display:flex;
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 75%;
+  margin: 10px auto;
   padding: 10px;
+}
+
+.modal-cancel-button {
+  width: 30%;
+  background-color: #808080;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal-cancel-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.modal-submit-button {
+  width: 30%;
+  background-color: @oswego-green;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal-submit-button:disabled {
+  background-color: gray;
+}
+
+.modal-submit-button:hover {
+  background-color: darkgreen;
 }
 
 .modal-cancel-button {
