@@ -43,7 +43,7 @@
                   <p>{{user.studentDetails!.description}}</p>
                 </div>
               </div>
-              <div class="actions">
+              <div class="actions" *ngIf="!this.external">
                 <button mat-mini-fab (click)="openEditPersonalInfoDialog()">
                   <mat-icon>edit</mat-icon>
                 </button>
@@ -78,7 +78,7 @@
           <div class="card-body-section-header">
             <div class="add-project-container" >
               <h2>Projects</h2>
-              <button class="add-project-button" mat-mini-fab (click)="openAddProjectModal()">
+              <button class="add-project-button" mat-mini-fab (click)="openAddProjectModal()" *ngIf="!this.external">
                 <mat-icon>add</mat-icon>
               </button>
           </div>
@@ -104,7 +104,7 @@
               </div>
 
               <!-- Actions Section -->
-              <div class="actions">
+              <div class="actions" *ngIf="!this.external">
                 <div class="action-buttons">
                   <button mat-mini-fab color="primary" (click)="openEditProjectModal(project)">
                     <mat-icon>edit</mat-icon>
@@ -120,7 +120,7 @@
         <div class="card-body-section">
           <div class="card-body-section-header jobs-header">
             <h2>Jobs & Co-ops/Internships</h2>
-            <button mat-mini-fab (click)="createJob()">
+            <button mat-mini-fab (click)="createJob()" *ngIf="!this.external">
               <mat-icon>add</mat-icon>
             </button>
           </div>
@@ -149,7 +149,7 @@
                     {{job.description}}
                   </div>
                 </div>
-                <div class="actions">
+                <div class="actions" *ngIf="!this.external">
                   <button mat-mini-fab color="primary" (click)="editJob(job)">
                     <mat-icon>edit</mat-icon>
                   </button>

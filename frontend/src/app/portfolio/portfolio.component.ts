@@ -7,7 +7,7 @@ import { Job } from 'src/domain/Job';
 import { ArtifactService } from "../file-upload/artifact.service";
 import { MilestoneService } from "../milestones-page/milestones/milestone.service";
 import { AuthService } from '../security/auth.service';
-import { User } from '../security/domain/user';
+import {Role, User} from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { Project } from 'src/domain/Project'
 import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
@@ -128,6 +128,7 @@ export class PortfolioComponent implements OnInit {
   jobs(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
       .filter((s) => !s.isCoop)
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
   createJob(): void {
@@ -297,4 +298,6 @@ export class PortfolioComponent implements OnInit {
       data: dialogueRef
     })
   }
+
+  protected readonly Role = Role;
 }
