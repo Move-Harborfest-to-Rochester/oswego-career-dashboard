@@ -19,4 +19,8 @@ export class EditSupportFacultyFormComponent {
   deleteFaculty() {
 
   }
+
+  addNewFaculty() {
+
+  }
 }
