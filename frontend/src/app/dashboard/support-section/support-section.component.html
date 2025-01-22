@@ -35,10 +35,10 @@
             </p>
           </div>
         </div>
-        <div *ngSwitchCase="1">
+        <div *ngSwitchCase="1" >
 
           <h3>Maureen Melville</h3>
-          <div class = "container">
+          <div class = "container" [style.flex-wrap]="'wrap'">
             <p>Email: <a href="mailto:mmelvill@oswego.edu" target="_blank" rel="noopener noreferrer">mmelvill@oswego.edu</a></p>
 
             <div class = "office-container">
@@ -95,6 +95,7 @@
           </div>
         </div>
         <div *ngSwitchCase="4">
+          <div class="contact-container">
           <h3>Contacts for Support</h3>
 
           <div class="contact-sections">
@@ -118,6 +119,7 @@
               <p>Email: <a href="mailto:financial.aid@oswego.edu" target="_blank" rel="noopener noreferrer">advisement@oswego.edu</a></p>
             </div>
           </div>
+        </div>
         </div>
       </ng-container>
     </div>
