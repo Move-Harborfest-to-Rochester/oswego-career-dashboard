@@ -19,7 +19,7 @@ public class BasacOfficeFacultyHandler {
         this.basacOfficeFacultyService = supportFacultyService;
     }
 
-    public Mono<ServerResponse> getAllBasacOfficeFaculty() {
+    public Mono<ServerResponse> getAllBasacOfficeFaculty(ServerRequest request) {
         return ServerResponse.ok().body(basacOfficeFacultyService.getAllBasacOfficeFaculty(), BasacOfficeFaculty.class);
     }
 
