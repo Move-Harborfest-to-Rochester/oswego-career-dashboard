@@ -54,4 +54,13 @@ export class UserMenuComponent implements OnInit {
         }
       });
   }
+
+  openEditSupportFaculty() {
+    this.router.navigate(['/edit-support-faculty'])
+      .then(success => {
+        if (!success) {
+          console.error('Navigation to settings failed')
+        }
+    })
+  }
 }
