@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'edit-support-faculty-form',
-  templateUrl: './edit-support-faculty-form.component.html',
-  styleUrls: ['./edit-support-faculty-form.component.less']
+  selector: 'edit-basac-faculty-form',
+  templateUrl: './edit-basac-faculty-form.component.html',
+  styleUrls: ['./edit-basac-faculty-form.component.less']
 })
-export class EditSupportFacultyFormComponent {
+export class EditBasacFacultyFormComponent {
   form: FormGroup = new FormGroup([]);
 
   constructor() {

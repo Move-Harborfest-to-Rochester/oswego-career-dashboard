@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditSupportFacultyFormComponent } from './edit-support-faculty-form.component';
+import { EditBasacFacultyFormComponent } from './edit-basac-faculty-form.component';
 
 describe('EditSupportFacultyFormComponent', () => {
-  let component: EditSupportFacultyFormComponent;
-  let fixture: ComponentFixture<EditSupportFacultyFormComponent>;
+  let component: EditBasacFacultyFormComponent;
+  let fixture: ComponentFixture<EditBasacFacultyFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EditSupportFacultyFormComponent]
+      declarations: [EditBasacFacultyFormComponent]
     });
-    fixture = TestBed.createComponent(EditSupportFacultyFormComponent);
+    fixture = TestBed.createComponent(EditBasacFacultyFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
