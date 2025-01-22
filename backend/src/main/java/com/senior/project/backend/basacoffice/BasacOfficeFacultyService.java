@@ -60,9 +60,6 @@ public class BasacOfficeFacultyService {
         return getBasacOfficeFaculty(patchOperation.getId()).flatMap(facultyToUpdate -> {
             BasacOfficeFacultyDTO facultyToUpdateDTO = facultyToUpdate.toDTO();
             BasacOfficeFaculty updatedFaculty = patchOperation.applyTo(facultyToUpdateDTO).toDomain();
-            //            facultyToUpdate.setName(patchOperation.getName());
-//            facultyToUpdate.setTitle(patchOperation.getTitle());
-//            facultyToUpdate.setEmail(patchOperation.getEmail());
             return NonBlockingExecutor.execute(() -> basacOfficeFacultyRepository.save(updatedFaculty));
         });
     }
