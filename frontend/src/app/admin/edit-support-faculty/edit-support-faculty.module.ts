@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EditSupportFacultyComponent} from "./edit-support-faculty.component";
+import { EditSupportFacultyComponent } from './edit-support-faculty.component';
 
 
 
 @NgModule({
-  declarations: [EditSupportFacultyComponent],
+  declarations: [
+    EditSupportFacultyComponent
+  ],
   imports: [
     CommonModule
   ],
