@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'edit-support-faculty-form',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./edit-support-faculty-form.component.less']
 })
 export class EditSupportFacultyFormComponent {
+  form: FormGroup = new FormGroup([]);
 
+  constructor() {
+  }
+
+  submit() {
+
+  }
+
+  deleteFaculty() {
+
+  }
 }
