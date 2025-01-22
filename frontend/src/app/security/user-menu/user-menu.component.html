@@ -13,7 +13,7 @@
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>
-    <button mat-menu-item class="edit-support-faculty-button" (click)="openEditSupportFaculty()">
+    <button mat-menu-item class="edit-support-faculty-button" (click)="openEditSupportFaculty()" *ngIf="userIsAdmin()">
       <mat-icon>edit</mat-icon>
       <span>Edit Support Faculty</span>
     </button>

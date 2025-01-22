@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { AuthService } from '../auth.service';
-import { User } from '../domain/user';
-import { LangUtils } from 'src/app/util/lang-utils';
+import {AuthService} from '../auth.service';
+import {Role, User} from '../domain/user';
+import {LangUtils} from 'src/app/util/lang-utils';
 import {Router} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {UserService} from "../user.service";
@@ -62,5 +62,9 @@ export class UserMenuComponent implements OnInit {
           console.error('Navigation to settings failed')
         }
     })
+  }
+
+  userIsAdmin(): boolean {
+    return [Role.Admin, Role.SuperAdmin].includes(this.user.role);
   }
 }
