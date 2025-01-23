@@ -21,6 +21,7 @@ export enum Endpoints {
     ALL_SUBMISSIONS = 'student/submission',
     EDIT_PERSONAL_INFO = "personal-info",
     EDIT_EDUCATION = 'student/education',
+    GET_ALL_BASAC_FACULTY = 'basac-office-faculty',
 
     // Artifacts
     ARTIFACT = 'artifact/',
