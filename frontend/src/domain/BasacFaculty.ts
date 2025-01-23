@@ -1,11 +1,11 @@
-interface BasacFacultyJSON {
+export interface BasacFacultyJSON {
   id: string;
   name: string;
   title: string;
   email: string;
 }
 
-class BasacFaculty {
+export class BasacFaculty {
   private readonly id: string;
   private readonly name: string;
   private readonly title: string;

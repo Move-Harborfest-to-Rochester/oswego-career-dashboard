@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {constructBackendRequest, Endpoints} from "../../util/http-helper";
 import {map, Observable} from "rxjs";
+import { BasacFaculty, BasacFacultyJSON } from '../../../domain/BasacFaculty';
 
 @Injectable({
   providedIn: 'root'
