@@ -54,36 +54,42 @@ export class EditSkillsDialogComponent implements OnInit {
   }
   handleEdits(formValue: { skills: SkillsOperation[] }): Skill[] {
     let updatedSkillsList: Skill[] = this.defaultValues?.skills.map(skill => ({
-      id: skill.id ?? '', // Ensure id is defined
+      id: skill.id ?? '',
       name: skill.name,
       isLanguage: skill.isLanguage,
     })) || [];
 
     formValue.skills.forEach((skillOperation) => {
-      if (skillOperation.operation === "Create") {
-        // Add new skill
-        updatedSkillsList.push({
-          id: skillOperation.id ?? '',
-          name: skillOperation.name,
-          isLanguage: skillOperation.isLanguage,
-        });
-      } else if (skillOperation.operation === "Edit") {
-        // Update an existing skill
-        const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
-        if (index !== -1) {
-          updatedSkillsList[index] = {
-            id: updatedSkillsList[index].id,
+      const nameIsNotEmpty = !!skillOperation.name && skillOperation.name.trim().length > 0;
+      if (skillOperation.operation === 'Create') {
+        if (nameIsNotEmpty) {
+          updatedSkillsList.push({
+            id: skillOperation.id ?? '',
             name: skillOperation.name,
             isLanguage: skillOperation.isLanguage,
-          };
+          });
         }
-      } else if (skillOperation.operation === "Delete") {
+      } else if (skillOperation.operation === 'Edit') {
+        const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
+        if (index !== -1) {
+
+          if (nameIsNotEmpty) {
+            updatedSkillsList[index] = {
+              id: updatedSkillsList[index].id,
+              name: skillOperation.name,
+              isLanguage: skillOperation.isLanguage,
+            };
+          } else {
+            updatedSkillsList.splice(index, 1);
+          }
+        }
+
+      } else if (skillOperation.operation === 'Delete') {
         updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
       }
     });
 
     this.updateFormArray(updatedSkillsList);
-
     return updatedSkillsList;
   }
 
