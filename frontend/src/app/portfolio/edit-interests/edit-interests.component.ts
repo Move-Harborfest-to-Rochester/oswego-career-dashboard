@@ -57,19 +57,29 @@ export class EditInterestsComponent implements OnInit {
     })) || [];
 
     formValue.interests.forEach((skillOperation) => {
+      const interestIsNotEmpty = !!skillOperation.name && skillOperation.name.trim().length > 0;
+
       if (skillOperation.operation === "Create") {
-        updatedSkillsList.push({
-          id: skillOperation.id ?? '',
-          name: skillOperation.name,
-        });
+        if (interestIsNotEmpty){
+          updatedSkillsList.push({
+            id: skillOperation.id ?? '',
+            name: skillOperation.name,
+          });
+        }
       } else if (skillOperation.operation === "Edit") {
         // Update an existing skill
         const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
         if (index !== -1) {
-          updatedSkillsList[index] = {
-            id: updatedSkillsList[index].id,
-            name: skillOperation.name,
-          };
+
+          if (interestIsNotEmpty) {
+            updatedSkillsList[index] = {
+              id: updatedSkillsList[index].id,
+              name: skillOperation.name,
+            };
+          } else {
+            updatedSkillsList.splice(index, 1)
+          }
+
         }
       } else if (skillOperation.operation === "Delete") {
         updatedSkillsList = updatedSkillsList.filter(skill => skill.id !== skillOperation.id);
