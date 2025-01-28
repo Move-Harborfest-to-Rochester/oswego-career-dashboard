@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { PortfolioComponent } from './portfolio.component';
+import {PortfolioComponent} from './portfolio.component';
 import {MockComponent} from "ng-mocks";
 import {MilestonesComponent} from "../milestones-page/milestones/milestones.component";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { AuthService } from '../security/auth.service';
-import { UserService } from '../security/user.service';
-import { ActivatedRoute, Router, UrlSegment, convertToParamMap } from '@angular/router';
-import { of } from 'rxjs';
-import { userJSON } from '../security/auth.service.spec';
-import { User } from '../security/domain/user';
-import { ResumeComponent } from './resume/resume.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
+import {AuthService} from '../security/auth.service';
+import {UserService} from '../security/user.service';
+import {ActivatedRoute, convertToParamMap, Router, UrlSegment} from '@angular/router';
+import {of} from 'rxjs';
+import {userJSON} from '../security/auth.service.spec';
+import {User} from '../security/domain/user';
+import {ResumeComponent} from './resume/resume.component';
 import {MilestoneService} from "../milestones-page/milestones/milestone.service";
 import {Milestone} from "../../domain/Milestone";
 import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EducationSectionModule } from './education-section/education-section.module';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {EducationSectionModule} from './education-section/education-section.module';
 
 describe('PortfolioComponent', () => {
   let component: PortfolioComponent;
@@ -111,5 +111,30 @@ describe('PortfolioComponent', () => {
     expect(component.external).toBeFalse();
     expect(userServiceSpy.getUser).not.toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalled();
+  }));
+
+  it('should match current user to portfolio user when ids match', fakeAsync(() => {
+    createTestBed(false, true);
+    tick(1000);
+
+    const currentUser = new User(userJSON);
+    authServiceSpy.user$ = of(currentUser);
+
+    component.currentUserMatchesPortfolioUser().subscribe((matches) => {
+      expect(matches).toBeTrue();
+    });
+  }));
+
+  it('should not match current user to portfolio user when ids do not match', fakeAsync(() => {
+    createTestBed(false, true);
+    tick(1000);
+    const currentUser = new User(userJSON);
+    authServiceSpy.user$ = of(currentUser);
+
+    component.user = new User({...userJSON, id: 'id-2'});
+
+    component.currentUserMatchesPortfolioUser().subscribe((matches) => {
+      expect(matches).toBeFalse();
+    });
   }));
 });
