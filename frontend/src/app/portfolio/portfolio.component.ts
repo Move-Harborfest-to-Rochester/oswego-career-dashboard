@@ -34,6 +34,7 @@ export class PortfolioComponent implements OnInit {
   completedMilestones: string[] = [];
   isMobile$: Observable<boolean>;
   personalSectionResize$: Observable<boolean>;
+  private authenticatedUser$: Observable<User | null>;
 
   constructor(
     private readonly authService: AuthService,
@@ -54,6 +55,7 @@ export class PortfolioComponent implements OnInit {
     private location: Location,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
+    this.authenticatedUser$ = this.authService.user$;
 
     // Add the mobile styling to personal section because it gets squished around 1200.
     // At 1000 resume is moved downward and there is more space so go back to normal
@@ -297,6 +299,13 @@ export class PortfolioComponent implements OnInit {
     this.addProjectDialogue.open(ConfirmationDialogComponent, {
       data: dialogueRef
     })
+  }
+
+  currentUserMatchesPortfolioUser(): Observable<boolean> {
+    return this.authenticatedUser$
+      .pipe(
+        map((authenticatedUser) => this.user.id === authenticatedUser?.id)
+      );
   }
 
   protected readonly Role = Role;
