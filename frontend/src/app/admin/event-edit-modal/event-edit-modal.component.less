@@ -5,10 +5,28 @@ mat-card-title {
   margin: 0px; // for example to remove the margin
   font-weight: bold;
 }
-
+.modal-content-wrapper{
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+}
+.mat-dialog-content{
+  width: 100%;
+  color: black;
+  background-color: white;
+  padding: 0 100px;
+}
 .flex-vertical-align {
   display: flex;
   align-items: center;
+}
+
+.mat {
+  width: 100%;
+  height: fit-content;
+  color: black;
+  background-color: white;
+  padding: 0 100px;
 }
 
 .mdc-button {
@@ -35,40 +53,43 @@ mat-card-title {
   height: fit-content;
   width: 100%;
   color: @oswego-green;
-  padding: 25px;
+  padding: 40px 0 40px 0;
+  font-size: 25px;
 }
 
-.modal-footer {
-  background-color: #F0F6F3;
-  border-top: solid gray 1px;
-  height: fit-content;
-  width: 100%;
-  display:flex;
-  justify-content: left;
-  position:relative;
-  bottom: 0;
+#modal-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 75%;
+  margin: 10px auto;
   padding: 10px;
 }
 
 .modal-cancel-button {
-  background-color: #4e4e4e;
+  width: 30%;
+  background-color: #808080;
   color: white;
-  margin: 0 20px  0 0;
   border-radius: 5px;
+  margin: 0 20px  0 0;
+  border: none;
+}
+
+.modal-cancel-button:hover {
+  background-color: red;
+  color: white;
 }
 
 .modal-submit-button {
+  width: 30%;
   background-color: @oswego-green;
   color: white;
-  margin: 0 20px  0 0;
   border-radius: 5px;
+  margin: 0 20px  0 0;
+  border: none;
 }
-
-.checkbox{
-  margin: 10px 0 10px 0;
-  width: 100%;
-  padding: 10px;
-  background-color: #F0F6F3;
-  border-top: solid gray 1px;
-  border-bottom: solid gray 1px;
+.check{
+  justify-self: center;
+}
+.hint{
+  color: darkgray;
 }
