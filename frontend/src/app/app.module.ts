@@ -54,7 +54,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
-import {EditSupportFacultyModule} from "./admin/edit-support-faculty/edit-support-faculty.module";
+import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
 
 @NgModule({
   declarations: [
@@ -125,7 +125,7 @@ import {EditSupportFacultyModule} from "./admin/edit-support-faculty/edit-suppor
     MatSnackBarModule,
     LogoLinkModule,
     MatIconModule,
-    EditSupportFacultyModule
+    EditBasacFacultyModule
   ],
   providers: [
     provideHttpClient(),

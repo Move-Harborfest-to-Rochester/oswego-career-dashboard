@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EditSupportFacultyFormComponent } from './edit-support-faculty-form.component';
+import { EditBasacFacultyFormComponent } from './edit-basac-faculty-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
 @NgModule({
   declarations: [
-    EditSupportFacultyFormComponent
+    EditBasacFacultyFormComponent
   ],
   imports: [
     CommonModule,
@@ -19,10 +20,11 @@ import {MatIconModule} from "@angular/material/icon";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    HttpClientModule
   ],
   exports: [
-    EditSupportFacultyFormComponent
+    EditBasacFacultyFormComponent
   ]
 })
-export class EditSupportFacultyFormModule { }
+export class EditBasacFacultyFormModule { }
