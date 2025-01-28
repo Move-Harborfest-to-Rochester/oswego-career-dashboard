@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { EditSupportFacultyComponent } from './edit-support-faculty.component';
-import {EditSupportFacultyFormModule} from "../edit-support-faculty-form/edit-support-faculty-form.module";
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {EditSupportFacultyComponent} from './edit-support-faculty.component';
+import {
+  EditSupportFacultyFormModule
+} from "../edit-support-faculty-form/edit-support-faculty-form.module";
 
 
 @NgModule({
@@ -15,4 +16,5 @@ import {EditSupportFacultyFormModule} from "../edit-support-faculty-form/edit-su
   ],
   exports: [EditSupportFacultyComponent]
 })
-export class EditSupportFacultyModule { }
+export class EditSupportFacultyModule {
+}
