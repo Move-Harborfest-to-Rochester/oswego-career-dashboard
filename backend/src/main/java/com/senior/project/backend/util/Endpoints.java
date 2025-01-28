@@ -50,6 +50,10 @@ public enum Endpoints {
     JOBS("jobs", true),
     JOBS_ID("jobs/{id}", true),
 
+    // Clubs
+    CLUBS("clubs", true),
+    CLUBS_ID("clubs/{id}", true),
+
     // Submissions
     SUBMISSION("tasks/submission", true),
     LATEST_SUBMISSION("tasks/submission/{taskId}", true),
