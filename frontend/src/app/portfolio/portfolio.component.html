@@ -119,7 +119,7 @@
           </div>
         <div class="card-body-section">
           <div class="card-body-section-header jobs-header">
-            <h2>Jobs</h2>
+            <h2>Jobs & Co-ops/Internships</h2>
             <button mat-mini-fab (click)="createJob()" *ngIf="!this.external">
               <mat-icon>add</mat-icon>
             </button>
@@ -159,34 +159,38 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="card-body-section">
-          <div class="card-body-section-header">
-            <h2>Co-ops and Internships</h2>
-          </div>
-          <div class="card-body-section-body projects">
             <div *ngFor="let job of coops()">
-              <div class="project">
-                <h3>{{job.name}}</h3>
-                <div class="date-row content">
-                  <div>
-                    <span class="title">{{dateHeader('Start')}}</span>
-                    <span class="date">{{formatDate(job.startDate)}}</span>
+              <div class="project job">
+                <div class="content">
+                  <h3>{{job.name}}</h3>
+                  <em>Co-op/Internship</em>
+                  <div class="date-row content">
+                    <div>
+                      <span class="title">{{dateHeader('Start')}}</span>
+                      <span class="date">{{formatDate(job.startDate)}}</span>
+                    </div>
+                    <div *ngIf="job.endDate">
+                      <span class="title">{{dateHeader('End')}}</span>
+                      <span class="date">{{formatDate(job.endDate)}}</span>
+                    </div>
                   </div>
-                  <div *ngIf="job.endDate">
-                    <span class="title">{{dateHeader('End')}}</span>
-                    <span class="date">{{formatDate(job.endDate)}}</span>
+                  <div class="date-row content">
+                    <div class="location">
+                      <span class="title">Location: </span>
+                      <span class="date">{{job.location}}</span>
+                    </div>
+                  </div>
+                  <div class="project-description">
+                    {{job.description}}
                   </div>
                 </div>
-                <div class="date-row content">
-                  <div class="location">
-                    <span class="title">Location: </span>
-                    <span class="date">{{job.location}}</span>
-                  </div>
-                </div>
-                <div class="project-description">
-                  {{job.description}}
+                <div class="actions">
+                  <button mat-mini-fab color="primary" (click)="editJob(job)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab color="warn" (click)="deleteJob(job)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </div>
               </div>
             </div>

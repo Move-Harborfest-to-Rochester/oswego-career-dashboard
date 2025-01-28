@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SaveJobDialogComponent } from './save-job-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -25,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatCheckboxModule,
   ],
   exports: [SaveJobDialogComponent],
   providers: [
