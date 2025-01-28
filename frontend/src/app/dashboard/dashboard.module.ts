@@ -10,12 +10,17 @@ import { TasksModule } from "../tasks/tasks.module";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HotlinkModule } from '../hotlink/hotlink.module';
+import { SupportSectionComponent } from './support-section/support-section.component';
+import { CareerSearchComponent } from './career-search/career-search.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     EventsComponent,
+    SupportSectionComponent,
+    CareerSearchComponent
+
   ],
   exports: [
   ],
@@ -28,7 +33,7 @@ import { HotlinkModule } from '../hotlink/hotlink.module';
     NgOptimizedImage,
     MatButtonModule,
     MatIconModule,
-    HotlinkModule
+    HotlinkModule,
   ]
 })
 export class DashboardModule { }
