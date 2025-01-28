@@ -48,7 +48,7 @@ public class EventServiceTest {
     }
 
     @Test
-    public void testDashboard() {
+    public void testHomepage() {
         Event event1 = new Event();
         event1.setId(1L);
         Event event2 = new Event();
@@ -61,7 +61,7 @@ public class EventServiceTest {
         events.add(event3);
 
         when(eventRepository.findAll()).thenReturn(events);
-        Flux<Event> result = eventService.dashboard();
+        Flux<Event> result = eventService.homepage();
         StepVerifier.create(result).expectNext(event1).expectNext(event2).expectNext(event3).expectComplete().verify();
     }
 
