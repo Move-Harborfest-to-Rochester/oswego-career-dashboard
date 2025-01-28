@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location} from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
+import {config, map, mergeMap, Observable, tap, zipWith} from 'rxjs';
 import { Job } from 'src/domain/Job';
 import { ArtifactService } from "../file-upload/artifact.service";
 import { MilestoneService } from "../milestones-page/milestones/milestone.service";
@@ -133,8 +133,19 @@ export class PortfolioComponent implements OnInit {
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
-  createClub(): void {
-    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
+
+
+  deleteClub(club: Club) {
+
+
+  }
+
+
+  editClub(club: Club): void {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent,  {
+      data: club
+    });
+
     dialogRef.afterClosed().subscribe((club?: Club)=> {
 
       if (!club) return;
@@ -142,6 +153,15 @@ export class PortfolioComponent implements OnInit {
         this.user.studentDetails?.clubs.push(club)
       }
 
+    })
+
+
+  }
+  createClub(): void {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
+    dialogRef.afterClosed().subscribe((club?: Club)=> {
+      if (!club) return;
+      this.user.studentDetails?.clubs.push(club)
     })
   }
 

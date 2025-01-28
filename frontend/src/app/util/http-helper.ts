@@ -49,6 +49,9 @@ export enum Endpoints {
 
     // Jobs
     JOBS = 'jobs',
+
+    // clubs
+    CLUBS = 'clubs'
 }
 
 export function constructBackendRequest(segments: string, ...qParams: Array<{key: string, value: string | number}>): string {

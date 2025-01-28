@@ -214,10 +214,10 @@
                   </div>
                 </div>
                 <div class="actions" *ngIf="!this.external">
-                  <button mat-mini-fab color="primary" >
+                  <button mat-mini-fab color="primary" (click)="editClub(club)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab color="warn">
+                  <button mat-mini-fab color="warn" (click)="deleteClub(club)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
