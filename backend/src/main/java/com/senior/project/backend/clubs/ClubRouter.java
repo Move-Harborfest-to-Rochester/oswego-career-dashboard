@@ -16,7 +16,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class ClubRouter {
 
   @Bean
-  RouterFunction<ServerResponse> clubRouter(ClubHandler clubHandler){
+  RouterFunction<ServerResponse> clubRoutes(ClubHandler clubHandler){
     return route(PUT(Endpoints.CLUBS.uri()), clubHandler::saveClub)
             .andRoute(DELETE(Endpoints.CLUBS_ID.uri()), clubHandler::deleteClub);
   }

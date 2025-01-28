@@ -193,8 +193,11 @@
           </div>
         </div>
         <div class="card-body-section">
-          <div class="card-body-section-header">
+          <div class="card-body-section-header jobs-header" >
             <h2>Clubs</h2>
+            <button mat-mini-fab (click)="createClub()" *ngIf="!this.external">
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
           <div class="card-body-section-body projects">
             <div *ngFor="let club of user.studentDetails?.clubs">
@@ -210,7 +213,16 @@
                     <span class="date">{{formatDate(club.endDate)}}</span>
                   </div>
                 </div>
+                <div class="actions" *ngIf="!this.external">
+                  <button mat-mini-fab color="primary" >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab color="warn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </div>
+
             </div>
           </div>
         </div>

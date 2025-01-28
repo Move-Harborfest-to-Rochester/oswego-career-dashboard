@@ -18,12 +18,14 @@ import { ResumeModule } from './resume/resume.module';
 import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirmation-dialog.module';
 import { EducationSectionModule } from './education-section/education-section.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SaveClubDialogComponent } from './save-club-dialog/save-club-dialog.component';
 
 
 @NgModule({
   declarations: [
     PortfolioComponent,
     AddProjectModalComponent,
+    SaveClubDialogComponent,
   ],
   exports: [
   ],

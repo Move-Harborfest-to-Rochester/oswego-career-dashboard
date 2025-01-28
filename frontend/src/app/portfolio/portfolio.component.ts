@@ -21,6 +21,8 @@ import { SaveJobDialogComponent } from './save-job-dialog/save-job-dialog.compon
 import { JobService } from './job/job.service';
 
 import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
+import {Club} from "../../domain/Club";
+import {SaveClubDialogComponent} from "./save-club-dialog/save-club-dialog.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -45,8 +47,8 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
-
     private readonly addProjectDialogue : MatDialog,
+    private readonly saveClubDialog: MatDialog,
     private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
@@ -130,6 +132,19 @@ export class PortfolioComponent implements OnInit {
       .filter((s) => !s.isCoop)
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
+
+  createClub(): void {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
+    dialogRef.afterClosed().subscribe((club?: Club)=> {
+
+      if (!club) return;
+      else{
+        this.user.studentDetails?.clubs.push(club)
+      }
+
+    })
+  }
+
 
   createJob(): void {
     const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);

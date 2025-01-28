@@ -24,7 +24,6 @@ public class ClubHandler {
     UUID id = UUID.fromString(request.pathVariable("id"));
     clubService.deleteClub(id);
     return ServerResponse.noContent().build();
-
   }
 
 }
