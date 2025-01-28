@@ -12,8 +12,8 @@ const createSpyObj= jasmine.createSpyObj;
 describe('EventsComponent', () => {
   let component: EventsComponent;
   let fixture: ComponentFixture<EventsComponent>;
-  let eventServiceSpy = createSpyObj('EventService', ['getEvents', 'getDashboardEvents']);
-  let artifactServiceSpy = createSpyObj('ArtifactService', ['getEvents', 'getDashboardEvents']);
+  let eventServiceSpy = createSpyObj('EventService', ['getEvents', 'getHomepageEvents']);
+  let artifactServiceSpy = createSpyObj('ArtifactService', ['getEvents', 'getHomepageEvents']);
   eventServiceSpy.getEvents.and.returnValue(of(Array(new Event({
       name: "name",
       description: "description",
@@ -27,7 +27,7 @@ describe('EventsComponent', () => {
       imageId: 1,
   }))));
 
-  eventServiceSpy.getDashboardEvents.and.returnValue(of(Array(new Event({
+  eventServiceSpy.getHomepageEvents.and.returnValue(of(Array(new Event({
       name: "name",
       description: "description",
       date: new Date().toDateString(),

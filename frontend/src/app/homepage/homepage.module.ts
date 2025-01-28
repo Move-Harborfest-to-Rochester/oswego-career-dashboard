@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { DashboardComponent } from './dashboard.component';
+import { HomepageComponent } from './homepage.component';
 import { MatCardModule } from "@angular/material/card";
 import { EventsComponent } from './events/events.component';
 import { MilestonesModule } from "../milestones-page/milestones/milestones.module";
@@ -14,7 +14,7 @@ import { HotlinkModule } from '../hotlink/hotlink.module';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
+    HomepageComponent,
     EventsComponent,
   ],
   exports: [
@@ -31,4 +31,4 @@ import { HotlinkModule } from '../hotlink/hotlink.module';
     HotlinkModule
   ]
 })
-export class DashboardModule { }
+export class HomepageModule { }

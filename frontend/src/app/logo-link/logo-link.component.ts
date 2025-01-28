@@ -12,6 +12,6 @@ export class LogoLinkComponent {
   constructor(private readonly router: Router) {}
 
   onClick() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/']);
   }
 }
