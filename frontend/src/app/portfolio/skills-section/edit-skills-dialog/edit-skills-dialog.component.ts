@@ -111,6 +111,7 @@ export class EditSkillsDialogComponent implements OnInit {
       return;
     }
     this.dialogRef.close(this.handleEdits(this.form.value));
+    // this.dialogRef.close(this.form.value);
   }
 
   closeDialog(): void {

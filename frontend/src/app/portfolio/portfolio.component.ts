@@ -41,8 +41,6 @@ import {
 } from "../common/confirmation-dialog/confirmation-dialog.component";
 import {EditInterestsComponent} from "./edit-interests/edit-interests.component";
 import {Interest} from "../../domain/Interest";
-import {diffArrays} from "rfc6902/diff";
-
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
@@ -114,6 +112,7 @@ export class PortfolioComponent implements OnInit {
       )
       .subscribe((user) => {
         if (LangUtils.exists(user)) {
+          console.log("Updating user")
           this.user = user!;
           this.loadProfilePicture();
           this.milestoneService
@@ -191,39 +190,55 @@ export class PortfolioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result?: Skill[]) => {
       if (!result) return;
-
       const oldSkills =  this.user.studentDetails
         ? this.user.studentDetails.skills
         : new Array<Skill>()
-      const newSkills = result;
-      const patch: Operation[] = [];
-      const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
-      const newSkillsMap = new Map(newSkills.map(skill => [skill.id, skill]));
-      newSkills.forEach((newSkill) => {
-        const oldSkill = oldSkillsMap.get(newSkill.id);
-        const fullIndex = oldSkills.findIndex(skill => skill.id === newSkill.id);
+      const oldSkillsOnlyLanguages = oldSkills.filter((skill) => {
+          return skill.isLanguage
+      })
+      const newSkills = [...oldSkillsOnlyLanguages, ...result]
 
-        if (!oldSkill) {
-          const addIndex = this.findFullIndexForNewSkill(newSkill, isLanguages, oldSkills);
-          patch.push({ op: 'add', path: `/skills/${addIndex}`, value: newSkill });
-        } else if (fullIndex !== -1) {
-          if (oldSkill.name !== newSkill.name || oldSkill.isLanguage !== newSkill.isLanguage) {
-            patch.push({ op: 'replace', path: `/skills/${fullIndex}`, value: newSkill });
+
+      console.log(`result after spread ${JSON.stringify(newSkills)}`)
+
+      this.portfolioService.saveSkills(newSkills)
+        .subscribe(
+          updatedStudentDetails => {
+            this.user.studentDetails = updatedStudentDetails;
           }
-        }
-      });
+        )
 
-      for (let i = oldSkills.length - 1; i >= 0; i--) {
-        const oldSkill = oldSkills[i];
-        if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
-          patch.push({ op: 'remove', path: `/skills/${i}` });
-        }
-      }
-      this.portfolioService.editStudentDetails(patch).subscribe(
-        patchedStudentDetails => {
-          this.user.studentDetails = patchedStudentDetails
-        }
-      );
+
+      // const patch: Operation[] = [];
+      // const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
+      // const newSkillsMap = new Map(newSkills.map(skill => [skill.id, skill]));
+      // newSkills.forEach((newSkill) => {
+      //   const oldSkill = oldSkillsMap.get(newSkill.id);
+      //   const fullIndex = oldSkills.findIndex(skill => skill.id === newSkill.id);
+      //
+      //   if (!oldSkill) {
+      //     const addIndex = this.findFullIndexForNewSkill(newSkill, isLanguages, oldSkills);
+      //     patch.push({ op: 'add', path: `/skills/${addIndex}`, value: newSkill });
+      //   } else if (fullIndex !== -1) {
+      //     if (oldSkill.name !== newSkill.name || oldSkill.isLanguage !== newSkill.isLanguage) {
+      //       patch.push({ op: 'replace', path: `/skills/${fullIndex}`, value: newSkill });
+      //     }
+      //   }
+      // });
+      //
+      // for (let i = oldSkills.length - 1; i >= 0; i--) {
+      //   const oldSkill = oldSkills[i];
+      //   if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
+      //     patch.push({ op: 'remove', path: `/skills/${i}` });
+      //   }
+      // }
+      // this.portfolioService.editStudentDetails(patch).subscribe(
+      //   patchedStudentDetails => {
+      //     this.ngOnInit();
+      //     this.user.studentDetails = patchedStudentDetails
+      //
+      //   }
+      // );
     });
   }
 
