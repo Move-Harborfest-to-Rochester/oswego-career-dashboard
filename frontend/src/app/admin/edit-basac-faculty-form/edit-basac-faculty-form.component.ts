@@ -6,7 +6,7 @@ import {
   FormControl,
   FormGroup
 } from "@angular/forms";
-import {BasacFacultyService} from "./basac-faculty.service";
+import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
 
 @Component({
   selector: 'edit-basac-faculty-form',
@@ -51,8 +51,8 @@ export class EditBasacFacultyFormComponent implements OnInit {
     return facultyControl.get(name) as FormControl;
   }
 
-  submit(formValues: Record<string, unknown>) {
-    console.debug(formValues);
+  submit(formValues: BasacFacultyPatch) {
+    this.service.patch(formValues ).subscribe();
   }
 
   deleteFacultyAtIndex(facultyControl: AbstractControl, index: number) {
@@ -67,9 +67,11 @@ export class EditBasacFacultyFormComponent implements OnInit {
   addNewFaculty() {
     this.faculty.push(this.formBuilder.group({
       op: this.formBuilder.control('add'),
-      name: this.formBuilder.control(''),
-      title: this.formBuilder.control(''),
-      email: this.formBuilder.control('')
+      value: this.formBuilder.group({
+        name: this.formBuilder.control(''),
+        title: this.formBuilder.control(''),
+        email: this.formBuilder.control('')
+      })
     }));
   }
 
