@@ -3,7 +3,7 @@
     <div formArrayName="faculty">
       <div *ngFor="let facultyControl of facultyControls(); let i = index"
            [formGroupName]="i"
-           [hidden]="isDeleted(i)"
+           [hidden]="isDeleted(facultyControl)"
            class="faculty-container">
         <mat-form-field>
           <mat-label>Name</mat-label>
@@ -19,13 +19,13 @@
           <mat-label>Email</mat-label>
           <input formControlName="email" matInput required type="email"/>
         </mat-form-field>
-        <button (click)="deleteFacultyAtIndex(facultyControl, i)"
+        <button type="button" (click)="deleteFacultyAtIndex(facultyControl, i)"
                 class="delete-btn" color="warn"
                 mat-mini-fab>
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-      <button (click)="addNewFaculty()" class="add-btn" mat-stroked-button>
+      <button type="button" (click)="addNewFaculty()" class="add-btn" mat-stroked-button>
         <mat-icon>add</mat-icon>
         <span>Add Faculty</span>
       </button>

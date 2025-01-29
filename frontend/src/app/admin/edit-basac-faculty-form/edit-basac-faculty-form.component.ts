@@ -17,7 +17,6 @@ export class EditBasacFacultyFormComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({
     faculty: this.formBuilder.array([])
   });
-  private readonly deleted: Set<number> = new Set<number>();
 
   constructor(private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
   }
@@ -56,11 +55,11 @@ export class EditBasacFacultyFormComponent implements OnInit {
 
   deleteFacultyAtIndex(facultyControl: AbstractControl, index: number) {
     const faculty = this.form.get('faculty') as FormArray;
-    faculty.removeAt(index);
     if (facultyControl.get('op')?.value === 'add') {
+      faculty.removeAt(index);
       return;
     }
-    this.deleted.add(index);
+    facultyControl.get('op')?.setValue('delete');
   }
 
   addNewFaculty() {
@@ -72,7 +71,7 @@ export class EditBasacFacultyFormComponent implements OnInit {
     }));
   }
 
-  isDeleted(index: number): boolean {
-    return this.deleted.has(index);
+  isDeleted(facultyControl: AbstractControl): boolean {
+    return facultyControl.get('op')?.value === 'delete';
   }
 }
