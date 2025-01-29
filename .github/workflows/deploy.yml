@@ -33,7 +33,7 @@
         #     name: backend-build
         #     path: backend/build/libs/
         - run:  pwd
-        - run:  cd /frontend
+        - run:  cd ./frontend/frontend
         - run:  ls
         - name: Use Node.js 
           uses: actions/setup-node@v3
