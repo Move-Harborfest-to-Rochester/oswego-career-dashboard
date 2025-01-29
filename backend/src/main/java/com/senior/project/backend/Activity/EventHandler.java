@@ -28,12 +28,12 @@ public class EventHandler {
     }
 
     /**
-     * Retrieves the selection of events displayed on the dashboard, paginated
+     * Retrieves the selection of events displayed on the homepage, paginated
      * Not implemented completely yet, so this functions the same as /events
      */
-    public Mono<ServerResponse> dashboard(ServerRequest serverRequest) {
-        serverRequest.queryParam("pageNum");    // TODO pass to dashboard() and get paged result
-        return ServerResponse.ok().body(this.eventService.dashboard(), Event.class );
+    public Mono<ServerResponse> homepage(ServerRequest serverRequest) {
+        serverRequest.queryParam("pageNum");    // TODO pass to homepage() and get paged result
+        return ServerResponse.ok().body(this.eventService.homepage(), Event.class );
     }
 
     /**
