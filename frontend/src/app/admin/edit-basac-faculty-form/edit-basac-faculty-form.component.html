@@ -1,6 +1,6 @@
 <form (ngSubmit)="submit(form.value)" [formGroup]="form">
   <div class="form-container">
-    <div formArrayName="faculty">
+    <div formArrayName="operations">
       <div *ngFor="let facultyControl of facultyControls(); let i = index"
            [formGroupName]="i"
            [hidden]="isDeleted(facultyControl)">
@@ -26,13 +26,11 @@
           </button>
         </div>
       </div>
-      <button type="button" (click)="addNewFaculty()" class="add-btn" mat-stroked-button>
-        <mat-icon>add</mat-icon>
-        <span>Add Faculty</span>
+    </div>
+    <div class="submit-container">
+      <button color='primary' mat-raised-button type="submit">
+        Save BASAC Office
       </button>
     </div>
-    <button class="submit-btn" color='primary' mat-raised-button type="submit">
-      Save BASAC Office
-    </button>
   </div>
 </form>
