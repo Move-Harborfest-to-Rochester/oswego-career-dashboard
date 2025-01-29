@@ -5,36 +5,64 @@ mat-card-title {
   margin: 0px; // for example to remove the margin
   font-weight: bold;
 }
+.modal-content-wrapper{
+  height: fit-content;
+  width: fit-content;
+}
 
 .form-content {
   width: 100%;
   height: fit-content;
   color: black;
   background-color: white;
+  padding: 0 100px;
 }
 
-#modal-header{
+
+#modal-header {
   text-align: center;
   align-items: center;
   justify-self: center;
   height: fit-content;
   width: 100%;
   color: @oswego-green;
-  padding: 25px;
-  border-bottom: solid gray 1px;
-  margin-bottom: 10px;
+  padding: 40px 0 40px 0;
 }
 
+
 #modal-footer {
-  background-color: #F0F6F3;
-  border-top: solid gray 1px;
-  height: fit-content;
-  width: 100%;
-  display:flex;
-  justify-content: left;
-  position: absolute;
-  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 75%;
+  margin: 10px auto;
   padding: 10px;
+}
+
+.modal-cancel-button {
+  width: 30%;
+  background-color: #808080;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal-cancel-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.modal-submit-button {
+  width: 30%;
+  background-color: @oswego-green;
+  color: white;
+  border-radius: 5px;
+}
+
+.modal-submit-button:disabled {
+  background-color: gray;
+}
+
+.modal-submit-button:hover {
+  background-color: darkgreen;
 }
 
 .modal-cancel-button {
@@ -72,3 +100,4 @@ mat-card-title {
 .mat-mdc-form-field {
     display: block;
 }
+

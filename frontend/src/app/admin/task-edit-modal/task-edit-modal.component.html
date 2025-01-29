@@ -1,12 +1,12 @@
 <div id="modal-content-wrapper">
   <form *ngIf="dataLoaded" [formGroup]="taskForm" class="form-content" (ngSubmit)="saveTask()">
     <header id="modal-header">
-      <h5>This task is for {{tYearLevel}} </h5>
+      <h4>This task is for {{tYearLevel}} </h4>
       <div *ngIf="taskName == ''">
-        <h4>Create New Task</h4>
+        <h3>Create New Task</h3>
       </div>
       <div *ngIf="taskName != ''">
-        <h4>Editing {{taskName}}</h4>
+        <h3>Editing {{taskName}}</h3>
       </div>
     </header>
     <mat-form-field *ngIf="taskName == ''">
@@ -15,16 +15,16 @@
   </mat-form-field>
       <mat-form-field>
         <mat-label>Task Description</mat-label>
-        <textarea matInput formControlName="description"></textarea>
+        <textarea matInput formControlName="description" rows = 5></textarea>
       </mat-form-field>
-      <div>
-          <label>Task type: </label>
+      <div style="margin-bottom: 20px;">
+        <label>Task type: </label>
           <mat-radio-group formControlName="taskType">
-            <mat-radio-button [value]="artifactType">Artifact</mat-radio-button>
-            <mat-radio-button [value]="eventType">Event</mat-radio-button>
-            <mat-radio-button [value]="commentType">Comment</mat-radio-button>
-          </mat-radio-group>
-        </div>
+          <mat-radio-button [value]="artifactType">Artifact</mat-radio-button>
+          <mat-radio-button [value]="eventType">Event</mat-radio-button>
+          <mat-radio-button [value]="commentType">Comment</mat-radio-button>
+        </mat-radio-group>
+    </div>
         <div *ngIf="getTaskType() == artifactType">
           <mat-form-field>
               <mat-label>Artifact Name</mat-label>
@@ -43,7 +43,7 @@
         </div>
         <mat-form-field>
           <mat-label>Submission Instructions</mat-label>
-          <input matInput formControlName="instructions">
+          <input matInput rows = 3 formControlName="instructions">
       </mat-form-field>
     <footer id="modal-footer">
       <button mat-raised-button class="modal-cancel-button" type="button" (click)="closeModal()">
