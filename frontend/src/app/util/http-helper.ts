@@ -44,6 +44,7 @@ export enum Endpoints {
     CREATE_TASK = 'admin/create-task',
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
+    PATCH_BASAC_FACULTY = 'basac-office-faculty',
 
     // Projects
     PROJECTS = 'projects',
