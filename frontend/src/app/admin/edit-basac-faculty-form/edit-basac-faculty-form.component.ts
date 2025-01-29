@@ -32,9 +32,11 @@ export class EditBasacFacultyFormComponent implements OnInit {
           faculties.map(faculty => this.formBuilder.group({
             op: this.formBuilder.control('replace'),
             id: this.formBuilder.control(faculty.id),
-            name: this.formBuilder.control(faculty.name),
-            title: this.formBuilder.control(faculty.title),
-            email: this.formBuilder.control(faculty.email)
+            value: this.formBuilder.group({
+              name: this.formBuilder.control(faculty.name),
+              title: this.formBuilder.control(faculty.title),
+              email: this.formBuilder.control(faculty.email)
+            })
           }))
         )
       });
