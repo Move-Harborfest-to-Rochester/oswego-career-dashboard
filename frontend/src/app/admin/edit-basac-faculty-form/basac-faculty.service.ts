@@ -27,8 +27,12 @@ export class BasacFacultyService {
     );
   }
 
-  patch(patchRequest: BasacFacultyPatch) {
+  patch(patchRequest: BasacFacultyPatch): Observable<BasacFaculty[]> {
     const url = constructBackendRequest(Endpoints.PATCH_BASAC_FACULTY);
-    return this.http.patch(url, patchRequest);
+    return this.http.patch<BasacFacultyJSON[]>(url, patchRequest).pipe(
+      map(
+        basacFaculty => basacFaculty.map(faculty => new BasacFaculty(faculty))
+      )
+    );
   }
 }

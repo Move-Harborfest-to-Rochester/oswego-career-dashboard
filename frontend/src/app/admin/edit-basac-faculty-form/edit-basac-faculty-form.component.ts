@@ -6,6 +6,7 @@ import {
   FormGroup
 } from "@angular/forms";
 import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
+import {BasacFaculty} from "../../../domain/BasacFaculty";
 
 @Component({
   selector: 'edit-basac-faculty-form',
@@ -25,21 +26,25 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getAll().subscribe(faculties => {
-      this.form = this.formBuilder.group({
-        operations: this.formBuilder.array(
-          faculties.map(faculty => this.formBuilder.group({
-            op: this.formBuilder.control('replace'),
-            id: this.formBuilder.control(faculty.id),
-            value: this.formBuilder.group({
-              name: this.formBuilder.control(faculty.name),
-              title: this.formBuilder.control(faculty.title),
-              email: this.formBuilder.control(faculty.email)
-            })
-          }))
-        )
-      });
+    this.service.getAll().subscribe(faculty => {
+      this.updateFaculty(faculty);
     })
+  }
+
+  updateFaculty(allFaculty: BasacFaculty[]) {
+    this.form = this.formBuilder.group({
+      operations: this.formBuilder.array(
+        allFaculty.map(faculty => this.formBuilder.group({
+          op: this.formBuilder.control('replace'),
+          id: this.formBuilder.control(faculty.id),
+          value: this.formBuilder.group({
+            name: this.formBuilder.control(faculty.name),
+            title: this.formBuilder.control(faculty.title),
+            email: this.formBuilder.control(faculty.email)
+          })
+        }))
+      )
+    });
   }
 
   facultyControls(): AbstractControl[] {
@@ -47,7 +52,9 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   submit(formValues: BasacFacultyPatch) {
-    this.service.patch(formValues ).subscribe();
+    this.service.patch(formValues ).subscribe((faculty) => {
+      this.updateFaculty(faculty);
+    });
   }
 
   deleteFacultyAtIndex(facultyControl: AbstractControl, index: number) {
