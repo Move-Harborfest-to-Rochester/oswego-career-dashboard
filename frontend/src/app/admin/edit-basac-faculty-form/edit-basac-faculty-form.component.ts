@@ -14,20 +14,20 @@ import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
 })
 export class EditBasacFacultyFormComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({
-    faculty: this.formBuilder.array([])
+    operations: this.formBuilder.array([])
   });
 
   constructor(private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
   }
 
-  public get faculty(): FormArray {
-    return (this.form.get('faculty') as FormArray);
+  public get facultyOperations(): FormArray {
+    return (this.form.get('operations') as FormArray);
   }
 
   ngOnInit() {
     this.service.getAll().subscribe(faculties => {
       this.form = this.formBuilder.group({
-        faculty: this.formBuilder.array(
+        operations: this.formBuilder.array(
           faculties.map(faculty => this.formBuilder.group({
             op: this.formBuilder.control('replace'),
             id: this.formBuilder.control(faculty.id),
@@ -43,7 +43,7 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   facultyControls(): AbstractControl[] {
-    return this.faculty.controls;
+    return this.facultyOperations.controls;
   }
 
   submit(formValues: BasacFacultyPatch) {
@@ -51,16 +51,16 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   deleteFacultyAtIndex(facultyControl: AbstractControl, index: number) {
-    const faculty = this.form.get('faculty') as FormArray;
+    const operations = this.facultyOperations;
     if (facultyControl.get('op')?.value === 'add') {
-      faculty.removeAt(index);
+      operations.removeAt(index);
       return;
     }
-    facultyControl.get('op')?.setValue('delete');
+    facultyControl.get('op')?.setValue('remove');
   }
 
   addNewFaculty() {
-    this.faculty.push(this.formBuilder.group({
+    this.facultyOperations.push(this.formBuilder.group({
       op: this.formBuilder.control('add'),
       value: this.formBuilder.group({
         name: this.formBuilder.control(''),
@@ -71,7 +71,7 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   isDeleted(facultyControl: AbstractControl): boolean {
-    return facultyControl.get('op')?.value === 'delete';
+    return facultyControl.get('op')?.value === 'remove';
   }
 
   getValueFromControl(facultyControl: AbstractControl): FormGroup {
