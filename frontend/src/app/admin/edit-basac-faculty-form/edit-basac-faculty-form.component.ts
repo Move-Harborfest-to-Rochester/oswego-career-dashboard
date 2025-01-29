@@ -76,4 +76,10 @@ export class EditBasacFacultyFormComponent implements OnInit {
   isDeleted(facultyControl: AbstractControl): boolean {
     return facultyControl.get('op')?.value === 'delete';
   }
+
+  getValueFromControl(facultyControl: AbstractControl): FormGroup {
+    return facultyControl.get('value') as FormGroup;
+  }
+
+  protected readonly FormGroup = FormGroup;
 }

@@ -3,27 +3,28 @@
     <div formArrayName="faculty">
       <div *ngFor="let facultyControl of facultyControls(); let i = index"
            [formGroupName]="i"
-           [hidden]="isDeleted(facultyControl)"
-           class="faculty-container">
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input
-            formControlName="name" matInput required/>
-          <!--      TODO: Error handling for all input fields -->
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input formControlName="title" matInput required/>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input formControlName="email" matInput required type="email"/>
-        </mat-form-field>
-        <button type="button" (click)="deleteFacultyAtIndex(facultyControl, i)"
-                class="delete-btn" color="warn"
-                mat-mini-fab>
-          <mat-icon>delete</mat-icon>
-        </button>
+           [hidden]="isDeleted(facultyControl)">
+        <div [formGroup]="getValueFromControl(facultyControl)" class="faculty-container">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input
+              formControlName="name" matInput required/>
+            <!--      TODO: Error handling for all input fields -->
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input formControlName="title" matInput required/>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput required type="email"/>
+          </mat-form-field>
+          <button type="button" (click)="deleteFacultyAtIndex(facultyControl, i)"
+                  class="delete-btn" color="warn"
+                  mat-mini-fab>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
       <button type="button" (click)="addNewFaculty()" class="add-btn" mat-stroked-button>
         <mat-icon>add</mat-icon>
