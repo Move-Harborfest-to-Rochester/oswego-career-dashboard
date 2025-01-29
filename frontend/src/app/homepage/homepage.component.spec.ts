@@ -15,11 +15,12 @@ describe('HomepageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-<<<<<<< HEAD:frontend/src/app/homepage/homepage.component.spec.ts
-      declarations: [HomepageComponent, MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent)],
-=======
-      declarations: [DashboardComponent, MockComponent(EventsComponent), MockComponent(MilestonesComponent), MockComponent(TasksComponent), MockComponent(CareerSearchComponent), MockComponent(SupportSectionComponent)],
->>>>>>> master:frontend/src/app/dashboard/dashboard.component.spec.ts
+      declarations: [HomepageComponent, 
+        MockComponent(EventsComponent), 
+        MockComponent(MilestonesComponent), 
+        MockComponent(TasksComponent), 
+        MockComponent(CareerSearchComponent),
+        MockComponent(SupportSectionComponent)],
       imports: [
         HotlinkModule
       ]
