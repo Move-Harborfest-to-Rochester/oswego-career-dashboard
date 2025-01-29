@@ -157,7 +157,7 @@ export class ImageUploadComponent implements OnInit {
       isRecurring: this.current_event?.isRecurring,
       imageId: null
     };
-    console.log("Updated Dat: " + updateData.name);
+    console.log("Updated Data: " + updateData.name);
 
     const url = constructBackendRequest(Endpoints.EDIT_EVENT);
     this.http.post(url, updateData).subscribe({
