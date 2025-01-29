@@ -15,7 +15,7 @@ import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
 import { of } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import createSpyObj = jasmine.createSpyObj;
-import { EventService } from 'src/app/dashboard/events/event.service';
+import { EventService } from 'src/app/homepage/events/event.service';
 import { Event } from 'src/domain/Event';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import any = jasmine.any;

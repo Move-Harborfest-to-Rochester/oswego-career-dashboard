@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/dashboard/events/event.service';
+import { EventService } from 'src/app/homepage/events/event.service';
 import { Event } from "../../../domain/Event";
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { EventEditModalComponent } from '../event-edit-modal/event-edit-modal.component';
