@@ -15,12 +15,14 @@ import {SettingsPageComponent} from "./settings/settings-page.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import { MilestonesComponent } from './milestones-page/milestones/milestones.component';
 import { MilestonesFacultyComponent } from './milestones-page/milestones-faculty/milestones-faculty.component';
+import {EventsPageComponent} from "./events-page/events-page.component";
 
 const studentRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'portfolio', component: PortfolioComponent, canActivate: [authGuard]},
   {path: 'settings', component: SettingsPageComponent, canActivate: [authGuard]},
   {path: 'milestones', component: MilestonesComponent, canActivate: [authGuard]},
+  {path: 'events/:id', component: EventsPageComponent, canActivate: [authGuard]}
 ]
 
 const facultyRoutes: Routes = [

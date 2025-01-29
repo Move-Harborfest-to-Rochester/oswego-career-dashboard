@@ -10,6 +10,7 @@ import { TasksModule } from "../tasks/tasks.module";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HotlinkModule } from '../hotlink/hotlink.module';
+import {RouterLink} from "@angular/router";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { HotlinkModule } from '../hotlink/hotlink.module';
     NgOptimizedImage,
     MatButtonModule,
     MatIconModule,
-    HotlinkModule
+    HotlinkModule,
+    RouterLink
   ]
 })
 export class DashboardModule { }

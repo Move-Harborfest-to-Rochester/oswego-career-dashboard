@@ -1,0 +1,12 @@
+<div *ngIf="event">
+  <h1>{{ event.name }}</h1>
+  <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
+  <p>{{ event.description }}</p>
+  <p><strong>Date:</strong> {{ event.date }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <a [href]="event.eventLink" target="_blank">{{ event.buttonLabel }}</a>
+</div>
+
+<ng-template #noEvent>
+  <p>Event not found.</p>
+</ng-template>
