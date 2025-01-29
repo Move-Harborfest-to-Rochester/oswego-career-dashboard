@@ -3,7 +3,6 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup
 } from "@angular/forms";
 import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
@@ -47,10 +46,6 @@ export class EditBasacFacultyFormComponent implements OnInit {
     return this.faculty.controls;
   }
 
-  getControlFrom(facultyControl: AbstractControl, name: string): FormControl {
-    return facultyControl.get(name) as FormControl;
-  }
-
   submit(formValues: BasacFacultyPatch) {
     this.service.patch(formValues ).subscribe();
   }
@@ -82,6 +77,4 @@ export class EditBasacFacultyFormComponent implements OnInit {
   getValueFromControl(facultyControl: AbstractControl): FormGroup {
     return facultyControl.get('value') as FormGroup;
   }
-
-  protected readonly FormGroup = FormGroup;
 }
