@@ -4,36 +4,36 @@
             "Count": 28,
             "has_resume": 19,
             "has_internship": 16,
-            "done_internship_this_year": 14,
-            "done_internship_last_year": 7
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 14
         },
         "Freshman": {
             "Count": 7,
             "has_resume": 5,
             "has_internship": 3,
-            "done_internship_this_year": 3,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 3
         },
         "Sophomore": {
             "Count": 7,
             "has_resume": 6,
             "has_internship": 4,
-            "done_internship_this_year": 3,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 3
         },
         "Junior": {
             "Count": 7,
             "has_resume": 5,
             "has_internship": 4,
-            "done_internship_this_year": 3,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 3
         },
         "Senior": {
             "Count": 7,
             "has_resume": 3,
             "has_internship": 5,
-            "done_internship_this_year": 5,
-            "done_internship_last_year": 1
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 5
         }
     },
     "Accounting": {
@@ -41,21 +41,21 @@
             "Count": 4,
             "has_resume": 2,
             "has_internship": 2,
-            "done_internship_this_year": 2,
-            "done_internship_last_year": 1
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 2
         },
         "Freshman": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         },
         "Sophomore": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Junior": {
@@ -78,36 +78,36 @@
             "Count": 4,
             "has_resume": 3,
             "has_internship": 4,
-            "done_internship_this_year": 3,
-            "done_internship_last_year": 1
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 3
         },
         "Freshman": {
-            "Count": 1,
-            "has_resume": 1,
-            "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
-        },
-        "Sophomore": {
-            "Count": 1,
-            "has_resume": 1,
-            "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
-        },
-        "Junior": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
             "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
+        "Sophomore": {
+            "Count": 1,
+            "has_resume": 1,
+            "has_internship": 1,
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
+        },
+        "Junior": {
+            "Count": 1,
+            "has_resume": 1,
+            "has_internship": 1,
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 0
+        },
         "Senior": {
             "Count": 1,
             "has_resume": 0,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         }
     },
     "Finance": {
@@ -115,8 +115,8 @@
             "Count": 4,
             "has_resume": 4,
             "has_internship": 3,
-            "done_internship_this_year": 3,
-            "done_internship_last_year": 2
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 3
         },
         "Freshman": {
             "Count": 1,
@@ -129,22 +129,22 @@
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Junior": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Senior": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         }
     },
     "Human Resource Management": {
@@ -152,15 +152,15 @@
             "Count": 4,
             "has_resume": 2,
             "has_internship": 2,
-            "done_internship_this_year": 2,
-            "done_internship_last_year": 1
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 2
         },
         "Freshman": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         },
         "Sophomore": {
             "Count": 1,
@@ -180,7 +180,7 @@
             "Count": 1,
             "has_resume": 0,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         }
     },
@@ -189,7 +189,7 @@
             "Count": 4,
             "has_resume": 2,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Freshman": {
@@ -210,7 +210,7 @@
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Senior": {
@@ -226,7 +226,7 @@
             "Count": 4,
             "has_resume": 3,
             "has_internship": 2,
-            "done_internship_this_year": 1,
+            "done_internship_this_year": 0,
             "done_internship_last_year": 1
         },
         "Freshman": {
@@ -241,7 +241,7 @@
             "has_resume": 1,
             "has_internship": 1,
             "done_internship_this_year": 0,
-            "done_internship_last_year": 1
+            "done_internship_last_year": 0
         },
         "Junior": {
             "Count": 1,
@@ -254,8 +254,8 @@
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         }
     },
     "Risk Management and Insurance": {
@@ -263,8 +263,8 @@
             "Count": 4,
             "has_resume": 3,
             "has_internship": 2,
-            "done_internship_this_year": 2,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 2
         },
         "Freshman": {
             "Count": 1,
@@ -284,15 +284,15 @@
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         },
         "Senior": {
             "Count": 1,
             "has_resume": 1,
             "has_internship": 1,
-            "done_internship_this_year": 1,
-            "done_internship_last_year": 0
+            "done_internship_this_year": 0,
+            "done_internship_last_year": 1
         }
     }
 }

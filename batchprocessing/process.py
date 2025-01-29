@@ -4,8 +4,8 @@ import json
 
 # Configuration for MySQL connection
 db_config = {
-    'user': 'root',
-    'password': getpass.getpass("Enter your MySQL password: "),  # Secure password input
+    'user': 'backend',
+    'password': 'password',  # Secure password input
     'host': 'localhost',
     'port': 3306,
     'database': 'crd'
