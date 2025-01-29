@@ -1,7 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from "@angular/forms";
 import {BasacFacultyService} from "./basac-faculty.service";
-import {BasacFaculty} from "../../../domain/BasacFaculty";
 
 @Component({
   selector: 'edit-basac-faculty-form',
@@ -12,8 +17,13 @@ export class EditBasacFacultyFormComponent implements OnInit {
   form: FormGroup = this.formBuilder.group({
     faculty: this.formBuilder.array([])
   });
+  private readonly deleted: Set<number> = new Set<number>();
 
   constructor(private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
+  }
+
+  public get faculty(): FormArray {
+    return (this.form.get('faculty') as FormArray);
   }
 
   ngOnInit() {
@@ -33,25 +43,36 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   facultyControls(): AbstractControl[] {
-    return (this.form.get('faculty') as FormArray).controls;
+    return this.faculty.controls;
   }
 
   getControlFrom(facultyControl: AbstractControl, name: string): FormControl {
     return facultyControl.get(name) as FormControl;
   }
 
-  submit() {
-
+  submit(formValues: Record<string, unknown>) {
+    console.debug(formValues);
   }
 
-  deleteFacultyAtIndex(facultyControl: FormControl, index: number) {
+  deleteFacultyAtIndex(facultyControl: AbstractControl, index: number) {
+    const faculty = this.form.get('faculty') as FormArray;
     faculty.removeAt(index);
-    if (facultyControl.get('op').value === 'add') {
+    if (facultyControl.get('op')?.value === 'add') {
       return;
     }
+    this.deleted.add(index);
   }
 
   addNewFaculty() {
+    this.faculty.push(this.formBuilder.group({
+      op: this.formBuilder.control('add'),
+      name: this.formBuilder.control(''),
+      title: this.formBuilder.control(''),
+      email: this.formBuilder.control('')
+    }));
+  }
 
+  isDeleted(index: number): boolean {
+    return this.deleted.has(index);
   }
 }

@@ -1,29 +1,37 @@
-<form (ngSubmit)="submit()" [formGroup]="form">
+<form (ngSubmit)="submit(form.value)" [formGroup]="form">
   <div class="form-container">
     <div formArrayName="faculty">
-      <div class="faculty-container" *ngFor="let _ of facultyControls(); let i = index" [formGroupName]="i">
+      <div *ngFor="let facultyControl of facultyControls(); let i = index"
+           [formGroupName]="i"
+           [hidden]="isDeleted(i)"
+           class="faculty-container">
         <mat-form-field>
           <mat-label>Name</mat-label>
           <input
-            matInput formControlName="name" required />
+            formControlName="name" matInput required/>
           <!--      TODO: Error handling for all input fields -->
         </mat-form-field>
         <mat-form-field>
           <mat-label>Title</mat-label>
-          <input matInput formControlName="title" required />
+          <input formControlName="title" matInput required/>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" required />
+          <input formControlName="email" matInput required type="email"/>
         </mat-form-field>
-        <button class="delete-btn" mat-mini-fab color="warn" (click)="deleteFacultyAtIndex(i)">
+        <button (click)="deleteFacultyAtIndex(facultyControl, i)"
+                class="delete-btn" color="warn"
+                mat-mini-fab>
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-      <button class="add-btn" (click)="addNewFaculty()" mat-stroked-button>
+      <button (click)="addNewFaculty()" class="add-btn" mat-stroked-button>
         <mat-icon>add</mat-icon>
         <span>Add Faculty</span>
       </button>
     </div>
+    <button class="submit-btn" color='primary' mat-raised-button type="submit">
+      Save BASAC Office
+    </button>
   </div>
 </form>
