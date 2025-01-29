@@ -21,17 +21,17 @@
           with:
             java-version: '17'
             distribution: 'temurin'
-        # - name: Build with Gradle
-        #   uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        #   with:
-        #     arguments: build
-        #     gradle-version: current
-        #     build-root-directory: ./backend
-        # - name: Save Backend files
-        #   uses: actions/upload-artifact@v3
-        #   with:
-        #     name: backend-build
-        #     path: backend/build/libs/
+        - name: Build with Gradle
+          uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+          with:
+            arguments: build
+            gradle-version: current
+            build-root-directory: ./backend
+        - name: Save Backend files
+          uses: actions/upload-artifact@v3
+          with:
+            name: backend-build
+            path: backend/build/libs/
         - name: Use Node.js 
           uses: actions/setup-node@v3
           with:
