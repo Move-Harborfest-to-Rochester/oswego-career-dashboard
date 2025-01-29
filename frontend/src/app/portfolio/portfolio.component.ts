@@ -7,7 +7,7 @@ import { Job } from 'src/domain/Job';
 import { ArtifactService } from "../file-upload/artifact.service";
 import { MilestoneService } from "../milestones-page/milestones/milestone.service";
 import { AuthService } from '../security/auth.service';
-import { User } from '../security/domain/user';
+import {Role, User} from '../security/domain/user';
 import { UserService } from '../security/user.service';
 import { Project } from 'src/domain/Project'
 import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
@@ -34,6 +34,7 @@ export class PortfolioComponent implements OnInit {
   completedMilestones: string[] = [];
   isMobile$: Observable<boolean>;
   personalSectionResize$: Observable<boolean>;
+  private authenticatedUser$: Observable<User | null>;
 
   constructor(
     private readonly authService: AuthService,
@@ -54,6 +55,7 @@ export class PortfolioComponent implements OnInit {
     private location: Location,
   ) {
     this.isMobile$ = screenSizeSvc.isMobile$;
+    this.authenticatedUser$ = this.authService.user$;
 
     // Add the mobile styling to personal section because it gets squished around 1200.
     // At 1000 resume is moved downward and there is more space so go back to normal
@@ -128,6 +130,7 @@ export class PortfolioComponent implements OnInit {
   jobs(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
       .filter((s) => !s.isCoop)
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
   createJob(): void {
@@ -297,4 +300,13 @@ export class PortfolioComponent implements OnInit {
       data: dialogueRef
     })
   }
+
+  currentUserMatchesPortfolioUser(): Observable<boolean> {
+    return this.authenticatedUser$
+      .pipe(
+        map((authenticatedUser) => this.user.id === authenticatedUser?.id)
+      );
+  }
+
+  protected readonly Role = Role;
 }

@@ -1,0 +1,128 @@
+<div class="support-links-container">
+  <div class="title-bar">School of Business Support Links</div>
+  <div class="content">
+    <div class="tabs">
+      <button *ngFor="let tab of tabs; let i = index"
+              (click)="selectTab(i)"
+              [class.active]="selectedTab === i">
+        {{ tab.label }}
+      </button>
+    </div>
+    <div class="tab-content" #tabContent>
+      <ng-container [ngSwitch]="selectedTab">
+
+        <div *ngSwitchCase="0">
+          <div class="basac-container">
+            <h3>Business Administration Student Advisement Center (BASAC)</h3>
+            <p>To schedule time with the Business Administration Student Advisement Center email <a href="mailto:basac@oswego.edu" target="_blank" rel="noopener noreferrer">basac@oswego.edu</a></p>
+
+            <div class="contact-info">
+              <div class="contact-item">
+                <p class="name">Alicia King</p>
+                <p class="role">Director, School of Business Advisement</p>
+                <p class="email"><a href="mailto:alicia.king@oswego.edu " target="_blank" rel="noopener noreferrer">alicia.king@oswego.edu</a></p>
+              </div>
+
+              <div class="contact-item">
+                <p class="name">Julia Lamb</p>
+                <p class="role">Student Academic Success Business Advisor</p>
+                <p class="email"><a href="mailto:basac@oswego.edu" target="_blank" rel="noopener noreferrer">basac@oswego.edu</a></p>
+              </div>
+            </div>
+
+            <p class="basac-description">
+              BASAC offers students with the guidance and resources they need to make informed academic decisions, while working towards completion of their degree program.
+            </p>
+          </div>
+        </div>
+        <div *ngSwitchCase="1" >
+
+          <h3>Maureen Melville</h3>
+          <div class = "container" [style.flex-wrap]="'wrap'">
+            <p>Email: <a href="mailto:mmelvill@oswego.edu" target="_blank" rel="noopener noreferrer">mmelvill@oswego.edu</a></p>
+
+            <div class = "office-container">
+              <p>For more information regarding Maureen's availability and office hours this semester, visit her <a href="https://ww1.oswego.edu/business/profile/maureen-melville" target="_blank" rel="noopener noreferrer">Oswego Business page</a>.</p>
+            </div>
+            <p>
+              <a href="https://professormoville.youcanbook.me/" class="schedule-button" target="_blank" rel="noopener noreferrer">Schedule a Time</a>
+            </p>
+          </div>
+        </div>
+        <div *ngSwitchCase="2">
+          <h3>Document Templates</h3>
+          <div class="template-container">
+            <div class="template-row">
+              <div class="template-item left">
+                <div class="logo-circle">
+                  <img src="../../../assets/images/resume-logo.png" alt="Resume Logo">
+                </div>
+              </div>
+              <div class="template-item right">
+                <div class="template-content">
+                  <h4>Resume Templates</h4>
+                  <p>Our templates help you communicate your skills, experiences, and accomplishments to make a strong impression on employers.</p>
+                </div>
+              </div>
+            </div>
+            <div class="template-container">
+              <div class="template-row">
+                <div class="template-item left">
+                  <div class="logo-circle">
+                    <img src="../../../assets/images/Cover-Letter.png" alt="Cover Logo">
+                  </div>
+                </div>
+                <div class="template-item right">
+                  <div class="template-content">
+                    <h4>Cover Letter Templates</h4>
+                    <p>Our Cover Letter templates are designed to help you present your skills and experience effectively, ensuring you make a strong impression with potential employers.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="3">
+          <h3>LinkedIn Learning</h3>
+          <div class="learning" style="text-align: center;">
+            <p>
+              LinkedIn Learning offers a variety of courses that allow you to enhance your career readiness. Gain in-demand skills and earn certificates that boost your resume.
+            </p>
+            <a href="https://cas-prod.oswego.edu:8443/cas/login?service=https%3A%2F%2Fauth.oswego.edu%2Fsimplesaml%2Fmodule.php%2Fcas%2Flinkback.php%3FstateID%3D_a2825ee9d52b9fca11acef5c54ab863b32d41c4879%253Ahttps%253A%252F%252Fauth.oswego.edu%252Fsimplesaml%252Fsaml2%252Fidp%252FSSOService.php%253Fspentityid%253Dhttps%25253A%25252F%25252Fwww.linkedin.com%25252Flearning%25252FABEAAAAAAAKNksQAAAAAAsnc5AFCiUKoq3tc9BkTfiJzM-SmDCrubw%2526cookieTime%253D1567014956%2526RelayState%253Dhttps%25253A%25252F%25252Fwww.linkedin.com%25252Flearning%25252F%25253Fauth_uuid%25253DsZ4hoUINSbGKKDRIGBStzw%2525253D%2525253D" target="_blank" rel="noopener noreferrer">
+              <img src="../../../assets/images/LinkedIn-Logo.png" alt="LinkedIn Learning" style="width: 150px; height: auto;">
+            </a>
+          </div>
+        </div>
+        <div *ngSwitchCase="4">
+          <div class="contact-container">
+          <h3>Contacts for Support</h3>
+
+          <div class="contact-sections">
+            <div class="contact-item">
+              <h4>School of Business</h4>
+              <p>238 Rich Hall</p>
+              <p>Phone: 315-312-2272</p>
+              <p>Email: <a href="mailto:business@oswego.edu" target="_blank" rel="noopener noreferrer">business@oswego.edu</a></p>
+            </div>
+
+            <div class="contact-item">
+              <h4>Admissions</h4>
+              <p>Undergraduate Admissions: 315-312-2250</p>
+              <p>Graduate Admissions: 315-312-3152</p>
+            </div>
+
+            <div class="contact-item">
+              <h4>Financial Aid</h4>
+              <p>231 Sheldon Hall</p>
+              <p>Phone: 315-312-2248</p>
+              <p>Email: <a href="mailto:financial.aid@oswego.edu" target="_blank" rel="noopener noreferrer">advisement@oswego.edu</a></p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+

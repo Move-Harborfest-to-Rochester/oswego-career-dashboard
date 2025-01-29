@@ -30,7 +30,7 @@ export class NavbarComponent {
   navLinks: Array<{path: string, label: string}> = [];
 
   studentLinks = [
-    { path: "/dashboard", label: "Dashboard"},
+    // { path: "/", label: "Home"}, Just use top logo to reach Homepage
     { path: "/portfolio", label: "Portfolio"},
     { path: "/milestones", label: "Milestones"}
   ];

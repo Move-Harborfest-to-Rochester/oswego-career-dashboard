@@ -16,8 +16,8 @@ public enum Endpoints {
     EVENTS("events", true),
     EDIT_EVENT("admin/edit-event", true, Role.Admin),
     CREATE_EVENT("admin/create-event", true, Role.Admin),
-    DASHBOARD_EVENTS("dashboard-events", true),
-    DASHBOARD_TASKS("dashboard-tasks", true),
+    HOMEPAGE_EVENTS("homepage-events", true),
+    HOMEPAGE_TASKS("homepage-tasks", true),
 
     // Tasks
     TASKS("tasks", true),

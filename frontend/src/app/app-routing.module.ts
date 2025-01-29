@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomepageComponent } from './homepage/homepage.component';
 import { PortfolioComponent } from "./portfolio/portfolio.component";
 import { ApiDocumentationsComponent } from "./api-documentations/api-documentations.component";
 import { LoginPageComponent } from './security/login-page/login-page.component';
@@ -18,7 +18,7 @@ import { MilestonesFacultyComponent } from './milestones-page/milestones-faculty
 import {EditBasacFacultyComponent} from "./admin/edit-basac-faculty/edit-basac-faculty.component";
 
 const studentRoutes: Routes = [
-  {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: '', component: HomepageComponent, canActivate: [authGuard]},
   {path: 'portfolio', component: PortfolioComponent, canActivate: [authGuard]},
   {path: 'settings', component: SettingsPageComponent, canActivate: [authGuard]},
   {path: 'milestones', component: MilestonesComponent, canActivate: [authGuard]},

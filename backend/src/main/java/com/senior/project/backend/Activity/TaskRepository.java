@@ -41,5 +41,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "WHEN 'SENIOR' THEN 3 " +
             "ELSE 4 END ASC " +
             "LIMIT :lim ")
-    List<Task> findTasksToDisplayOnDashboard(@Param("yList") List<YearLevel> yearLevels, @Param("uid") UUID userId, @Param("lim") Integer limit);
+    List<Task> findTasksToDisplayOnHomepage(@Param("yList") List<YearLevel> yearLevels, @Param("uid") UUID userId, @Param("lim") Integer limit);
 }
