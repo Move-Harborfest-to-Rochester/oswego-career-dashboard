@@ -10,6 +10,7 @@ import { TasksModule } from "../tasks/tasks.module";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HotlinkModule } from '../hotlink/hotlink.module';
+import {RouterLink} from "@angular/router";
 import { SupportSectionComponent } from './support-section/support-section.component';
 import { CareerSearchComponent } from './career-search/career-search.component';
 
@@ -34,6 +35,8 @@ import { CareerSearchComponent } from './career-search/career-search.component';
     MatButtonModule,
     MatIconModule,
     HotlinkModule,
+    HotlinkModule,
+    RouterLink
   ]
 })
 export class HomepageModule { }

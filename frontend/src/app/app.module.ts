@@ -56,6 +56,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
 
+import { EventsPageComponent } from './events-page/events-page.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,8 @@ import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-facu
     NavbarComponent,
     NotFoundComponent,
 
+    NotFoundComponent,
+    EventsPageComponent
   ],
   imports: [
     BrowserModule,

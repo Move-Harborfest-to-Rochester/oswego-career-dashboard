@@ -18,7 +18,10 @@ h1 {
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+}
 
+.animated:hover {
+  opacity: 0.7;
 }
 
 @-webkit-keyframes fadeIn {
@@ -53,21 +56,6 @@ carousel {
   width: 100%;
   display: flex;
 
-  ::ng-deep .slide {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    ::ng-deep .carousel-inner {
-      .center();
-      justify-content: space-between;
-    }
-
-    ::ng-deep .carousel-inner::after {
-      display: none;
-    }
-  }
 
   slide {
     width: 48% !important;
@@ -78,6 +66,14 @@ carousel {
     border-radius: 1em;
     overflow: hidden;
   }
+
+  slide:hover {
+    opacity: 0.7;
+  }
+}
+
+.slide_component:hover {
+  opacity: 0.7;
 }
 
 .event-image {
@@ -90,6 +86,10 @@ carousel {
     padding: 2.5% 0;
   }
 }
+//
+//.event-image:hover {
+//  opacity: 0.7;
+//}
 
 .carousel-caption {
   color: black;
