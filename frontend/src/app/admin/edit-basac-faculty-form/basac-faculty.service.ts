@@ -4,6 +4,14 @@ import {constructBackendRequest, Endpoints} from "../../util/http-helper";
 import {map, Observable} from "rxjs";
 import { BasacFaculty, BasacFacultyJSON } from '../../../domain/BasacFaculty';
 
+export interface BasacFacultyPatch {
+  faculty: {
+    op: string
+    id: string
+    value: BasacFacultyJSON
+  }[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,5 +25,10 @@ export class BasacFacultyService {
         basacFaculty => basacFaculty.map(faculty => new BasacFaculty(faculty))
       )
     );
+  }
+
+  patch(patchRequest: BasacFacultyPatch) {
+    const url = constructBackendRequest(Endpoints.PATCH_BASAC_FACULTY);
+    return this.http.patch(url, patchRequest);
   }
 }
