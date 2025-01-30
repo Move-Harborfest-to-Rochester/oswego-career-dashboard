@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
 import {BasacFaculty} from "../../../domain/BasacFaculty";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'edit-basac-faculty-form',
@@ -18,7 +19,7 @@ export class EditBasacFacultyFormComponent implements OnInit {
     operations: this.formBuilder.array([])
   });
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
+  constructor(private readonly snackBar: MatSnackBar, private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
   }
 
   public get facultyOperations(): FormArray {
@@ -52,8 +53,11 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   submit(formValues: BasacFacultyPatch) {
-    this.service.patch(formValues ).subscribe((faculty) => {
+    this.service.patch(formValues).subscribe((faculty) => {
       this.updateFaculty(faculty);
+      this.snackBar.open('BASAC Office Faculty updated.', 'Close', {
+        duration: 5000,
+      });
     });
   }
 
