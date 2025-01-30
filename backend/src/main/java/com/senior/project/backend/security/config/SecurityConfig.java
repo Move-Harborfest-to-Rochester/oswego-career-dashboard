@@ -69,7 +69,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("https://crd.gccis.rit.edu"));
+        configuration.setAllowedOrigins(Arrays.asList("https://crd.gccis.rit.edu", "https://crd.gccis.rit.edu:443", "http://crd.gccis.rit.edu:80"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList(HttpHeaders.SET_COOKIE));
