@@ -98,7 +98,6 @@ public class DataProcessor {
             // Serialize the data to JSON and save it to a file in the current directory
             File outputFile = new File("src\\main\\java\\com\\senior\\project\\backend\\insights\\output.json");
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, data);
-            System.out.println("Data has been saved to output.json");
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error while saving data to JSON");
