@@ -3,6 +3,7 @@ package com.senior.project.backend.portfolio;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
+import com.senior.project.backend.domain.Interest;
 import com.senior.project.backend.domain.Skill;
 import com.senior.project.backend.portfolio.dto.SkillDTO;
 import com.senior.project.backend.skills.SkillRepository;
@@ -71,6 +72,15 @@ public class PortfolioService {
             studentDetails.setSkills(skills);
             return Mono.just(studentDetailsRepository.save(studentDetails));
           });
+  }
+
+  public Mono<StudentDetails> saveInterests(ArrayList<Interest> interests) {
+    return getOrCreateStudentDetails()
+        .flatMap(studentDetails -> {
+          interests.forEach(interest -> interest.setStudentDetails(studentDetails));
+          studentDetails.setInterests(interests);
+          return Mono.just(studentDetailsRepository.save(studentDetails));
+        });
   }
 
   private Mono<StudentDetails> getOrCreateStudentDetails() {

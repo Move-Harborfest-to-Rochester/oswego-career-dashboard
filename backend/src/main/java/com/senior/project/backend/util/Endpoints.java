@@ -50,7 +50,7 @@ public enum Endpoints {
     // Edit student Details, used for skills and clubs.
     EDIT_SKILLS("student/skills", true),
 
-    EDIT_INTERESTS("student/interests/{userId}", true),
+    EDIT_INTERESTS("student/interests", true),
 
     // Jobs
     JOBS("jobs", true),

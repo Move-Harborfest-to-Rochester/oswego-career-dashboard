@@ -196,10 +196,16 @@ export class PortfolioComponent implements OnInit {
       const oldSkillsOnlyLanguages = oldSkills.filter((skill) => {
           return skill.isLanguage
       })
-      const newSkills = [...oldSkillsOnlyLanguages, ...result]
+      const oldSkillsOnlySkills = oldSkills.filter((skill) => {
+        return !skill.isLanguage
+      })
 
-
-      console.log(`result after spread ${JSON.stringify(newSkills)}`)
+      let newSkills;
+      if(isLanguages) {
+        newSkills = [...oldSkillsOnlySkills, ...result]
+      } else {
+        newSkills = [...oldSkillsOnlyLanguages, ...result]
+      }
 
       this.portfolioService.saveSkills(newSkills)
         .subscribe(
@@ -207,38 +213,6 @@ export class PortfolioComponent implements OnInit {
             this.user.studentDetails = updatedStudentDetails;
           }
         )
-
-
-      // const patch: Operation[] = [];
-      // const oldSkillsMap = new Map(oldSkills.map(skill => [skill.id, skill]));
-      // const newSkillsMap = new Map(newSkills.map(skill => [skill.id, skill]));
-      // newSkills.forEach((newSkill) => {
-      //   const oldSkill = oldSkillsMap.get(newSkill.id);
-      //   const fullIndex = oldSkills.findIndex(skill => skill.id === newSkill.id);
-      //
-      //   if (!oldSkill) {
-      //     const addIndex = this.findFullIndexForNewSkill(newSkill, isLanguages, oldSkills);
-      //     patch.push({ op: 'add', path: `/skills/${addIndex}`, value: newSkill });
-      //   } else if (fullIndex !== -1) {
-      //     if (oldSkill.name !== newSkill.name || oldSkill.isLanguage !== newSkill.isLanguage) {
-      //       patch.push({ op: 'replace', path: `/skills/${fullIndex}`, value: newSkill });
-      //     }
-      //   }
-      // });
-      //
-      // for (let i = oldSkills.length - 1; i >= 0; i--) {
-      //   const oldSkill = oldSkills[i];
-      //   if (!newSkillsMap.has(oldSkill.id) && oldSkill.isLanguage === isLanguages) {
-      //     patch.push({ op: 'remove', path: `/skills/${i}` });
-      //   }
-      // }
-      // this.portfolioService.editStudentDetails(patch).subscribe(
-      //   patchedStudentDetails => {
-      //     this.ngOnInit();
-      //     this.user.studentDetails = patchedStudentDetails
-      //
-      //   }
-      // );
     });
   }
 
