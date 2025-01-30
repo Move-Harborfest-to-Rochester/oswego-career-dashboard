@@ -28,7 +28,7 @@
             gradle-version: current
             build-root-directory: ./backend
         - name: Save Backend files
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4.6.0
           with:
             name: backend-build
             path: backend/build/libs/
@@ -43,7 +43,7 @@
         - run: npm run build
           working-directory: ./frontend
         - name: Save Frontend files
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4.6.0
           with:
             name: frontend-build
             path: ./backend/src/main/resources/static
