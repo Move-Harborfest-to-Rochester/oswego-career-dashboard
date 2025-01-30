@@ -2,36 +2,39 @@
   <div *ngIf="(displayName$ | async)" class="user-name">
     {{ user.firstName }} {{ user.lastName }}
   </div>
-  <button mat-raised-button class="user-button" [matMenuTriggerFor]="userMenu">
-    <img class="profile-picture"
-         *ngIf="profileURL"
+  <button [matMenuTriggerFor]="userMenu" class="user-button" mat-raised-button>
+    <img *ngIf="profileURL"
          [src]="profileURL"
-         width="50"
+         alt="User Image"
+         class="profile-picture"
          height="50"
-         alt="User Image">
-    <mat-icon class="profile-picture-placeholder" *ngIf="!profileURL">
+         width="50">
+    <mat-icon *ngIf="!profileURL" class="profile-picture-placeholder">
       account_circle
     </mat-icon>
     <div class="overlay"></div>
   </button>
 </div>
 
-<mat-menu class="user-menu" xPosition="before" #userMenu>
+<mat-menu #userMenu class="user-menu" xPosition="before">
   <div class="menu-content">
-    <div *ngIf="authService.user$ | async as user" class="toggle-button-container">
-      <button mat-menu-item class="view-toggle-button" *ngIf="(authService.user$ | async)?.hasAdminPrivileges()"
-            (click)="toggleViewMode()">
-      <mat-icon>{{ isStudentView ? 'school' : 'admin_panel_settings' }}</mat-icon>
-      <span>{{ isStudentView ? 'Student View' : 'Admin View' }}</span>
-    </button>
+    <div *ngIf="authService.user$ | async as user"
+         class="toggle-button-container">
+      <div (click)="toggleViewMode()"
+           *ngIf="(authService.user$ | async)?.hasAdminPrivileges()"
+           mat-menu-item>
+        <mat-slide-toggle [(ngModel)]="isStudentView">
+          Toggle Student View
+        </mat-slide-toggle>
       </div>
+    </div>
 
-    <button mat-menu-item class="settings-button" (click)="openSettings()">
+    <button (click)="openSettings()" class="settings-button" mat-menu-item>
       <mat-icon>settings</mat-icon>
       <span>Settings</span>
     </button>
 
-    <button mat-menu-item class="logout-button" (click)="logout()">
+    <button (click)="logout()" class="logout-button" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>
