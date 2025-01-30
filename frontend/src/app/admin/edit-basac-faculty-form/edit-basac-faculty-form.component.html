@@ -5,8 +5,8 @@
                 [formGroupName]="i"
                 [hidden]="isDeleted(facultyControl)"
                 class="faculty-card">
-        <div [formGroup]="getValueFromControl(facultyControl)"
-             class="faculty-container">
+        <mat-card-content [formGroup]="getValueFromControl(facultyControl)"
+                          class="faculty-container">
           <mat-form-field>
             <mat-label>Name</mat-label>
             <input
@@ -38,7 +38,7 @@
                   type="button">
             <mat-icon>delete</mat-icon>
           </button>
-        </div>
+        </mat-card-content>
       </mat-card>
     </div>
     <div class="submit-container">

@@ -1,20 +1,35 @@
-.faculty-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+mat-card {
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
 
-  > * + * {
-    margin-left: 1rem;
+.faculty-container {
+  > * {
+    margin-right: 1rem;
   }
 
   .delete-btn {
-    margin-bottom: 1.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem;
   }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+form, .form-container {
+  width: 100%;
 }
 
 .form-container {
   padding-bottom: 8rem;
-  width: fit-content;
 
   .add-btn {
     width: 100%;
