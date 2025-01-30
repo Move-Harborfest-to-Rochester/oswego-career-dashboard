@@ -162,12 +162,31 @@
   text-decoration: underline;
 }
 
+.basac-contact-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+
+  > * {
+    margin: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
 .contact-info {
   display: flex;
   justify-content: space-around;
   text-align: center;
   margin-top: 15px;
   flex-wrap: wrap;
+  min-width: 25%;
+  height: 100%;
+  flex-grow: 1;
 }
 
 .contact-item {
@@ -175,6 +194,7 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .contact-item .name {
@@ -294,4 +314,3 @@ a {
   box-sizing: border-box;
   flex-wrap:wrap
 }
-

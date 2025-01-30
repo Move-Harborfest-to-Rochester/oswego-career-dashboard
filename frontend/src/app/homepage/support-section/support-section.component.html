@@ -16,8 +16,8 @@
             <h3>Business Administration Student Advisement Center (BASAC)</h3>
             <p>To schedule time with the Business Administration Student Advisement Center email <a href="mailto:basac@oswego.edu" target="_blank" rel="noopener noreferrer">basac@oswego.edu</a></p>
 
-            <div class="contact-info">
-              <div class="contact-item-container" *ngFor="let faculty of basacFaculty$ | async; let i = index">
+            <div class="basac-contact-container">
+              <div class="contact-info" *ngFor="let faculty of basacFaculty$ | async; let i = index">
                 <div class="contact-item">
                   <p class="name">{{ faculty.name }}</p>
                   <p class="role">{{ faculty.title }}</p>
