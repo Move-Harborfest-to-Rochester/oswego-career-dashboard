@@ -168,22 +168,11 @@ export class PortfolioComponent implements OnInit {
     };
 
     dialogRef.afterClosed().subscribe((form: Interest[]) => {
-
-
-      // const patch = this.generateInterestsPatch(this.user.studentDetails!.interests, form)
-      // console.log(patch)
-
-      console.log(form)
       this.portfolioService.saveInterest(form).subscribe(
         updatedStudentDetails => {
           this.user.studentDetails = updatedStudentDetails;
         }
       )
-      // this.portfolioService.editStudentDetails(patch).subscribe(
-      //   patchedStudentDetails => {
-      //     this.user.studentDetails = patchedStudentDetails;
-      //   }
-      // );
     })
 
   }
@@ -222,49 +211,6 @@ export class PortfolioComponent implements OnInit {
         )
     });
   }
-
-
-
-  // generateInterestsPatch(
-  //   oldInterests: Interest[],
-  //   newInterests: Interest[]
-  // ): { op: string; path: string; value?: Interest }[] {
-  //   const patch: { op: string; path: string; value?: Interest }[] = [];
-  //
-  //   const oldInterestsMap = new Map(oldInterests.map(interest => [interest.id, interest]));
-  //   const newInterestsMap = new Map(newInterests.map(interest => [interest.id, interest]));
-  //
-  //   newInterests.forEach((newInterest, newIndex) => {
-  //     const oldInterest = oldInterestsMap.get(newInterest.id);
-  //     const fullIndex = oldInterests.findIndex(interest => interest.id === newInterest.id);
-  //
-  //     if (!oldInterest) {
-  //       patch.push({ op: 'add', path: `/interests/${newIndex}`, value: newInterest });
-  //     } else if (fullIndex !== newIndex || oldInterest.name !== newInterest.name) {
-  //       // Interest exists but needs to be updated or reordered
-  //       patch.push({ op: 'replace', path: `/interests/${newIndex}`, value: newInterest });
-  //     }
-  //   });
-  //
-  //   for (let i = oldInterests.length - 1; i >= 0; i--) {
-  //     const oldInterest = oldInterests[i];
-  //     if (!newInterestsMap.has(oldInterest.id)) {
-  //       patch.push({ op: 'remove', path: `/interests/${i}` });
-  //     }
-  //   }
-  //
-  //   return patch;
-  // }
-
-  // private findFullIndexForNewSkill(newSkill: Skill, isLanguages: boolean, oldSkills: Skill[]): number {
-  //   if (isLanguages) {
-  //     const firstNonLanguageIndex = oldSkills.findIndex(skill => !skill.isLanguage);
-  //     return firstNonLanguageIndex !== -1 ? firstNonLanguageIndex : oldSkills.length;
-  //   } else {
-  //     return oldSkills.length;
-  //   }
-  // }
-
 
   goToLinkedIn() {
     location.href = this.user.linkedin;

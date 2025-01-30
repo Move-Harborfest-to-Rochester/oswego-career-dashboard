@@ -47,11 +47,4 @@ public class PortfolioHandler {
             .flatMap(studentDetails -> ServerResponse.ok().bodyValue(studentDetails));
     }
 
-    public Mono<ServerResponse> editStudentDetails(ServerRequest request) {
-        return request.bodyToMono(JsonPatch.class)
-            .flatMap(patch -> portfolioService.patchStudentDetails(patch))
-            .flatMap(updatedStudent -> ServerResponse.ok().bodyValue(updatedStudent))
-            .onErrorResume(e -> ServerResponse.badRequest().bodyValue("Invalid Patch Request: " + e.getMessage()));
-    }
-
 }

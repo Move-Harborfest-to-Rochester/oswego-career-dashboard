@@ -1,12 +1,7 @@
 package com.senior.project.backend.portfolio;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
 import com.senior.project.backend.domain.Interest;
 import com.senior.project.backend.domain.Skill;
-import com.senior.project.backend.portfolio.dto.SkillDTO;
-import com.senior.project.backend.skills.SkillRepository;
 import com.senior.project.backend.degreeprogram.DegreeProgramRepository;
 import com.senior.project.backend.domain.DegreeProgram;
 import com.senior.project.backend.domain.StudentDetails;
@@ -23,7 +18,6 @@ import com.senior.project.backend.users.UserRepository;
 import com.senior.project.backend.portfolio.dto.OperationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -35,12 +29,6 @@ public class PortfolioService {
 
   @Autowired
   private CurrentUserUtil currentUserUtil;
-
-  @Autowired
-  private SkillRepository skillRepository;
-
-  @Autowired
-  private ObjectMapper objectMapper;
 
   @Autowired
   private StudentDetailsRepository studentDetailsRepository;
@@ -157,23 +145,4 @@ public class PortfolioService {
     user.getStudentDetails().setDegreePrograms(programsToSave);
   }
 
-  public Mono<StudentDetails> patchStudentDetails(JsonPatch patch) {
-    return getOrCreateStudentDetails()
-        .flatMap(studentDetails -> {
-          JsonNode studentJson = objectMapper.convertValue(studentDetails, JsonNode.class);
-          try {
-            JsonNode patchedStudentJson = patch.apply(studentJson);
-            StudentDetails patchedStudent = objectMapper.treeToValue(patchedStudentJson, StudentDetails.class);
-            if (patchedStudent.getSkills() != null) {
-              patchedStudent.getSkills().forEach(skill -> skill.setStudentDetails(studentDetails));
-            }
-            if (patchedStudent.getInterests() != null) {
-              patchedStudent.getInterests().forEach(interest -> interest.setStudentDetails(studentDetails));
-            }
-            return Mono.just(studentDetailsRepository.save(patchedStudent));
-          } catch (Exception e) {
-            return Mono.error(new IllegalArgumentException("Invalid patch operation", e));
-          }
-        });
-  }
 }

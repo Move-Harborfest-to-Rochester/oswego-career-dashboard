@@ -39,7 +39,6 @@ export class EditInterestsComponent implements OnInit {
     }
   }
 
-
   createForm() {
     this.form = this.formBuilder.group({
       interests: this.formBuilder.array<FormControl>(
@@ -50,7 +49,7 @@ export class EditInterestsComponent implements OnInit {
     });
   }
   handleEdits(formValue: { interests: InterestOperation[] }): Interest[] {
-    // Create a util out of this method ?
+    //might wnat to create a utility method for this ??
     let updatedSkillsList: Interest[] = this.defaultValues?.interests.map(interest => ({
       id: interest.id ?? '',
       name: interest.name ?? '',
@@ -67,7 +66,6 @@ export class EditInterestsComponent implements OnInit {
           });
         }
       } else if (skillOperation.operation === "Edit") {
-        // Update an existing skill
         const index = updatedSkillsList.findIndex(skill => skill.id === skillOperation.id);
         if (index !== -1) {
 

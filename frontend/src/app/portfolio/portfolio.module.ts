@@ -21,7 +21,6 @@ import { ConfirmationDialogModule } from '../common/confirmation-dialog/confirma
 import { EditPersonalInfoDialogModule } from './edit-personal-info-dialog/edit-personal-info-dialog.module';
 
 import { PortfolioComponent } from './portfolio.component';
-import { SkillsSectionComponent } from './skills-section/skills-section.component';
 import { EditSkillsDialogComponent } from './skills-section/edit-skills-dialog/edit-skills-dialog.component';
 import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/skills-list-input/skills-list-input.component';
 import { AddProjectModalComponent } from './add-project-modal/add-project-modal.component';
@@ -32,7 +31,6 @@ import { InterestListInputComponent } from './edit-interests/interest-list-input
 @NgModule({
   declarations: [
     PortfolioComponent,
-    SkillsSectionComponent,
     EditSkillsDialogComponent,
     SkillsListInputComponent,
     AddProjectModalComponent,
