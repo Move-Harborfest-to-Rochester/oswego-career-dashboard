@@ -16,7 +16,7 @@ export class ViewModeService {
     this.isStudentViewSubject.next(newMode);
 
     if (newMode) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/']);
     } else {
       this.router.navigate(['/admin']);
     }
