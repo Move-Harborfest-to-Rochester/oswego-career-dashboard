@@ -1,14 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditBasacFacultyComponent } from './edit-basac-faculty.component';
+import {EditBasacFacultyComponent} from './edit-basac-faculty.component';
+import {MockComponent} from "ng-mocks";
+import {
+  EditBasacFacultyFormComponent
+} from "../edit-basac-faculty-form/edit-basac-faculty-form.component";
 
-describe('EditSupportFacultyComponent', () => {
+describe('EditBasacFacultyComponent', () => {
   let component: EditBasacFacultyComponent;
   let fixture: ComponentFixture<EditBasacFacultyComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EditBasacFacultyComponent]
+      declarations: [EditBasacFacultyComponent],
+      imports: [
+        MockComponent(EditBasacFacultyFormComponent),
+      ],
     });
     fixture = TestBed.createComponent(EditBasacFacultyComponent);
     component = fixture.componentInstance;
