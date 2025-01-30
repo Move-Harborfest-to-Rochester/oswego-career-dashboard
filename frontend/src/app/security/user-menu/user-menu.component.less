@@ -4,35 +4,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-
-  .user-name {
-    font-weight: 500;
-    color: var(--text-primary);
-  }
 
   .user-button {
-    margin: 0 15px;
+    margin: 0 25px 0 25px;
     padding: 0;
     min-width: 50px;
     height: unset;
     border-radius: 100%;
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
 
     .profile-picture {
       border-radius: 100%;
-      object-fit: cover;
     }
 
     .profile-picture-placeholder {
       .mat-icon-size(50px);
-      color: var(--text-secondary);
+      margin: 0;
     }
 
     .overlay {
@@ -42,11 +30,10 @@
       height: 100%;
       z-index: 1;
       background-color: transparent;
-      transition: background-color 0.2s ease;
+    }
 
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+    .overlay:hover {
+      background-color: rgba(0, 0, 0, 0.2);
     }
   }
 }
