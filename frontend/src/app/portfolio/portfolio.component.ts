@@ -29,7 +29,6 @@ import {
   EditSkillsDefaultValues,
   EditSkillsDialogComponent
 } from "./skills-section/edit-skills-dialog/edit-skills-dialog.component";
-import {createPatch, Operation} from "rfc6902";
 import {Skill, SkillJSON} from "../../domain/Skill";
 import {StudentDetails} from "../../domain/StudentDetails";
 import {JobService} from "./job/job.service";
