@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
@@ -21,6 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Generated
 public class SkillDTO {
-  String skill;
-  boolean isLanguage;;
+  UUID id;
+  String name;
+  boolean isLanguage;
+
 }

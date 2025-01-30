@@ -1,8 +1,10 @@
 package com.senior.project.backend.portfolio;
 
 import com.github.fge.jsonpatch.JsonPatch;
-import java.util.UUID;
+import com.senior.project.backend.domain.Skill;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -28,6 +30,13 @@ public class PortfolioHandler {
         return request.bodyToMono(PersonalInfoDTO.class)
                 .flatMap(portfolioService::savePersonalInfo)
                 .flatMap((personalInfo) -> ServerResponse.ok().bodyValue(personalInfo));
+    }
+
+
+    public Mono<ServerResponse> saveSkills(ServerRequest request) {
+        return request.bodyToMono(new ParameterizedTypeReference<ArrayList<Skill>>() {})
+            .flatMap(skills -> portfolioService.saveSkills(skills))
+            .flatMap(studentDetails -> ServerResponse.ok().bodyValue(studentDetails));
     }
 
     public Mono<ServerResponse> editStudentDetails(ServerRequest request) {

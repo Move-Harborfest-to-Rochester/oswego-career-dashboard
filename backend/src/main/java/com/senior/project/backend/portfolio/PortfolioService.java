@@ -2,7 +2,6 @@ package com.senior.project.backend.portfolio;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.senior.project.backend.domain.Skill;
 import com.senior.project.backend.portfolio.dto.SkillDTO;
@@ -19,11 +18,11 @@ import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.studentdetails.StudentDetailsRepository;
 import com.senior.project.backend.users.UserRepository;
 
-import jakarta.transaction.Transactional;
 
 import com.senior.project.backend.portfolio.dto.OperationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -63,6 +62,15 @@ public class PortfolioService {
                 return Mono.just(dto);
               });
         });
+  }
+
+  public Mono<StudentDetails> saveSkills(ArrayList<Skill> skills) {
+      return getOrCreateStudentDetails()
+          .flatMap(studentDetails -> {
+            skills.forEach(skill -> skill.setStudentDetails(studentDetails));
+            studentDetails.setSkills(skills);
+            return Mono.just(studentDetailsRepository.save(studentDetails));
+          });
   }
 
   private Mono<StudentDetails> getOrCreateStudentDetails() {
