@@ -15,20 +15,20 @@ export class NavbarComponent {
   isStudentView: boolean = false; // Tracks whether the admin is viewing as an admin
 
   studentLinks = [
-    { path: "/dashboard", label: "Dashboard" },
-    { path: "/portfolio", label: "Portfolio" },
-    { path: "/milestones", label: "Milestones" }
+    // { path: "/", label: "Home"}, Just use top logo to reach Homepage
+    { path: "/portfolio", label: "Portfolio"},
+    { path: "/milestones", label: "Milestones"}
   ];
 
   facultyLinks = [
-    { path: "/faculty/users", label: "Users" },
+    { path: "/faculty/users", label: "Users"},
   ];
 
   adminLinks = [...this.facultyLinks,
-    { path: "/admin/milestones", label: "Milestones" },
-    { path: "/admin/tasks", label: "Tasks" },
-    { path: "/admin/events", label: "Events" }
-  ];
+    { path: "/admin/milestones", label: "Milestones"},
+    { path: "/admin/tasks", label: "Tasks"},
+    { path: "/admin/events", label: "Events"},
+  ]
 
   constructor(public readonly authService: AuthService, public readonly viewModeService: ViewModeService) {
     authService.user$.pipe(takeUntilDestroyed()).subscribe((user: User | null) => {

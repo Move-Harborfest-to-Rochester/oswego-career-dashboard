@@ -56,7 +56,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void testDashboard() {
+    public void testHomepage() {
         Task task1 = new Task();
         task1.setId(1L);
         Task task2 = new Task();
@@ -68,8 +68,8 @@ public class TaskServiceTest {
         tasks.add(task2);
         tasks.add(task3);
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
-        when(taskRepository.findTasksToDisplayOnDashboard(any(), any(), any())).thenReturn(tasks);
-        Flux<Task> result = taskService.dashboard(6);
+        when(taskRepository.findTasksToDisplayOnHomepage(any(), any(), any())).thenReturn(tasks);
+        Flux<Task> result = taskService.homepage(6);
         StepVerifier.create(result)
                 .expectNext(task1).expectNext(task2).expectNext(task3)
                 .expectNext(task1).expectNext(task2).expectNext(task3)
