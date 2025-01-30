@@ -3,6 +3,7 @@ import {AuthService} from "../security/auth.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {User} from "../security/domain/user";
 import {ViewModeService} from "../util/view-mode.service"
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -30,10 +31,13 @@ export class NavbarComponent {
     { path: "/admin/events", label: "Events"},
   ]
 
-  constructor(public readonly authService: AuthService, public readonly viewModeService: ViewModeService) {
+  constructor(public readonly authService: AuthService, public readonly viewModeService: ViewModeService, private router: Router) {
     authService.user$.pipe(takeUntilDestroyed()).subscribe((user: User | null) => {
       if (user?.hasAdminPrivileges()) {
-        this.setNavLinks();
+        this.router.navigate(['/admin']);
+        this.viewModeService.isStudentView$.pipe(takeUntilDestroyed()).subscribe(() => {
+          this.setNavLinks();
+        });
       }
       else if (user?.hasFacultyPrivileges()) {
         this.navLinks = this.facultyLinks;
@@ -43,11 +47,6 @@ export class NavbarComponent {
       }
     });
 
-    this.viewModeService.isStudentView$.pipe(
-      takeUntilDestroyed()
-    ).subscribe(() => {
-      this.setNavLinks();
-    });
   }
 
   toggleViewMode(): void {
