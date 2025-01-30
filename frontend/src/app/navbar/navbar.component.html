@@ -1,21 +1,26 @@
 <div class="nav-bar-container">
-  <!-- toggle view button (only visible to admins) -->
-  <div *ngIf="authService.user$ | async as user" class="toggle-button-container">
-    <button *ngIf="user.hasAdminPrivileges()" class="toggle-button" mat-button (click)="toggleViewMode()">
-      Toggle Student View ({{ isStudentView ? 'Student' : 'Admin' }})
-    </button>
-  </div>
+  <div class="nav-content">
+    <!-- toggle view button (only visible to admins) -->
+    <div *ngIf="authService.user$ | async as user" class="toggle-button-container">
+      <button *ngIf="user.hasAdminPrivileges()"
+              class="toggle-button"
+              mat-button
+              (click)="toggleViewMode()">
+        Toggle Student View ({{ isStudentView ? 'Student' : 'Admin' }})
+      </button>
+    </div>
 
-  <!-- tabs nav bar -->
-  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-    <a mat-tab-link
-       *ngFor="let link of navLinks"
-       [routerLink]="link.path"
-       routerLinkActive #rla="routerLinkActive"
-       [active]="rla.isActive">
-      {{ link.label }}
-    </a>
-  </nav>
+    <!-- tabs nav bar -->
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a mat-tab-link
+         *ngFor="let link of navLinks"
+         [routerLink]="link.path"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        {{ link.label }}
+      </a>
+    </nav>
+  </div>
 
   <!-- content -->
   <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

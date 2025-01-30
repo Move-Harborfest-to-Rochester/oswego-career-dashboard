@@ -1,29 +1,64 @@
+@import "../../common";
 .nav-bar-container {
   background-color: white;
   width: 100%;
   border-top: solid rgba(0, 0, 0, 0.1) 1px;
   border-bottom: solid rgba(0, 0, 0, 0.1) 1px;
 
+  .nav-content {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .toggle-button-container {
+    .toggle-button {
+      height: 36px;
+      line-height: 36px;
+      padding: 0 16px;
+      background-color: white;
+      border-radius: 1em;
+      margin: 8px 0;
+      color: #878787;
+      font-family: var(--mat-tab-header-label-text-font);
+      font-size: var(--mat-tab-header-label-text-size);
+
+
+      &:hover {
+        background-color: @oswego-green-faded;
+      }
+    }
+  }
+
+  nav {
+    flex: 1;
+  }
+
   a {
     margin: 10px 0;
     border-radius: 1em !important;
+    height: 36px;
+    line-height: 36px;
   }
 
-  ::ng-deep .mat-ripple {
-    border-radius: 1em !important;
-  }
+  ::ng-deep {
+    .mat-ripple {
+      border-radius: 1em !important;
+    }
 
-  ::ng-deep .mdc-tab__ripple::before {
-    border-radius: 1em !important;
-  }
+    .mdc-tab__ripple::before {
+      border-radius: 1em !important;
+    }
 
-  ::ng-deep .mdc-tab-indicator {
-    display: none !important;
+    .mdc-tab-indicator {
+      display: none !important;
+    }
+
+    .mdc-tab--active {
+      background-color: #F0F6F3;
+      border-radius: 1em;
+    }
   }
 }
-
-.mdc-tab--active{
-  background-color: #F0F6F3;
-  border-radius: 1em;
-}
-
