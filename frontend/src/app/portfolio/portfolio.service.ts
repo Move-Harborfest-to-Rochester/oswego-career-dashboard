@@ -8,7 +8,7 @@ import { EditEducationFormValues } from './education-section/edit-education-dial
 import Education, { EducationJSON } from 'src/domain/Education';
 import {StudentDetails, StudentDetailsJSON} from "../../domain/StudentDetails";
 import {Skill} from "../../domain/Skill";
-
+import {Interest} from "../../domain/Interest";
 export type DegreeProgramOperation = {
   id?: string;
   operation: 'Create' | 'Edit' | 'Delete';
@@ -68,6 +68,11 @@ export class PortfolioService {
       .pipe(map(studentDetails => new StudentDetails(studentDetails)));
   }
 
+
+  saveInterest(interests: Interest[]): Observable<StudentDetails> {
+    return this.http.put<StudentDetailsJSON>(constructBackendRequest(Endpoints.EDIT_INTERESTS), interests)
+      .pipe(map(studentDetails => new StudentDetails(studentDetails)));
+  }
 
   // Edit Personal Info (Service Method)
   editPersonalInfo(value: EditPersonalInfoRequest): Observable<PersonalInfo> {

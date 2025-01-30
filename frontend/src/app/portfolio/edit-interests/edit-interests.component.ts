@@ -95,7 +95,7 @@ export class EditInterestsComponent implements OnInit {
     updatedSkillsList.forEach(interest => {
       formArray.push(this.formBuilder.control(interest));
     });
-    console.log("Form array length after update:", formArray.length);
+
   }
 
   saveChanges(): void {

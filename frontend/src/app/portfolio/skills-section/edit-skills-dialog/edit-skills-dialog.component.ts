@@ -99,7 +99,6 @@ export class EditSkillsDialogComponent implements OnInit {
     updatedSkillsList.forEach(skill => {
       formArray.push(this.formBuilder.control(skill));
     });
-    console.log("Form array length after update:", formArray.length);
   }
 
 
@@ -111,7 +110,6 @@ export class EditSkillsDialogComponent implements OnInit {
       return;
     }
     this.dialogRef.close(this.handleEdits(this.form.value));
-    // this.dialogRef.close(this.form.value);
   }
 
   closeDialog(): void {
