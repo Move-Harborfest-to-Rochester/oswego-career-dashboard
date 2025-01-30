@@ -1,27 +1,38 @@
 @import "../../../common";
-
 .user-container {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+
+  .user-name {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
 
   .user-button {
-    margin: 0 25px 0 25px;
+    margin: 0 15px;
     padding: 0;
     min-width: 50px;
     height: unset;
     border-radius: 100%;
     position: relative;
     overflow: hidden;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 
     .profile-picture {
       border-radius: 100%;
+      object-fit: cover;
     }
 
     .profile-picture-placeholder {
       .mat-icon-size(50px);
-      margin: 0;
+      color: var(--text-secondary);
     }
 
     .overlay {
@@ -31,14 +42,45 @@
       height: 100%;
       z-index: 1;
       background-color: transparent;
-    }
+      transition: background-color 0.2s ease;
 
-    .overlay:hover {
-      background-color: rgba(0, 0, 0, 0.2);
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
     }
   }
 }
 
 .menu-content {
-  padding: 5px 10px;
+  padding: 8px 0;
+  min-width: 200px;
+
+  .mat-menu-item {
+    gap: 12px;
+    height: 40px;
+    line-height: 40px;
+
+    &.view-toggle-button {
+      border-bottom: 1px solid var(--divider-color);
+      margin-bottom: 4px;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      color: var(--text-secondary);
+    }
+
+    span {
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+  }
 }

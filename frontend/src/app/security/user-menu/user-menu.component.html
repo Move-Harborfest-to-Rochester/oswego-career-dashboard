@@ -1,21 +1,39 @@
 <div class="user-container">
-  <div *ngIf="(displayName$ | async)" class="user-name">{{user.firstName}} {{user.lastName}}</div>
-  <button mat-raised-button class="user-button" [matMenuTriggerFor]="userMenu" >
-    <img class="profile-picture" *ngIf="profileURL != null" [src]="profileURL" width="50" height="50" alt="User Image">
-    <mat-icon class="profile-picture-placeholder" *ngIf="profileURL == null">account_circle</mat-icon>
+  <div *ngIf="(displayName$ | async)" class="user-name">
+    {{ user.firstName }} {{ user.lastName }}
+  </div>
+  <button mat-raised-button class="user-button" [matMenuTriggerFor]="userMenu">
+    <img class="profile-picture"
+         *ngIf="profileURL"
+         [src]="profileURL"
+         width="50"
+         height="50"
+         alt="User Image">
+    <mat-icon class="profile-picture-placeholder" *ngIf="!profileURL">
+      account_circle
+    </mat-icon>
     <div class="overlay"></div>
   </button>
 </div>
 
 <mat-menu class="user-menu" xPosition="before" #userMenu>
   <div class="menu-content">
-    <button mat-menu-item class="logout-button" (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
+    <div *ngIf="authService.user$ | async as user" class="toggle-button-container">
+      <button mat-menu-item class="view-toggle-button" *ngIf="(authService.user$ | async)?.hasAdminPrivileges()"
+            (click)="toggleViewMode()">
+      <mat-icon>{{ isStudentView ? 'school' : 'admin_panel_settings' }}</mat-icon>
+      <span>{{ isStudentView ? 'Student View' : 'Admin View' }}</span>
     </button>
+      </div>
+
     <button mat-menu-item class="settings-button" (click)="openSettings()">
       <mat-icon>settings</mat-icon>
       <span>Settings</span>
+    </button>
+
+    <button mat-menu-item class="logout-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
     </button>
   </div>
 </mat-menu>
