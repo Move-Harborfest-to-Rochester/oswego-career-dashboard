@@ -2,11 +2,11 @@
   <div class="nav-content">
     <!-- toggle view button (only visible to admins) -->
     <div *ngIf="authService.user$ | async as user" class="toggle-button-container">
-      <button *ngIf="user.hasAdminPrivileges()"
+      <button *ngIf="(authService.user$ | async)?.hasAdminPrivileges()"
               class="toggle-button"
               mat-button
               (click)="toggleViewMode()">
-        Toggle Student View ({{ isStudentView ? 'Student' : 'Admin' }})
+        Toggle Student View ({{ (viewModeService.isStudentView$ | async) ? 'Student' : 'Admin' }})
       </button>
     </div>
 
