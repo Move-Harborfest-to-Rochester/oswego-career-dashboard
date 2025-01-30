@@ -55,11 +55,11 @@ export class UserMenuComponent implements OnInit {
       });
   }
 
-  openEditSupportFaculty() {
-    this.router.navigate(['/admin/edit-support-faculty'])
+  openEditBasacFaculty() {
+    this.router.navigate(['/admin/edit-basac-faculty'])
       .then(success => {
         if (!success) {
-          console.error('Navigation to settings failed')
+          console.error('Navigation to edit BASAC faculty failed')
         }
     })
   }

@@ -37,7 +37,7 @@ const adminRoutes: Routes = [
   {path: 'admin/milestone-edit/:name', component: MilestoneEditComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/tasks', component: TaskMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/events', component: EventMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
-  {path: 'admin/edit-support-faculty', component: EditBasacFacultyComponent, canActivate: [authGuard, adminRoleGuard]},
+  {path: 'admin/edit-basac-faculty', component: EditBasacFacultyComponent, canActivate: [authGuard, adminRoleGuard]},
 ]
 
 const routes: Routes = [
