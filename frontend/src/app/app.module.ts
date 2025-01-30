@@ -54,6 +54,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
+import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
 
 
 @NgModule({
@@ -126,6 +127,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     MatSnackBarModule,
     LogoLinkModule,
     MatIconModule,
+    EditBasacFacultyModule
   ],
   providers: [
     provideHttpClient(),
