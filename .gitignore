@@ -9,6 +9,8 @@ uploads/*
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
