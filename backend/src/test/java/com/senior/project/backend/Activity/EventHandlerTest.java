@@ -42,7 +42,7 @@ public class EventHandlerTest {
     public void setup() {
         webTestClient = WebTestClient.bindToRouterFunction(RouterFunctions.route()
                         .GET("/api/events", eventHandler::all)
-                        .GET("/api/dashboard_events", eventHandler::dashboard)
+                        .GET("/api/homepage_events", eventHandler::homepage)
                         .POST("/api/admin/edit-event", eventHandler::update)
                         .POST("/api/admin/create-event", eventHandler::create)
                         .build())
@@ -67,7 +67,7 @@ public class EventHandlerTest {
     }
 
     @Test
-    public void testDashboard() {
+    public void testHomepage() {
         //currently this is the same test as /events
         Event event1 = new Event();
         event1.setId(1L);
@@ -76,9 +76,9 @@ public class EventHandlerTest {
         Event event3 = new Event();
         event3.setId(3L);
         Flux<Event> eventFlux = Flux.just(event1, event2, event3);
-        when(eventService.dashboard()).thenReturn(eventFlux);
+        when(eventService.homepage()).thenReturn(eventFlux);
         List<Event> result = webTestClient.method(HttpMethod.GET)
-                .uri("/api/dashboard_events?pageNum=1").exchange().expectStatus().isOk()
+                .uri("/api/homepage_events?pageNum=1").exchange().expectStatus().isOk()
                 .expectBodyList(Event.class).returnResult().getResponseBody();
         assertNotNull(result);
         assertEquals(3, result.size());

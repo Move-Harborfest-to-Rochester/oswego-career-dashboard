@@ -30,11 +30,11 @@ public class EventService {
     }
 
     /**
-     * Gets the specific events for the dashboard
+     * Gets the specific events for the homepage
      * TODO implement this
      * A pageNum param will most likely be included in the future
      */
-    public Flux<Event> dashboard() {
+    public Flux<Event> homepage() {
         return NonBlockingExecutor.executeMany(eventRepository::findAll); //same as /events for now
     }
 

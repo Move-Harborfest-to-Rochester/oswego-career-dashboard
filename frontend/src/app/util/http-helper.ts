@@ -11,8 +11,8 @@ export enum Endpoints {
     MILESTONES = 'milestones',
     MILESTONES_COMPLETE = 'milestones/complete',
     EVENTS = 'events',
-    DASHBOARD_EVENTS = 'dashboard-events',
-    DASHBOARD_TASKS = 'dashboard-tasks',
+    HOMEPAGE_EVENTS = 'homepage-events',
+    HOMEPAGE_TASKS = 'homepage-tasks',
     TASKS = 'tasks',
     USERS = 'users',
     UPDATE_ROLES = 'users/roles',
@@ -21,6 +21,7 @@ export enum Endpoints {
     ALL_SUBMISSIONS = 'student/submission',
     EDIT_PERSONAL_INFO = "personal-info",
     EDIT_EDUCATION = 'student/education',
+    GET_ALL_BASAC_FACULTY = 'basac-office-faculty',
 
     // Artifacts
     ARTIFACT = 'artifact/',
@@ -29,7 +30,6 @@ export enum Endpoints {
     IMAGE_EVENT = 'artifact/image',
     USERS_PROFILE_PICTURE ="artifact/profile-picture",
 
-    //DASHBOARD_TASKS = 'dashboard_tasks'
     PORTFOLIO = 'portfolio',
 
     // faculty
@@ -43,6 +43,7 @@ export enum Endpoints {
     CREATE_TASK = 'admin/create-task',
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
+    PATCH_BASAC_FACULTY = 'basac-office-faculty',
 
     // Projects
     PROJECTS = 'projects',

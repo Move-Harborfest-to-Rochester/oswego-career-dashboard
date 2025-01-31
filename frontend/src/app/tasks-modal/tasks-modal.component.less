@@ -8,6 +8,10 @@
   color: black;
   background-color: white;
 }
+.bigger-header {
+  font-size: 2.5em;
+  line-height: 1.2;
+}
 
 .mdc-dialog::after{
   border-radius: 25px;
@@ -16,20 +20,18 @@
 .box{
   width: 100%;
   background-color: #F0F6F3;
-  border-top:solid gray 1px ;
-  border-bottom: solid gray 1px;
   padding: 15px 0 15px 0;
-  margin: 10px 0 10px 0;
+  margin: 10px 0 0 0;
+  align-self: center;
 }
 
 #modal-title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 33px;
 }
 
 .header{
   font-weight: bold;
-  margin: 0 10px 0 10px;
+  margin: 0 10px 0 0;
 }
 
 #modal-header {
@@ -39,8 +41,6 @@
   height: fit-content;
   width: 100%;
   color: @oswego-green;
-  padding: 25px;
-  margin: 10px;
 }
 
 #modal-header-overdue {
@@ -50,8 +50,6 @@
   height: fit-content;
   width: 100%;
   color: red;
-  padding: 25px;
-  margin: 10px;
 }
 
 .icon-overdue{
@@ -66,9 +64,10 @@
 
 #modal-body {
   height: fit-content;
-  justify-self: left;
+  justify-self: center;
   align-content: flex-start;
   width: 100%;
+  padding: 0px 100px;
 }
 
 .text{
@@ -88,20 +87,15 @@
   }
 }
 
-#modal-footer {
-  position: relative;
-  width: 100%;
-  height:fit-content;
-  align-self: center;
-  display: flex;
-  bottom: 0;
-  background-color: #F0F6F3;
-  border-top: solid gray 1px;
-  padding: 10px
-}
 
 #modal-cancel-button {
-  background-color: #4e4e4e;
-  color: white;
-  margin: 0 20px  0 0;
-}
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(red, 8%);
+      color: white
+    }
+  }
+

@@ -1,19 +1,29 @@
 <div class="user-container">
-  <div *ngIf="(displayName$ | async)" class="user-name">{{user.firstName}} {{user.lastName}}</div>
-  <button mat-raised-button class="user-button" [matMenuTriggerFor]="userMenu" >
-    <img class="profile-picture" *ngIf="profileURL != null" [src]="profileURL" width="50" height="50" alt="User Image">
-    <mat-icon class="profile-picture-placeholder" *ngIf="profileURL == null">account_circle</mat-icon>
+  <div *ngIf="(displayName$ | async)"
+       class="user-name">{{ user.firstName }} {{ user.lastName }}
+  </div>
+  <button [matMenuTriggerFor]="userMenu" class="user-button" mat-raised-button>
+    <img *ngIf="profileURL != null" [src]="profileURL" alt="User Image"
+         class="profile-picture" height="50" width="50">
+    <mat-icon *ngIf="profileURL == null" class="profile-picture-placeholder">
+      account_circle
+    </mat-icon>
     <div class="overlay"></div>
   </button>
 </div>
 
-<mat-menu class="user-menu" xPosition="before" #userMenu>
+<mat-menu #userMenu class="user-menu" xPosition="before">
   <div class="menu-content">
-    <button mat-menu-item class="logout-button" (click)="logout()">
+    <button (click)="logout()" class="logout-button" mat-menu-item>
       <mat-icon>logout</mat-icon>
       <span>Logout</span>
     </button>
-    <button mat-menu-item class="settings-button" (click)="openSettings()">
+    <button (click)="openEditBasacFaculty()" *ngIf="userIsAdmin()"
+            class="edit-basac-faculty-button" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Edit BASAC Office</span>
+    </button>
+    <button (click)="openSettings()" class="settings-button" mat-menu-item>
       <mat-icon>settings</mat-icon>
       <span>Settings</span>
     </button>

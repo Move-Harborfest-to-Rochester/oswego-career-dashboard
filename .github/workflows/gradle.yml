@@ -46,7 +46,7 @@ jobs:
     - name: Run Gradle Tests
       run: ./gradlew test
     - name: Save Test Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.6.0
       with:
         name: coverage
         path: backend/build/reports/jacoco/test/html/

@@ -33,7 +33,7 @@ import { TaskMainPageModule } from './admin/task-main-page/task-main-page.module
 import { ApiDocumentationsComponent } from './api-documentations/api-documentations.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { HomepageModule } from './homepage/homepage.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { LogoLinkModule } from './logo-link/logo-link.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -54,13 +54,16 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
+import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ApiDocumentationsComponent,
     NavbarComponent,
-    NotFoundComponent
+    NotFoundComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -87,7 +90,7 @@ import { UsersPageModule } from './users-page/users-page.module';
       }
     ),
     SocialLoginModule,
-    DashboardModule,
+    HomepageModule,
     PortfolioModule,
     UsersPageModule,
     MatCardModule,
@@ -124,6 +127,7 @@ import { UsersPageModule } from './users-page/users-page.module';
     MatSnackBarModule,
     LogoLinkModule,
     MatIconModule,
+    EditBasacFacultyModule
   ],
   providers: [
     provideHttpClient(),

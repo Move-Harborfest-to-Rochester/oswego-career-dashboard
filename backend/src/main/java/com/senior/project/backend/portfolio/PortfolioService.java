@@ -7,20 +7,18 @@ import com.senior.project.backend.domain.User;
 import com.senior.project.backend.portfolio.dto.DegreeProgramOperation;
 import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.portfolio.dto.EducationDTO;
-import com.senior.project.backend.portfolio.dto.OperationType;
 import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
 import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.studentdetails.StudentDetailsRepository;
 import com.senior.project.backend.users.UserRepository;
+import com.senior.project.backend.portfolio.dto.OperationType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import reactor.core.publisher.Mono;
 
 @Service
 public class PortfolioService {
@@ -35,18 +33,18 @@ public class PortfolioService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     public Mono<PersonalInfoDTO> savePersonalInfo(PersonalInfoDTO dto) {
         return currentUserUtil.getCurrentUser()
                 .flatMap(user -> {
                     UUID userId = user.getId();
                     return getOrCreateStudentDetails()
-                        .flatMap(studentDetails -> {
-                            UUID studentDetailsId = studentDetails.getId();
-                            this.updateStudentDetails(studentDetailsId, dto);
-                            this.updateUser(userId, dto);
-                            return Mono.just(dto);
-                        });
+                            .flatMap(studentDetails -> {
+                                UUID studentDetailsId = studentDetails.getId();
+                                this.updateStudentDetails(studentDetailsId, dto);
+                                this.updateUser(userId, dto);
+                                return Mono.just(dto);
+                            });
                 });
     }
 
@@ -78,18 +76,18 @@ public class PortfolioService {
                     this.updateDegreePrograms(user, educationDTO);
                     StudentDetails studentDetails = user.getStudentDetails();
                     EducationDTO response = EducationDTO.builder()
-                        .universityId(studentDetails.getUniversityId())
-                        .gpa(studentDetails.getGpa())
-                        .year(studentDetails.getYearLevel())
-                        .majors(studentDetails.getDegreePrograms().stream()
-                            .filter(degreeProgram -> !degreeProgram.isMinor())
-                            .toList()
-                        )
-                        .minors(studentDetails.getDegreePrograms().stream()
-                            .filter(DegreeProgram::isMinor)
-                            .toList()
-                        )
-                        .build();
+                            .universityId(studentDetails.getUniversityId())
+                            .gpa(studentDetails.getGpa())
+                            .year(studentDetails.getYearLevel())
+                            .majors(studentDetails.getDegreePrograms().stream()
+                                    .filter(degreeProgram -> !degreeProgram.isMinor())
+                                    .toList()
+                            )
+                            .minors(studentDetails.getDegreePrograms().stream()
+                                    .filter(DegreeProgram::isMinor)
+                                    .toList()
+                            )
+                            .build();
                     return Mono.just(response);
                 });
     }
@@ -97,8 +95,8 @@ public class PortfolioService {
     private void updateStudentDetails(User user, EditEducationDTO educationDTO) {
         StudentDetails userStudentDetails = user.getStudentDetails();
         StudentDetails studentDetails = userStudentDetails != null
-            ? userStudentDetails
-            : new StudentDetails();
+                ? userStudentDetails
+                : new StudentDetails();
         studentDetails.setUniversityId(educationDTO.getUniversityId());
         studentDetails.setGpa(educationDTO.getGpa());
         studentDetails.setYearLevel(educationDTO.getYear());

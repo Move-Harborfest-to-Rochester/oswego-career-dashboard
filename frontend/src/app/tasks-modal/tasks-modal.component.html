@@ -1,6 +1,6 @@
-<div id="modal-content-wrapper">
+<div id="modal-content-wrapper" >
     <header [id]="modalData.overdue ? 'modal-header-overdue' : 'modal-header'">
-      <div>
+      <div class = "bigger-header">
       <h1 id="modal-title">
         <mat-icon [inline]="true" [class]="modalData.overdue ? 'icon-overdue':'icon-not-overdue'">report_problem</mat-icon>{{ modalData.task.name }}
       </h1>
@@ -19,13 +19,7 @@
         <p class="content">{{ modalData.task.description }}</p>
       </div>
     </div>
-    <app-submission-content [task]="modalData.task" (cancel)="closeModal()"></app-submission-content>
+    <div id="action-row">
+      <app-submission-content [task]="modalData.task" (cancel)="closeModal()"></app-submission-content>
+    </div>
   </div>
-  <br>
-  <footer id="modal-footer">
-    <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">
-      Go back
-    </button>
-  </footer>
-</div>
-

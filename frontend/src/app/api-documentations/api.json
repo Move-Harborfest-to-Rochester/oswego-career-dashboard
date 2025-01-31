@@ -282,9 +282,9 @@
         }
       }
     },
-    "/dashboard-events": {
+    "/homepage-events": {
       "get": {
-        "summary": "Returns the selection of events to display on the dashboard carousel",
+        "summary": "Returns the selection of events to display on the homepage carousel",
         "description": "Used in the event carousel.",
         "tags": ["events"],
         "parameters": [
@@ -582,9 +582,9 @@
         }
       }
     },
-    "/dashboard-tasks": {
+    "/homepage-tasks": {
       "get": {
-        "summary": "Returns the selection of tasks to display on the dashboard",
+        "summary": "Returns the selection of tasks to display on the homepage",
         "tags": ["tasks"],
         "parameters": [
           {
