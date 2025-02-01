@@ -1,0 +1,54 @@
+<form (ngSubmit)="submit(form.value)" [formGroup]="form">
+  <div class="form-container">
+    <div formArrayName="operations">
+      <mat-card *ngFor="let facultyControl of facultyControls(); let i = index"
+                [formGroupName]="i"
+                [hidden]="isDeleted(facultyControl)"
+                class="faculty-card">
+        <mat-card-content [formGroup]="getValueFromControl(facultyControl)"
+                          class="faculty-container">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input
+              formControlName="name" matInput required/>
+            <mat-error
+              *ngIf="getValueFromControl(facultyControl).get('name')?.hasError('required')">
+              Name is required.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input formControlName="title" matInput required/>
+            <mat-error
+              *ngIf="getValueFromControl(facultyControl).get('title')?.hasError('required')">
+              Title is required.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput required type="email"/>
+            <mat-error
+              *ngIf="getValueFromControl(facultyControl).get('email')?.hasError('required')">
+              Email is required.
+            </mat-error>
+          </mat-form-field>
+          <button (click)="deleteFacultyAtIndex(facultyControl, i)"
+                  class="delete-btn"
+                  color="warn" mat-mini-fab
+                  type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="submit-container">
+      <button (click)="addNewFaculty()" mat-stroked-button type="button">
+        <mat-icon>add</mat-icon>
+        <span>Add Faculty</span>
+      </button>
+      <button color='primary' mat-raised-button type="submit">
+        Save BASAC Office
+      </button>
+    </div>
+  </div>
+</form>

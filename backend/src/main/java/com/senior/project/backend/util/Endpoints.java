@@ -73,7 +73,7 @@ public enum Endpoints {
     ARTIFACT_LIST("portfolio/artifacts", true),
     SINGLE_ARTIFACT("portfolio/{artifactID}", true),
 
-    BASAC_OFFICE_FACULTY("basac-office-faculty", true),
+    BASAC_OFFICE_FACULTY("basac-office-faculty", true, Role.Admin),
 
     // Security
     SIGNIN("auth/signin", false),

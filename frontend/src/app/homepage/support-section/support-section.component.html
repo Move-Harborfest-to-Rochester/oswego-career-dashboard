@@ -16,17 +16,13 @@
             <h3>Business Administration Student Advisement Center (BASAC)</h3>
             <p>To schedule time with the Business Administration Student Advisement Center email <a href="mailto:basac@oswego.edu" target="_blank" rel="noopener noreferrer">basac@oswego.edu</a></p>
 
-            <div class="contact-info">
-              <div class="contact-item">
-                <p class="name">Alicia King</p>
-                <p class="role">Director, School of Business Advisement</p>
-                <p class="email"><a href="mailto:alicia.king@oswego.edu " target="_blank" rel="noopener noreferrer">alicia.king@oswego.edu</a></p>
-              </div>
-
-              <div class="contact-item">
-                <p class="name">Julia Lamb</p>
-                <p class="role">Student Academic Success Business Advisor</p>
-                <p class="email"><a href="mailto:basac@oswego.edu" target="_blank" rel="noopener noreferrer">basac@oswego.edu</a></p>
+            <div class="basac-contact-container">
+              <div class="contact-info" *ngFor="let faculty of basacFaculty$ | async; let i = index">
+                <div class="contact-item">
+                  <p class="name">{{ faculty.name }}</p>
+                  <p class="role">{{ faculty.title }}</p>
+                  <p class="email"><a href="mailto:{{ faculty.email }}" target="_blank" rel="noopener noreferrer">{{faculty.email}}</a></p>
+                </div>
               </div>
             </div>
 
@@ -125,4 +121,3 @@
     </div>
   </div>
 </div>
-
