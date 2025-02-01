@@ -31,7 +31,8 @@ export enum Endpoints {
     USERS_PROFILE_PICTURE ="artifact/profile-picture",
 
     PORTFOLIO = 'portfolio',
-
+    EDIT_SKILLS = 'student/skills',
+    EDIT_INTERESTS = 'student/interests',
     // faculty
     USERS_SEARCH = 'users/search',
     FACULTY_SUBMISSIONS = 'faculty/milestones',

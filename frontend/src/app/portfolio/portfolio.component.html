@@ -56,21 +56,37 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Skills</h2>
+            <div class="add-project-container">
+              <h2 >Skills</h2>
+              <button mat-mini-fab (click)="openEditDialog(false)" *ngIf="!this.external">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
             <div class="skills">
-              <div class="skill" *ngFor="let skill of skills()">{{skill}}</div>
+              <div class="skill" *ngFor="let skill of skills()">
+                {{ skill }}
+              </div>
             </div>
           </div>
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Languages</h2>
+            <div class="add-project-container">
+                <h2>Languages</h2>
+                <button mat-mini-fab (click)="openEditDialog(true)" *ngIf="!this.external">
+                  <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
             <div class="skills">
-              <div class="skill" *ngFor="let language of languages()">{{language}}</div>
+              <div class="skill" *ngFor="let language of languages()">
+                {{ language }}
+              </div>
             </div>
           </div>
         </div>
@@ -81,7 +97,7 @@
               <button class="add-project-button" mat-mini-fab (click)="openAddProjectModal()" *ngIf="!this.external">
                 <mat-icon>add</mat-icon>
               </button>
-          </div>
+            </div>
 
           </div>
           <div class="card-body-section-body projects">
@@ -203,15 +219,15 @@
           <div class="card-body-section-body projects">
             <div *ngFor="let club of user.studentDetails?.clubs">
               <div class="project">
-                <h3>{{club.name}}</h3>
+                <h3>{{ club.name }}</h3>
                 <div class="date-row content">
                   <div>
-                    <span class="title">{{dateHeader('Start')}}</span>
-                    <span class="date">{{formatDate(club.startDate)}}</span>
+                    <span class="title">{{ dateHeader("Start") }}</span>
+                    <span class="date">{{ formatDate(club.startDate) }}</span>
                   </div>
                   <div>
-                    <span class="title">{{dateHeader('End')}}</span>
-                    <span class="date">{{formatDate(club.endDate)}}</span>
+                    <span class="title">{{ dateHeader("End") }}</span>
+                    <span class="date">{{ formatDate(club.endDate) }}</span>
                   </div>
                 </div>
               </div>
@@ -220,11 +236,22 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <h2>Interests</h2>
+            <div class="add-project-container">
+              <h2>Interests</h2>
+              <button mat-mini-fab (click)="openEditInterests()" *ngIf="!this.external">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
           </div>
           <div class="card-body-section-body">
-            <div class="skills">
-              <div class="skill" *ngFor="let interest of user.studentDetails?.interests">{{interest.name}}</div>
+            <div class="skills" >
+              <div
+                class="skill"
+                *ngFor="let interest of user.studentDetails?.interests"
+              >
+                {{ interest.name }}
+              </div>
             </div>
           </div>
         </div>
@@ -233,9 +260,12 @@
             <h2>Milestones</h2>
           </div>
           <div class="card-body-section-body">
-            <div class="milestone" *ngFor="let milestone of completedMilestones">
+            <div
+              class="milestone"
+              *ngFor="let milestone of completedMilestones"
+            >
               <mat-icon>check_circle</mat-icon>
-              <span>{{milestone}}</span>
+              <span>{{ milestone }}</span>
             </div>
           </div>
         </div>

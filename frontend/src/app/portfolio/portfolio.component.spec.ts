@@ -67,7 +67,7 @@ describe('PortfolioComponent', () => {
         HttpClientTestingModule,
         PdfViewerModule,
         MatDialogModule,
-        MatSnackBarModule,,
+        MatSnackBarModule,
         EducationSectionModule
       ],
       providers: [
