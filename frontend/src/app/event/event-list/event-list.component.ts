@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-event-list',
+  selector: 'event-list',
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.less']
 })
