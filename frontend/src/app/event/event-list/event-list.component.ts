@@ -8,15 +8,21 @@ import {EventService} from "../../homepage/events/event.service";
   styleUrls: ['./event-list.component.less']
 })
 export class EventListComponent implements OnInit {
-  events: Event[];
+  upcomingEvents: Event[];
 
   constructor(private readonly eventService: EventService) {
-    this.events = [];
+    this.upcomingEvents = [];
   }
 
   ngOnInit() {
     this.eventService.getEvents().subscribe((events: Event[]) => {
-      this.events = events;
+      this.upcomingEvents = events
+        .filter((event: Event) => event.date > new Date())
+        .sort((this.sortByDateAscending));
     })
+  }
+
+  private sortByDateAscending(event1: Event, event2: Event) {
+    return event1.date.getTime() - event2.date.getTime();
   }
 }
