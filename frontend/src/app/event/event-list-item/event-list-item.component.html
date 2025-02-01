@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{event.name}}</mat-card-title>
+    <mat-card-title><h5>{{event.name}}</h5></mat-card-title>
     <mat-card-subtitle>{{eventDate()}} at {{event.location}}</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image *ngIf="!!imageUrl" [ngSrc]="imageUrl" alt="Event image" fill>
@@ -10,6 +10,6 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="goToEvent()">More Details</button>
+    <button color="primary" mat-flat-button (click)="goToEvent()">More Details</button>
   </mat-card-actions>
 </mat-card>
