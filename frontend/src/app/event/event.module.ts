@@ -5,6 +5,7 @@ import { EventListItemComponent } from './event-list-item/event-list-item.compon
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 
@@ -18,7 +19,8 @@ import {RouterLink} from "@angular/router";
     MatCardModule,
     NgOptimizedImage,
     MatButtonModule,
-    RouterLink
+    RouterLink,
+    MatDividerModule
   ],
   exports: [
     EventListComponent
