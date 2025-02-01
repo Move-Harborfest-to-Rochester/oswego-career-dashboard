@@ -21,4 +21,8 @@ export class EventListItemComponent implements OnInit {
   goToEvent() {
     window.open(this.event.eventLink, "_blank");
   }
+
+  eventDate() {
+    return this.event.date.toLocaleDateString();
+  }
 }
