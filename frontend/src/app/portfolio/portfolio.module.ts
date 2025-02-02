@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +12,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MilestonesModule } from '../milestones-page/milestones/milestones.module';
-import { EducationSectionModule } from './education-section/education-section.module';
 import { ResumeModule } from './resume/resume.module';
 import { DegreeProgramListInputModule } from './education-section/edit-education-dialog/degree-program-list-input/degree-program-list-input.module';
 import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';

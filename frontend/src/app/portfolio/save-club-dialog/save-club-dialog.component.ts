@@ -61,11 +61,7 @@ export class SaveClubDialogComponent {
 
   saveClub() {
     if (this.form.invalid) return;
-
-    const alertDuration= 5000;
-
-    // this.clubService.saveClub(this.form.value)
-
+    this.dialogRef.close(this.form.value);
   }
 
 

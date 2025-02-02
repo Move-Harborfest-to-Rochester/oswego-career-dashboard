@@ -254,12 +254,6 @@ export class PortfolioComponent implements OnInit {
 
 
 
-  deleteClub(club: Club) {
-
-
-  }
-
-
   editClub(club: Club): void {
     const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent,  {
       data: club
@@ -280,7 +274,11 @@ export class PortfolioComponent implements OnInit {
     const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
     dialogRef.afterClosed().subscribe((club?: Club)=> {
       if (!club) return;
-      this.user.studentDetails?.clubs.push(club)
+      console.log(`club before saving: ${JSON.stringify(club)}`);
+      this.portfolioService.saveClub(club).subscribe(club =>
+        this.user.studentDetails?.clubs.push(club)
+      )
+
     })
   }
 
@@ -332,6 +330,27 @@ export class PortfolioComponent implements OnInit {
     });
   }
 
+  deleteClub(club: Club) {
+    const dialogData: ConfirmationDialogData = {
+      entityId: club.id,
+      title: 'Delete Club?',
+      action: `Delete the club ${club.name}`,
+      onConfirm: () => this.confirmDeleteClub(club)
+    }
+    this.saveClubDialog.open(ConfirmationDialogComponent, {
+      data: dialogData
+    })
+  }
+
+
+  confirmDeleteClub(club: Club) {
+    // Use the service to delete the club
+    // Remove the club from the list of clubs
+
+
+    this.portfolioService.deleteClub(club.id)
+      .subscribe()
+  }
   deleteJob(job: Job) {
     const dialogData: ConfirmationDialogData = {
       entityId: job.id,
