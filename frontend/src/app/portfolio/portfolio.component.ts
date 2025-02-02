@@ -42,6 +42,7 @@ import {EditInterestsComponent} from "./edit-interests/edit-interests.component"
 import {Interest} from "../../domain/Interest";
 import {Club} from "../../domain/Club";
 import {SaveClubDialogComponent} from "./save-club-dialog/save-club-dialog.component";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-portfolio',
@@ -258,14 +259,16 @@ export class PortfolioComponent implements OnInit {
     const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent,  {
       data: club
     });
-
     dialogRef.afterClosed().subscribe((club?: Club)=> {
-
       if (!club) return;
-      else{
-        this.user.studentDetails?.clubs.push(club)
-      }
+      this.portfolioService.saveClub(club).subscribe(club => {
+          if (!this.user.studentDetails) {
+            this.user.studentDetails = StudentDetails.makeEmpty();
+          }
 
+          this.user.studentDetails.clubs = this.user.studentDetails.clubs.map(c => c.id === club.id ? club: c);
+        }
+      )
     })
 
 
@@ -274,7 +277,6 @@ export class PortfolioComponent implements OnInit {
     const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
     dialogRef.afterClosed().subscribe((club?: Club)=> {
       if (!club) return;
-      console.log(`club before saving: ${JSON.stringify(club)}`);
       this.portfolioService.saveClub(club).subscribe(club =>
         this.user.studentDetails?.clubs.push(club)
       )
@@ -334,7 +336,7 @@ export class PortfolioComponent implements OnInit {
     const dialogData: ConfirmationDialogData = {
       entityId: club.id,
       title: 'Delete Club?',
-      action: `Delete the club ${club.name}`,
+      action: `delete the club ${club.name}`,
       onConfirm: () => this.confirmDeleteClub(club)
     }
     this.saveClubDialog.open(ConfirmationDialogComponent, {
@@ -344,12 +346,26 @@ export class PortfolioComponent implements OnInit {
 
 
   confirmDeleteClub(club: Club) {
-    // Use the service to delete the club
-    // Remove the club from the list of clubs
-
-
+    const alertDurationMs = 5000;
     this.portfolioService.deleteClub(club.id)
-      .subscribe()
+      .subscribe({
+        next: () => {
+          if (!this.user.studentDetails) {
+            this.user.studentDetails = StudentDetails.makeEmpty();
+          }
+          this.user.studentDetails.clubs = this.user.studentDetails?.clubs.filter((j) => j.id !== club.id);
+          this.deleteDialog.closeAll();
+          this.snackBar.open('Club deleted successfully.', 'Close', {
+            duration: alertDurationMs,
+          });
+        },
+        error: (error: unknown) => {
+          console.error(error);
+          this.snackBar.open('Failed to delete club.', 'Close', {
+            duration: alertDurationMs,
+          });
+        }
+    });
   }
   deleteJob(job: Job) {
     const dialogData: ConfirmationDialogData = {
