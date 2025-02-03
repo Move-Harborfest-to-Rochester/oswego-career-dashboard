@@ -6,7 +6,6 @@ import {
   ValidationErrors,
   Validators
 } from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Club} from "../../../domain/Club";
 import {validateEndDateBeforeStartDate} from "../../util/validation-utils";
@@ -22,7 +21,6 @@ export class SaveClubDialogComponent {
   readonly today: Date = new Date();
   form!: FormGroup;
   constructor(
-    private readonly snackBar: MatSnackBar,
     private readonly dialogRef: MatDialogRef<SaveClubDialogComponent>,
     private readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public readonly club?: Club
