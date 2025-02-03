@@ -22,7 +22,6 @@ export class JobService {
   constructor(private readonly http: HttpClient) { }
 
   public saveJob(request: SaveJobRequest): Observable<Job> {
-    console.log(request);
     return this.http.put<JobJSON>(constructBackendRequest(Endpoints.JOBS), request)
       .pipe(map((jobJson) => {
         return new Job(jobJson);

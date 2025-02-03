@@ -9,7 +9,6 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Club} from "../../../domain/Club";
-import {ClubService} from "./club.service";
 import {validateEndDateBeforeStartDate} from "../../util/validation-utils";
 
 @Component({
@@ -26,7 +25,6 @@ export class SaveClubDialogComponent {
     private readonly snackBar: MatSnackBar,
     private readonly dialogRef: MatDialogRef<SaveClubDialogComponent>,
     private readonly fb: FormBuilder,
-    private readonly clubService: ClubService,
     @Inject(MAT_DIALOG_DATA) public readonly club?: Club
   ) {
   }
@@ -41,7 +39,7 @@ export class SaveClubDialogComponent {
         id: [this.club?.id ?? ''],
         name: [this.club?.name ?? '', Validators.required],
         startDate: [this.club?.startDate ?? null, Validators.required],
-        endDate: [this.club?.endDate ?? null, Validators.required]
+        endDate: [this.club?.endDate ?? null]
       },{
         validators: this.dateRangeValidator
       }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location} from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import {config, map, mergeMap, Observable, tap, zipWith} from 'rxjs';
+import { map, mergeMap, Observable, tap, zipWith} from 'rxjs';
 import { Job } from 'src/domain/Job';
 import { ArtifactService } from "../file-upload/artifact.service";
 import { MilestoneService } from "../milestones-page/milestones/milestone.service";
@@ -16,20 +16,14 @@ import { LangUtils } from '../util/lang-utils';
 import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 import { ScreenSizeService } from '../util/screen-size.service';
 import {
-  DegreeProgramOperation,
-  EditEducationRequest, InterestOperation,
+ InterestOperation,
   PortfolioService,
   SkillsOperation
 } from "./portfolio.service";
 import {
-  EditEducationDialogComponent,
-  EditEducationFormValues
-} from "./education-section/edit-education-dialog/edit-education-dialog.component";
-import {
-  EditSkillsDefaultValues,
   EditSkillsDialogComponent
 } from "./skills-section/edit-skills-dialog/edit-skills-dialog.component";
-import {Skill, SkillJSON} from "../../domain/Skill";
+import {Skill} from "../../domain/Skill";
 import {StudentDetails} from "../../domain/StudentDetails";
 import {JobService} from "./job/job.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -42,7 +36,6 @@ import {EditInterestsComponent} from "./edit-interests/edit-interests.component"
 import {Interest} from "../../domain/Interest";
 import {Club} from "../../domain/Club";
 import {SaveClubDialogComponent} from "./save-club-dialog/save-club-dialog.component";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-portfolio',
@@ -265,7 +258,6 @@ export class PortfolioComponent implements OnInit {
           if (!this.user.studentDetails) {
             this.user.studentDetails = StudentDetails.makeEmpty();
           }
-
           this.user.studentDetails.clubs = this.user.studentDetails.clubs.map(c => c.id === club.id ? club: c);
         }
       )
@@ -398,7 +390,7 @@ export class PortfolioComponent implements OnInit {
 
   formatDate(date: Date | null){
     if(!date){
-      return 'present'
+      return 'Ongoing'
     }
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
