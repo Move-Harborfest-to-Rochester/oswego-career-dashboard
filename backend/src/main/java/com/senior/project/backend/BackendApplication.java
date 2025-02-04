@@ -43,7 +43,7 @@ public class BackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         dataProcessor.processData();
     }
-    
+
     @Scheduled(cron = "0 00 4 * * ?") // runs everyday at 4:00am
     public void scheduleDataProcessing() {
         dataProcessor.processData();
