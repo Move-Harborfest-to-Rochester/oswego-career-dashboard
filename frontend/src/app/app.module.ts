@@ -33,7 +33,7 @@ import { TaskMainPageModule } from './admin/task-main-page/task-main-page.module
 import { ApiDocumentationsComponent } from './api-documentations/api-documentations.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { HomepageModule } from './homepage/homepage.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { LogoLinkModule } from './logo-link/logo-link.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -90,7 +90,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
       }
     ),
     SocialLoginModule,
-    DashboardModule,
+    HomepageModule,
     PortfolioModule,
     UsersPageModule,
     MatCardModule,
