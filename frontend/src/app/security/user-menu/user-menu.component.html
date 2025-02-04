@@ -1,4 +1,5 @@
 <div class="user-container">
+
   <div *ngIf="(displayName$ | async)" class="user-name">
     {{ user.firstName }} {{ user.lastName }}
   </div>
@@ -28,6 +29,17 @@
         </mat-slide-toggle>
       </div>
     </div>
+
+
+    <button (click)="logout()" class="logout-button" mat-menu-item>
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+    <button (click)="openEditBasacFaculty()" *ngIf="userIsAdmin()"
+            class="edit-basac-faculty-button" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Edit BASAC Office</span>
+    </button>
 
     <button (click)="openSettings()" class="settings-button" mat-menu-item>
       <mat-icon>settings</mat-icon>

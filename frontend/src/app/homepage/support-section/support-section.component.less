@@ -6,6 +6,7 @@
   border-radius: 8px;
   flex-wrap: wrap;
 }
+
 .title-bar {
   background-color: @oswego-sunset-gold;
   padding: 15px 20px;
@@ -57,6 +58,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .tab-content h3 {
   text-align: center;
   margin: 0 auto;
@@ -64,11 +66,13 @@
   border-bottom: 3px solid @oswego-sunset-gold;
   max-width: fit-content;
 }
+
 .tab-section h3 {
   color: @oswego-green;
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+
 .tab-section h4 {
   color: lightgrey;
   font-size: .9em;
@@ -89,11 +93,11 @@
 .tab-section a:hover {
   text-decoration: underline;
 }
+
 .template-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
-
 
 
   .template-row {
@@ -140,6 +144,7 @@
     }
   }
 }
+
 .basac-container {
   background-color: #f1f1f1;
   border-radius: 8px;
@@ -162,12 +167,34 @@
   text-decoration: underline;
 }
 
+.basac-contact-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+
+  > * {
+    margin: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
 .contact-info {
   display: flex;
   justify-content: space-around;
   text-align: center;
   margin-top: 15px;
   flex-wrap: wrap;
+  min-width: 25%;
+  height: 100%;
+
+  @media (max-width: 576px) {
+    flex-grow: 1;
+  }
 }
 
 .contact-item {
@@ -175,6 +202,7 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .contact-item .name {
@@ -203,7 +231,8 @@
   font-size: 0.9em;
   text-align: center;
 }
-.learning{
+
+.learning {
   padding: 20px 0px;
 }
 
@@ -253,6 +282,7 @@
   margin-top: 5px;
 
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -269,9 +299,11 @@
   margin-bottom: 20px;
   max-width: 400px;
 }
-.office-container p{
+
+.office-container p {
   padding: 5px;
 }
+
 a {
   color: @oswego-green;
 }
@@ -289,9 +321,9 @@ a {
   margin: 4px 0;
   color: #666;
 }
+
 .container,
 .section {
   box-sizing: border-box;
-  flex-wrap:wrap
+  flex-wrap: wrap
 }
-

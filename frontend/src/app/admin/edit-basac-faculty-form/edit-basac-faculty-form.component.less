@@ -1,0 +1,53 @@
+mat-card {
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.faculty-container {
+  > * {
+    margin-right: 1rem;
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+form, .form-container {
+  width: 100%;
+}
+
+.form-container {
+  padding-bottom: 8rem;
+
+  .add-btn {
+    width: 100%;
+  }
+}
+
+.submit-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    margin-top: .75rem;
+  }
+}
+
+.faculty-card {
+  margin-top: .75rem;
+  padding: 1.5rem 1.5rem 0;
+}

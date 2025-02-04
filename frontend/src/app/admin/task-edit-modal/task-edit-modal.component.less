@@ -1,103 +1,129 @@
 @import "../../../common";
 
-mat-card-title {
-  /* CSS styles go here */
-  margin: 0px; // for example to remove the margin
-  font-weight: bold;
+#modal-content-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.modal-content-wrapper{
-  height: fit-content;
-  width: fit-content;
+
+#modal-header {
+  width: 100%;
+  text-align: center;
+}
+
+#modal-header h1 {
+  font-size: x-large;
+  color: @oswego-green;
+  margin: 0;
 }
 
 .form-content {
   width: 100%;
-  height: fit-content;
-  color: black;
-  background-color: white;
-  padding: 0 100px;
-}
-
-
-#modal-header {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-self: center;
-  height: fit-content;
-  width: 100%;
-  color: @oswego-green;
-  padding: 40px 0 40px 0;
 }
 
+.form-content h3 {
+  font-size: large;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+textarea.mat-input {
+  resize: vertical;
+}
+
+.mat-radio-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mat-radio-button {
+  margin-right: 10px;
+}
 
 #modal-footer {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  width: 75%;
-  margin: 10px auto;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.modal-cancel-button,
+.modal-submit-button {
+  flex: 1;
   padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .modal-cancel-button {
-  width: 30%;
-  background-color: #808080;
-  color: white;
-  border-radius: 5px;
-}
+  background-color: lightgrey;
+  color: black;
 
-.modal-cancel-button:hover {
-  background-color: red;
-  color: white;
+  &:hover {
+    background-color: darken(red, 8%);
+    color: white;
+  }
 }
 
 .modal-submit-button {
-  width: 30%;
   background-color: @oswego-green;
   color: white;
-  border-radius: 5px;
+
+  &:hover {
+    background-color: darken(@oswego-green, 20%);
+  }
 }
 
 .modal-submit-button:disabled {
   background-color: gray;
+  cursor: not-allowed;
 }
 
-.modal-submit-button:hover {
-  background-color: darkgreen;
-}
+@media (max-width: 768px) {
+  #modal-content-wrapper {
+    padding: 10px;
+  }
 
-.modal-cancel-button {
-  background-color: #4e4e4e;
-  color: white;
-  margin: 0 20px  0 0;
-  border-radius: 5px;
-}
+  #modal-header h1 {
+    font-size: large;
+  }
 
-.modal-submit-button {
-  background-color: @oswego-green;
-  color: white;
-  margin: 0 20px  0 0;
-  border-radius: 5px;
-}
+  .form-content h3 {
+    font-size: medium;
+  }
 
-.flex-vertical-align {
-  display: flex;
-  align-items: center;
-}
+  #modal-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.mdc-button {
-  background-color: @oswego-green;
-  color:white;
+  .modal-cancel-button,
+  .modal-submit-button {
+    width: 100%;
+  }
 }
-
-.mat-mdc-button:not(:disabled) {
-  color:white;
-}
-
-.mat-mdc-button:disabled {
-  background-color: gray;
-}
-
-.mat-mdc-form-field {
-    display: block;
-}
-

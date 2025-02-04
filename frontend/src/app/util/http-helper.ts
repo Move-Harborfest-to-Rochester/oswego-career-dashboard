@@ -21,6 +21,7 @@ export enum Endpoints {
     ALL_SUBMISSIONS = 'student/submission',
     EDIT_PERSONAL_INFO = "personal-info",
     EDIT_EDUCATION = 'student/education',
+    GET_ALL_BASAC_FACULTY = 'basac-office-faculty',
 
     // Artifacts
     ARTIFACT = 'artifact/',
@@ -30,7 +31,8 @@ export enum Endpoints {
     USERS_PROFILE_PICTURE ="artifact/profile-picture",
 
     PORTFOLIO = 'portfolio',
-
+    EDIT_SKILLS = 'student/skills',
+    EDIT_INTERESTS = 'student/interests',
     // faculty
     USERS_SEARCH = 'users/search',
     FACULTY_SUBMISSIONS = 'faculty/milestones',
@@ -42,12 +44,16 @@ export enum Endpoints {
     CREATE_TASK = 'admin/create-task',
     EDIT_EVENT = 'admin/edit-event',
     CREATE_EVENT = 'admin/create-event',
+    PATCH_BASAC_FACULTY = 'basac-office-faculty',
 
     // Projects
     PROJECTS = 'projects',
 
     // Jobs
     JOBS = 'jobs',
+
+    // clubs
+    CLUBS = 'clubs'
 }
 
 export function constructBackendRequest(segments: string, ...qParams: Array<{key: string, value: string | number}>): string {
