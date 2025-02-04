@@ -34,7 +34,7 @@ export class EventsPageComponent implements OnInit {
 
   eventImageUrl(imageId: number | null) {
     if (imageId === null) {
-      return 'assets/images/Oswego_logo_horizontal_black.png';
+      return 'assets/images/Oswego_logo_horizontal_green.png';
     }
     return constructBackendRequest(`${Endpoints.IMAGE_EVENT}/${imageId}`);
   }

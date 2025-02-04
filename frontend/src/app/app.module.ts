@@ -55,6 +55,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 import { EventsPageComponent } from './events-page/events-page.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { EventsPageComponent } from './events-page/events-page.component';
     MatSnackBarModule,
     LogoLinkModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideHttpClient(),

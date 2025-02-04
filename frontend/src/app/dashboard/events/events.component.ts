@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from "./event.service";
 import { Event } from "../../../domain/Event";
 import {ArtifactService} from "../../file-upload/artifact.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-events',
@@ -20,6 +21,7 @@ export class EventsComponent implements OnInit{
   constructor(
     private eventService: EventService,
     private artifactService: ArtifactService,
+    private router: Router,
     //private readonly socialAuthService: SocialAuthService
   ) {
   }
@@ -49,8 +51,8 @@ export class EventsComponent implements OnInit{
     });
   }
 
-  goToLink(link: string) {
-    location.href = link;
+  goToLink(eventId: string) {
+    this.router.navigate(['/events', eventId]);
   }
 
   events: Array<Event> = []

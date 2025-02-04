@@ -1,12 +1,53 @@
-<div *ngIf="event">
-  <h1>{{ event.name }}</h1>
-  <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
-  <p>{{ event.description }}</p>
-  <p><strong>Date:</strong> {{ event.date }}</p>
-  <p><strong>Location:</strong> {{ event.location }}</p>
-  <a [href]="event.eventLink" target="_blank">{{ event.buttonLabel }}</a>
+<div class="event-page-container">
+  <div *ngIf="event; else loading" class="event-container">
+    <h1 class="event-title">{{ event.name }}</h1>
+    <mat-card class="event-card">
+      <div
+        class="event-details-container"
+        [ngStyle]="{'grid-template-columns': event.eventLink ? '1fr 1fr 1fr' : '1fr 1fr'}"
+      >
+
+        <div *ngIf="event.eventLink" class="event-image">
+          <img [src]="eventImageUrl(event.imageId)" alt="Event image" />
+          <h2>Date:</h2>
+          <p>{{ event.date }}</p>
+          <h2>Location:</h2>
+          <p>{{ event.location }}</p>
+        </div>
+
+        <div *ngIf="!event.eventLink" class="qr-event-image-adjustment">
+          <img [src]="eventImageUrl(event.imageId)" alt="Event image" />
+          <h2>Date:</h2>
+          <p>{{ event.date }}</p>
+          <h2>Location:</h2>
+          <p>{{ event.location }}</p>
+        </div>
+
+        <div *ngIf="event.eventLink" class="event-details">
+          <h2>Description</h2>
+          <p>{{ event.description }}</p>
+        </div>
+
+        <div *ngIf="!event.eventLink" class="qr-event-details-adjustment">
+          <h2>Description</h2>
+          <p>{{ event.description }}</p>
+        </div>
+
+        <div *ngIf="event.eventLink" class="qr-section">
+          <h2>Scan the QR Code for the Event</h2>
+          <img
+            [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + event.eventLink"
+            alt="Event QR Code"
+          />
+          <a [href]="event.eventLink" target="_blank" class="event-button">More Info</a>
+        </div>
+      </div>
+    </mat-card>
+  </div>
 </div>
 
-<ng-template #noEvent>
-  <p>Event not found.</p>
+<ng-template #loading>
+  <div class="event-container">
+    <mat-spinner></mat-spinner>
+  </div>
 </ng-template>
