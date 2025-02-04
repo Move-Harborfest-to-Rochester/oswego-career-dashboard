@@ -9,6 +9,7 @@ import Education, { EducationJSON } from 'src/domain/Education';
 import {StudentDetails, StudentDetailsJSON} from "../../domain/StudentDetails";
 import {Skill} from "../../domain/Skill";
 import {Interest} from "../../domain/Interest";
+import {Club, ClubJSON} from "../../domain/Club";
 export type DegreeProgramOperation = {
   id?: string;
   operation: 'Create' | 'Edit' | 'Delete';
@@ -66,6 +67,16 @@ export class PortfolioService {
   saveInterest(interests: Interest[]): Observable<StudentDetails> {
     return this.http.put<StudentDetailsJSON>(constructBackendRequest(Endpoints.EDIT_INTERESTS), interests)
       .pipe(map(studentDetails => new StudentDetails(studentDetails)));
+  }
+
+
+  saveClub(club: Club): Observable<Club> {
+    return this.http.put<ClubJSON>(constructBackendRequest(Endpoints.CLUBS), club)
+        .pipe(map(clubJSON => new Club(clubJSON)))
+  }
+
+  deleteClub(id: string): Observable<void>{
+    return this.http.delete<void>(constructBackendRequest(`${Endpoints.CLUBS}/${id}`))
   }
 
   // Edit Personal Info (Service Method)

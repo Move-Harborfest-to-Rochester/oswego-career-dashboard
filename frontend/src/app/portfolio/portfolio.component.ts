@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location} from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, mergeMap, Observable, tap, zipWith } from 'rxjs';
+import { map, mergeMap, Observable, tap, zipWith} from 'rxjs';
 import { Job } from 'src/domain/Job';
 import { ArtifactService } from "../file-upload/artifact.service";
 import { MilestoneService } from "../milestones-page/milestones/milestone.service";
@@ -16,20 +16,14 @@ import { LangUtils } from '../util/lang-utils';
 import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
 import { ScreenSizeService } from '../util/screen-size.service';
 import {
-  DegreeProgramOperation,
-  EditEducationRequest, InterestOperation,
+ InterestOperation,
   PortfolioService,
   SkillsOperation
 } from "./portfolio.service";
 import {
-  EditEducationDialogComponent,
-  EditEducationFormValues
-} from "./education-section/edit-education-dialog/edit-education-dialog.component";
-import {
-  EditSkillsDefaultValues,
   EditSkillsDialogComponent
 } from "./skills-section/edit-skills-dialog/edit-skills-dialog.component";
-import {Skill, SkillJSON} from "../../domain/Skill";
+import {Skill} from "../../domain/Skill";
 import {StudentDetails} from "../../domain/StudentDetails";
 import {JobService} from "./job/job.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -40,6 +34,9 @@ import {
 } from "../common/confirmation-dialog/confirmation-dialog.component";
 import {EditInterestsComponent} from "./edit-interests/edit-interests.component";
 import {Interest} from "../../domain/Interest";
+import {Club} from "../../domain/Club";
+import {SaveClubDialogComponent} from "./save-club-dialog/save-club-dialog.component";
+
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
@@ -66,6 +63,7 @@ export class PortfolioComponent implements OnInit {
     private readonly milestoneService: MilestoneService,
 
     private readonly addProjectDialogue : MatDialog,
+    private readonly saveClubDialog: MatDialog,
     private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
     private readonly deleteDialog: MatDialog,
@@ -248,6 +246,37 @@ export class PortfolioComponent implements OnInit {
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
+
+
+  editClub(club: Club): void {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent,  {
+      data: club
+    });
+    dialogRef.afterClosed().subscribe((club?: Club)=> {
+      if (!club) return;
+      this.portfolioService.saveClub(club).subscribe(club => {
+          if (!this.user.studentDetails) {
+            this.user.studentDetails = StudentDetails.makeEmpty();
+          }
+          this.user.studentDetails.clubs = this.user.studentDetails.clubs.map(c => c.id === club.id ? club: c);
+        }
+      )
+    })
+
+
+  }
+  createClub(): void {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
+    dialogRef.afterClosed().subscribe((club?: Club)=> {
+      if (!club) return;
+      this.portfolioService.saveClub(club).subscribe(club =>
+        this.user.studentDetails?.clubs.push(club)
+      )
+
+    })
+  }
+
+
   createJob(): void {
     const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);
     dialogRef.afterClosed().subscribe((job?: Job) => {
@@ -295,6 +324,41 @@ export class PortfolioComponent implements OnInit {
     });
   }
 
+  deleteClub(club: Club) {
+    const dialogData: ConfirmationDialogData = {
+      entityId: club.id,
+      title: 'Delete Club?',
+      action: `delete the club ${club.name}`,
+      onConfirm: () => this.confirmDeleteClub(club)
+    }
+    this.saveClubDialog.open(ConfirmationDialogComponent, {
+      data: dialogData
+    })
+  }
+
+
+  confirmDeleteClub(club: Club) {
+    const alertDurationMs = 5000;
+    this.portfolioService.deleteClub(club.id)
+      .subscribe({
+        next: () => {
+          if (!this.user.studentDetails) {
+            this.user.studentDetails = StudentDetails.makeEmpty();
+          }
+          this.user.studentDetails.clubs = this.user.studentDetails?.clubs.filter((j) => j.id !== club.id);
+          this.deleteDialog.closeAll();
+          this.snackBar.open('Club deleted successfully.', 'Close', {
+            duration: alertDurationMs,
+          });
+        },
+        error: (error: unknown) => {
+          console.error(error);
+          this.snackBar.open('Failed to delete club.', 'Close', {
+            duration: alertDurationMs,
+          });
+        }
+    });
+  }
   deleteJob(job: Job) {
     const dialogData: ConfirmationDialogData = {
       entityId: job.id,
@@ -326,7 +390,7 @@ export class PortfolioComponent implements OnInit {
 
   formatDate(date: Date | null){
     if(!date){
-      return 'present'
+      return 'Ongoing'
     }
     return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
       date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});

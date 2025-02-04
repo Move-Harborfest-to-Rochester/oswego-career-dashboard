@@ -12,7 +12,7 @@ import { validateEndDateBeforeStartDate } from 'src/app/util/validation-utils';
   styleUrls: ['./save-job-dialog.component.less']
 })
 export class SaveJobDialogComponent {
-  title: string = 'Create Job';
+  title: string = 'Add Job';
 
   readonly today: Date = new Date();
   form!: FormGroup;
@@ -56,7 +56,6 @@ export class SaveJobDialogComponent {
   }
 
   saveJob(): void {
-      console.log(this.form.errors);
       if (this.form.invalid) {
         return;
       }
