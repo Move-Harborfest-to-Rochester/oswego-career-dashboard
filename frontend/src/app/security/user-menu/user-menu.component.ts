@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject, DestroyRef} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Role, User} from '../domain/user';
 import {LangUtils} from 'src/app/util/lang-utils';
@@ -59,7 +59,7 @@ export class UserMenuComponent implements OnInit {
   }
   toggleViewMode(): void {
     this.viewModeService.toggleViewMode();
-
+  }
 
   openEditBasacFaculty() {
     this.router.navigate(['/admin/edit-basac-faculty'])
