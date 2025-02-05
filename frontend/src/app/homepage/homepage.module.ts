@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HotlinkModule } from '../hotlink/hotlink.module';
 import { SupportSectionComponent } from './support-section/support-section.component';
 import { CareerSearchComponent } from './career-search/career-search.component';
+import {RouterLink} from "@angular/router";
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { CareerSearchComponent } from './career-search/career-search.component';
     MatButtonModule,
     MatIconModule,
     HotlinkModule,
+    RouterLink
   ]
 })
 export class HomepageModule { }
