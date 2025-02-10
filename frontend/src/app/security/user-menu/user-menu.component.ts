@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject, DestroyRef} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Role, User} from '../domain/user';
 import {LangUtils} from 'src/app/util/lang-utils';
@@ -7,6 +7,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {UserService} from "../user.service";
 import {ScreenSizeService} from "../../util/screen-size.service";
 import {map, Observable} from "rxjs";
+import { ViewModeService } from '../../util/view-mode.service';
 
 @Component({
   selector: 'app-user-menu',
@@ -14,32 +15,34 @@ import {map, Observable} from "rxjs";
   styleUrls: ['./user-menu.component.less']
 })
 export class UserMenuComponent implements OnInit {
-
+  private destroyRef = inject(DestroyRef);
   user: User = User.makeEmpty();
   profileURL: string | null = null;
   displayName$: Observable<boolean>;
+  isStudentView = false;
 
   constructor(
-    private readonly authService: AuthService,
+    public readonly authService: AuthService,
     private readonly router: Router,
     private readonly userService: UserService,
     private readonly screenSizeSvc: ScreenSizeService,
-    ) {
-    this.displayName$ = screenSizeSvc.screenSize$.pipe(map(it => it > 830));
-    this.authService.user$.pipe(takeUntilDestroyed()).subscribe((user) => {
-      if (LangUtils.exists(user)) {
-        this.user = user!;
-      }
-    });
-    this.userService.getProfilePicture()
-      .subscribe((url) => {
-        this.profileURL =url;
-      });
+    public readonly viewModeService: ViewModeService
+  ) {
+    this.displayName$ = this.screenSizeSvc.screenSize$.pipe(
+      map(size => size > 830)
+    );
   }
 
-
   ngOnInit(): void {
+    this.authService.user$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(user => {
+        if (user) this.user = user;
+      });
 
+    this.viewModeService.isStudentView$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(view => this.isStudentView = view);
   }
 
   logout() {
@@ -54,6 +57,9 @@ export class UserMenuComponent implements OnInit {
         }
       });
   }
+  toggleViewMode(): void {
+    this.viewModeService.toggleViewMode();
+  }
 
   openEditBasacFaculty() {
     this.router.navigate(['/admin/edit-basac-faculty'])
@@ -66,5 +72,6 @@ export class UserMenuComponent implements OnInit {
 
   userIsAdmin(): boolean {
     return [Role.Admin, Role.SuperAdmin].includes(this.user.role);
+
   }
 }

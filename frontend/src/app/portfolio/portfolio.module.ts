@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +12,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MilestonesModule } from '../milestones-page/milestones/milestones.module';
-import { EducationSectionModule } from './education-section/education-section.module';
 import { ResumeModule } from './resume/resume.module';
 import { DegreeProgramListInputModule } from './education-section/edit-education-dialog/degree-program-list-input/degree-program-list-input.module';
 import { SaveJobDialogModule } from './save-job-dialog/save-job-dialog.module';
@@ -26,6 +24,9 @@ import { SkillsListInputComponent } from './skills-section/edit-skills-dialog/sk
 import { AddProjectModalComponent } from './add-project-modal/add-project-modal.component';
 import { EditInterestsComponent } from './edit-interests/edit-interests.component';
 import { InterestListInputComponent } from './edit-interests/interest-list-input/interest-list-input.component';
+import { EducationSectionModule } from './education-section/education-section.module';
+import { HttpClientModule } from '@angular/common/http';
+import { SaveClubDialogComponent } from './save-club-dialog/save-club-dialog.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { InterestListInputComponent } from './edit-interests/interest-list-input
     AddProjectModalComponent,
     EditInterestsComponent,
     InterestListInputComponent,
+    SaveClubDialogComponent,
   ],
   exports: [],
   imports: [
@@ -49,6 +51,7 @@ import { InterestListInputComponent } from './edit-interests/interest-list-input
     HttpClientModule,
     DegreeProgramListInputModule,
     MatDialogModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatOptionModule,
