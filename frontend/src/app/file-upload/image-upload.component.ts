@@ -104,7 +104,7 @@ export class ImageUploadComponent implements OnInit {
           } else {
             this.artifactIdEmitter.next(artifactId);
             this.status = 'success';
-            this.closeModal(1000);
+            this.closeModal(1000, "Image upload successful");
           }
         });
       } else {
@@ -136,13 +136,16 @@ export class ImageUploadComponent implements OnInit {
     this.status = 'initial'
   }
 
-  closeModal(waitTime: number = 0) {
+  closeModal(waitTime: number = 0, message: string) {
     this.closeEmitter.emit(waitTime);
-    this._snackBar.open("Image upload Successful!", 'close', {
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      duration: 3000,
-    });
+    if (message){
+      this._snackBar.open(message, 'close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        duration: 3000,
+      });
+    }
+
   }
 
   removeImage() {
@@ -163,12 +166,7 @@ export class ImageUploadComponent implements OnInit {
     this.http.post(url, updateData).subscribe({
       next: (data) => {
         if (data) {
-          this._snackBar.open("Image Set to Default", 'close', {
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            duration: 3000,
-          });
-          this.closeModal();
+          this.closeModal(0, "Image removed and set to default");
         } else {
           console.error("No data returned from backend.");
         }

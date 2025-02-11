@@ -69,7 +69,7 @@ export class EventMainPageComponent implements OnInit {
     const modalDialog = this.matDialog.open(EventImageModalComponent, dialogConfig);
 
     modalDialog.afterClosed().subscribe(result => {
-
+      this.ngOnInit();  // refresh to show new event
     });
   }
 
