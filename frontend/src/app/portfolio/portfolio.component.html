@@ -200,7 +200,7 @@
                     {{job.description}}
                   </div>
                 </div>
-                <div class="actions">
+                <div class="actions" *ngIf="!this.external">
                   <button mat-mini-fab color="primary" (click)="editJob(job)">
                     <mat-icon>edit</mat-icon>
                   </button>
