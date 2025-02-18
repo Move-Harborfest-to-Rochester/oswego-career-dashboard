@@ -9,19 +9,22 @@
           <mat-expansion-panel [expanded]="!completedMilestones.includes(milestone.milestoneID)" class="milestone-panel">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-checkbox [disabled]="true" [checked]="completedMilestones.includes(milestone.milestoneID)" 
-                  color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
+                <label for="milestone name">
+                <mat-checkbox [disabled]="true" [checked]="completedMilestones.includes(milestone.milestoneID)"
+                  color="primary" (click)="$event.stopPropagation()" id="milestone name"></mat-checkbox>
+                </label>
                 {{milestone.name}}
               </mat-panel-title>
             </mat-expansion-panel-header>
               <mat-expansion-panel *ngFor="let task of milestone.tasks">
-
               <mat-expansion-panel-header #panelH (click)="panelH._toggle(); openTask(task)">
                 <div class="flex-vertical-align">
-                  <mat-checkbox [disabled]="true" [checked]="completedTasks.includes(task.taskID)" 
-                    color="primary" (click)="$event.stopPropagation()">
+                  <label for="task name">
+                  <mat-checkbox [disabled]="true" [checked]="completedTasks.includes(task.taskID)"
+                    color="primary" (click)="$event.stopPropagation()" id="task name">
                     {{task.name}}
                   </mat-checkbox>
+                  </label>
                 </div>
               </mat-expansion-panel-header>
               <div>{{task.description}}</div>
