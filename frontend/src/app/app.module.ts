@@ -55,6 +55,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
+import {EventModule} from "./event/event.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {EventsPageComponent} from "./events-page/events-page.component";
 
@@ -131,6 +132,7 @@ import {EventsPageComponent} from "./events-page/events-page.component";
     LogoLinkModule,
     MatIconModule,
     EditBasacFacultyModule,
+    EventModule,
     MatProgressSpinnerModule,
   ],
   providers: [
