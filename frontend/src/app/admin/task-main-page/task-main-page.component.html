@@ -1,19 +1,20 @@
 <mat-tab-group animationDuration="0ms">
-    <div class="year-container" *ngFor="let yearLevel of yearLevels">
-        <mat-tab label="{{yearLevel}}">
-            <mat-list>
-                <ng-container *ngFor="let task of taskMap.get(yearLevel)">
-                    <mat-list-item class="task-item">
-                        <p matListItemTitle>{{task.name}}</p>
-                        <p matListItemLine>{{task.description}}</p>
-                        <button mat-raised-button class="task-edit-button" (click)="openTaskEditModal(task.name, task)">EDIT</button>
-                    </mat-list-item>
-                </ng-container>
-                <!-- <mat-list-item class="new-task" (click)="openTaskEditModal(yearLevel, null)">
-                    Create New {{yearLevel}} Task
-                </mat-list-item> -->
-                <button mat-raised-button class="form-create-task-button" type='button' (click)="openTaskEditModal(yearLevel, null)">Create New {{yearLevel}} Task</button>
-            </mat-list>
-        </mat-tab>
-    </div>
-  </mat-tab-group>
+  <div class="year-container" *ngFor="let yearLevel of yearLevels">
+    <mat-tab label="{{yearLevel}}">
+      <div class="task-grid">
+        <ng-container *ngFor="let task of taskMap.get(yearLevel)">
+          <mat-card class="task-card">
+            <mat-card-title>{{task.name}}</mat-card-title>
+            <mat-card-content>{{task.description}}</mat-card-content>
+            <button mat-raised-button color="primary" class="task-edit-button" (click)="openTaskEditModal(task.name, task)">
+              EDIT
+            </button>
+          </mat-card>
+        </ng-container>
+      </div>
+      <button mat-raised-button class="form-create-task-button" type="button" (click)="openTaskEditModal(yearLevel, null)">
+        Create New {{yearLevel}} Task
+      </button>
+    </mat-tab>
+  </div>
+</mat-tab-group>
