@@ -16,8 +16,8 @@ public enum Endpoints {
     EVENTS("events", true),
     EDIT_EVENT("admin/edit-event", true, Role.Admin),
     CREATE_EVENT("admin/create-event", true, Role.Admin),
-    DASHBOARD_EVENTS("dashboard-events", true),
-    DASHBOARD_TASKS("dashboard-tasks", true),
+    HOMEPAGE_EVENTS("homepage-events", true),
+    HOMEPAGE_TASKS("homepage-tasks", true),
 
     // Tasks
     TASKS("tasks", true),
@@ -38,6 +38,28 @@ public enum Endpoints {
     SEARCH_USERS("users/search", true, Role.Faculty),
     PORTFOLIO("portfolio", true),
 
+    // Projects
+    PROJECTS("projects", true),
+    PROJECTS_ID("projects/{id}", true),
+
+    // Portfolio
+    EDUCATION("student/education", true),
+    PERSONAL_INFO("personal-info", true),
+
+
+    // Edit student Details, used for skills and clubs.
+    EDIT_SKILLS("student/skills", true),
+
+    EDIT_INTERESTS("student/interests", true),
+
+    // Jobs
+    JOBS("jobs", true),
+    JOBS_ID("jobs/{id}", true),
+
+    // Clubs
+    CLUBS("clubs", true),
+    CLUBS_ID("clubs/{id}", true),
+
     // Submissions
     SUBMISSION("tasks/submission", true),
     LATEST_SUBMISSION("tasks/submission/{taskId}", true),
@@ -54,6 +76,8 @@ public enum Endpoints {
     RESUME("portfolio/resume", true),
     ARTIFACT_LIST("portfolio/artifacts", true),
     SINGLE_ARTIFACT("portfolio/{artifactID}", true),
+
+    BASAC_OFFICE_FACULTY("basac-office-faculty", true, Role.Admin),
 
     // Security
     SIGNIN("auth/signin", false),

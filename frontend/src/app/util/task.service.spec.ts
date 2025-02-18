@@ -47,12 +47,12 @@ describe('TaskService', () => {
     request.flush(Array(taskJSON));
   });
 
-  it('getDashboardTasks should return list of tasks', () => {
+  it('getHomepageTasks should return list of tasks', () => {
     const tasks = Array(new Task(taskJSON));
-    service.getDashBoardTasks(1).subscribe((result: any) => {
+    service.getHomepageTasks(1).subscribe((result: any) => {
       expect(result).toEqual(tasks);
     });
-    const request = httpMock.expectOne(constructBackendRequest(Endpoints.DASHBOARD_TASKS, {key:'limit', value:1}));
+    const request = httpMock.expectOne(constructBackendRequest(Endpoints.HOMEPAGE_TASKS, {key:'limit', value:1}));
     expect(request.request.method).toEqual('GET');
     request.flush(Array(taskJSON));
   });

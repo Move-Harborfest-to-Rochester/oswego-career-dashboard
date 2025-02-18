@@ -1,0 +1,41 @@
+<div class="page-container">
+  <h1>Home</h1>
+  <div class="hotlinks">
+    <hotlink
+      title="Upcoming Events"
+      description="View upcoming career-related events"
+      icon="event"
+    ></hotlink>
+    <hotlink
+      title="Portfolio"
+      description="View your portfolio"
+      icon="folder_open"
+      link="/portfolio"
+    ></hotlink>
+    <hotlink
+      title="Milestones"
+      description="View your progress on milestones"
+      icon="task_alt"
+      link="/milestones"
+    ></hotlink>
+    <hotlink
+      title="Add a Resume"
+      description="Upload a new resume to your profile"
+      icon="upload_file"
+      link="/portfolio"
+      fragment="resume"
+    ></hotlink>
+  </div>
+  <div class="carousel-container">
+    <app-events></app-events>
+  </div>
+
+  <div class ="career-section">
+    <app-career-search></app-career-search>
+  </div>
+    <div class ="support-section">
+    <app-support-section></app-support-section>
+
+  </div>
+
+</div>

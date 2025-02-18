@@ -1,5 +1,4 @@
 @import "../../../common";
-
 .user-container {
   height: 100%;
   display: flex;
@@ -40,17 +39,35 @@
 }
 
 .menu-content {
-  padding: 5px 10px;
-}
+  padding: 8px 0;
+  min-width: 200px;
 
-.ai-button {
-  ::ng-deep span {
-    align-items: center;
-    display: flex;
+  .mat-menu-item {
+    gap: 12px;
+    height: 40px;
+    line-height: 40px;
+
+    &.view-toggle-button {
+      border-bottom: 1px solid var(--divider-color);
+      margin-bottom: 4px;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    mat-icon {
+      margin-right: 8px;
+      color: var(--text-secondary);
+    }
+
+    span {
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    &:hover {
+      background-color: var(--hover-bg);
+    }
   }
-
-  .ai-img {
-    margin-left: -6px;
-  }
 }
-

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomepageComponent } from './homepage/homepage.component';
 import { PortfolioComponent } from "./portfolio/portfolio.component";
 import { ApiDocumentationsComponent } from "./api-documentations/api-documentations.component";
 import { LoginPageComponent } from './security/login-page/login-page.component';
@@ -16,13 +16,15 @@ import {NotFoundComponent} from "./not-found/not-found.component";
 import { MilestonesComponent } from './milestones-page/milestones/milestones.component';
 import { MilestonesFacultyComponent } from './milestones-page/milestones-faculty/milestones-faculty.component';
 import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
-
+import {EditBasacFacultyComponent} from "./admin/edit-basac-faculty/edit-basac-faculty.component";
+import {EventsPageComponent} from "./events-page/events-page.component";
 
 const studentRoutes: Routes = [
-  {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: '', component: HomepageComponent, canActivate: [authGuard]},
   {path: 'portfolio', component: PortfolioComponent, canActivate: [authGuard]},
   {path: 'settings', component: SettingsPageComponent, canActivate: [authGuard]},
   {path: 'milestones', component: MilestonesComponent, canActivate: [authGuard]},
+  {path: 'events/:id', component: EventsPageComponent, canActivate: [authGuard]},
 ]
 
 const facultyRoutes: Routes = [
@@ -38,6 +40,7 @@ const adminRoutes: Routes = [
   {path: 'admin/milestone-edit/:name', component: MilestoneEditComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/tasks', component: TaskMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/events', component: EventMainPageComponent, canActivate: [authGuard, adminRoleGuard]},
+  {path: 'admin/edit-basac-faculty', component: EditBasacFacultyComponent, canActivate: [authGuard, adminRoleGuard]},
   {path: 'admin/analytics', component: AnalyticsDashboardComponent, canActivate: [authGuard, adminRoleGuard]},
 ]
 

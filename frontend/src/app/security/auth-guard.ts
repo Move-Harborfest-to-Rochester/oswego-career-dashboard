@@ -95,5 +95,5 @@ export const signedUpGuard: CanActivateFn = (
 function homePage(user: User, next: ActivatedRouteSnapshot) {
     if (user.hasAdminPrivileges()) return createUrlTreeFromSnapshot(next.root, ['admin']);
     else if (user.hasFacultyPrivileges()) return createUrlTreeFromSnapshot(next.root, ['faculty', 'users']);
-    else return createUrlTreeFromSnapshot(next.root, ['dashboard']);
+    else return createUrlTreeFromSnapshot(next.root, ['']);
 }

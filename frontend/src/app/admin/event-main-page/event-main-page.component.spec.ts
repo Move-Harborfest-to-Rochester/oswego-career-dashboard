@@ -6,7 +6,7 @@ import {MatDialog, MatDialogConfig, MatDialogModule, MatDialogRef} from '@angula
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { Event } from "../../../domain/Event";
-import { EventService } from 'src/app/dashboard/events/event.service';
+import { EventService } from 'src/app/homepage/events/event.service';
 import { of } from 'rxjs';
 import { EventEditModalComponent } from '../event-edit-modal/event-edit-modal.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -118,7 +118,8 @@ describe('EventMainPageComponent', () => {
     dialogConfig.height = "75%";
     dialogConfig.width = "500px";
     dialogConfig.data = {
-      event: testEvent
+      event: testEvent,
+      hasImage: true
     }
 
     expect(component.matDialog.open).toHaveBeenCalledWith(EventImageModalComponent, dialogConfig);

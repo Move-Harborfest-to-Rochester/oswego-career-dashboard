@@ -1,7 +1,7 @@
 export interface InterestJSON{
     id: string;
     name: string;
-    studentDetailsID: string;
+    studentDetailsID?: string;
 }
 
 export class Interest{
@@ -14,7 +14,7 @@ export class Interest{
 
     id: string;
     name: string;
-    studentDetailsID: string;
+    studentDetailsID?: string;
 
     static makeEmpty(){
         return new Interest({

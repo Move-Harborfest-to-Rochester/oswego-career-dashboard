@@ -6,7 +6,7 @@ import { FormControl, FormGroup, FormArray, Validators, FormBuilder, AbstractCon
 import { Task, TaskType } from 'src/domain/Task';
 import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
 import { HttpClient } from '@angular/common/http';
-import { EventService } from 'src/app/dashboard/events/event.service';
+import { EventService } from 'src/app/homepage/events/event.service';
 import { Event } from 'src/domain/Event';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
