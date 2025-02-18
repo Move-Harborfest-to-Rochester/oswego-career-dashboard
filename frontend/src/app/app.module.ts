@@ -56,6 +56,8 @@ import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
 import {EventModule} from "./event/event.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {EventsPageComponent} from "./events-page/events-page.component";
 
 
 @NgModule({
@@ -64,6 +66,7 @@ import {EventModule} from "./event/event.module";
     ApiDocumentationsComponent,
     NavbarComponent,
     NotFoundComponent,
+    EventsPageComponent
 
   ],
   imports: [
@@ -129,7 +132,8 @@ import {EventModule} from "./event/event.module";
     LogoLinkModule,
     MatIconModule,
     EditBasacFacultyModule,
-    EventModule
+    EventModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideHttpClient(),

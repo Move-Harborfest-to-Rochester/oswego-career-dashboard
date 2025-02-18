@@ -1,14 +1,21 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
-import { UserMenuComponent } from './user-menu.component';
-import { AuthService } from '../auth.service';
-import { of } from 'rxjs';
-import { User} from '../domain/user';
+import {UserMenuComponent} from './user-menu.component';
+import {AuthService} from '../auth.service';
+import {of} from 'rxjs';
+import {User} from '../domain/user';
 import {Router} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
-import { userJSON } from '../auth.service.spec';
+import {userJSON} from '../auth.service.spec';
 import {UserService} from "../user.service";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {FormsModule} from "@angular/forms";
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent;
@@ -24,7 +31,7 @@ describe('UserMenuComponent', () => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate'])
     TestBed.configureTestingModule({
       declarations: [UserMenuComponent],
-      imports: [MatMenuModule, MatIconModule],
+      imports: [MatMenuModule, MatIconModule, MatSlideToggleModule, FormsModule],
       providers: [
         {provide: AuthService, useValue: authServiceSpy},
         {provide: Router, useValue: routerSpy},

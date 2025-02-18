@@ -41,14 +41,24 @@ public enum Endpoints {
     // Projects
     PROJECTS("projects", true),
     PROJECTS_ID("projects/{id}", true),
-  
+
     // Portfolio
     EDUCATION("student/education", true),
     PERSONAL_INFO("personal-info", true),
 
+
+    // Edit student Details, used for skills and clubs.
+    EDIT_SKILLS("student/skills", true),
+
+    EDIT_INTERESTS("student/interests", true),
+
     // Jobs
     JOBS("jobs", true),
     JOBS_ID("jobs/{id}", true),
+
+    // Clubs
+    CLUBS("clubs", true),
+    CLUBS_ID("clubs/{id}", true),
 
     // Submissions
     SUBMISSION("tasks/submission", true),

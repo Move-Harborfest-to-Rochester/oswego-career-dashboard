@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="saveClub()">
+    <div class="form-field-container">
+      <mat-form-field>
+        <mat-label for="name">Name</mat-label>
+        <input matInput formControlName="name" id="name" required />
+        <mat-error *ngIf="form.get('name')?.hasError('required')" required>Title is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="startDate">Start Date</mat-label>
+        <input matInput [max]="today" [matDatepicker]="startDatePicker" formControlName="startDate" id="startDate" required />
+        <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error *ngIf="form.get('startDate')?.hasError('required')" required>Start date is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="endDate">End Date</mat-label>
+        <input matInput [max]="today" [matDatepicker]="endDatePicker" formControlName="endDate" id="endDate" />
+        <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-error *ngIf="hasError('endDateBeforeStartDate')">
+        End date must not be before start date.
+      </mat-error>
+    </div>
+    <mat-dialog-actions>
+      <button mat-button type="button" (click)="close()">Cancel</button>
+      <button mat-button type="submit" (click)="saveClub()">Save</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

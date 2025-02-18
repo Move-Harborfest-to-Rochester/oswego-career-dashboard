@@ -17,6 +17,8 @@ public class PortfolioRouter {
     @Bean
     RouterFunction<ServerResponse> portfolioRoutes(PortfolioHandler portfolioHandler) {
         return route(PATCH(Endpoints.PERSONAL_INFO.uri()), portfolioHandler::savePersonalInfo)
-            .and(route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation));
+            .and(route(PUT(Endpoints.EDUCATION.uri()), portfolioHandler::saveEducation))
+            .andRoute(PUT(Endpoints.EDIT_SKILLS.uri()), portfolioHandler::saveSkills)
+            .andRoute(PUT(Endpoints.EDIT_INTERESTS.uri()), portfolioHandler::saveInterest);
     }
 }

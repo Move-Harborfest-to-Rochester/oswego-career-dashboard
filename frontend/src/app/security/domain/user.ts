@@ -113,6 +113,8 @@ export class User {
       ];
     }
 
+
+
     get formattedRole(): string {
       if (this.role === Role.SuperAdmin) {
         return 'Super Admin';
@@ -148,6 +150,7 @@ export class User {
         this.studentDetails.description = personalInfo.description ?? '';
       }
     }
+
 }
 
 export enum Role {
