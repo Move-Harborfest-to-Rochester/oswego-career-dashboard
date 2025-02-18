@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/dashboard/events/event.service';
+import { EventService } from 'src/app/homepage/events/event.service';
 import { Event } from "../../../domain/Event";
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { EventEditModalComponent } from '../event-edit-modal/event-edit-modal.component';
@@ -62,16 +62,15 @@ export class EventMainPageComponent implements OnInit {
     dialogConfig.height = "75%";
     dialogConfig.width = "500px";
     dialogConfig.data = {
-      event: event
+      event: event,
+      hasImage: !!event?.imageId
     }
 
     const modalDialog = this.matDialog.open(EventImageModalComponent, dialogConfig);
 
     modalDialog.afterClosed().subscribe(result => {
-      if (result != null) {
-        event.imageId = result;
-      }
-    })
+      this.ngOnInit();  // refresh to show new event
+    });
   }
 
   protected readonly Endpoints = Endpoints;

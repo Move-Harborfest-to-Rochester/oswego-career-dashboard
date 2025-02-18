@@ -145,11 +145,11 @@ public class TaskService {
     }
 
     /**
-     * Retrieves list of tasks for the dashboard
+     * Retrieves list of tasks for the homepage
      * @param limit limit of tasks to return. limit for overdue tasks is half the limit
      * @return A Flux of upcoming tasks
      */
-    public Flux<Task> dashboard(int limit) {
+    public Flux<Task> homepage(int limit) {
         return currentUserUtil.getCurrentUser()
                 .flatMapMany((user) -> {
                     var studentDetails = user.getStudentDetails();
@@ -162,11 +162,11 @@ public class TaskService {
                         int upcomingLimit = limit - overdueLimit;
                         var previousYears = studentDetails.getYearLevel().previousYears();
                         var upcomingYears = studentDetails.getYearLevel().currentAndUpcomingYears();
-                        var overdueTasks = taskRepository.findTasksToDisplayOnDashboard(previousYears, user.getId(), overdueLimit);
+                        var overdueTasks = taskRepository.findTasksToDisplayOnHomepage(previousYears, user.getId(), overdueLimit);
                         if (overdueTasks.size() != overdueLimit) {
                             upcomingLimit = limit - overdueTasks.size();
                         }
-                        var upcomingTasks = taskRepository.findTasksToDisplayOnDashboard(upcomingYears, user.getId(), upcomingLimit);
+                        var upcomingTasks = taskRepository.findTasksToDisplayOnHomepage(upcomingYears, user.getId(), upcomingLimit);
                         overdueTasks.addAll(upcomingTasks);
                         return overdueTasks;
                     });

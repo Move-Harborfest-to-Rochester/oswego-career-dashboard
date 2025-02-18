@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { FileUploadModule } from 'src/app/file-upload/file-upload.module';
 import { DeleteResumeConfirmationDialogModule } from '../delete-resume-confirmation-dialog/delete-resume-confirmation-dialog.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -25,7 +26,8 @@ import { DeleteResumeConfirmationDialogModule } from '../delete-resume-confirmat
     MatDialogModule,
     PdfViewerModule,
     DeleteResumeConfirmationDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterModule
   ],
   exports: [ResumeComponent]
 })

@@ -15,8 +15,8 @@ describe('TasksComponent', () => {
   let component: TasksComponent;
   let fixture: ComponentFixture<TasksComponent>;
   let authSvcSpy: jasmine.SpyObj<AuthService> = createSpyObj('AuthService', [], {user$: of(new User(userJSON))})
-  let tasksServiceSpy: jasmine.SpyObj<TaskService> = createSpyObj('TaskService', ['getDashBoardTasks']);
-  tasksServiceSpy.getDashBoardTasks.and.returnValue(of(Array(new Task({
+  let tasksServiceSpy: jasmine.SpyObj<TaskService> = createSpyObj('TaskService', ['getHomepageTasks']);
+  tasksServiceSpy.getHomepageTasks.and.returnValue(of(Array(new Task({
     name: "name",
     description: "",
     id: 1,

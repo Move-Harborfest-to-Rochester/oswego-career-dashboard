@@ -1,5 +1,6 @@
 package com.senior.project.backend.users;
 
+import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.util.NonBlockingExecutor;
 import com.senior.project.backend.domain.Role;
 import com.senior.project.backend.domain.User;
@@ -31,6 +32,9 @@ import java.util.UUID;
 public class UserService implements ReactiveUserDetailsService {
     @Autowired
     private UserRepository repository;
+    
+    @Autowired
+    private CurrentUserUtil currentUserUtil;
 
     /**
      * Gets all users from the database
@@ -57,7 +61,19 @@ public class UserService implements ReactiveUserDetailsService {
      */
     public Mono<User> findById(UUID id) {
         return NonBlockingExecutor.execute(()->repository.findById(id))
-                .flatMap((user) -> user.<Mono<? extends User>>map(Mono::just).orElseGet(Mono::empty));
+                .flatMap((user) -> user.<Mono<? extends User>>map(Mono::just).orElseGet(Mono::empty))
+                .switchIfEmpty(Mono.empty())
+                .flatMap(user -> currentUserUtil.getCurrentUser()
+                    .flatMap((currentUser) -> {
+                        if (!user.getId().equals(currentUser.getId())) {
+                            hideSensitiveUserInfo(user);
+                        }
+                        return Mono.just(user);
+                    }));
+    }
+
+    private void hideSensitiveUserInfo(User user) {
+        user.setPhoneNumber("");
     }
 
     /**

@@ -37,5 +37,5 @@ export class Event {
   isComplete: boolean;
   eventLink: string;
   buttonLabel: string;
-  imageId: number;
+  imageId: number | null;
 }

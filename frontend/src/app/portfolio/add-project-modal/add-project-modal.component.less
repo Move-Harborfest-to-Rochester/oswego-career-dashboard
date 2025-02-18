@@ -1,0 +1,81 @@
+@import "../../../common";
+
+h1 {
+  font-size: x-large;
+  color: @oswego-green;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.add-project-container {
+  .project-input {
+    display: flex;
+    justify-content: center;
+  }
+  .form-buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+    padding-bottom: 10px;
+  }
+  .submit-button {
+    background-color: @oswego-green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(@oswego-green, 20%);
+    }
+  }
+  .close-button {
+    background-color: lightgrey;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(red, 8%);
+      color: white
+    }
+  }
+
+}
+
+
+
+.mat-dialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.add-project-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+
+
+  form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}

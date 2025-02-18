@@ -52,7 +52,7 @@ describe('AuthInterceptor', () => {
     });
 
     it ('proceed as normal if token is null', (done) => {
-        const request = new HttpRequest('GET', Endpoints.DASHBOARD_EVENTS);
+        const request = new HttpRequest('GET', Endpoints.HOMEPAGE_EVENTS);
 
         CuT.intercept(request, new DummyHandler()).subscribe((res) => {
             const req = (res as any)['request'] as HttpRequest<any>;
@@ -65,7 +65,7 @@ describe('AuthInterceptor', () => {
 
     it ('update request if token exists', (done) => {
         (authServiceSpy as any).getToken.and.returnValue(token);
-        const request = new HttpRequest('GET', Endpoints.DASHBOARD_EVENTS);
+        const request = new HttpRequest('GET', Endpoints.HOMEPAGE_EVENTS);
 
         CuT.intercept(request, new DummyHandler()).subscribe((res) => {
             const req = (res as any)['request'] as HttpRequest<any>;

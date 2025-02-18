@@ -1,0 +1,55 @@
+@import "../../common";
+
+.title-container {
+  color: @oswego-green;
+  padding: 2vh;
+  height: fit-content;
+  width: fit-content;
+  font-weight: bold;
+
+  :hover {
+    cursor: pointer;
+  }
+
+  .title {
+    font-size: 22px;
+    width: 100%;
+    text-align: center;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 920px) {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  @media (max-width: 700px) {
+    padding-bottom: 0;
+    padding-top: 40px;
+  }
+
+  @media (max-width: 629px) {
+    padding-top: 25px;
+  }
+
+  @media (max-width: 500px) {
+    padding-top: 0;
+  }
+}
+
+.logo {
+  margin: 0 20px;
+
+  @media (max-width: 700px) {
+    margin: 0;
+  }
+
+  app-oswego-logo {
+    display: inline-block;
+    height: 100px;
+    padding: 1vh;
+  }
+}

@@ -1,0 +1,40 @@
+<div class ='add-project-container'>
+
+  <div class="add-project-header">
+    <h1>{{ header }}</h1>
+  </div>
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <div class="project-inputs">
+    <mat-form-field>
+        <input [max]="today" matInput placeholder="Project Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input [max]="today" matInput placeholder="Start Date" formControlName="startDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="projectForm.get('startDate')?.hasError('required')" required>Start date is required.</mat-error>
+      </mat-form-field>
+
+    <mat-form-field>
+        <input [max]="today" matInput placeholder="End Date" formControlName="endDate" [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-error *ngIf="hasError('endDateBeforeStartDate')">
+      End date must not be before start date.
+    </mat-error>
+  </div>
+    <div class="form-buttons">
+      <div class="close-button">
+        <button mat-button type="button" (click)="onClose()">Close</button>
+      </div>
+      <div class="submit-button">
+        <button mat-button style="color: white;" type="submit">Submit</button>
+      </div>
+    </div>
+</form>
+</div>

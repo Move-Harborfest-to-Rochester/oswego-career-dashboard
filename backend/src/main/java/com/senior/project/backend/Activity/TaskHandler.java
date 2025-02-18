@@ -87,10 +87,10 @@ public class TaskHandler {
      * @param request Http request from the frontend. Must include query param for limit of tasks to return
      * @return ServerResponse containing a list of upcoming tasks
      */
-    public Mono<ServerResponse> dashboard(ServerRequest request) {
+    public Mono<ServerResponse> homepage(ServerRequest request) {
         try {
             int limit = Integer.parseInt(request.queryParam("limit").orElseThrow());
-            return ServerResponse.ok().body(taskService.dashboard(limit), Task.class);
+            return ServerResponse.ok().body(taskService.homepage(limit), Task.class);
         } catch (NoSuchElementException | NumberFormatException e) {
             return ServerResponse.badRequest().bodyValue("Invalid Query Param for \"limit\"");
         }

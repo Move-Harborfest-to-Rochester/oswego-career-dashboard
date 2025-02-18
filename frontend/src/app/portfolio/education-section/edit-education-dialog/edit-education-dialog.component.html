@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<h2 mat-dialog-title>{{ title }}</h2>
+<form (ngSubmit)="saveChanges()" [formGroup]="form">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label for="universityId">University ID</mat-label>
+      <input
+        formControlName="universityId"
+        id="universityId"
+        matInput
+        type="text"
+      />
+      <mat-error *ngIf="form.controls['universityId'].hasError('notInteger')">
+        Please specify a valid university ID.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="year">Year</mat-label>
+      <mat-select formControlName="year" id="year">
+        <mat-option *ngFor="let year of yearLevels" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="gpa">GPA</mat-label>
+      <input formControlName="gpa" id="gpa" matInput type="text"/>
+      <mat-error *ngIf="form.controls['gpa'].hasError('invalidNumber')">
+        Please specify a valid GPA.
+      </mat-error>
+    </mat-form-field>
+    <multi-major-input
+      [formArray]="majors"
+      [formGroup]="form"
+      [majorNameValidators]="majorNameValidators"
+      formArrayName="majors"
+      id="majors"
+      label="Majors"
+    />
+    <degree-program-list-input
+      [defaultValue]="getDefaultDegreeProgramOperation(true)"
+      [formArray]="minors"
+      [formGroup]="form"
+      addText="Add Minor"
+      formArrayName="minors"
+      id="minors"
+      label="Minors"
+    />
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button (click)="closeDialog()" [disabled]="isSubmitting" mat-button
+            type="button">Cancel
+    </button>
+    <button [disabled]="!form.valid || isSubmitting" mat-button type="submit">
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

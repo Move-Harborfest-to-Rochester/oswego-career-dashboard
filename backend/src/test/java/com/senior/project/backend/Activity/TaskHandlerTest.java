@@ -41,7 +41,7 @@ public class TaskHandlerTest {
     public void setup() {
         webTestClient = WebTestClient.bindToRouterFunction(RouterFunctions.route()
                         .GET("/api/tasks", taskHandler::all)
-                        .GET("/api/dashboard_tasks", taskHandler::dashboard)
+                        .GET("/api/homepage_tasks", taskHandler::homepage)
                         .POST("/edit", taskHandler::update)
                         .POST("/create", taskHandler::create)
                         .GET("/test/{id}", taskHandler::getById)
@@ -67,7 +67,7 @@ public class TaskHandlerTest {
     }
 
     @Test
-    public void testDashboard() {
+    public void testHomepage() {
         //currently this is the same test as /tasks
         Task task1 = new Task();
         task1.setId(1L);
@@ -77,9 +77,9 @@ public class TaskHandlerTest {
         task3.setId(3L);
         Flux<Task> taskFlux = Flux.just(task1, task2, task3);
         var limit = 3;
-        when(taskService.dashboard(limit)).thenReturn(taskFlux);
+        when(taskService.homepage(limit)).thenReturn(taskFlux);
         List<Task> result = webTestClient.method(HttpMethod.GET)
-                .uri("/api/dashboard_tasks?limit="+limit).exchange().expectStatus().isOk()
+                .uri("/api/homepage_tasks?limit="+limit).exchange().expectStatus().isOk()
                 .expectBodyList(Task.class).returnResult().getResponseBody();
         assertNotNull(result);
         assertEquals(3, result.size());

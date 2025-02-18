@@ -20,6 +20,7 @@ import { task } from 'src/app/util/task.service.spec';
 import { Submission } from 'src/domain/Submission';
 import { DeleteResumeConfirmationDialogComponent } from '../delete-resume-confirmation-dialog/delete-resume-confirmation-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ResumeComponent', () => {
   let component: ResumeComponent;
@@ -44,8 +45,10 @@ describe('ResumeComponent', () => {
   let submissionService = jasmine.createSpyObj('SubmissionService', ['getLatestSubmission']);
   let taskService = jasmine.createSpyObj('TaskService', ['findById']);
   let authService = jasmine.createSpyObj('AuthService', ['toString'], {user$:of(new User(userJSON))});
+  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
 
   beforeEach(() => {
+    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', [], {fragment: of('')});
     submissionService.getLatestSubmission.and.returnValue(of({...submission1JSON, artifactId: 2}));
     taskService.findById.and.returnValue(of(task));
     matDialog.open.and.returnValue(matDialogRef);
@@ -68,7 +71,8 @@ describe('ResumeComponent', () => {
         {provide: ArtifactService, useValue: artifactSvc},
         {provide: SubmissionService, useValue: submissionService},
         {provide: TaskService, useValue: taskService},
-        {provide: AuthService, useValue: authService}
+        {provide: AuthService, useValue: authService},
+        { provide: ActivatedRoute, useValue: activatedRouteSpy }
       ]
     });
     fixture = TestBed.createComponent(ResumeComponent);
@@ -79,6 +83,29 @@ describe('ResumeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open dialog on resume fragment', fakeAsync(() => {
+    Object.defineProperty(activatedRouteSpy, 'fragment', { get: () => of('resume') });
+    component.fetchCurrentArtifact = () => {};
+
+    spyOn(component, 'openDialog');
+
+    component.ngOnInit();
+    tick(1000);
+
+    expect(component.openDialog).toHaveBeenCalled();
+  }));
+
+  it('should not open dialog on no resume fragment', fakeAsync(() => {
+    component.fetchCurrentArtifact = () => {};
+
+    spyOn(component, 'openDialog');
+
+    component.ngOnInit();
+    tick(1000);
+
+    expect(component.openDialog).not.toHaveBeenCalled();
+  }));
 
   it('open dialog', fakeAsync(() => {
     component.openDialog();
