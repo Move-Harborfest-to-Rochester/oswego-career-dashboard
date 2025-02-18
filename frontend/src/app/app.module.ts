@@ -43,7 +43,7 @@ import { FooterModule } from './footer/footer.module';
 import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
 import { FormsModule } from '@angular/forms';
 import { SettingsPageModule } from './settings/settings-page.module';import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
 
 
