@@ -42,6 +42,7 @@ public class SecurityConfig {
         http.cors(c -> c.configurationSource(corsConfigurationSource()));
         http.authorizeExchange(e -> {
             e.pathMatchers(Endpoints.getOpenRoutes()).permitAll();
+            e.pathMatchers("/api/stats/**").permitAll();
             e.pathMatchers(Endpoints.getAdminRoutes()).hasAuthority(Role.Admin.toString());
             e.pathMatchers("/api/**").authenticated();
             e.anyExchange().permitAll();
@@ -77,4 +78,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

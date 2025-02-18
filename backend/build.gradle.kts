@@ -57,6 +57,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.mockito:mockito-core")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("mysql:mysql-connector-java")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
 }
 
 tasks.withType<Test> {

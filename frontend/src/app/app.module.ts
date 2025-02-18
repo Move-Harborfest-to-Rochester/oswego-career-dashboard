@@ -14,7 +14,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,9 +48,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { FooterModule } from './footer/footer.module';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
+import { FormsModule } from '@angular/forms';
 import { SettingsPageModule } from './settings/settings-page.module';import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
-import {MatSnackBar} from "@angular/material/snack-bar";
-
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersPageModule } from './users-page/users-page.module';
 import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-faculty.module";
@@ -59,20 +59,20 @@ import {EventModule} from "./event/event.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {EventsPageComponent} from "./events-page/events-page.component";
 
-
 @NgModule({
   declarations: [
     AppComponent,
     ApiDocumentationsComponent,
     NavbarComponent,
     NotFoundComponent,
+    AnalyticsDashboardComponent,
     EventsPageComponent
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     MsalModule.forRoot(
       new PublicClientApplication({
         auth: {

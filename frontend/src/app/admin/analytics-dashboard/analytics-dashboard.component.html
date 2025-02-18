@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="left-bar">
+    <div class="title">Major</div>
+    <div class="separator"></div>
+
+    <!-- Major Selector -->
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="option1" value="All" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        All
+      </label>
+      <label>
+        <input type="radio" name="option1" value="Accounting" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Accounting
+      </label>
+      <label>
+        <input type="radio" name="option1" value="BusinessAdministration" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Business Administration
+      </label>
+      <label>
+        <input type="radio" name="option1" value="Finance" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Finance
+      </label>
+      <label>
+        <input type="radio" name="option1" value="HumanResourceManagement" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        HR Management
+      </label>
+      <label>
+        <input type="radio" name="option1" value="Marketing" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Marketing
+      </label>
+      <label>
+        <input type="radio" name="option1" value="OperationsManagementAndInformationSystems" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Information Systems
+      </label>
+      <label>
+        <input type="radio" name="option1" value="RiskManagementAndInsurance" [(ngModel)]="selectedOption1" (change)="onRadioChange(selectedOption1)"/>
+        Risk Management
+      </label>
+    </div>
+
+    <div class="title">Insight</div>
+    <div class="separator"></div>
+
+    <!-- Insight Selector -->
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="option2" value="Resume" [(ngModel)]="selectedOption2" (change)="onRadioChange2(selectedOption2)"/>
+        Submitted Resume
+      </label>
+      <label>
+        <input type="radio" name="option2" value="Internship" [(ngModel)]="selectedOption2" (change)="onRadioChange2(selectedOption2)"/>
+        Completed Internship
+      </label>
+      <label>
+        <input type="radio" name="option2" value="InternshipThisYear" [(ngModel)]="selectedOption2" (change)="onRadioChange2(selectedOption2)"/>
+        Completed Internship This Year
+      </label>
+      <label>
+        <input type="radio" name="option2" value="InternshipLastYear" [(ngModel)]="selectedOption2" (change)="onRadioChange2(selectedOption2)"/>
+        Completed Internship Last Year
+      </label>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class ="top">
+
+      <div class="pie">
+        <p>Pumpkin Pie</p>
+
+      </div>
+
+      <div class="tablebg">
+        <table class="table" border="2" style="table-layout: fixed; width: 100%;">
+          <thead>
+          <tr>
+            <th>Year</th>
+            <th>Total</th>
+            <th>Yes</th>
+            <th>No</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of apiData">
+            <th>{{ row.year }}</th>
+            <td>{{ row.total }}</td>
+            <td>{{ row.yes }}</td>
+            <td>{{ row.no }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <div class="bar">
+      <p>Bar</p>
+    </div>
+  </div>
+
+</div>
