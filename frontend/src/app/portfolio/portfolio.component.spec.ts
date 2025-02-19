@@ -13,9 +13,6 @@ import {AuthService} from '../security/auth.service';
 import {UserService} from '../security/user.service';
 import {User} from '../security/domain/user';
 import {ResumeComponent} from './resume/resume.component';
-import {MilestoneService} from "../milestones-page/milestones/milestone.service";
-import {Milestone} from "../../domain/Milestone";
-import {milestone1JSON} from "../milestones-page/milestones/milestones.component.spec";
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {EducationSectionModule} from './education-section/education-section.module';
@@ -30,14 +27,8 @@ import {ResumeModule} from "./resume/resume.module";
 import {ProjectService} from "./project/project.service";
 import {PortfolioService} from "./portfolio.service";
 import {JobService} from "./job/job.service";
+import {LangUtils} from "../util/lang-utils";
 
-// Dummy classes for the dialog components used in the PortfolioComponent.
-class EditInterestsComponent {}
-class EditSkillsDialogComponent {}
-class EditPersonalInfoDialogComponent {}
-class ConfirmationDialogComponent {}
-
-// Dummy data for a user. (Adjust this as needed.)
 const userJSON = {
   id: 'user-1',
   firstName: 'Test',
@@ -194,7 +185,7 @@ describe('PortfolioComponent - Full Coverage', () => {
         EducationSectionModule,
       ],
       declarations: [PortfolioComponent,
-      MockComponent(ResumeComponent),
+        MockComponent(ResumeComponent),
         MockComponent(MilestonesComponent)],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
@@ -316,6 +307,8 @@ describe('PortfolioComponent - Full Coverage', () => {
       expect(portfolioServiceSpy.saveSkills).not.toHaveBeenCalled();
       expect(component.user.studentDetails!.skills).toBe(initialSkills);
     });
+
+
 
     it('openEditPersonalInfoDialog should call user.setPersonalInfo when dialog returns a value', () => {
       const personalInfo = { firstName: 'John', lastName: 'Doe' };
@@ -621,7 +614,4 @@ describe('PortfolioComponent - Full Coverage', () => {
       expect(result).toBeFalse();
     }));
   });
-
-
-
 });

@@ -201,13 +201,4 @@ describe('EditSkillsDialogComponent', () => {
     });
   });
 
-  // describe('skills getter', () => {
-  //   it('should return the skills FormArray from the form', () => {
-  //     component.createForm();
-  //     fixture.detectChanges();
-  //     const skillsArray = component.skills;
-  //     expect(skillsArray).toBe(component.form.controls['skills']);
-  //     expect(skillsArray instanceof FormArray).toBeTrue();
-  //   });
-  // });
 });
