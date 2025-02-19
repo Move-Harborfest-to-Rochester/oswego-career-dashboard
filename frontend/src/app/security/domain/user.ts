@@ -42,7 +42,7 @@ export class User {
     studentDetails?: StudentDetails
     role: Role;
     linkedin: string;
-    readonly profilePictureId: number;
+    profilePictureId: number;
     profilePictureURL: string | null = null;
 
     constructor(json: UserJSON) {
