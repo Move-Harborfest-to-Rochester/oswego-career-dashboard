@@ -5,7 +5,9 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ## Development Setup
 
 1. Clone the repository from GitHub
-   - **Linux (Ubuntu): ** Run ```apt update``` before getting started
+   
+   **Linux (Ubuntu): ** Run ```apt update``` before getting started
+   
    - Install Git
      - **Windows:** 
        - Download Git from https://git-scm.com/downloads 
@@ -79,7 +81,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 7. Set up the CRD database
    - **Windows:**
    
-     - Run "MySQL Workbench"
+     - Open "MySQL Workbench"
        - Select the created service and log in using the created root password
        - In the Query window, run:
          - ```CREATE DATABASE CRD;```
@@ -113,7 +115,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ### Backend
 
 1. Set up backend environment
-   * Open a terminal in `oswego-career-dashboard\backend` 
+   * Open a terminal in `oswego-career-dashboard/backend` 
    * Set environment variables:
      * **Windows:** 
        * ```set CRD_DB_PASSWORD=your_password```
@@ -128,14 +130,14 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ##### Alternative backend run
 
 * There is a shell script that will ask for environment variables and run automatically:
-  * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard\backend```:
-  * **Windows: ** Open a Git Bash in ```oswego-career-dashboard\backend```:
+  * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard/backend```:
+  * **Windows: ** Open a Git Bash in ```oswego-career-dashboard/backend```:
     * Run `./setenv.sh`
 
 ### Frontend
 
 1. Run the development build
-   * Open a terminal in `oswego-career-dashboard\frontend` 
+   * Open a terminal in `oswego-career-dashboard/frontend` 
      * Run ```npm start```
 
 
@@ -158,7 +160,7 @@ Finally, open up your browser and go to http://localhost:4200/
     
   - ### Frontend
     - In IntelliJ go to Configuration -> Edit Configurations... -> Add new configuration -> npm
-    - select `senior-project/frontend/package.json` as the package.json
+    - select `oswego-career-dashboard/frontend/package.json` as the package.json
     - change the command to start
 
 
@@ -177,8 +179,8 @@ You can also do this for frontend/backend test.
 
 - `cd frontend`
 - `npm run test-headless`
-- coverage found in frontend/coverage/crd/index.html
-- for more accurate coverage, run `npm run test-headless-coverage`
+- Coverage found in frontend/coverage/crd/index.html
+- For more accurate coverage, run `npm run test-headless-coverage`
 
 
 
@@ -186,7 +188,7 @@ You can also do this for frontend/backend test.
 
 - `cd backend`
 - `./gradlew test`
-- coverage found in backend/build/reports/jacoco/test/html/index.html
+- Coverage found in backend/build/reports/jacoco/test/html/index.html
 
 
 
@@ -198,28 +200,43 @@ You can also do this for frontend/backend test.
   and password with the username and password you set for the crd database.
 - `cd sit`
 - `./runner.sh`
-- tests will take some time to complete
+- Tests will take some time to complete
 
 
 
-## Deploying
+## Deployment
 
-##### Work in Progress. This just showcases how to build angular app and run backend as jar that also serves angular app
+Linux (Ubuntu) with Apache is recommended for frontend deployment
 
-- `cd frontend`
-- `npm run build`
-- cd back to project home
-- `cd backend`
-- environment variables must be created or passed in when creating the jar
-- `./gradlew build`
-- jar is located at backend/build/libs/backend-X.X.X.jar
-- use `java -jar backend-X.X.X.jar`
+1. Build backend jar (Requires Java, [See "Development Setup"](#Development-Setup))
+   * Open terminal in `oswego-career-dashboard/backend`
+     * Run `./gradlew build`
+   * The build is located at `backend/build/libs`
+   * Run the jar using `java -jar backend-X.X.X.jar`
+2. Build frontend files (Requires Node.js, [See "Development Setup"](#Development-Setup))
+   * Open terminal in `oswego-career-dashboard/frontend`
+     * Run `npm run build`
+   * Files output to `backend/src/main/resources/static` (**TODO:** change frontend output to make more sense)
+3. Install Web Server
+   * **Linux (Ubuntu):** 
+     * Run `apt install apache2`
+       * This will create the `/var/www/html` directory
+4. Move all frontend build files into `/var/www/html`
+   * **Linux (Ubuntu):**
+     * Open a terminal in `oswego-career-dashboard`
+     * Run `mv backend/src/main/resources/static/* /var/www/html`
+5. Run the Web Server 
+   * Start server with `systemctl start apache2` 
+   * Restart using `systemctl restart apache2`
+   * Stop using `systemctl stop apache2`
+
+**Note:** Environment variables must be created before running the backend jar, [See "Running the app"](# Running-the-app).
 
 
 
 ## Troubleshooting
-- spring may not recognize changes in the db schema and will instead try to recreate tables that already exist
-- if that happens, drop and recreate the db using the following commands (any data not in the migration scripts will be lost)
+- Spring may not recognize changes in the db schema and will instead try to recreate tables that already exist
+- If that happens, drop and recreate the db using the following commands (any data not in the migration scripts will be lost)
   - run `mysql -u backend -p`
   - enter the password for the backend
   - run `DROP DATABASE CRD;`
