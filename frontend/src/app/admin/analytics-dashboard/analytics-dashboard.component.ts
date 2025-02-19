@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { constructBackendRequest } from 'src/app/util/http-helper';
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -28,9 +29,10 @@ export class AnalyticsDashboardComponent {
 
   callApi(selectedOption: string) {
     const apiKey = this.getApiKeyBasedOnSelection(selectedOption);
-    const apiUrl = `http://localhost:8080/api/stats/${apiKey}`;
+    const apiUrl = constructBackendRequest(`stats/${apiKey}`);
     console.log(`Selected Option: ${selectedOption}`);
     console.log(`API Key: ${apiKey}`);
+    console.log(`apiURL: ${apiUrl}`);
     // Make the API request
     this.http.get(apiUrl).subscribe(
       (data) => {
@@ -85,17 +87,17 @@ export class AnalyticsDashboardComponent {
       case 'Accounting':
         return 'Accounting';
       case 'BusinessAdministration':
-        return 'Business%20Administration';
+        return 'Business Administration';
       case 'Finance':
         return 'Finance';
       case 'HumanResourceManagement':
-        return 'Human%20Resource%20Management';
+        return 'Human Resource Management';
       case 'Marketing':
         return 'Marketing';
       case 'OperationsManagementAndInformationSystems':
-        return 'Operations%20Management%20and%20Information%20Systems';
+        return 'Operations Management and Information Systems';
       case 'RiskManagementAndInsurance':
-        return 'Risk%20Management%20and%20Insurance';
+        return 'Risk Management and Insurance';
       default:
         return '';
     }
