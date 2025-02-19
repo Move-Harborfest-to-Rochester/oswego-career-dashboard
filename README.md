@@ -5,7 +5,9 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ## Development Setup
 
 1. Clone the repository from GitHub
-   - **Linux (Ubuntu):** Run ```apt update``` before getting started
+   
+   **Linux (Ubuntu):** Run ```apt update``` before getting started
+   
    - Install Git
      - **Windows:** 
        - Download Git from https://git-scm.com/downloads 
@@ -128,13 +130,8 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ##### Alternative backend run
 
 * There is a shell script that will ask for environment variables and run automatically:
-<<<<<<< HEAD
   * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard/backend```:
-  * **Windows: ** Open a Git Bash in ```oswego-career-dashboard/backend```:
-=======
-  * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard\backend```:
-  * **Windows:** Open a Git Bash in ```oswego-career-dashboard\backend```:
->>>>>>> 7732eeee93da774e9974699c295c8f1dd4760539
+  * **Windows:** Open a Git Bash in ```oswego-career-dashboard/backend```:
     * Run `./setenv.sh`
 
 ### Frontend
