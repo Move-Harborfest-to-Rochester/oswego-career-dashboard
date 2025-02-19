@@ -230,7 +230,7 @@ Linux (Ubuntu) with Apache is recommended for frontend deployment
    * Restart using `systemctl restart apache2`
    * Stop using `systemctl stop apache2`
 
-**Note:** Environment variables must be created before running the backend jar, [See "Running the app"](# Running-the-app).
+**Note:** Environment variables must be created before running the backend jar, [See "Running the app"](#Running-the-app).
 
 
 
