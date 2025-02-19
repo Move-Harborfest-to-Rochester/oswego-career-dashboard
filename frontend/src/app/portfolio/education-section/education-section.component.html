@@ -7,7 +7,7 @@
 </div>
 <div class="card-body-section-body content">
   <div class="student-attribute">
-    <span class="title">Majors:</span>
+    <span class="title" >Majors:</span>
     <span class="value">
       <span *ngFor="let degreeProgram of majors(); index as i">
         <span
@@ -17,7 +17,7 @@
     </span>
   </div>
   <div class="student-attribute">
-    <span class="title">Minors:</span>
+    <span class="title education-title">Minors:</span>
     <span class="value">
       <span *ngFor="let degreeProgram of minors(); index as i">
         <span
@@ -27,16 +27,16 @@
     </span>
   </div>
   <div class="student-attribute">
-    <span class="title" *ngIf="!(isMobile$ | async)">University ID:</span>
+    <span class="title education-title" *ngIf="!(isMobile$ | async)">University ID:</span>
     <span class="title" *ngIf="isMobile$ | async">U. ID</span>
     <span class="value">{{ user.studentDetails?.universityId }}</span>
   </div>
   <div class="student-attribute">
-    <span class="title">Year:</span>
+    <span class="title education-title">Year:</span>
     <span class="value">{{ user.studentDetails?.yearLevel }}</span>
   </div>
   <div class="student-attribute">
-    <span class="title">GPA:</span>
+    <span class="title education-title">GPA:</span>
     <span class="value">{{ user.studentDetails?.gpa }}</span>
   </div>
 </div>
