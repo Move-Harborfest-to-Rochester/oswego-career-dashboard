@@ -18,7 +18,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
      - Generate a new SSH key for your computer
        - From terminal run `ssh-keygen`
        - Press "Enter" to save key to default location
-         - **Windows: ** Default location at ```%userprofile%\.ssh\id_ed25519.pub```
+         - **Windows:** Default location at ```%userprofile%\.ssh\id_ed25519.pub```
          - **Linux (Ubuntu):**  Default location at ```$home/.ssh/id_ed25519.pub```
        - Type a passkey, or press "Enter" again for no passkey
      - Log into your GitHub and upload the public SSH key 
@@ -129,7 +129,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 
 * There is a shell script that will ask for environment variables and run automatically:
   * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard\backend```:
-  * **Windows: ** Open a Git Bash in ```oswego-career-dashboard\backend```:
+  * **Windows:** Open a Git Bash in ```oswego-career-dashboard\backend```:
     * Run `./setenv.sh`
 
 ### Frontend
