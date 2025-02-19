@@ -5,9 +5,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ## Development Setup
 
 1. Clone the repository from GitHub
-   
-   **Linux (Ubuntu): ** Run ```apt update``` before getting started
-   
+   - **Linux (Ubuntu):** Run ```apt update``` before getting started
    - Install Git
      - **Windows:** 
        - Download Git from https://git-scm.com/downloads 
@@ -20,8 +18,8 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
      - Generate a new SSH key for your computer
        - From terminal run `ssh-keygen`
        - Press "Enter" to save key to default location
-         - **Windows: ** Default location at ```%userprofile%\.ssh\id_ed25519.pub```
-         - **Linux (Ubuntu): **  Default location at ```$home/.ssh/id_ed25519.pub```
+         - **Windows:** Default location at ```%userprofile%\.ssh\id_ed25519.pub```
+         - **Linux (Ubuntu):**  Default location at ```$home/.ssh/id_ed25519.pub```
        - Type a passkey, or press "Enter" again for no passkey
      - Log into your GitHub and upload the public SSH key 
        - Under your profile, go to Settings → SSH and GPG keys → New SSH Key
@@ -42,7 +40,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
    - **Windows:** 
      - Download installer from https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
      - Choose "Windows x64 Installer"
-   - **Linux (Ubuntu): **
+   - **Linux (Ubuntu):**
      - Run ```wget https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.deb```
      - Then ```dpkg -i jdk-17.0.12_linux-x64_bin.deb```
    
@@ -75,7 +73,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
        - Select "Full" for setup type
        - On the "Accounts and Roles" page create a root password
        - (Recommended) On the "Windows Service" page, select "Start the MySQL Server at System Startup"
-   - **Linux (Ubuntu): **
+   - **Linux (Ubuntu):**
      - Run ```apt-get install mysql-server```
    
 7. Set up the CRD database
@@ -121,7 +119,7 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
        * ```set CRD_DB_PASSWORD=your_password```
        * ```set EMAIL_PASSWORD=app_password```
        * ```set CRD_SUPER_ADMIN=admin_email```
-     * **Linux (Ubuntu): **
+     * **Linux (Ubuntu):**
        * ```export CRD_DB_PASSWORD=your_password```
        * ```export EMAIL_PASSWORD=app_password```
        * ```export CRD_SUPER_ADMIN=admin_email```
@@ -130,8 +128,13 @@ Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 ##### Alternative backend run
 
 * There is a shell script that will ask for environment variables and run automatically:
+<<<<<<< HEAD
   * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard/backend```:
   * **Windows: ** Open a Git Bash in ```oswego-career-dashboard/backend```:
+=======
+  * **Linux (Ubuntu):** Open terminal in ```oswego-career-dashboard\backend```:
+  * **Windows:** Open a Git Bash in ```oswego-career-dashboard\backend```:
+>>>>>>> 7732eeee93da774e9974699c295c8f1dd4760539
     * Run `./setenv.sh`
 
 ### Frontend
