@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from "@angular/material/button";
 import { MatTabsModule } from '@angular/material/tabs';
 import { TaskEditModalModule } from '../task-edit-modal/task-edit-modal.module';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -13,11 +14,12 @@ import { TaskEditModalModule } from '../task-edit-modal/task-edit-modal.module';
   ],
   imports: [
     CommonModule,
-    RouterLink, 
+    RouterLink,
     MatButtonModule,
     MatListModule,
     MatTabsModule,
-    TaskEditModalModule
+    TaskEditModalModule,
+    MatCardModule
   ]
 })
 export class TaskMainPageModule { }

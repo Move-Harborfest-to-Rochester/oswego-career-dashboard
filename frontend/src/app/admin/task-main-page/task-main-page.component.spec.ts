@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TaskEditModalComponent } from '../task-edit-modal/task-edit-modal.component';
 import createSpyObj = jasmine.createSpyObj;
@@ -51,7 +52,8 @@ describe('TaskMainPageComponent', () => {
         MatTabsModule,
         MatListModule,
         MatSnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        MatCardModule
       ],
       providers: [MatDialog,{provide: TaskService, useValue: taskServiceSpy},],
       teardown: {destroyAfterEach: false}
