@@ -1,5 +1,7 @@
 package com.senior.project.backend.portfolio;
 
+import com.senior.project.backend.domain.User;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +13,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 
 import com.senior.project.backend.Constants;
@@ -29,6 +33,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,12 +58,125 @@ public class ArtifactHandlerTest {
     @BeforeEach
     public void setup() {
         webTestClient = WebTestClient.bindToRouterFunction(RouterFunctions.route()
-                        .POST("/test", artifactHandler::handleSubmissionUpload)
-                        .GET("/test/{artifactID}", artifactHandler::serveFile)
-                        .GET("/userProfileImage", artifactHandler::serveUserProfileImage)
-                        .DELETE("/test/{id}", artifactHandler::handleFileDelete)
-                        .build())
-                .build();
+                .POST("/test", artifactHandler::handleSubmissionUpload)
+                .POST("/eventImage/{eventID}", artifactHandler::handleEventImageUpload)
+                .POST("/profileImage", artifactHandler::handleProfileImageUpload)
+                .GET("/test/{artifactID}", artifactHandler::serveFile)
+                .GET("/userProfileImage", artifactHandler::serveUserProfileImage)
+                .DELETE("/test/{id}", artifactHandler::handleFileDelete)
+                .build())
+            .build();
+    }
+
+    @Test
+    public void testHandleSubmissionUpload() {
+        // Stub the service method to return an integer (e.g. 123)
+        when(artifactService.processSubmissionFile(any()))
+            .thenReturn(Mono.just(123));
+
+        // Build a multipart request with a "file" part.
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", "dummy content".getBytes())
+            .filename("test.pdf")
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
+
+        webTestClient.post().uri("/test")
+            .contentType(MediaType.MULTIPART_FORM_DATA)
+            .body(BodyInserters.fromMultipartData(builder.build()))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Integer.class).isEqualTo(123);
+    }
+
+    @Test
+    public void testHandleEventImageUpload() {
+        long eventID = 123;
+        // Stub the service method for event image upload
+        when(artifactService.processEventImage(any(), eq(eventID)))
+            .thenReturn(Mono.just(456));
+
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", "dummy image".getBytes())
+            .filename("image.png")
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
+
+        webTestClient.post().uri("/eventImage/{eventID}", eventID)
+            .contentType(MediaType.MULTIPART_FORM_DATA)
+            .body(BodyInserters.fromMultipartData(builder.build()))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Integer.class).isEqualTo(456);
+    }
+
+    @Test
+    public void testHandleEventImageUploadInvalidEventID() {
+        // When eventID is not a valid integer, we expect BAD_REQUEST.
+        webTestClient.post().uri("/eventImage/invalid")
+            .contentType(MediaType.MULTIPART_FORM_DATA)
+            .body(BodyInserters.fromMultipartData("file", "dummy".getBytes()))
+            .exchange()
+            .expectStatus().isBadRequest();
+    }
+
+
+    @Test
+    public void testHandleProfileImageUpload() {
+        // Stub the service method to return an integer (e.g. 789)
+        when(artifactService.processProfileImage(any()))
+            .thenReturn(Mono.just(789));
+
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", "dummy image".getBytes())
+            .filename("profile.png")
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
+
+        webTestClient.post().uri("/profileImage")
+            .contentType(MediaType.MULTIPART_FORM_DATA)
+            .body(BodyInserters.fromMultipartData(builder.build()))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Integer.class).isEqualTo(789);
+    }
+
+    @Test
+    public void testServeUserProfileImageWithPicture() {
+        // Create a dummy image resource
+        byte[] imageContent = "dummy image content".getBytes();
+        ByteArrayResource resource = new ByteArrayResource(imageContent);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        ResponseEntity<Resource> responseEntity = new ResponseEntity<>(resource, headers, HttpStatus.OK);
+
+        // Create a user with a profile picture (using UUID)
+        User user = mock(User.class);
+        UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000010");
+        lenient().when(user.getId()).thenReturn(userId);
+        lenient().when(user.getProfilePictureId()).thenReturn(20); // some non-null id
+        lenient().when(user.hasAdminPrivileges()).thenReturn(false);
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(user));
+
+        // Stub artifactService.getFile to return our ResponseEntity
+        when(artifactService.getFile(anyString(), any())).thenReturn(Mono.just(responseEntity));
+
+        webTestClient.get().uri("/userProfileImage")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(byte[].class).isEqualTo(imageContent);
+    }
+
+
+    @Test
+    public void testServeUserProfileImageNoPicture() {
+        // Create a user with no profile picture
+        User user = mock(User.class);
+        UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000011");
+        lenient().when(user.getId()).thenReturn(userId);
+        lenient().when(user.getProfilePictureId()).thenReturn(null);
+        when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(user));
+
+        webTestClient.get().uri("/userProfileImage")
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     @Test
