@@ -1,7 +1,7 @@
 {
   "All" : {
     "Total" : {
-      "Count" : 29,
+      "Count" : 28,
       "has_resume" : 19,
       "has_internship" : 16,
       "done_internship_this_year" : 0,
@@ -34,13 +34,6 @@
       "has_internship" : 5,
       "done_internship_this_year" : 0,
       "done_internship_last_year" : 5
-    },
-    "" : {
-      "Count" : 1,
-      "has_resume" : 0,
-      "has_internship" : 0,
-      "done_internship_this_year" : 0,
-      "done_internship_last_year" : 0
     }
   },
   "Accounting" : {
@@ -300,22 +293,6 @@
       "has_internship" : 1,
       "done_internship_this_year" : 0,
       "done_internship_last_year" : 1
-    }
-  },
-  "" : {
-    "" : {
-      "Count" : 1,
-      "has_resume" : 0,
-      "has_internship" : 0,
-      "done_internship_this_year" : 0,
-      "done_internship_last_year" : 0
-    },
-    "Total" : {
-      "Count" : 1,
-      "has_resume" : 0,
-      "has_internship" : 0,
-      "done_internship_this_year" : 0,
-      "done_internship_last_year" : 0
     }
   }
 }

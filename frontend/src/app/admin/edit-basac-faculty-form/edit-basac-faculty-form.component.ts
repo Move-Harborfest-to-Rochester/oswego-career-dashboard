@@ -19,7 +19,7 @@ export class EditBasacFacultyFormComponent implements OnInit {
     operations: this.formBuilder.array([])
   });
 
-  constructor(private readonly snackBar: MatSnackBar, private readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
+  constructor(private readonly snackBar: MatSnackBar, readonly formBuilder: FormBuilder, private readonly service: BasacFacultyService) {
   }
 
   public get facultyOperations(): FormArray {
