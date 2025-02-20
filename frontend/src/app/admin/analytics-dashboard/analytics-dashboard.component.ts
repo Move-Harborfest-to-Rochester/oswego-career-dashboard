@@ -98,9 +98,20 @@ export class AnalyticsDashboardComponent {
       noData.push(this.apiData[i].no);    // Push "No" value for the group
     }
 
-    // Flatten the data so that the chart has a single array for both Yes and No for all groups
-    this.barChartData[0].data = yesData;  // Yes values for all groups
-    this.barChartData[1].data = noData;   // No values for all groups
+    this.barChartData = [
+      {
+        data: yesData,
+        label: 'Yes',
+        backgroundColor: '#FFCC33',  // Set color for 'Yes' bars
+        hoverBackgroundColor: '#FFCC33',
+      },
+      {
+        data: noData,
+        label: 'No',
+        backgroundColor: '#235937',  // Set color for 'Yes' bars
+        hoverBackgroundColor: '#235937',
+      },
+    ];
 
   }
 
