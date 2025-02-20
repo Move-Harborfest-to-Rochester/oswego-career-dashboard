@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { constructBackendRequest } from 'src/app/util/http-helper';
+import { ChartType} from 'chart.js';
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -11,6 +13,23 @@ export class AnalyticsDashboardComponent {
   selectedOption2: string = 'Resume'; // Second set of radio buttons
   apiData: any;
   selectedDataField: string = 'has_resume';
+
+  // Pie chart variables
+  pieChartLabels: string[] = ['Yes', 'No'];
+  pieChartData: number[] = [0, 0];
+  pieChartType: ChartType = 'pie';
+
+  // Bar chart variables
+  barChartLabels: string[] = ['Total', 'Freshman', 'Sophomore', 'Junior', 'Senior'];
+  barChartData: any[] = [
+    { data: [], label: 'Yes' },
+    { data: [], label: 'No' }
+  ];
+  barChartOptions = {
+    responsive: true
+  };
+  barChartLegend = true;
+  barChartType: ChartType = 'bar';
 
   constructor(private http: HttpClient) {}
 
@@ -28,14 +47,16 @@ export class AnalyticsDashboardComponent {
 
   callApi(selectedOption: string) {
     const apiKey = this.getApiKeyBasedOnSelection(selectedOption);
-    const apiUrl = `http://localhost:8080/api/stats/${apiKey}`;
+    const apiUrl = constructBackendRequest(`stats/${apiKey}`);
     console.log(`Selected Option: ${selectedOption}`);
     console.log(`API Key: ${apiKey}`);
-    // Make the API request
+    console.log(`apiURL: ${apiUrl}`);
     this.http.get(apiUrl).subscribe(
       (data) => {
         this.apiData = this.formatData(data);  // Store the response in the apiData variable
         console.log('API Data:', this.apiData);
+        this.updatePieChartData();
+        this.updateBarChartData();
       },
       (error) => {
         console.error('API Error:', error);  // Log any error
@@ -43,7 +64,6 @@ export class AnalyticsDashboardComponent {
     );
   }
 
-  // Format the API data to map static grade years to API data
   formatData(data: any): any[] {
     const formattedData = [
       { year: 'Total', yes: data['Total']?.[this.selectedDataField], no: data['Total']?.Count - data['Total']?.[this.selectedDataField], total: data['Total']?.Count},
@@ -55,6 +75,40 @@ export class AnalyticsDashboardComponent {
 
     return formattedData;
   }
+
+  updatePieChartData() {
+    this.pieChartData = [
+      this.apiData[0].yes,
+      this.apiData[0].no,
+    ]
+  }
+
+  updateBarChartData() {
+    const yesData: number[] = [];
+    const noData: number[] = [];
+
+    for (let i = 0; i < 5; i++) {
+      yesData.push(this.apiData[i].yes);
+      noData.push(this.apiData[i].no);
+    }
+
+    this.barChartData = [
+      {
+        data: yesData,
+        label: 'Yes',
+        backgroundColor: '#FFCC33',
+        hoverBackgroundColor: '#FFCC33',
+      },
+      {
+        data: noData,
+        label: 'No',
+        backgroundColor: '#235937',
+        hoverBackgroundColor: '#235937',
+      },
+    ];
+
+  }
+
 
   formatDataBasedOnSelectedOption(selectedOption2: string) {
     console.log('selected 2:', this.selectedOption2);
@@ -85,17 +139,17 @@ export class AnalyticsDashboardComponent {
       case 'Accounting':
         return 'Accounting';
       case 'BusinessAdministration':
-        return 'Business%20Administration';
+        return 'Business Administration';
       case 'Finance':
         return 'Finance';
       case 'HumanResourceManagement':
-        return 'Human%20Resource%20Management';
+        return 'Human Resource Management';
       case 'Marketing':
         return 'Marketing';
       case 'OperationsManagementAndInformationSystems':
-        return 'Operations%20Management%20and%20Information%20Systems';
+        return 'Operations Management and Information Systems';
       case 'RiskManagementAndInsurance':
-        return 'Risk%20Management%20and%20Insurance';
+        return 'Risk Management and Insurance';
       default:
         return '';
     }

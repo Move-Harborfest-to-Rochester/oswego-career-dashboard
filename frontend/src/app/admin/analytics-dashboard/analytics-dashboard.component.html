@@ -67,7 +67,28 @@
     <div class ="top">
 
       <div class="pie">
-        <p>Pumpkin Pie</p>
+        <canvas
+          baseChart
+          [datasets]="[{
+            data: pieChartData,
+            label: 'Yes/No',
+            backgroundColor: ['#FFCC33', '#235937'],
+            hoverBackgroundColor: ['#FFCC33', '#235937']
+          }]"
+          [labels]="pieChartLabels"
+          [options]="{
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                 text: 'All Years',
+                  font: { size: 16 }
+              }
+            }
+          }"
+          [type]="pieChartType">
+        </canvas>
 
       </div>
 
@@ -94,7 +115,17 @@
       </div>
     </div>
     <div class="bar">
-      <p>Bar</p>
+      <div class="chart-container">
+        <canvas
+          #barChartCanvas
+          baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [type]="barChartType">
+        </canvas>
+      </div>
     </div>
   </div>
 
