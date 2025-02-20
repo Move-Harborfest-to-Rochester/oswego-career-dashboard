@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { constructBackendRequest } from 'src/app/util/http-helper';
+import { ChartType} from 'chart.js';
+
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -13,11 +15,29 @@ export class AnalyticsDashboardComponent {
   apiData: any;
   selectedDataField: string = 'has_resume';
 
+  // Pie chart variables
+  pieChartLabels: string[] = ['Yes', 'No'];
+  pieChartData: number[] = [0, 0];
+  pieChartType: ChartType = 'pie';
+
+  // Bar chart variables
+  barChartLabels: string[] = ['Total', 'Freshman', 'Sophomore', 'Junior', 'Senior'];
+  barChartData: any[] = [
+    { data: [], label: 'Yes' },
+    { data: [], label: 'No' }
+  ];
+  barChartOptions = {
+    responsive: true
+  };
+  barChartLegend = true;
+  barChartType: ChartType = 'bar';
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.callApi(this.selectedOption1);  // Call API with the default 'All' option
   }
+
 
   onRadioChange(selectedOption1: string) {
     this.callApi(selectedOption1);
@@ -38,6 +58,8 @@ export class AnalyticsDashboardComponent {
       (data) => {
         this.apiData = this.formatData(data);  // Store the response in the apiData variable
         console.log('API Data:', this.apiData);
+        this.updatePieChartData();
+        this.updateBarChartData();
       },
       (error) => {
         console.error('API Error:', error);  // Log any error
@@ -57,6 +79,31 @@ export class AnalyticsDashboardComponent {
 
     return formattedData;
   }
+
+  // Update pie chart data based on formatted API data
+  updatePieChartData() {
+    this.pieChartData = [
+      this.apiData[0].yes,
+      this.apiData[0].no,
+    ]
+  }
+
+  updateBarChartData() {
+    const yesData: number[] = [];
+    const noData: number[] = [];
+
+    // Iterate over the 5 groups (Total, Freshman, Sophomore, Junior, Senior)
+    for (let i = 0; i < 5; i++) {
+      yesData.push(this.apiData[i].yes);  // Push "Yes" value for the group
+      noData.push(this.apiData[i].no);    // Push "No" value for the group
+    }
+
+    // Flatten the data so that the chart has a single array for both Yes and No for all groups
+    this.barChartData[0].data = yesData;  // Yes values for all groups
+    this.barChartData[1].data = noData;   // No values for all groups
+
+  }
+
 
   formatDataBasedOnSelectedOption(selectedOption2: string) {
     console.log('selected 2:', this.selectedOption2);

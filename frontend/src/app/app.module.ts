@@ -49,6 +49,7 @@ import { FooterModule } from './footer/footer.module';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileImageModalModule } from './file-upload/profile-image-modal/profile-image-modal.module';
 import { FormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
 import { SettingsPageModule } from './settings/settings-page.module';import { MilestonesFacultyModule } from './milestones-page/milestones-faculty/milestones-faculty.module';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
@@ -132,6 +133,7 @@ import {EventsPageComponent} from "./events-page/events-page.component";
     MatIconModule,
     EditBasacFacultyModule,
     MatProgressSpinnerModule,
+    NgChartsModule,
   ],
   providers: [
     provideHttpClient(),
