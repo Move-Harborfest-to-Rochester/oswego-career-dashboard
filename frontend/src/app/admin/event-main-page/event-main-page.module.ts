@@ -7,6 +7,7 @@ import { EventEditModalModule } from '../event-edit-modal/event-edit-modal.modul
 import {MatIconModule} from "@angular/material/icon";
 import {FileUploadModule} from "../../file-upload/file-upload.module";
 import {TaskSubmitButtonModule} from "../../task-submit-button/task-submit-button.module";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import {TaskSubmitButtonModule} from "../../task-submit-button/task-submit-butto
     FileUploadModule,
     TaskSubmitButtonModule,
     NgOptimizedImage,
+    MatCardModule
   ]
 })
 export class EventMainPageModule { }

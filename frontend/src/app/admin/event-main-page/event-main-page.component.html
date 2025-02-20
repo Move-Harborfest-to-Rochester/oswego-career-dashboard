@@ -1,30 +1,26 @@
-<mat-list>
-    <ng-container *ngFor="let event of events">
-        <div class="task-item">
-        <mat-list-item>
-            <span matListItemTitle>{{event.name}}</span>
-            <span matListItemLine>{{event.description}}</span>
-        </mat-list-item>
-      <ng-container *ngIf="event.imageId != null">
-        <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
-      </ng-container>
-        <mat-list-item>
-            <div class="buttons-container">
-                <button mat-raised-button class="task-edit-button" color="primary" (click)="openEventEditModal(event)">
-                    <mat-icon >
-                        edit
-                    </mat-icon>
-                    EDIT
-                </button>
-                <button mat-raised-button (click)="openEventImageModal(event)">
-                    <mat-icon>
-                        upload
-                    </mat-icon>
-                    IMAGE
-                </button>
-            </div>
-        </mat-list-item>
-        </div>
-    </ng-container>
-    <button mat-raised-button class="create-event-button" (click)="openEventEditModal(null)">Create New Event</button>
-</mat-list>
+
+<div class='event-grid'>
+<mat-card *ngFor="let event of events" class="event-card">
+  <div class="event-title-container">
+    <mat-card-title class="event-title">{{event.name}}</mat-card-title>
+  </div>
+  <div class="event-description-container">
+    <mat-card-content class="event-description">{{event.description}}</mat-card-content>
+  </div>
+
+  <ng-container *ngIf="event.imageId != null">
+    <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
+  </ng-container>
+
+  <div class="buttons-container">
+    <button mat-raised-button class="event-edit-button" color="primary" (click)="openEventEditModal(event)">
+      <mat-icon>edit</mat-icon> EDIT
+    </button>
+    <button mat-raised-button (click)="openEventImageModal(event)">
+      <mat-icon>upload</mat-icon> IMAGE
+    </button>
+  </div>
+</mat-card>
+</div>
+<button mat-raised-button class="create-event-button" (click)="openEventEditModal(null)">Create New Event</button>
+
