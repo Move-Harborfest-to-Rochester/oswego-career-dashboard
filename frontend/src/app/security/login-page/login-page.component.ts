@@ -13,6 +13,7 @@ export class LoginPageComponent {
 
   constructor(private readonly authService: AuthService) {
     this.smallButton = window.outerWidth <= 480;
+    this.authService.handleRedirectObservable();
   }
 
   ms() {

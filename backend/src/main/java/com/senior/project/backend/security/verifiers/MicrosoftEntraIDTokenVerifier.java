@@ -49,7 +49,7 @@ public class MicrosoftEntraIDTokenVerifier implements TokenVerifier {
         token = verifyStructure(token);
         String payload = validateSignature(token);
         TokenPayload tokenPayload = validateClaims(payload);
-        return tokenPayload.getEmail();
+        return tokenPayload.getPrefferedUsername();
     }
     
     /**
