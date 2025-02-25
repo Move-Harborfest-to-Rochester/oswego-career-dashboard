@@ -105,7 +105,9 @@ export class EducationSectionComponent implements OnInit {
       .map((d) => d.name);
   }
 
-
+  formatGPA(gpa?: number ): string {
+    return gpa?.toFixed(1)!;
+  }
   disableEnterKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();

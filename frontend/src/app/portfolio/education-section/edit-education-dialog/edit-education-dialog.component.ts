@@ -150,7 +150,7 @@ export class EditEducationDialogComponent implements OnInit {
         return null;
       }
       const regex = new RegExp(/^\d+(\.\d{1,2})?$/);
-      if (!regex.test(value)) {
+      if (!regex.test(value) || value > 4.0) {
         return {invalidNumber: true};
       }
       return null;

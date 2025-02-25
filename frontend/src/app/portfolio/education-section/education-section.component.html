@@ -37,6 +37,6 @@
   </div>
   <div class="student-attribute">
     <span class="title">GPA:</span>
-    <span class="value">{{ user.studentDetails?.gpa }}</span>
+    <span *ngIf="user.studentDetails?.gpa" class="value">{{ formatGPA(user.studentDetails?.gpa)  }}</span>
   </div>
 </div>

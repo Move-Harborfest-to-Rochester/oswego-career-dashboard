@@ -26,7 +26,7 @@
       <mat-label for="gpa">GPA</mat-label>
       <input formControlName="gpa" id="gpa" matInput type="text"/>
       <mat-error *ngIf="form.controls['gpa'].hasError('invalidNumber')">
-        Please specify a valid GPA.
+        Valid GPA must be between 0 and 4.0
       </mat-error>
     </mat-form-field>
     <multi-major-input
