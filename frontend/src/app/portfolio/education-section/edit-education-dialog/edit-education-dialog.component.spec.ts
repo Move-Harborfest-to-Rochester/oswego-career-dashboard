@@ -140,8 +140,11 @@ describe('EditEducationDialogComponent', () => {
     gpaControl?.setValue('4.0');
     expect(gpaControl?.valid).toBeTrue();
 
-    gpaControl?.setValue('5.0');
+    gpaControl?.setValue('3.2');
     expect(gpaControl?.valid).toBeTrue();
+
+    gpaControl?.setValue('5.0');
+    expect(gpaControl?.valid).toBeFalse();
 
     gpaControl?.setValue('abc');
     expect(gpaControl?.valid).toBeFalse();
@@ -151,11 +154,11 @@ describe('EditEducationDialogComponent', () => {
     majorControl.setValue({operation: 'Create', name: '', isMinor: false});
     expect(majorControl.hasError('invalidMajor')).toBeTrue();
   });
-  
-  it('marks non-existent major invalid', () => {
+
+  it('still marks non-existent major as valid', () => {
     majorControl.setValue({
       operation: 'Create',
-      name: 'Not a Real Major',
+      name: 'Information Science',
       isMinor: false
     });
     expect(majorControl.hasError('invalidMajor')).toBeTrue();

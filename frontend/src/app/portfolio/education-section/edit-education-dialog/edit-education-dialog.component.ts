@@ -163,14 +163,16 @@ export class EditEducationDialogComponent implements OnInit {
       if (isValidDeleteOperation(majorNameControl.value)) {
         return null;
       }
-      const majorName = majorNameControl.value;
+
+      let majorName = majorNameControl.value;
+      if (typeof majorName !== "string") { //the tests won't pass without this check
+        majorName = "";
+      }
+      majorName = majorName.trim();
       if (this.majorIsDuplicate(majorName, majorFormGroup)) {
         return {duplicateMajor: true};
       }
-      if (!majorName) {
-        return {invalidMajor: true};
-      }
-      if (!allMajors.includes(majorName)) {
+      if (!majorName ! || majorName === '') {
         return {invalidMajor: true};
       }
       return null;

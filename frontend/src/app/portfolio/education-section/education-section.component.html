@@ -29,7 +29,7 @@
   <div class="student-attribute">
     <span class="title" *ngIf="!(isMobile$ | async)">University ID:</span>
     <span class="title" *ngIf="isMobile$ | async">U. ID</span>
-    <span class="value">{{ user.studentDetails?.universityId }}</span>
+    <span *ngIf="user.studentDetails?.universityId" class="value">{{ user.studentDetails?.universityId }}</span>
   </div>
   <div class="student-attribute">
     <span class="title">Year:</span>
