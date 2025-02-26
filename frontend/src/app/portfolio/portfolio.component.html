@@ -1,50 +1,59 @@
-<div class="portfolio-container" [class.mobile]="isMobile$ | async">
+<div [class.mobile]="isMobile$ | async" class="portfolio-container">
   <div class="section-container">
     <div class="section">
-      <button mat-button (click)="goBack()">
-        <mat-icon>arrow_back</mat-icon> Back
+      <button (click)="goBack()" mat-button>
+        <mat-icon>arrow_back</mat-icon>
+        Back
       </button>
       <h1 id="portfolio-block">Portfolio</h1>
       <div class="card-body">
-        <div class="card-body-section" [class.mobile]="personalSectionResize$ | async">
+        <div [class.mobile]="personalSectionResize$ | async"
+             class="card-body-section">
           <div class="card-body-section-header">
             <h2>Personal</h2>
           </div>
           <div class="card-body-section-body personal">
             <div class="card-body-section-image">
-              <img class="profile-picture" *ngIf="user.profilePictureURL != null" [src]="user.profilePictureURL"
-                alt="User Image">
-              <mat-icon class="profile-picture" *ngIf="user.profilePictureURL == null">account_circle</mat-icon>
+              <img *ngIf="user.profilePictureURL != null"
+                   [src]="user.profilePictureURL"
+                   alt="User Image"
+                   class="profile-picture">
+              <mat-icon *ngIf="user.profilePictureURL == null"
+                        class="profile-picture">account_circle
+              </mat-icon>
             </div>
             <div class="card-body-section-data content personal-info">
               <div class="attributes">
                 <div>
                   <span class="title">Name</span>
-                  <span>{{user.fullName}}</span>
+                  <span>{{ user.fullName }}</span>
                 </div>
                 <div>
                   <span class="title">Email</span>
-                  <span>{{user.email}}</span>
+                  <span>{{ user.email }}</span>
                 </div>
                 <div *ngIf="currentUserMatchesPortfolioUser() | async">
-                  <span class="title" *ngIf="!(isMobile$ | async)">Phone Number</span>
-                  <span class="title" *ngIf="isMobile$| async">Phone</span>
-                  <span>{{user.phoneNumber}}</span>
+                  <span *ngIf="!(isMobile$ | async)"
+                        class="title">Phone Number</span>
+                  <span *ngIf="isMobile$| async" class="title">Phone</span>
+                  <span>{{ user.phoneNumber }}</span>
                 </div>
                 <div *ngIf="user.linkedin">
                   <span class="title">LinkedIn</span>
                   <span>
-                    <mat-icon *ngIf="user.linkedin !== null && user.linkedin !== ''" (click)="goToLinkedIn()">link</mat-icon>
+                    <mat-icon
+                      (click)="goToLinkedIn()"
+                      *ngIf="user.linkedin !== null && user.linkedin !== ''">link</mat-icon>
                   </span>
                   <span *ngIf="user.linkedin === null">No LinkedIn</span>
                 </div>
-                <div class="verticle" *ngIf="user.studentDetails?.description">
+                <div *ngIf="user.studentDetails?.description" class="verticle">
                   <p class="title">Description</p>
-                  <p>{{user.studentDetails!.description}}</p>
+                  <p>{{ user.studentDetails!.description }}</p>
                 </div>
               </div>
-              <div class="actions" *ngIf="!this.external">
-                <button mat-mini-fab (click)="openEditPersonalInfoDialog()">
+              <div *ngIf="!this.external" class="actions">
+                <button (click)="openEditPersonalInfoDialog()" mat-mini-fab>
                   <mat-icon>edit</mat-icon>
                 </button>
               </div>
@@ -52,13 +61,14 @@
           </div>
         </div>
         <div class="card-body-section">
-          <education-section />
+          <education-section/>
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
             <div class="add-project-container">
-              <h2 >Skills</h2>
-              <button mat-mini-fab (click)="openEditDialog(false)" *ngIf="!this.external">
+              <h2>Skills</h2>
+              <button (click)="openEditDialog(false)" *ngIf="!this.external"
+                      mat-mini-fab>
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
@@ -66,7 +76,7 @@
           </div>
           <div class="card-body-section-body">
             <div class="skills">
-              <div class="skill" *ngFor="let skill of skills()">
+              <div *ngFor="let skill of skills()" class="skill">
                 {{ skill }}
               </div>
             </div>
@@ -75,16 +85,17 @@
         <div class="card-body-section">
           <div class="card-body-section-header">
             <div class="add-project-container">
-                <h2>Languages</h2>
-                <button mat-mini-fab (click)="openEditDialog(true)" *ngIf="!this.external">
-                  <mat-icon>edit</mat-icon>
-                </button>
+              <h2>Languages</h2>
+              <button (click)="openEditDialog(true)" *ngIf="!this.external"
+                      mat-mini-fab>
+                <mat-icon>edit</mat-icon>
+              </button>
             </div>
 
           </div>
           <div class="card-body-section-body">
             <div class="skills">
-              <div class="skill" *ngFor="let language of languages()">
+              <div *ngFor="let language of languages()" class="skill">
                 {{ language }}
               </div>
             </div>
@@ -92,51 +103,57 @@
         </div>
         <div class="card-body-section">
           <div class="card-body-section-header">
-            <div class="add-project-container" >
+            <div class="add-project-container">
               <h2>Projects</h2>
-              <button class="add-project-button" mat-mini-fab (click)="openAddProjectModal()" *ngIf="!this.external">
+              <button (click)="openAddProjectModal()" *ngIf="!this.external"
+                      class="add-project-button" mat-mini-fab>
                 <mat-icon>add</mat-icon>
               </button>
             </div>
 
           </div>
           <div class="card-body-section-body projects">
-            <div class="project" *ngFor="let project of user.studentDetails?.projects">
+            <div *ngFor="let project of user.studentDetails?.projects"
+                 class="project">
               <div class="project-details">
-                <h3>{{project.name.charAt(0).toUpperCase() + project.name.substring(1)}}</h3>
+                <h3>{{ project.name.charAt(0).toUpperCase() + project.name.substring(1) }}</h3>
                 <div class="date-row content">
                   <div>
-                    <span class="title">{{dateHeader('Start')}}</span>
-                    <span class="date">{{formatDate(project.startDate)}}</span>
+                    <span class="title">{{ dateHeader('Start') }}</span>
+                    <span
+                      class="date">{{ formatDate(project.startDate) }}</span>
                   </div>
                   <div>
-                    <span class="title">{{dateHeader('End')}}</span>
-                    <span class="date">{{formatDate(project.endDate)}}</span>
+                    <span class="title">{{ dateHeader('End') }}</span>
+                    <span class="date">{{ formatDate(project.endDate) }}</span>
                   </div>
                 </div>
                 <div class="project-description">
-                  {{project.description}}
+                  {{ project.description }}
                 </div>
               </div>
 
               <!-- Actions Section -->
-              <div class="actions" *ngIf="!this.external">
+              <div *ngIf="!this.external" class="actions">
                 <div class="action-buttons">
-                  <button mat-mini-fab color="primary" (click)="openEditProjectModal(project)">
+                  <button (click)="openEditProjectModal(project)"
+                          color="primary"
+                          mat-mini-fab>
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab color="warn" (click)="deleteProject(project)">
+                  <button (click)="deleteProject(project)" color="warn"
+                          mat-mini-fab>
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
               </div>
             </div>
           </div>
-          </div>
+        </div>
         <div class="card-body-section">
           <div class="card-body-section-header jobs-header">
             <h2>Jobs & Co-ops/Internships</h2>
-            <button mat-mini-fab (click)="createJob()" *ngIf="!this.external">
+            <button (click)="createJob()" *ngIf="!this.external" mat-mini-fab>
               <mat-icon>add</mat-icon>
             </button>
           </div>
@@ -144,32 +161,32 @@
             <div *ngFor="let job of jobs()">
               <div class="project job">
                 <div class="content">
-                  <h3>{{job.name}}</h3>
+                  <h3>{{ job.name }}</h3>
                   <div class="date-row content">
                     <div>
-                      <span class="title">{{dateHeader('Start')}}</span>
-                      <span class="date">{{formatDate(job.startDate)}}</span>
+                      <span class="title">{{ dateHeader('Start') }}</span>
+                      <span class="date">{{ formatDate(job.startDate) }}</span>
                     </div>
                     <div *ngIf="job.endDate">
-                      <span class="title">{{dateHeader('End')}}</span>
-                      <span class="date">{{formatDate(job.endDate)}}</span>
+                      <span class="title">{{ dateHeader('End') }}</span>
+                      <span class="date">{{ formatDate(job.endDate) }}</span>
                     </div>
                   </div>
                   <div class="date-row content">
                     <div class="location">
                       <span class="title">Location: </span>
-                      <span class="date">{{job.location}}</span>
+                      <span class="date">{{ job.location }}</span>
                     </div>
                   </div>
                   <div class="project-description">
-                    {{job.description}}
+                    {{ job.description }}
                   </div>
                 </div>
-                <div class="actions" *ngIf="!this.external">
-                  <button mat-mini-fab color="primary" (click)="editJob(job)">
+                <div *ngIf="!this.external" class="actions">
+                  <button (click)="editJob(job)" color="primary" mat-mini-fab>
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab color="warn" (click)="deleteJob(job)">
+                  <button (click)="deleteJob(job)" color="warn" mat-mini-fab>
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
@@ -178,33 +195,33 @@
             <div *ngFor="let job of coops()">
               <div class="project job">
                 <div class="content">
-                  <h3>{{job.name}}</h3>
+                  <h3>{{ job.name }}</h3>
                   <em>Co-op/Internship</em>
                   <div class="date-row content">
                     <div>
-                      <span class="title">{{dateHeader('Start')}}</span>
-                      <span class="date">{{formatDate(job.startDate)}}</span>
+                      <span class="title">{{ dateHeader('Start') }}</span>
+                      <span class="date">{{ formatDate(job.startDate) }}</span>
                     </div>
                     <div *ngIf="job.endDate">
-                      <span class="title">{{dateHeader('End')}}</span>
-                      <span class="date">{{formatDate(job.endDate)}}</span>
+                      <span class="title">{{ dateHeader('End') }}</span>
+                      <span class="date">{{ formatDate(job.endDate) }}</span>
                     </div>
                   </div>
                   <div class="date-row content">
                     <div class="location">
                       <span class="title">Location: </span>
-                      <span class="date">{{job.location}}</span>
+                      <span class="date">{{ job.location }}</span>
                     </div>
                   </div>
                   <div class="project-description">
-                    {{job.description}}
+                    {{ job.description }}
                   </div>
                 </div>
-                <div class="actions" *ngIf="!this.external">
-                  <button mat-mini-fab color="primary" (click)="editJob(job)">
+                <div *ngIf="!this.external" class="actions">
+                  <button (click)="editJob(job)" color="primary" mat-mini-fab>
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab color="warn" (click)="deleteJob(job)">
+                  <button (click)="deleteJob(job)" color="warn" mat-mini-fab>
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
@@ -213,9 +230,9 @@
           </div>
         </div>
         <div class="card-body-section">
-          <div class="card-body-section-header jobs-header" >
+          <div class="card-body-section-header jobs-header">
             <h2>Clubs</h2>
-            <button mat-mini-fab (click)="createClub()" *ngIf="!this.external">
+            <button (click)="createClub()" *ngIf="!this.external" mat-mini-fab>
               <mat-icon>add</mat-icon>
             </button>
           </div>
@@ -233,11 +250,11 @@
                     <span class="date">{{ formatDate(club.endDate) }}</span>
                   </div>
                 </div>
-                <div class="actions" *ngIf="!this.external">
-                  <button mat-mini-fab color="primary" (click)="editClub(club)">
+                <div *ngIf="!this.external" class="actions">
+                  <button (click)="editClub(club)" color="primary" mat-mini-fab>
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button mat-mini-fab color="warn" (click)="deleteClub(club)">
+                  <button (click)="deleteClub(club)" color="warn" mat-mini-fab>
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
@@ -250,17 +267,18 @@
           <div class="card-body-section-header">
             <div class="add-project-container">
               <h2>Interests</h2>
-              <button mat-mini-fab (click)="openEditInterests()" *ngIf="!this.external">
+              <button (click)="openEditInterests()" *ngIf="!this.external"
+                      mat-mini-fab>
                 <mat-icon>edit</mat-icon>
               </button>
             </div>
 
           </div>
           <div class="card-body-section-body">
-            <div class="skills" >
+            <div class="skills">
               <div
-                class="skill"
                 *ngFor="let interest of user.studentDetails?.interests"
+                class="skill"
               >
                 {{ interest.name }}
               </div>
@@ -273,11 +291,24 @@
           </div>
           <div class="card-body-section-body">
             <div
-              class="milestone"
               *ngFor="let milestone of completedMilestones"
+              class="milestone"
             >
               <mat-icon>check_circle</mat-icon>
               <span>{{ milestone }}</span>
+            </div>
+            <div
+              *ngIf="completedMilestones.length === 0"
+            >
+              <span>
+                No milestones completed yet.
+              </span>
+              <a
+                *ngIf="!this.external"
+                [routerLink]="['/milestones']"
+              >
+                Click here to get started.
+              </a>
             </div>
           </div>
         </div>
@@ -286,7 +317,7 @@
 
     <div class="section resume">
       <h1>Resume</h1>
-      <app-resume [user]="user" [external]="external"></app-resume>
+      <app-resume [external]="external" [user]="user"></app-resume>
     </div>
   </div>
 </div>
