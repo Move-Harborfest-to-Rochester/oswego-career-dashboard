@@ -13,11 +13,11 @@ import { TaskEditModalModule } from '../task-edit-modal/task-edit-modal.module';
   ],
   imports: [
     CommonModule,
-    RouterLink, 
+    RouterLink,
     MatButtonModule,
     MatListModule,
     MatTabsModule,
-    TaskEditModalModule
+    TaskEditModalModule,
   ]
 })
 export class TaskMainPageModule { }
