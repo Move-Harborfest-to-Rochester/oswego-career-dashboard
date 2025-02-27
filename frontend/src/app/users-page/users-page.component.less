@@ -6,10 +6,9 @@
   padding: 10px;
 
   .header-container {
-    display: flex;
 
     h1 {
-      @media(max-width: 500px) {
+      @media (max-width: 500px) {
         padding: 10px 10px 0 0;
       }
       color: @oswego-green;
@@ -25,7 +24,7 @@
         width: 50%;
         height: 80px;
 
-        @media(max-width: 500px) {
+        @media (max-width: 500px) {
           width: 100%;
         }
       }
@@ -58,10 +57,20 @@
   }
 
   .buttons-cell {
-    text-align: right;
+    text-align: center;
+    white-space: nowrap;
 
     button {
-      width: 100px;
+      min-width: 80px;
+      margin-right: 8px;
+    }
+
+    @media (max-width: 600px) {
+      button {
+        display: inline-block;
+        width: auto;
+        margin-right: 8px;
+      }
     }
   }
 }
