@@ -1,6 +1,6 @@
 <div class="edit-role-menu-container">
-    <button mat-icon-button size="10" [matMenuTriggerFor]="roleMenu" [disabled]="!(canBeChanged() | async)">
-      <mat-icon *ngIf="canBeChanged() | async">
+    <button mat-icon-button size="10" [matMenuTriggerFor]="roleMenu" [disabled]="!(canBeChanged() | async)" aria-label="Edit user role">
+      <mat-icon *ngIf="canBeChanged() | async" >
         edit
       </mat-icon>
     </button>

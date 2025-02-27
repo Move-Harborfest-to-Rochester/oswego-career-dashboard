@@ -3,7 +3,8 @@
   <div *ngIf="(displayName$ | async)" class="user-name">
     {{ user.firstName }} {{ user.lastName }}
   </div>
-  <button [matMenuTriggerFor]="userMenu" class="user-button" mat-raised-button>
+  <button [matMenuTriggerFor]="userMenu" class="user-button" mat-raised-button aria-label="User Menu"
+  title="User Menu">
     <img *ngIf="profileURL"
          [src]="profileURL"
          alt="User Image"

@@ -18,7 +18,7 @@ export type EditInterestDefaultValue = {
   styleUrls: ['./edit-interests.component.less']
 })
 export class EditInterestsComponent implements OnInit {
-  protected form!: FormGroup;
+  form!: FormGroup;
 
   @Input() defaultValues?: EditInterestDefaultValue;
 
