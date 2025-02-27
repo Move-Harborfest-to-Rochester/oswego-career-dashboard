@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<div class="list-input">
-  <label class="label">{{ label }}</label>
+<div class="list-input" >
+  <label class="label" >{{ label }}</label>
   <div *ngFor="let control of arrayControls(); let i = index">
     <mat-form-field
       [hidden]="deleted.has(i)"
