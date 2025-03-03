@@ -91,7 +91,7 @@ describe('UsersPageComponent', () => {
 
     tick(1000);
 
-    expect(component.dataSource.length).toEqual(2);
+    expect(component.dataSource.data.length).toEqual(2);
   }));
 
   it('should load data when search term changes', fakeAsync(() => {
@@ -102,6 +102,6 @@ describe('UsersPageComponent', () => {
 
     tick(1000);
 
-    expect(component.dataSource.length).toEqual(2);
+    expect(component.dataSource.data.length).toEqual(2);
   }));
 });
