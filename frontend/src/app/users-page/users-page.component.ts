@@ -1,12 +1,16 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {Role, User} from "../security/domain/user";
-import {UsersSearchResponseJSON} from "./user-search-result";
-import {PageEvent} from "@angular/material/paginator";
-import {debounceTime, firstValueFrom, first, map, Observable, of, Subject} from "rxjs";
-import {ScreenSizeService} from "../util/screen-size.service";
-import {AuthService} from "../security/auth.service";
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { User } from "../security/domain/user";
+import { UsersSearchResponseJSON } from "./user-search-result";
+import { PageEvent } from "@angular/material/paginator";
+import { debounceTime, Observable, Subject } from "rxjs";
+import { ScreenSizeService } from "../util/screen-size.service";
+import { AuthService } from "../security/auth.service";
 import { UserService } from '../security/user.service';
-import {ArtifactService} from "../file-upload/artifact.service";
+import { ArtifactService } from "../file-upload/artifact.service";
+import { MatSelect } from '@angular/material/select';
+import {YearLevel} from "../../domain/Milestone";
 
 @Component({
   selector: 'app-users-page',
@@ -18,11 +22,10 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   // placeholder profile pic site
   profilePicURLBase = 'https://i.pravatar.cc/';
 
-  mobileColumns: string[] = ['picture', 'name', 'buttons'];
-  desktopColumns: string[] = ['picture', 'name', 'email', 'role', 'buttons'];
-  // displayedColumns: string[] = this.mobileColumns;
+  mobileColumns: string[] = ['picture', 'name', 'year', 'buttons'];
+  desktopColumns: string[] = ['picture', 'name', 'year', 'email', 'role', 'buttons'];
 
-  dataSource: Array<User>  = [];
+  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]); // Uses MatTableDataSource for filtering
 
   currentPage: number = 0;
   pageSize: number = 10;
@@ -31,7 +34,14 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   private searching$ = new Subject<void>();
   isMobile$: Observable<boolean>;
 
-  user$: Observable<User | null>
+  user$: Observable<User | null>;
+
+  // Drop down Menu
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSelect) yearFilter!: MatSelect;
+
+  selectedYear: number | null = null; // Track the selected year
+  availableYears: String[] = [YearLevel.Freshman, YearLevel.Sophomore, YearLevel.Junior, YearLevel.Senior];
 
   constructor(
     private readonly userService: UserService,
@@ -55,17 +65,26 @@ export class UsersPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.filterPredicate = (data: User, filter: string) => {
+      if (!filter) return true; // If no filter is selected, show all rows
+
+      const year = data.studentDetails?.yearLevel?.toString();
+      return year === filter;
+    };
+  }
+
   ngOnDestroy() {
-    this.searching$.complete()
+    this.searching$.complete();
   }
 
   // Method to fetch data from API
   loadData(): void {
     this.userService.searchUsers(this.currentPage, this.pageSize, this.searchTerm)
       .subscribe((searchResults: UsersSearchResponseJSON) => {
-        this.dataSource = searchResults.users.map((u) => new User(u));
+        this.dataSource.data = searchResults.users.map((u) => new User(u));
         this.totalItems = searchResults.totalResults;
-        this.dataSource.forEach((user: User) => {
+        this.dataSource.data.forEach((user: User) => {
           if (user.profilePictureId != null) {
             this.artifactSvc.getArtifactFile(user.profilePictureId)
               .subscribe((blob) => {
@@ -73,6 +92,9 @@ export class UsersPageComponent implements OnInit, OnDestroy {
               })
           }
         });
+
+        // Apply the year filter after loading data
+        this.applyYearFilter();
       });
   }
 
@@ -88,6 +110,9 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   onSearch(): void {
     this.searching$.next();
   }
+
+  // Method to apply year filter
+  applyYearFilter(): void {
+    this.dataSource.filter = this.selectedYear?.toString() || ''; // Apply filter
+  }
 }
-
-
