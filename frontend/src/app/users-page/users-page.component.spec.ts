@@ -20,6 +20,7 @@ import { userJSON } from '../security/auth.service.spec';
 import { MockComponent } from 'ng-mocks';
 import { EditRoleMenuComponent } from './edit-role-menu/edit-role-menu.component';
 import {MatIconModule} from "@angular/material/icon";
+import {MatSelectModule} from "@angular/material/select";
 
 describe('UsersPageComponent', () => {
   let component: UsersPageComponent;
@@ -52,6 +53,7 @@ describe('UsersPageComponent', () => {
         MatInputModule,
         MatTableModule,
         MatIconModule,
+        MatSelectModule,
       ],
       declarations: [UsersPageComponent, MockComponent(EditRoleMenuComponent)],
       providers: [
