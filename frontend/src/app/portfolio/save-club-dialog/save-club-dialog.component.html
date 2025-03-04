@@ -3,11 +3,16 @@
 <mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="saveClub()">
     <div class="form-field-container">
-      <mat-form-field>
-        <mat-label for="name">Name</mat-label>
-        <input matInput formControlName="name" id="name" required />
-        <mat-error *ngIf="form.get('name')?.hasError('required')" required>Title is required.</mat-error>
-      </mat-form-field>
+<!--      <mat-form-field>-->
+<!--        <mat-label for="name">Name</mat-label>-->
+<!--        <input matInput formControlName="name" id="name" required />-->
+<!--        <mat-error *ngIf="form.get('name')?.hasError('required')" required>Title is required.</mat-error>-->
+<!--      </mat-form-field>-->
+      <app-club-dropdown
+        id="name"
+        label="name"
+        [clubControl]="clubControl"
+      />
       <mat-form-field>
         <mat-label for="startDate">Start Date</mat-label>
         <input matInput [max]="today" [matDatepicker]="startDatePicker" formControlName="startDate" id="startDate" required />

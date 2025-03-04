@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
-import {allMajors} from "../../../../util/major-list";
+import {allMajors} from "../../../../util/dropdown-constants";
 
 @Component({
   selector: 'major-dropdown',

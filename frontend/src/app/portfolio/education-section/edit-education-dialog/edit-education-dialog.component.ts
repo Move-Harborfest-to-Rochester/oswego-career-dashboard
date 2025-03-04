@@ -22,7 +22,7 @@ import {map, mergeMap, zipWith} from 'rxjs';
 import {LangUtils} from 'src/app/util/lang-utils';
 import {User} from 'src/app/security/domain/user';
 import Education from 'src/domain/Education';
-import {allMajors} from 'src/app/util/major-list';
+import {allMajors} from 'src/app/util/dropdown-constants';
 import {
   DegreeProgramOperationGroup
 } from './multi-major-input/multi-major-input.component';
