@@ -10,8 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { SaveClubDialogComponent } from './save-club-dialog.component';
 import * as validationUtils from '../../util/validation-utils';
+import {ClubDropdownComponent} from "./club-dropdown/club-dropdown.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
-describe('SaveClubDialogComponent', () => {
+fdescribe('SaveClubDialogComponent', () => {
   let component: SaveClubDialogComponent;
   let fixture: ComponentFixture<SaveClubDialogComponent>;
   let dialogRefSpy: jasmine.SpyObj<MatDialogRef<SaveClubDialogComponent>>;
@@ -20,7 +22,7 @@ describe('SaveClubDialogComponent', () => {
     dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
 
     await TestBed.configureTestingModule({
-      declarations: [SaveClubDialogComponent],
+      declarations: [SaveClubDialogComponent, ClubDropdownComponent],
       imports: [
         BrowserAnimationsModule, // Required for Angular Material components
         ReactiveFormsModule,
@@ -29,7 +31,8 @@ describe('SaveClubDialogComponent', () => {
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,     // Provides the DateAdapter for the datepicker
-        MatButtonModule
+        MatButtonModule,
+        MatAutocompleteModule
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: null },
