@@ -1,5 +1,6 @@
--- a stored process to retrieve data for analysis
+DROP PROCEDURE IF EXISTS IterateThroughUsers;
 
+-- a stored process to retrieve data for analysis
 DELIMITER //
 
 CREATE PROCEDURE IterateThroughUsers()
@@ -17,25 +18,15 @@ BEGIN
     DECLARE user_internship_this_year INT;
     DECLARE user_internship_last_year INT;
     DECLARE user_date DATE;
-    DECLARE academic_year_start DATE;
+	DECLARE academic_year_start DATE;
     DECLARE last_academic_year_start DATE;
     
-    SET academic_year_start = CONCAT(
-        CASE 
-            WHEN MONTH(user_date) < 5 THEN YEAR(user_date) - 1 
-            ELSE YEAR(user_date) 
-        END, 
-        '-05-01'
-    );
-
-    SET last_academic_year_start = DATE_SUB(academic_year_start, INTERVAL 1 YEAR);
-
     DECLARE user_cursor CURSOR FOR SELECT HEX(id), HEX(student_details_id), email, role FROM user;
     
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
 
     OPEN user_cursor;
-
+    
     read_loop: LOOP
         -- Reset variables for each iteration
         SET user_id_hex = '', 
@@ -49,6 +40,14 @@ BEGIN
             user_internship_this_year = 0,
             user_internship_last_year = 0,
             user_date = CURDATE();
+			SET academic_year_start = CONCAT(
+				CASE 
+					WHEN MONTH(user_date) < 5 THEN YEAR(user_date) - 1 
+					ELSE YEAR(user_date) 
+				END, 
+				'-05-01'
+			);
+			SET last_academic_year_start = DATE_SUB(academic_year_start, INTERVAL 1 YEAR);
 
         FETCH user_cursor INTO user_id_hex, user_student_details_id_hex, user_name, user_role;
         
