@@ -21,28 +21,23 @@ import static org.mockito.Mockito.when;
 public class JsonFileServiceTest {
 
     @Mock
-    private ResourceLoader resourceLoader;  // Mock the ResourceLoader
+    private ResourceLoader resourceLoader;
 
     @InjectMocks
-    private JsonFileService jsonFileService;  // Inject the mocked ResourceLoader into the service
+    private JsonFileService jsonFileService;
 
     @Test
     public void testReadJsonFile() throws IOException {
-        // Create a sample JSON string to simulate the content of the file
         String jsonContent = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
-        // Mock the ResourceLoader to return a fake Resource
         Resource mockResource = Mockito.mock(Resource.class);
         when(resourceLoader.getResource("file:src\\main\\java\\com\\senior\\project\\backend\\insights\\output.json"))
                 .thenReturn(mockResource);
 
-        // Mock the InputStream to return the sample JSON content
         when(mockResource.getInputStream()).thenReturn(new ByteArrayInputStream(jsonContent.getBytes()));
 
-        // Call the method to test
         Map<String, Object> result = jsonFileService.readJsonFile();
 
-        // Verify the result
         assertEquals(2, result.size());
         assertEquals("value1", result.get("key1"));
         assertEquals("value2", result.get("key2"));
