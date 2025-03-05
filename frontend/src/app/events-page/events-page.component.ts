@@ -17,7 +17,6 @@ export class EventsPageComponent implements OnInit {
         private route: ActivatedRoute,
         private eventService: EventService,
         private router: Router
-
     ) {}
 
     ngOnInit() {
@@ -40,4 +39,7 @@ export class EventsPageComponent implements OnInit {
         return constructBackendRequest(`${Endpoints.IMAGE_EVENT}/${imageId}`);
     }
 
+  toggleInterest(isInterested: boolean) {
+    //stubbed out
+  }
 }

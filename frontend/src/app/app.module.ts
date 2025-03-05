@@ -59,6 +59,7 @@ import {EditBasacFacultyModule} from "./admin/edit-basac-faculty/edit-basac-facu
 import {EventModule} from "./event/event.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {EventsPageComponent} from "./events-page/events-page.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import {EventsPageComponent} from "./events-page/events-page.component";
     EventModule,
     MatProgressSpinnerModule,
     NgChartsModule,
+    MatCheckboxModule,
   ],
   providers: [
     provideHttpClient(),
