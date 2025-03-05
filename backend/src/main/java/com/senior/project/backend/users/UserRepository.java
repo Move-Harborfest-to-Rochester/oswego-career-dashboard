@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findUsersByCanEmailIsTrue();
     List<User> findUsersByCanTextIsTrue();
 
-    @Query("SELECT e FROM User e WHERE CONCAT(e.firstName, ' ', e.lastName) LIKE :name% OR e.lastName LIKE :name%")
+    @Query("SELECT e FROM User e WHERE LOWER(CONCAT(e.firstName, ' ', e.lastName)) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(e.lastName) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY e.lastName ASC, e.firstName ASC")
     Page<User> findByFullNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
     @Modifying

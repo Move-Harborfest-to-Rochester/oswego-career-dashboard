@@ -10,6 +10,8 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import { EditRoleMenuModule } from './edit-role-menu/edit-role-menu.module';
+import {MatSortModule} from "@angular/material/sort";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { EditRoleMenuModule } from './edit-role-menu/edit-role-menu.module';
     FormsModule,
     MatIconModule,
     MatMenuModule,
-    EditRoleMenuModule
+    EditRoleMenuModule,
+    MatSortModule,
+    MatSelectModule
   ],
 })
 export class UsersPageModule { }
