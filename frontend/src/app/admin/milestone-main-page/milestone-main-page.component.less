@@ -10,8 +10,6 @@
     mat-card-header {
       padding: 10px 16px;
       justify-content: center;
-
-
       .year-name {
         font-size: 18px;
       }
@@ -20,9 +18,9 @@
 }
 
 mat-card-title {
-  /* CSS styles go here */
-  margin: 0px; // for example to remove the margin
+  margin: 0;
   font-weight: bold;
+  font-size: 25px; // desktop size
 }
 
 .flex-vertical-align {
@@ -37,11 +35,11 @@ mat-checkbox.mat-mdc-checkbox.mat-primary {
 
 .mdc-button {
   background-color: @oswego-green;
-  color:white;
+  color: white;
 }
 
 .mat-mdc-button:not(:disabled) {
-  color:white;
+  color: white;
 }
 
 .create-milestone-card:hover {
@@ -51,12 +49,12 @@ mat-checkbox.mat-mdc-checkbox.mat-primary {
 
 .create-milestone-card {
   background-color: @oswego-green;
-  color:white;
+  color: white;
   font-weight: bold;
   border-radius: 1em;
   width: 95%;
   height: 95%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: @oswego-box-shadow;
 }
 
 .milestone-card {
@@ -64,7 +62,7 @@ mat-checkbox.mat-mdc-checkbox.mat-primary {
   border-radius: 1em;
   width: 95%;
   height: 95%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: @oswego-box-shadow;
   overflow-x: auto;
 }
 
@@ -78,13 +76,30 @@ mat-checkbox.mat-mdc-checkbox.mat-primary {
 }
 
 .card-title {
-font-weight: bold;
-font-size: 25px;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .task-item {
-border-radius: 1em;
-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-background-color: white;
-padding: 5px 0 5px 10px;
+  border-radius: 1em;
+  box-shadow: @oswego-box-shadow;
+  background-color: white;
+  padding: 5px 0 5px 10px;
+}
+
+@media (max-width: 600px) {
+  mat-card-title {
+    font-size: 20px;
+  }
+
+  .task-item {
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  .create-milestone-card,
+  .milestone-card {
+    width: 100%;
+    height: 95%;
+  }
 }
