@@ -70,4 +70,8 @@ export class MilestoneService {
         })
       );
   }
+  updateTaskCompletion(taskID: string, isCompleted: boolean) {
+    const requestUrl = constructBackendRequest(Endpoints.TASKS_UPDATE_COMPLETION); // Get the full URL
+    return this.http.post(requestUrl, { taskID, isCompleted });
+  }
 }

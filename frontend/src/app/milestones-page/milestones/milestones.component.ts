@@ -39,20 +39,30 @@ export class MilestonesComponent extends MilestonesPage implements OnInit, OnDes
   }
 
   openTask(task: any) {
-    const dialogConfig = new MatDialogConfig();
-    // The user can't close the dialog by clicking outside its body
-    dialogConfig.disableClose = true;
-    dialogConfig.id = "modal-component";
-    dialogConfig.height = "80%";
-    dialogConfig.width = "60%";
-    dialogConfig.minWidth = "350px";
-    dialogConfig.data = {
-      task: task
-    }
-    const modalDialog = this.matDialog.open(TasksModalComponent, dialogConfig);
+    const isCompleted = this.completedTasks.includes(task.taskID)
+    if (!isCompleted) {
+      const dialogConfig = new MatDialogConfig();
+      // The user can't close the dialog by clicking outside its body
+      dialogConfig.disableClose = true;
+      dialogConfig.id = "modal-component";
+      dialogConfig.height = "80%";
+      dialogConfig.width = "60%";
+      dialogConfig.minWidth = "350px";
+      dialogConfig.data = {
+        task: task
+      }
+      const modalDialog = this.matDialog.open(TasksModalComponent, dialogConfig);
 
-    modalDialog.afterClosed().subscribe(result => {
-      this.ngOnInit();
-    })
+      modalDialog.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    }
+    else{
+      this.completedTasks = this.completedTasks.filter(id => id !== task.taskID);
+      this.milestoneService.updateTaskCompletion(task.taskID, !isCompleted).subscribe({
+        next: () => console.log(`Task ${task.taskID} completion status updated.`),
+        error: (err) => console.error(`Error updating task: ${err}`)
+      });
+    }
   }
 }

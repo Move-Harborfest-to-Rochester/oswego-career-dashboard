@@ -14,6 +14,7 @@ export enum Endpoints {
     HOMEPAGE_EVENTS = 'homepage-events',
     HOMEPAGE_TASKS = 'homepage-tasks',
     TASKS = 'tasks',
+    TASKS_UPDATE_COMPLETION = 'tasks/update-completion',
     USERS = 'users',
     UPDATE_ROLES = 'users/roles',
     CURRENT_USER = 'current-user',
