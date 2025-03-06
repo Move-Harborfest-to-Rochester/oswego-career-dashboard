@@ -86,7 +86,7 @@ export class SubmissionContentComponent implements OnDestroy {
    * Determines if a submission can be made
    */
   canSubmit(): boolean {
-    return this.task.needsArtifact() ? this.artifactId > 1 : this.commentString !== '';
+    return this.task.needsArtifact() ? this.artifactId > 1 : true;
   }
 
   /**
