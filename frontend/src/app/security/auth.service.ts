@@ -1,25 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, filter, map, mergeMap, of, take } from 'rxjs';
-import { User, UserJSON } from './domain/user';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
-import { EventMessage, EventType } from '@azure/msal-browser';
-import { LoginRequest, LoginResponse, LoginResponseJSON, Token, TokenType } from './domain/auth-objects';
-import { Endpoints, constructBackendRequest } from '../util/http-helper';
-import { LangUtils } from '../util/lang-utils';
-import { AUTH_TOKEN_STORAGE, TOKEN_ISSUED } from './security-constants';
-import { ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {BehaviorSubject, Observable, catchError, filter, map, mergeMap, of, take} from 'rxjs';
+import {User, UserJSON} from './domain/user';
+import {MsalBroadcastService, MsalService} from '@azure/msal-angular';
+import {GoogleLoginProvider, SocialAuthService} from '@abacritt/angularx-social-login';
+import {EventMessage, EventType} from '@azure/msal-browser';
+import {LoginRequest, LoginResponse, LoginResponseJSON, Token, TokenType} from './domain/auth-objects';
+import {Endpoints, constructBackendRequest} from '../util/http-helper';
+import {LangUtils} from '../util/lang-utils';
+import {AUTH_TOKEN_STORAGE, TOKEN_ISSUED} from './security-constants';
+import {ActivatedRoute} from '@angular/router';
 
 export const SESSION_KEY = 'session';
 
 export const LOCATION = new InjectionToken<Location>(
   'Location',
   {
-      providedIn: 'root',
-      factory(): Location {
-          return location;
-      }
+    providedIn: 'root',
+    factory(): Location {
+      return location;
+    }
   }
 );
 
@@ -44,13 +44,13 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
 
   constructor(
-      private readonly http: HttpClient,
-      private readonly msalAuthService: MsalService,
-      private readonly broadcastService: MsalBroadcastService,
-      private readonly googleAuthService: SocialAuthService,
-      private readonly activatedRoute: ActivatedRoute,
-      @Inject(LOCATION) private readonly location: Location,
-    ) {
+    private readonly http: HttpClient,
+    private readonly msalAuthService: MsalService,
+    private readonly broadcastService: MsalBroadcastService,
+    private readonly googleAuthService: SocialAuthService,
+    private readonly activatedRoute: ActivatedRoute,
+    @Inject(LOCATION) private readonly location: Location,
+  ) {
     this.isAuthenticatedSubect.next(false);
     this.listenForMSALSignIn();
     this.listenForGoogleSignIn();
@@ -220,7 +220,7 @@ export class AuthService {
             });
           }
         });
-    });
+      });
   }
 
   /**
@@ -331,6 +331,22 @@ export class AuthService {
       } else {
         this.location.href = '';
       }
+    });
+  }
+
+  handleRedirectObservable() {
+    this.msalAuthService.handleRedirectObservable().subscribe({
+      next: (result) => {
+        this.isAuthenticated$.pipe(take(1)).subscribe((isAuthenticated) => {
+          if (!isAuthenticated) {
+            this.signIn(this.createLoginRequest(result.idToken, TokenType.MICROSOFT_ENTRA_ID)).subscribe((res) => {
+              this.processResponse(res);
+              this.navigateOffLogin();
+            });
+          }
+        });
+      },
+      error: (error) => console.log(error)
     });
   }
 }
