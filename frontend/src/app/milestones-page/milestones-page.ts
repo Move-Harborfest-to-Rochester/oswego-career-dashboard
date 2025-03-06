@@ -21,6 +21,18 @@ export abstract class MilestonesPage {
   protected destroyed$ = new Subject<any>();
   dataLoaded = false;
 
+  yearCompleted(yearLevel: YearLevel): boolean {
+    let milestones: Array<Milestone> | undefined = this.milestonesMap.get(yearLevel);
+    let completed = true;
+    let list = this.completedMilestones;
+    if (milestones) {
+      milestones.forEach(function (milestone: Milestone){ 
+          completed = completed && list.includes(milestone.milestoneID);
+       });
+    } 
+    return completed;
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next("");
     this.destroyed$.complete();

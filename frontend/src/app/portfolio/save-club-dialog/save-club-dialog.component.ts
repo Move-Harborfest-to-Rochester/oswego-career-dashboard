@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
+  FormBuilder, FormControl,
   FormGroup,
   ValidationErrors,
   Validators
@@ -53,6 +53,9 @@ export class SaveClubDialogComponent {
 
   hasError(error: string): boolean {
     return this.form.hasError(error) && (this.form.touched || this.form.dirty)
+  }
+  get clubControl(): FormControl<string> {
+    return this.form.get('name') as FormControl<string>;
   }
 
   saveClub() {

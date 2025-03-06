@@ -28,7 +28,7 @@ import Education, {EducationJSON} from 'src/domain/Education';
 import {YearLevel} from 'src/domain/Milestone';
 import {AuthService} from 'src/app/security/auth.service';
 import {ActivatedRoute} from '@angular/router';
-import {allMajors} from 'src/app/util/major-list';
+import {allMajors} from 'src/app/util/dropdown-constants';
 import {
   MultiMajorInputModule
 } from './multi-major-input/multi-major-input.module';

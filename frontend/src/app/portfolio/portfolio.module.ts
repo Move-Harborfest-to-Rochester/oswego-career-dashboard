@@ -27,6 +27,8 @@ import { InterestListInputComponent } from './edit-interests/interest-list-input
 import { EducationSectionModule } from './education-section/education-section.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SaveClubDialogComponent } from './save-club-dialog/save-club-dialog.component';
+import { ClubDropdownComponent } from './save-club-dialog/club-dropdown/club-dropdown.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -38,6 +40,7 @@ import { SaveClubDialogComponent } from './save-club-dialog/save-club-dialog.com
     EditInterestsComponent,
     InterestListInputComponent,
     SaveClubDialogComponent,
+    ClubDropdownComponent,
   ],
   exports: [],
   imports: [
@@ -60,7 +63,8 @@ import { SaveClubDialogComponent } from './save-club-dialog/save-club-dialog.com
     SaveJobDialogModule,
     ConfirmationDialogModule,
     MatDatepickerModule,
-    EditPersonalInfoDialogModule
+    EditPersonalInfoDialogModule,
+    MatAutocompleteModule
   ],
 })
 export class PortfolioModule { }
