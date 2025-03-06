@@ -9,11 +9,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import { SaveClubDialogComponent } from './save-club-dialog.component';
-import * as validationUtils from '../../util/validation-utils';
 import {ClubDropdownComponent} from "./club-dropdown/club-dropdown.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
-fdescribe('SaveClubDialogComponent', () => {
+describe('SaveClubDialogComponent', () => {
   let component: SaveClubDialogComponent;
   let fixture: ComponentFixture<SaveClubDialogComponent>;
   let dialogRefSpy: jasmine.SpyObj<MatDialogRef<SaveClubDialogComponent>>;

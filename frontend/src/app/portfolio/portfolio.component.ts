@@ -1,22 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { Location} from "@angular/common";
-import { MatDialog } from "@angular/material/dialog";
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, mergeMap, Observable, tap, zipWith} from 'rxjs';
-import { Job } from 'src/domain/Job';
-import { ArtifactService } from "../file-upload/artifact.service";
-import { MilestoneService } from "../milestones-page/milestones/milestone.service";
-import { AuthService } from '../security/auth.service';
-import {Role, User} from '../security/domain/user';
-import { UserService } from '../security/user.service';
-import { Project } from 'src/domain/Project'
-import {AddProjectModalComponent} from "./add-project-modal/add-project-modal.component";
-import { SaveProjectRequest, ProjectService } from './project/project.service';
-import { LangUtils } from '../util/lang-utils';
-import { EditPersonalInfoDialogComponent } from './edit-personal-info-dialog/edit-personal-info-dialog.component';
-import { ScreenSizeService } from '../util/screen-size.service';
+import {Component, OnInit} from '@angular/core';
+import {Location} from "@angular/common";
+import {MatDialog} from "@angular/material/dialog";
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {map, mergeMap, Observable, tap, zipWith} from 'rxjs';
+import {Job} from 'src/domain/Job';
+import {ArtifactService} from "../file-upload/artifact.service";
 import {
- InterestOperation,
+  MilestoneService
+} from "../milestones-page/milestones/milestone.service";
+import {AuthService} from '../security/auth.service';
+import {Role, User} from '../security/domain/user';
+import {UserService} from '../security/user.service';
+import {Project} from 'src/domain/Project'
+import {
+  AddProjectModalComponent
+} from "./add-project-modal/add-project-modal.component";
+import {ProjectService, SaveProjectRequest} from './project/project.service';
+import {LangUtils} from '../util/lang-utils';
+import {
+  EditPersonalInfoDialogComponent
+} from './edit-personal-info-dialog/edit-personal-info-dialog.component';
+import {ScreenSizeService} from '../util/screen-size.service';
+import {
+  InterestOperation,
   PortfolioService,
   SkillsOperation
 } from "./portfolio.service";
@@ -27,15 +33,22 @@ import {Skill} from "../../domain/Skill";
 import {StudentDetails} from "../../domain/StudentDetails";
 import {JobService} from "./job/job.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {SaveJobDialogComponent} from "./save-job-dialog/save-job-dialog.component";
+import {
+  SaveJobDialogComponent
+} from "./save-job-dialog/save-job-dialog.component";
 import {
   ConfirmationDialogComponent,
   ConfirmationDialogData
 } from "../common/confirmation-dialog/confirmation-dialog.component";
-import {EditInterestsComponent} from "./edit-interests/edit-interests.component";
+import {
+  EditInterestsComponent
+} from "./edit-interests/edit-interests.component";
 import {Interest} from "../../domain/Interest";
 import {Club} from "../../domain/Club";
-import {SaveClubDialogComponent} from "./save-club-dialog/save-club-dialog.component";
+import {
+  SaveClubDialogComponent
+} from "./save-club-dialog/save-club-dialog.component";
+import {Milestone} from "../../domain/Milestone";
 
 @Component({
   selector: 'app-portfolio',
@@ -46,9 +59,10 @@ export class PortfolioComponent implements OnInit {
   user: User = User.makeEmpty();
   external: boolean = false;
   profileURL: string | null = null;
-  completedMilestones: string[] = [];
+  completedMilestones: Milestone[] = [];
   isMobile$: Observable<boolean>;
   personalSectionResize$: Observable<boolean>;
+  protected readonly Role = Role;
   private authenticatedUser$: Observable<User | null>;
 
   constructor(
@@ -61,8 +75,7 @@ export class PortfolioComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly milestoneService: MilestoneService,
-
-    private readonly addProjectDialogue : MatDialog,
+    private readonly addProjectDialogue: MatDialog,
     private readonly saveClubDialog: MatDialog,
     private readonly editPersonalInfoDialog: MatDialog,
     private readonly saveJobDialog: MatDialog,
@@ -115,7 +128,7 @@ export class PortfolioComponent implements OnInit {
           this.milestoneService
             .getCompletedMilestones(user!.id)
             .subscribe((milestones) => {
-              this.completedMilestones = milestones.map((it) => it.name);
+              this.completedMilestones = milestones;
             });
         }
       });
@@ -125,7 +138,6 @@ export class PortfolioComponent implements OnInit {
     this.location.back()
   }
 
-
   loadProfilePicture() {
     this.artifactService.getArtifactFile(this.user.profilePictureId)
       .subscribe((blob) => {
@@ -133,32 +145,31 @@ export class PortfolioComponent implements OnInit {
       });
   }
 
-
   getSkills(isLanguages: boolean): SkillsOperation[] {
-      return (
-        this.user.studentDetails?.skills
-          .filter(skill => skill.isLanguage==isLanguages)
-            .map((skill) => ({
-              id: skill.id,
-              operation: 'Edit',
-              name: skill.name,
-              isLanguage: skill.isLanguage
-            }))?? []
-      )
-  }
-
-  getInterests(): InterestOperation[]{
     return (
-      this.user.studentDetails?.interests
-        .map((interest) => ({
-            id: interest.id,
-            operation: 'Edit',
-            name: interest.name
-        }))?? []
+      this.user.studentDetails?.skills
+        .filter(skill => skill.isLanguage == isLanguages)
+        .map((skill) => ({
+          id: skill.id,
+          operation: 'Edit',
+          name: skill.name,
+          isLanguage: skill.isLanguage
+        })) ?? []
     )
   }
 
-  openEditInterests() : void {
+  getInterests(): InterestOperation[] {
+    return (
+      this.user.studentDetails?.interests
+        .map((interest) => ({
+          id: interest.id,
+          operation: 'Edit',
+          name: interest.name
+        })) ?? []
+    )
+  }
+
+  openEditInterests(): void {
     const dialogRef = this.editInterestDialog.open(EditInterestsComponent);
     dialogRef.componentInstance.defaultValues = {
       interests: this.getInterests(),
@@ -183,18 +194,18 @@ export class PortfolioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result?: Skill[]) => {
       if (!result) return;
-      const oldSkills =  this.user.studentDetails
+      const oldSkills = this.user.studentDetails
         ? this.user.studentDetails.skills
         : new Array<Skill>()
       const oldSkillsOnlyLanguages = oldSkills.filter((skill) => {
-          return skill.isLanguage
+        return skill.isLanguage
       })
       const oldSkillsOnlySkills = oldSkills.filter((skill) => {
         return !skill.isLanguage
       })
 
       let newSkills;
-      if(isLanguages) {
+      if (isLanguages) {
         newSkills = [...oldSkillsOnlySkills, ...result]
       } else {
         newSkills = [...oldSkillsOnlyLanguages, ...result]
@@ -215,15 +226,16 @@ export class PortfolioComponent implements OnInit {
 
   majors(): string[] {
     return (this.user.studentDetails?.degreePrograms ?? [])
-    .filter((d) => !d.isMinor)
-    .map((d) => d.name);
+      .filter((d) => !d.isMinor)
+      .map((d) => d.name);
   }
 
   minors(): string[] {
     return (this.user.studentDetails?.degreePrograms ?? [])
-    .filter((d) => d.isMinor)
-    .map((d) => d.name);
+      .filter((d) => d.isMinor)
+      .map((d) => d.name);
   }
+
   openEditPersonalInfoDialog() {
     const dialogRef = this.editPersonalInfoDialog.open(EditPersonalInfoDialogComponent);
     dialogRef.afterClosed().subscribe((personalInfo) => {
@@ -246,28 +258,27 @@ export class PortfolioComponent implements OnInit {
       .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
   }
 
-
-
   editClub(club: Club): void {
-    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent,  {
+    const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent, {
       data: club
     });
-    dialogRef.afterClosed().subscribe((club?: Club)=> {
+    dialogRef.afterClosed().subscribe((club?: Club) => {
       if (!club) return;
       this.portfolioService.saveClub(club).subscribe(club => {
           if (!this.user.studentDetails) {
             this.user.studentDetails = StudentDetails.makeEmpty();
           }
-          this.user.studentDetails.clubs = this.user.studentDetails.clubs.map(c => c.id === club.id ? club: c);
+          this.user.studentDetails.clubs = this.user.studentDetails.clubs.map(c => c.id === club.id ? club : c);
         }
       )
     })
 
 
   }
+
   createClub(): void {
     const dialogRef = this.saveClubDialog.open(SaveClubDialogComponent);
-    dialogRef.afterClosed().subscribe((club?: Club)=> {
+    dialogRef.afterClosed().subscribe((club?: Club) => {
       if (!club) return;
       this.portfolioService.saveClub(club).subscribe(club =>
         this.user.studentDetails?.clubs.push(club)
@@ -275,7 +286,6 @@ export class PortfolioComponent implements OnInit {
 
     })
   }
-
 
   createJob(): void {
     const dialogRef = this.saveJobDialog.open(SaveJobDialogComponent);
@@ -336,7 +346,6 @@ export class PortfolioComponent implements OnInit {
     })
   }
 
-
   confirmDeleteClub(club: Club) {
     const alertDurationMs = 5000;
     this.portfolioService.deleteClub(club.id)
@@ -357,8 +366,9 @@ export class PortfolioComponent implements OnInit {
             duration: alertDurationMs,
           });
         }
-    });
+      });
   }
+
   deleteJob(job: Job) {
     const dialogData: ConfirmationDialogData = {
       entityId: job.id,
@@ -370,7 +380,6 @@ export class PortfolioComponent implements OnInit {
       data: dialogData,
     });
   }
-
 
   coops(): Job[] {
     return (this.user.studentDetails?.jobs ?? [])
@@ -387,21 +396,28 @@ export class PortfolioComponent implements OnInit {
     return this.isMobile$ ? `${header}:` : `${header} Date:`;
   }
 
-
-  formatDate(date: Date | null){
-    if(!date){
+  formatDate(date: Date | null) {
+    if (!date) {
       return 'Ongoing'
     }
-    return this.isMobile$ ? date.toLocaleString("en-US", {month: "numeric", year: "numeric", day: "numeric"}) :
-      date.toLocaleString("en-US", {month: "long", year: "numeric", day: "numeric"});
+    return this.isMobile$ ? date.toLocaleString("en-US", {
+        month: "numeric",
+        year: "numeric",
+        day: "numeric"
+      }) :
+      date.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric",
+        day: "numeric"
+      });
 
   }
 
   openAddProjectModal() {
-    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent,{
-        width: '500px',
-        data: { header: "Add New Project"}
-      });
+    const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
+      width: '500px',
+      data: {header: "Add New Project"}
+    });
     dialogRef.afterClosed().subscribe((result: SaveProjectRequest) => {
       if (!result) {
         return;
@@ -411,6 +427,7 @@ export class PortfolioComponent implements OnInit {
       });
     });
   }
+
   openEditProjectModal(project: Project): void {
     const dialogRef = this.addProjectDialogue.open(AddProjectModalComponent, {
       width: '500px',
@@ -468,9 +485,10 @@ export class PortfolioComponent implements OnInit {
       }
     });
   }
-  deleteProject(project: Project){
+
+  deleteProject(project: Project) {
     const dialogueRef: ConfirmationDialogData = {
-      entityId : project.id,
+      entityId: project.id,
       title: 'Delete this Project?',
       action: `delete the project "${project.name}"?`,
       onConfirm: () => this.confirmProjectDelete(project)
@@ -486,6 +504,4 @@ export class PortfolioComponent implements OnInit {
         map((authenticatedUser) => this.user.id === authenticatedUser?.id)
       );
   }
-
-  protected readonly Role = Role;
 }
