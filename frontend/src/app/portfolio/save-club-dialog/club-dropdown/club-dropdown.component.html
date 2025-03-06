@@ -1,6 +1,6 @@
-<mat-form-field>
+<mat-form-field style="width: 100%;">
   <mat-label>Name</mat-label>
-  <input matInput [formControl]="clubControl" [matAutocomplete]="auto" required />
+  <input matInput type="text" [formControl]="clubControl" [matAutocomplete]="auto" required />
   <mat-autocomplete #auto [displayWith]="displayFn">
     <ng-container *ngIf="(filteredClubs | async)!.length > 0">
       <mat-option *ngFor="let option of filteredClubs | async" [value]="option">
