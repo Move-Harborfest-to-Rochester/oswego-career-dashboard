@@ -1,16 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Milestone, YearLevel, CompletionStatus } from "../../../domain/Milestone";
-import { MilestoneService } from '../milestones/milestone.service';
-import { takeUntil, zip } from 'rxjs';
-import { MatDialog} from "@angular/material/dialog";
-import { SubmissionService } from 'src/app/submissions/submission.service';
-import { User } from 'src/app/security/domain/user';
-import { MilestonesPage } from '../milestones-page';
-import { ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/security/user.service';
-import { Submission } from 'src/domain/Submission';
-import { ArtifactService } from 'src/app/file-upload/artifact.service';
-import { Task } from 'src/domain/Task';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  CompletionStatus,
+  Milestone,
+  YearLevel
+} from "../../../domain/Milestone";
+import {MilestoneService} from '../milestones/milestone.service';
+import {takeUntil, zip} from 'rxjs';
+import {MatDialog} from "@angular/material/dialog";
+import {SubmissionService} from 'src/app/submissions/submission.service';
+import {User} from 'src/app/security/domain/user';
+import {MilestonesPage} from '../milestones-page';
+import {ActivatedRoute} from '@angular/router';
+import {UserService} from 'src/app/security/user.service';
+import {Submission} from 'src/domain/Submission';
+import {ArtifactService} from 'src/app/file-upload/artifact.service';
+import {Task} from 'src/domain/Task';
 
 @Component({
   selector: 'app-faculty-milestones',
@@ -20,13 +24,13 @@ import { Task } from 'src/domain/Task';
 export class MilestonesFacultyComponent extends MilestonesPage implements OnInit, OnDestroy {
 
   studentID!: string;
-  currentStudent!: User;
+  currentStudent: User | null = null;
   studentYear!: YearLevel;
 
   // display order
   completionStatuses = [
-    CompletionStatus.InProgress, 
-    CompletionStatus.Incomplete, 
+    CompletionStatus.InProgress,
+    CompletionStatus.Incomplete,
     CompletionStatus.Complete,
     CompletionStatus.Upcoming
   ];
@@ -78,7 +82,7 @@ export class MilestonesFacultyComponent extends MilestonesPage implements OnInit
     const inprogressMilestones: Milestone[] = [];
 
     // get the milestone object for the completed milestones
-    const completedMilestonesList = milestones.filter(milestone => 
+    const completedMilestonesList = milestones.filter(milestone =>
       this.completedMilestones.includes(milestone.milestoneID)
     );
 
@@ -87,28 +91,27 @@ export class MilestonesFacultyComponent extends MilestonesPage implements OnInit
       const completedMTasks = milestone.tasks.filter(task => this.completedTasks.includes(task.taskID));
 
       // if the milestone has any completed tasks but hasn't been marked as fully completed
-      if (completedMTasks.length > 0 && 
+      if (completedMTasks.length > 0 &&
         !this.completedMilestones.includes(milestone.milestoneID)) {
-          inprogressMilestones.push(milestone);
-        }
+        inprogressMilestones.push(milestone);
+      }
     }
 
     const incompleteMilestones: Milestone[] = [];
     const upcomingMilestones: Milestone[] = [];
 
     // if the milestone isn't already in either list
-    milestones.filter(milestone => 
+    milestones.filter(milestone =>
       !this.completedMilestones.includes(milestone.milestoneID) &&
       !inprogressMilestones.includes(milestone)
     ).forEach((milestone) => {
       if (YearLevel.compare(milestone.yearLevel, this.studentYear) > 0) {
         upcomingMilestones.push(milestone);
-      }
-      else {
+      } else {
         incompleteMilestones.push(milestone);
       }
     });
-    
+
     this.completedMap.set(CompletionStatus.InProgress, inprogressMilestones);
     this.completedMap.set(CompletionStatus.Incomplete, incompleteMilestones);
     this.completedMap.set(CompletionStatus.Complete, completedMilestonesList);
@@ -139,9 +142,7 @@ export class MilestonesFacultyComponent extends MilestonesPage implements OnInit
 
       // possibly change format later
       const taskName = task.name.replace(" ", "");
-      const fileName: string = this.currentStudent.firstName 
-                             + this.currentStudent.lastName
-                             + taskName + "Submission";
+      const fileName: string = this.currentStudent ? `${this.currentStudent.firstName} ${this.currentStudent.lastName} ${taskName} Submission` : `${taskName} Submission`;
 
       // create invisible link so we can name the file
       const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
@@ -149,10 +150,10 @@ export class MilestonesFacultyComponent extends MilestonesPage implements OnInit
       a.download = fileName;
       document.body.appendChild(a);
       a.click();
-  
+
       document.body.removeChild(a);
       URL.revokeObjectURL(artifactURL);
-      
+
       // window.open does not name the file (kept just in case we're changing this)
       //window.open(artifactURL, "artifactName");
     });
