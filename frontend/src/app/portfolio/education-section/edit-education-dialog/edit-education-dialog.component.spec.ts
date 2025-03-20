@@ -119,7 +119,7 @@ describe('EditEducationDialogComponent', () => {
     const universityIdControl = component.form.get('universityId');
 
     universityIdControl?.setValue('');
-    expect(universityIdControl?.valid).toBeTrue();
+    expect(universityIdControl?.valid).toBeFalse();
 
     universityIdControl?.setValue('123');
     expect(universityIdControl?.valid).toBeTrue();
