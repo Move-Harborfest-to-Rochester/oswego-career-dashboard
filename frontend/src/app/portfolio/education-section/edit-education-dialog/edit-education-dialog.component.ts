@@ -45,7 +45,6 @@ export class EditEducationDialogComponent implements OnInit {
   isSubmitting: boolean = false;
   protected title = 'Education';
   protected readonly yearLevels = [
-    null,
     'Freshman',
     'Sophomore',
     'Junior',
@@ -216,6 +215,13 @@ export class EditEducationDialogComponent implements OnInit {
 
   operationValidators(): ValidatorFn[] {
     return [Validators.required];
+  }
+
+  /**
+   * Will determine if the student can save the education
+   */
+  canSubmit(): boolean {
+    return false;
   }
 
   private majorIsDuplicate(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {
