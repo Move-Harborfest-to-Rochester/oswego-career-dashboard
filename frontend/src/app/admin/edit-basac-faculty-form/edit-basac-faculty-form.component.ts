@@ -3,7 +3,8 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormGroup
+  FormGroup,
+  Validators
 } from "@angular/forms";
 import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
 import {BasacFaculty} from "../../../domain/BasacFaculty";
@@ -39,7 +40,9 @@ export class EditBasacFacultyFormComponent implements OnInit {
           op: this.formBuilder.control('replace'),
           id: this.formBuilder.control(faculty.id),
           value: this.formBuilder.group({
-            name: this.formBuilder.control(faculty.name),
+            name: this.formBuilder.control(faculty.name, {
+              validators: [Validators.required]
+            }),
             title: this.formBuilder.control(faculty.title),
             email: this.formBuilder.control(faculty.email)
           })
@@ -53,6 +56,10 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   submit(formValues: BasacFacultyPatch) {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.service.patch(formValues).subscribe((faculty) => {
       this.updateFaculty(faculty);
       this.snackBar.open('BASAC Office Faculty updated.', 'Close', {
@@ -71,6 +78,10 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   addNewFaculty() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.facultyOperations.push(this.formBuilder.group({
       op: this.formBuilder.control('add'),
       value: this.formBuilder.group({
