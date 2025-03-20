@@ -3,7 +3,8 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormGroup
+  FormGroup,
+  Validators
 } from "@angular/forms";
 import {BasacFacultyPatch, BasacFacultyService} from "./basac-faculty.service";
 import {BasacFaculty} from "../../../domain/BasacFaculty";
@@ -39,7 +40,9 @@ export class EditBasacFacultyFormComponent implements OnInit {
           op: this.formBuilder.control('replace'),
           id: this.formBuilder.control(faculty.id),
           value: this.formBuilder.group({
-            name: this.formBuilder.control(faculty.name),
+            name: this.formBuilder.control(faculty.name, {
+              validators: [Validators.required]
+            }),
             title: this.formBuilder.control(faculty.title),
             email: this.formBuilder.control(faculty.email)
           })
