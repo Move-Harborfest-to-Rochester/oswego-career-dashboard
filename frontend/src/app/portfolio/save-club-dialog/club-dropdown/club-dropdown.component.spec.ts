@@ -10,7 +10,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {of} from "rxjs";
 
-fdescribe('ClubDropdownComponent', () => {
+describe('ClubDropdownComponent', () => {
   let component: ClubDropdownComponent;
   let fixture: ComponentFixture<ClubDropdownComponent>;
 
