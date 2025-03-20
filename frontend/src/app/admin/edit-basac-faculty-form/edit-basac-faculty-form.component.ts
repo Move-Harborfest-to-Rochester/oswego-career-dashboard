@@ -53,6 +53,10 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   submit(formValues: BasacFacultyPatch) {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.service.patch(formValues).subscribe((faculty) => {
       this.updateFaculty(faculty);
       this.snackBar.open('BASAC Office Faculty updated.', 'Close', {
@@ -71,6 +75,10 @@ export class EditBasacFacultyFormComponent implements OnInit {
   }
 
   addNewFaculty() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.facultyOperations.push(this.formBuilder.group({
       op: this.formBuilder.control('add'),
       value: this.formBuilder.group({
