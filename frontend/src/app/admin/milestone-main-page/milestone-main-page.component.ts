@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Milestone, YearLevel } from "../../../domain/Milestone";
-import { MilestoneService } from 'src/app/milestones-page/milestones/milestone.service'; 
+import { MilestoneService } from 'src/app/milestones-page/milestones/milestone.service';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MilestoneCreateModalComponent } from './milestone-create-modal/milestone-create-modal.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-milestone-main-page',
@@ -12,7 +13,7 @@ import { MilestoneCreateModalComponent } from './milestone-create-modal/mileston
   styleUrls: ['./milestone-main-page.component.less']
 })
 export class MilestoneMainPageComponent implements OnDestroy {
-  
+  gridCols: number = 3;
   private destroyed$ = new Subject<any>();
 
   milestonesMap: Map<string, Array<Milestone>> = new Map()
@@ -23,6 +24,7 @@ export class MilestoneMainPageComponent implements OnDestroy {
     private milestoneService: MilestoneService,
     private router: Router,
     public matDialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
   ) {
   }
 
@@ -37,6 +39,20 @@ export class MilestoneMainPageComponent implements OnDestroy {
       .subscribe((milestones: Milestone[]) => {
         this.yearLevels.forEach((yearLevel) => this.milestonesMap.set(yearLevel, new Array<Milestone>()));
         milestones.forEach((milestone) => this.milestonesMap.get(milestone.yearLevel)?.push(milestone));
+    });
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large
+    ]).subscribe(result => {
+      if (result.breakpoints[Breakpoints.XSmall]) {
+        this.gridCols = 1;
+      } else if (result.breakpoints[Breakpoints.Small]) {
+        this.gridCols = 2;
+      } else {
+        this.gridCols = 3;
+      }
     });
   }
 

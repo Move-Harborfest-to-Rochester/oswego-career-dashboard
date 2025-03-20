@@ -35,7 +35,7 @@ import {RouterLink} from "@angular/router";
     MatButtonModule,
     MatIconModule,
     HotlinkModule,
-    RouterLink
+    RouterLink,
   ]
 })
 export class HomepageModule { }

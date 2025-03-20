@@ -20,7 +20,7 @@ export type EditSkillsDefaultValues = {
   styleUrls: ['./edit-skills-dialog.component.less']
 })
 export class EditSkillsDialogComponent implements OnInit {
-  protected form!: FormGroup;
+  form!: FormGroup;
 
   @Input() defaultValues?: EditSkillsDefaultValues;
   @Input() isLanguageParent?: boolean;

@@ -1,0 +1,17 @@
+<mat-form-field style="width: 100%;">
+  <mat-label>Name</mat-label>
+  <input matInput type="text" [formControl]="clubControl" [matAutocomplete]="auto" required />
+  <mat-autocomplete #auto [displayWith]="displayFn">
+    <ng-container *ngIf="(filteredClubs | async)!.length > 0">
+      <mat-option *ngFor="let option of filteredClubs | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </ng-container>
+    <ng-container *ngIf="(filteredClubs | async)?.length === 0">
+      <mat-option disabled>No results</mat-option>
+    </ng-container>
+  </mat-autocomplete>
+  <mat-error *ngIf="clubControl.hasError('required')">
+    Title is required.
+  </mat-error>
+</mat-form-field>

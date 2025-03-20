@@ -2,6 +2,8 @@ package com.senior.project.backend.portfolio;
 
 import com.senior.project.backend.Constants;
 import com.senior.project.backend.degreeprogram.DegreeProgramRepository;
+import com.senior.project.backend.domain.Interest;
+import com.senior.project.backend.domain.Skill;
 import com.senior.project.backend.domain.StudentDetails;
 import com.senior.project.backend.domain.User;
 import com.senior.project.backend.domain.YearLevel;
@@ -11,6 +13,7 @@ import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.studentdetails.StudentDetailsRepository;
 import com.senior.project.backend.users.UserRepository;
 
+import java.util.ArrayList;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -155,4 +158,116 @@ public class PortfolioServiceTest {
             verify(userRepository, times(1)).save(any(User.class));
         });
     }
+  @Test
+  public void testSaveSkillsExistingStudentDetails() {
+    // Create an existing StudentDetails.
+    StudentDetails studentDetails = new StudentDetails();
+    // Set the test user to already have student details.
+    mockUser.setStudentDetails(studentDetails);
+    // Stub save to return the same instance.
+    when(studentDetailsRepository.save(any(StudentDetails.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
+
+    // Create a list of skills.
+    ArrayList<Skill> skills = new ArrayList<>();
+    Skill skill1 = new Skill();
+    skill1.setName("Java");
+    Skill skill2 = new Skill();
+    skill2.setName("Spring");
+    skills.add(skill1);
+    skills.add(skill2);
+
+    Mono<StudentDetails> result = portfolioService.saveSkills(skills);
+
+    StepVerifier.create(result)
+        .assertNext(sd -> {
+          // Verify the skills list is set.
+          assertEquals(skills, sd.getSkills());
+          // Verify each skill's studentDetails is set to sd.
+          for (Skill s : skills) {
+            assertEquals(sd, s.getStudentDetails());
+          }
+        })
+        .verifyComplete();
+  }
+
+  @Test
+  public void testSaveSkillsNoStudentDetails() {
+    // Simulate that the user has no StudentDetails.
+    mockUser.setStudentDetails(null);
+    when(studentDetailsRepository.save(any(StudentDetails.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
+    when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+    ArrayList<Skill> skills = new ArrayList<>();
+    Skill skill = new Skill();
+    skill.setName("Python");
+    skills.add(skill);
+
+    Mono<StudentDetails> result = portfolioService.saveSkills(skills);
+
+    StepVerifier.create(result)
+        .assertNext(sd -> {
+          assertEquals(skills, sd.getSkills());
+          for (Skill s : skills) {
+            assertEquals(sd, s.getStudentDetails());
+          }
+        })
+        .verifyComplete();
+  }
+
+  // --- New tests for saveInterests ---
+  @Test
+  public void testSaveInterestsExistingStudentDetails() {
+    // Create an existing StudentDetails.
+    StudentDetails studentDetails = new StudentDetails();
+    mockUser.setStudentDetails(studentDetails);
+    when(studentDetailsRepository.save(any(StudentDetails.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
+
+    ArrayList<Interest> interests = new ArrayList<>();
+    Interest interest1 = new Interest();
+    interest1.setName("Music");
+    Interest interest2 = new Interest();
+    interest2.setName("Sports");
+    interests.add(interest1);
+    interests.add(interest2);
+
+    Mono<StudentDetails> result = portfolioService.saveInterests(interests);
+
+    StepVerifier.create(result)
+        .assertNext(sd -> {
+          assertEquals(interests, sd.getInterests());
+          for (Interest i : interests) {
+            assertEquals(sd, i.getStudentDetails());
+          }
+        })
+        .verifyComplete();
+  }
+
+  @Test
+  public void testSaveInterestsNoStudentDetails() {
+    // Simulate user has no StudentDetails.
+    mockUser.setStudentDetails(null);
+    when(studentDetailsRepository.save(any(StudentDetails.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
+    when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+    ArrayList<Interest> interests = new ArrayList<>();
+    Interest interest = new Interest();
+    interest.setName("Reading");
+    interests.add(interest);
+
+    Mono<StudentDetails> result = portfolioService.saveInterests(interests);
+
+    StepVerifier.create(result)
+        .assertNext(sd -> {
+          assertEquals(interests, sd.getInterests());
+          for (Interest i : interests) {
+            assertEquals(sd, i.getStudentDetails());
+          }
+        })
+        .verifyComplete();
+  }
 }
+

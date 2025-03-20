@@ -17,6 +17,7 @@ import { MilestonesComponent } from './milestones-page/milestones/milestones.com
 import { MilestonesFacultyComponent } from './milestones-page/milestones-faculty/milestones-faculty.component';
 import { AnalyticsDashboardComponent } from './admin/analytics-dashboard/analytics-dashboard.component';
 import {EditBasacFacultyComponent} from "./admin/edit-basac-faculty/edit-basac-faculty.component";
+import {EventListComponent} from "./event/event-list/event-list.component";
 import {EventsPageComponent} from "./events-page/events-page.component";
 
 const studentRoutes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
   ...studentRoutes,
   ...facultyRoutes,
   ...adminRoutes,
+  {path: 'events', component: EventListComponent},
   {path: 'login', component: LoginPageComponent, canActivate: [noAuthGuard]},
   {path: 'signup', component: SignupPageComponent, canActivate: [signedUpGuard]},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
