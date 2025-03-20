@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
 @Service
 public class DataProcessor {
@@ -97,7 +99,9 @@ public class DataProcessor {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             // Serialize the data to JSON and save it to a file in the current directory
-            File outputFile = new File("src\\main\\java\\com\\senior\\project\\backend\\insights\\output.json");
+            Path outputPath = Paths.get("src", "main", "java", "com", "senior",
+                    "project", "backend", "insights", "output.json");
+            File outputFile = outputPath.toFile();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, data);
         } catch (Exception e) {
             e.printStackTrace();
