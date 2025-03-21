@@ -10,11 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @Generated
 public class Task {
+    public String description;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    public String description;
     private Boolean isRequired;
     @Enumerated(EnumType.STRING)
     private YearLevel yearLevel;
@@ -27,7 +27,5 @@ public class Task {
     @JoinColumn()
     private Milestone milestone;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private Event event;
+    private Long eventId;
 }

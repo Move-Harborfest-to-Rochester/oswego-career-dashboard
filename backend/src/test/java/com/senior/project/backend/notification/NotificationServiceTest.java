@@ -1,6 +1,5 @@
 package com.senior.project.backend.notification;
 
-import com.senior.project.backend.Activity.EventRepository;
 import com.senior.project.backend.Constants;
 import com.senior.project.backend.users.UserRepository;
 import org.junit.jupiter.api.Test;

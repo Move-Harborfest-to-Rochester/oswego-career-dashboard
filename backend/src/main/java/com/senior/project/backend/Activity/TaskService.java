@@ -1,14 +1,11 @@
 package com.senior.project.backend.Activity;
 
-import com.senior.project.backend.util.NonBlockingExecutor;
-import com.senior.project.backend.domain.Event;
 import com.senior.project.backend.domain.Task;
 import com.senior.project.backend.domain.TaskType;
 import com.senior.project.backend.domain.YearLevel;
-
-import java.util.*;
-
+import com.senior.project.backend.event.LocalistService;
 import com.senior.project.backend.security.CurrentUserUtil;
+import com.senior.project.backend.util.NonBlockingExecutor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,17 +13,20 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+import java.util.Optional;
+
 @Service
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final EventRepository eventRepository;
     private final CurrentUserUtil currentUserUtil;
+    private final LocalistService localistService;
 
-    public TaskService(TaskRepository taskRepository, EventRepository eventRepository, CurrentUserUtil currentUserUtil) {
+    public TaskService(TaskRepository taskRepository, CurrentUserUtil currentUserUtil, LocalistService localistService) {
         this.taskRepository = taskRepository;
-        this.eventRepository = eventRepository;
         this.currentUserUtil = currentUserUtil;
+        this.localistService = localistService;
     }
 
     /**
@@ -39,8 +39,8 @@ public class TaskService {
     /**
      * Updates a task using the provided map of updates
      * It assumes all updates will include id, name, location, and organizer since those are required
-     * 
-     * @param id task id
+     *
+     * @param id      task id
      * @param updates updated task data in the form of fieldName, fieldValue
      * @return the updated task
      */
@@ -61,19 +61,17 @@ public class TaskService {
             if (taskType.equals(TaskType.ARTIFACT) &&
                     updates.containsKey("artifactName")) {
                 existingTask.setTaskType(taskType);
-                existingTask.setEvent(null);    // if task was previously an event task, remove the event
+                existingTask.setEventId(null);    // if task was previously an event task, remove the event
             }
             // can't set the task type to event without providing an event
             else if (taskType.equals(TaskType.EVENT) &&
                     updates.containsKey("event")) {
                 existingTask.setTaskType(taskType);
                 existingTask.setArtifactName(null); // if the task was previously an artifact task, remove the artifact
-            }
-
-            else if (taskType.equals(TaskType.COMMENT)) {
+            } else if (taskType.equals(TaskType.COMMENT)) {
                 existingTask.setTaskType(taskType);
                 existingTask.setArtifactName(null); // task previously was artifact/event, so remove that data
-                existingTask.setEvent(null);
+                existingTask.setEventId(null);
             }
         }
 
@@ -83,8 +81,8 @@ public class TaskService {
         }
         // does not throw an event not found exception but still handles null events
         if (updates.containsKey("event") && existingTask.getTaskType().equals(TaskType.EVENT)) {
-            Optional<Event> assignedEvent = eventRepository.findById((long) Integer.parseInt((String) updates.get("event")));
-            assignedEvent.ifPresent(existingTask::setEvent);
+            Optional<Long> assignedEvent = Optional.of(Long.parseLong((String) updates.get("event")));
+            assignedEvent.ifPresent(existingTask::setEventId);
         }
 
         return NonBlockingExecutor.execute(() -> taskRepository.save(existingTask));
@@ -92,19 +90,19 @@ public class TaskService {
 
     /**
      * Gets a specific task by ID
-     * 
+     *
      * @return task object
      */
     public Mono<Task> findById(int id) {
         Task task = taskRepository.findById(id);
         return task == null ? Mono.empty() : Mono.just(task);
     }
-    
+
 
     /**
      * Create a task using the provided map of data
      * It assumes all updates will include id, name, location, and organizer since those are required
-     * 
+     *
      * @param data task data in the form of fieldName, fieldValue
      * @return the new task
      */
@@ -125,20 +123,18 @@ public class TaskService {
         if (taskType.equals(TaskType.ARTIFACT)) {
             newTask.setTaskType(taskType);
             newTask.setArtifactName((String) data.get("artifactName"));
-            newTask.setEvent(null);
+            newTask.setEventId(null);
         }
         // does not throw an event not found exception but still handles null events
         else if (taskType.equals(TaskType.EVENT)) {
             newTask.setTaskType(taskType);
-            Optional<Event> assignedEvent = eventRepository.findById((long) Integer.parseInt((String) data.get("event")));
-            assignedEvent.ifPresent(newTask::setEvent);
+            Optional<Long> eventId = Optional.of(Long.parseLong((String) data.get("event")));
+            eventId.ifPresent(newTask::setEventId);
             newTask.setArtifactName(null);
-        }
-
-        else if (taskType.equals(TaskType.COMMENT)) {
+        } else if (taskType.equals(TaskType.COMMENT)) {
             newTask.setTaskType(taskType);
             newTask.setArtifactName(null);
-            newTask.setEvent(null);
+            newTask.setEventId(null);
         }
 
         return NonBlockingExecutor.execute(() -> taskRepository.save(newTask));
@@ -146,6 +142,7 @@ public class TaskService {
 
     /**
      * Retrieves list of tasks for the homepage
+     *
      * @param limit limit of tasks to return. limit for overdue tasks is half the limit
      * @return A Flux of upcoming tasks
      */

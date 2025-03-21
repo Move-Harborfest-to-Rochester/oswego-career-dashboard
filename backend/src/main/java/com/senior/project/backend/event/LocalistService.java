@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -54,6 +55,17 @@ public class LocalistService {
         Date startDate = Date.from(startOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(endOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return allEventDTOs(startDate, endDate)
+                .map(LocalistEventDTO::toEvent);
+    }
+
+    public Mono<Event> findById(long eventId) {
+        return this.webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/events/" + eventId)
+                        .build())
+                .retrieve()
+                .bodyToMono(LocalistEventItemResponse.class)
+                .map(LocalistEventItemResponse::getEvent)
                 .map(LocalistEventDTO::toEvent);
     }
 }

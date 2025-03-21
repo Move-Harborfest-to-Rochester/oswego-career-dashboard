@@ -1,9 +1,9 @@
-import { Component, DestroyRef, OnInit, inject, NgZone } from '@angular/core';
-import { AuthService } from "../security/auth.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { User } from "../security/domain/user";
-import { ViewModeService } from "../util/view-mode.service";
-import { Router } from '@angular/router';
+import {Component, DestroyRef, inject, NgZone, OnInit} from '@angular/core';
+import {AuthService} from "../security/auth.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {User} from "../security/domain/user";
+import {ViewModeService} from "../util/view-mode.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,34 +11,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.less']
 })
 export class NavbarComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private ngZone = inject(NgZone);
-
   navLinks: Array<{ path: string, label: string }> = [];
   isStudentView: boolean = false;
-
   studentLinks = [
-    { path: "/portfolio", label: "Portfolio" },
-    { path: "/milestones", label: "Milestones" }
+    {path: "/portfolio", label: "Portfolio"},
+    {path: "/milestones", label: "Milestones"}
   ];
-
   facultyLinks = [
-    { path: "/faculty/users", label: "Users" },
+    {path: "/faculty/users", label: "Users"},
   ];
-
   adminLinks = [
     ...this.facultyLinks,
-    { path: "/admin/milestones", label: "Milestones" },
-    { path: "/admin/tasks", label: "Tasks" },
-    { path: "/admin/events", label: "Events" },
-    { path: "/admin/analytics", label: "Analytics"},
+    {path: "/admin/milestones", label: "Milestones"},
+    {path: "/admin/tasks", label: "Tasks"},
+    {path: "/admin/analytics", label: "Analytics"},
   ];
+  private destroyRef = inject(DestroyRef);
+  private ngZone = inject(NgZone);
 
   constructor(
     public readonly authService: AuthService,
     public readonly viewModeService: ViewModeService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     // Subscribe to user changes

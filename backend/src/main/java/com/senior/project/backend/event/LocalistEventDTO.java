@@ -30,6 +30,7 @@ public class LocalistEventDTO {
         event.setRecurring(recurring);
         event.setPhotoUrl(photoUrl);
         event.setDescription(description);
+        event.setButtonLabel("Learn More");
         return event;
     }
 }
