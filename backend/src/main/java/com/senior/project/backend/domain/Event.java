@@ -1,7 +1,9 @@
 package com.senior.project.backend.domain;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.ZoneId;
@@ -26,9 +28,7 @@ public class Event {
     private boolean isRecurring;
     private String eventLink;
     private String buttonLabel;
-    @Nullable
-    @Column(nullable = true)
-    private Long imageId;
+    private String photoUrl;
 
     // Used in Email Template
     public String formattedDate() {

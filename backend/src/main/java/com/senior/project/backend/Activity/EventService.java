@@ -1,26 +1,18 @@
 package com.senior.project.backend.Activity;
 
-import com.senior.project.backend.util.NonBlockingExecutor;
 import com.senior.project.backend.domain.Event;
-
-import java.text.ParseException;
-import java.util.Map;
-
-import org.springframework.http.HttpStatus;
+import com.senior.project.backend.util.NonBlockingExecutor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.text.SimpleDateFormat;
-
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Service
 public class EventService {
 
     private final EventRepository eventRepository;
 
-    public EventService(EventRepository eventRepository) { this.eventRepository = eventRepository;}
+    public EventService(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     /**
      * Gets all events
@@ -36,81 +28,5 @@ public class EventService {
      */
     public Flux<Event> homepage() {
         return NonBlockingExecutor.executeMany(eventRepository::findAll); //same as /events for now
-    }
-
-    /**
-     * Updates an event using the provided map of updates
-     * 
-     * @param id event id
-     * @param updates updated event data in the form of fieldName, fieldValue
-     * @return the updated event or 404 if event not found or Mono error if date formatted doesn't work
-     */
-    @Transactional
-    public Mono<Event> updateEvent(long id, Map<String, Object> updates) {
-        return NonBlockingExecutor.execute(()-> eventRepository.findById(id))
-                .flatMap(potentiallyExistingEvent -> potentiallyExistingEvent.<Mono<? extends Event>>map(Mono::just)
-                        .orElseGet(() -> Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Previous Event Not found"))))
-                .flatMap(existingEvent -> {
-                    try {
-                        System.out.println("Updates map: " + updates);
-                        updateEvent(updates, existingEvent);
-                    } catch (Exception e) {
-                        return Mono.error(e);
-                    }
-
-                    return NonBlockingExecutor.execute(()->eventRepository.save(existingEvent));
-                });
-    }
-
-    /**
-     * Creates an event using the provided map of data
-     * 
-     * @param data event data in the form of fieldName, fieldValue
-     * @return the new event or Mono error if date formatted doesn't work
-     */
-    @Transactional
-    public Mono<Event> createEvent(Map<String, Object> data) {
-        Event newEvent = new Event();
-
-        try {
-            updateEvent(data, newEvent);
-        } catch (Exception e) {
-            return Mono.error(e);
-        }
-
-        return NonBlockingExecutor.execute(()->eventRepository.save(newEvent));
-    }
-
-    /**
-     * Update the provided event object with the update data
-     * It assumes all updates will include name, location, and organizer since those are required
-     *
-     * @param data data to updateEvent with
-     * @param newEvent Event object to be updated
-     * @throws ParseException if date formatted doesn't work
-     */
-    private void updateEvent(Map<String, Object> data, Event newEvent) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'");
-
-        newEvent.setDate(simpleDateFormat.parse((String) data.get("date")));
-
-        newEvent.setName((String) data.get("name"));
-        newEvent.setLocation((String) data.get("location"));
-        newEvent.setOrganizer((String) data.get("organizer"));
-
-        if (data.containsKey("description")) {
-            newEvent.setDescription((String) data.get("description"));
-            System.out.println("description: " + newEvent.getDescription());
-        }
-        if (data.containsKey("eventLink")) {
-            newEvent.setEventLink((String) data.get("eventLink"));
-        }
-        if (data.containsKey("buttonLabel")) {
-            newEvent.setButtonLabel((String) data.get("buttonLabel"));
-        }
-        if (data.containsKey("imageId")) {
-            Long imageId = (Long) data.get("imageId");
-            newEvent.setImageId(imageId);
-        }
     }
 }
