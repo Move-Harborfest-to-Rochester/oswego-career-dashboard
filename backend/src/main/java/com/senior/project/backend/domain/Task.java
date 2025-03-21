@@ -10,10 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @Generated
 public class Task {
-    public String description;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
     private String name;
     private Boolean isRequired;
     @Enumerated(EnumType.STRING)
