@@ -10,6 +10,7 @@ import java.util.Date;
 public class LocalistEventDTO {
     private Long id;
     private String title;
+    @JsonProperty("location_name")
     private String location;
     @JsonProperty("localist_url")
     private String url;
