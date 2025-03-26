@@ -16,7 +16,10 @@ export class EventListItemComponent {
     window.open(this.event.eventLink, "_blank");
   }
 
-  eventDate() {
+  eventDateOrRange() {
+    if (this.event.endDate && this.event.dateAndEndDateAreDifferentDays()) {
+      return this.event.date.toLocaleDateString() + " - " + this.event.endDate.toLocaleDateString();
+    }
     return this.event.date.toLocaleDateString();
   }
 }

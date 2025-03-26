@@ -15,6 +15,8 @@ public class LocalistEventDTO {
     private String url;
     @JsonProperty("first_date")
     private Date firstDate;
+    @JsonProperty("last_date")
+    private Date lastDate;
     private boolean recurring;
     @JsonProperty("photo_url")
     private String photoUrl;
@@ -28,6 +30,7 @@ public class LocalistEventDTO {
         event.setLocation(location);
         event.setEventLink(url);
         event.setDate(firstDate);
+        event.setEndDate(lastDate);
         event.setRecurring(recurring);
         event.setPhotoUrl(photoUrl);
         event.setDescription(description);

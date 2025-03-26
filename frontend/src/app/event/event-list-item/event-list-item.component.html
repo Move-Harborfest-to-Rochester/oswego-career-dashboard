@@ -1,7 +1,18 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title><h5>{{ event.name }}</h5></mat-card-title>
-    <mat-card-subtitle>{{ eventDate() }}at {{ event.location }}
+    <mat-card-subtitle>
+      <span class="date icon-text">
+        <mat-icon>calendar_month</mat-icon>
+        {{ eventDateOrRange() }}
+      </span>
+      <div *ngIf="event.location">
+        <br *ngIf="event.location"/>
+        <span *ngIf="event.location" class="location icon-text">
+          <mat-icon>location_on</mat-icon>
+          {{ event.location }}
+        </span>
+      </div>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>

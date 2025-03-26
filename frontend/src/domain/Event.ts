@@ -1,4 +1,5 @@
 export interface EventJSON {
+  endDate: string | null;
   name: string;
   description: string;
   date: string;
@@ -23,11 +24,13 @@ export class Event {
   eventLink: string;
   buttonLabel: string;
   photoUrl: string | null;
+  endDate: Date | null = null;
 
   constructor(json: EventJSON) {
     this.name = json.name
     this.description = json.description;
     this.date = new Date(json.date);
+    this.endDate = json.endDate ? new Date(json.endDate) : null;
     this.eventID = json.id;
     this.isRecurring = json.recurring;
     this.organizer = json.organizer;
@@ -37,5 +40,12 @@ export class Event {
     this.eventLink = json.eventLink;
     this.buttonLabel = json.buttonLabel;
     this.photoUrl = json.photoUrl;
+  }
+
+  dateAndEndDateAreDifferentDays(): boolean {
+    return !this.endDate ||
+      this.date.getUTCFullYear() !== this.endDate?.getUTCFullYear() ||
+      this.date.getUTCMonth() !== this.endDate?.getUTCMonth() ||
+      this.date.getUTCDate() !== this.endDate?.getUTCDate();
   }
 }

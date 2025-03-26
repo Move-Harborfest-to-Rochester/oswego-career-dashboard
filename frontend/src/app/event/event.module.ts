@@ -11,6 +11,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {PaginationModule} from "ngx-bootstrap/pagination";
 import {FormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {FormsModule} from "@angular/forms";
     MatDividerModule,
     MatPaginatorModule,
     PaginationModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ],
   exports: [
     EventListComponent
