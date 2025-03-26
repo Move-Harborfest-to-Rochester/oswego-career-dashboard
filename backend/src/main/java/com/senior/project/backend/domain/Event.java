@@ -23,6 +23,7 @@ public class Event {
     private Date date;
     private Date endDate;
     private String location;
+    private String locationUrl;
     private String organizer;
     private boolean isRecurring;
     private String eventLink;

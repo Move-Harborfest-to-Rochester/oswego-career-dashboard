@@ -1,12 +1,13 @@
 export interface EventJSON {
-  endDate: string | null;
   name: string;
   description: string;
   date: string;
+  endDate: string | null;
   id: number;
   recurring: boolean;
   organizer: string;
   location: string;
+  locationUrl: string;
   eventLink: string;
   buttonLabel: string;
   photoUrl: string;
@@ -20,6 +21,7 @@ export class Event {
   isRecurring: boolean;
   organizer: string;
   location: string;
+  locationUrl: string;
   isComplete: boolean;
   eventLink: string;
   buttonLabel: string;
@@ -35,6 +37,7 @@ export class Event {
     this.isRecurring = json.recurring;
     this.organizer = json.organizer;
     this.location = json.location;
+    this.locationUrl = json.locationUrl;
     // TODO this should be checked through the submission object or provided by the backend later
     this.isComplete = false;
     this.eventLink = json.eventLink;

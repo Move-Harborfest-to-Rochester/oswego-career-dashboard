@@ -7,10 +7,11 @@
         {{ eventDateOrRange() }}
       </span>
       <div *ngIf="event.location">
-        <br *ngIf="event.location"/>
-        <span *ngIf="event.location" class="location icon-text">
+        <span class="location icon-text">
           <mat-icon>location_on</mat-icon>
-          {{ event.location }}
+          <a *ngIf="event.locationUrl"
+             [href]="event.locationUrl">{{ event.location }}</a>
+          <span *ngIf="!event.locationUrl">{{ event.location }}</span>
         </span>
       </div>
     </mat-card-subtitle>

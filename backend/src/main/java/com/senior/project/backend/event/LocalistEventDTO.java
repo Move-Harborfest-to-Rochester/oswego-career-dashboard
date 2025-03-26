@@ -12,6 +12,8 @@ public class LocalistEventDTO {
     private String title;
     @JsonProperty("location_name")
     private String location;
+    @JsonProperty("venue_url")
+    private String locationUrl;
     @JsonProperty("localist_url")
     private String url;
     @JsonProperty("first_date")
@@ -29,6 +31,7 @@ public class LocalistEventDTO {
         event.setId(id);
         event.setName(title);
         event.setLocation(location);
+        event.setLocationUrl(locationUrl);
         event.setEventLink(url);
         event.setDate(firstDate);
         event.setEndDate(lastDate);
