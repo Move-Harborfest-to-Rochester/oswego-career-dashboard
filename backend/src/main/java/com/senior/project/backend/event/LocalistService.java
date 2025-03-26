@@ -5,9 +5,11 @@ import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -22,23 +24,44 @@ public class LocalistService {
         webClient = WebClient.create(apiUrl);
     }
 
-    public Flux<Event> all(PaginationRequest pagination) {
-        return allEventDTOs(pagination)
+    private static String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public Flux<Event> all(@Nullable EventFilters filters, LocalistPagination pagination) {
+        Flux<LocalistEventDTO> events;
+        if (filters != null) {
+            events = allEventDTOs(filters, pagination);
+        } else {
+            events = allEventDTOs(pagination);
+        }
+        return events
                 .map(LocalistEventDTO::toEvent);
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs(PaginationRequest pagination) {
-        return allEventDTOs(null, null, pagination);
+    private Flux<LocalistEventDTO> allEventDTOs(LocalistPagination pagination) {
+        return allEventDTOs(null, pagination);
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs(@Nullable Date start, @Nullable Date end, PaginationRequest pagination) {
+    private UriBuilder addFiltersIfExist(@Nullable EventFilters filters, UriBuilder builder) {
+        if (filters != null) {
+            builder.queryParamIfPresent("startDate", Optional.ofNullable(filters.getStartDate())
+                    .map(LocalistService::formatDate)
+            );
+            builder.queryParamIfPresent("endDate", Optional.ofNullable(filters.getEndDate())
+                    .map(LocalistService::formatDate)
+            );
+        }
+        return builder;
+    }
+
+    private Flux<LocalistEventDTO> allEventDTOs(@Nullable EventFilters filters, LocalistPagination pagination) {
         return this.webClient.get()
-                .uri(uriBuilder -> uriBuilder
+                .uri(uriBuilder -> addFiltersIfExist(filters, uriBuilder
                         .path("/events")
-                        .queryParam("pp", pagination.getPage())
-                        .queryParam("limit", pagination.getLimit())
-                        .queryParamIfPresent("start", Optional.ofNullable(start))
-                        .queryParamIfPresent("end", Optional.ofNullable(end))
+                        .queryParam(LocalistPagination.Params.LIMIT.key(), pagination.getLimit())
+                        .queryParam(LocalistPagination.Params.PAGE.key(), pagination.getPage()))
                         .build())
                 .retrieve()
                 .bodyToMono(LocalistEventsResponse.class)
@@ -53,7 +76,12 @@ public class LocalistService {
 
         Date startDate = Date.from(startOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(endOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return allEventDTOs(startDate, endDate, new PaginationRequest(1, 100))
+        EventFilters filters = EventFilters
+                .builder()
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
+        return allEventDTOs(filters, new LocalistPagination(1, 100))
                 .map(LocalistEventDTO::toEvent);
     }
 

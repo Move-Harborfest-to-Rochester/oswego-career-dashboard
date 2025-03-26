@@ -31,6 +31,7 @@ public class ActivityRouter extends AbstractRouter {
                         .andRoute(GET(Endpoints.MILESTONES_COMPLETE.uri()), milestoneHandler::completed)
                         .andRoute(GET(Endpoints.HOMEPAGE_EVENTS.uri()), eventHandler::homepage)
                         .andRoute(GET(Endpoints.HOMEPAGE_TASKS.uri()), taskHandler::homepage)
+                        .andRoute(GET(Endpoints.EVENT_BY_ID.uri()), eventHandler::getById)
                         .andRoute(GET(Endpoints.TASKS.uri()), taskHandler::all)
                         .andRoute(GET(Endpoints.TASK_BY_ID.uri()), taskHandler::getById)
                         .andRoute(POST(Endpoints.EDIT_TASK.uri()).

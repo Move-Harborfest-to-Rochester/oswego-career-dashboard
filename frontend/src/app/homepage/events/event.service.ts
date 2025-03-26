@@ -48,4 +48,11 @@ export class EventService {
         })
       }))
   }
+
+  getEventById(eventID: number): Observable<Event> {
+    return this.http.get<Event>(constructBackendRequest(`${Endpoints.EVENTS}/${eventID}`))
+      .pipe(map((data: any) => {
+        return new Event(data);
+      }));
+  }
 }

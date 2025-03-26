@@ -22,13 +22,19 @@ export class EventsPageComponent implements OnInit {
   ngOnInit() {
     const eventID = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.eventService.getEvents().subscribe((events) => {
-      const event = events.find((e) => e.eventID === eventID);
+    // this.eventService.getEvents().subscribe((events) => {
+    //   const event = events.find((e) => e.eventID === eventID);
+    //   if (!event) {
+    //     this.router.navigate(['/**']);
+    //   } else {
+    //     this.event = event;
+    //   }
+    // });
+    this.eventService.getEventById(eventID).subscribe((event) => {
       if (!event) {
-        this.router.navigate(['/**']);
-      } else {
-        this.event = event;
+        this.router.navigate(['/**'])
       }
-    });
+      this.event = event;
+    })
   }
 }
