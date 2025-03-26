@@ -22,9 +22,10 @@ public class EventHandler {
      * Retrieves all events
      */
     public Mono<ServerResponse> all(ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(PaginationRequest.class)
-                .map(this.localistService::all)
-                .flatMap(events -> ServerResponse.ok().body(events, Event.class));
+        int page = Integer.parseInt(serverRequest.queryParam("page").orElse("0"));
+        int limit = Integer.parseInt(serverRequest.queryParam("limit").orElse("100"));
+        Flux<Event> events = this.localistService.all(new PaginationRequest(page, limit));
+        return ServerResponse.ok().body(events, Event.class);
     }
 
     /**
@@ -32,11 +33,9 @@ public class EventHandler {
      * Not implemented completely yet, so this functions the same as /events
      */
     public Mono<ServerResponse> homepage(ServerRequest serverRequest) {
-        int page = Integer.parseInt(serverRequest.queryParam("page").orElse("0"));
-        int limit = Integer.parseInt(serverRequest.queryParam("limit").orElse("12"));
-        Flux<Event> events = this.localistService.all(new PaginationRequest(page, limit));
-        return ServerResponse.ok().body(events, Event.class);
-//        serverRequest.queryParam("pageNum");    // TODO pass to homepage() and get paged result
-//        return ServerResponse.ok().body(this.localistService.all(), Event.class);
+        return all(ServerRequest
+                .from(serverRequest)
+                .attribute("limit", "3")
+                .build());
     }
 }
