@@ -8,10 +8,22 @@ export interface EventJSON {
   location: string;
   eventLink: string;
   buttonLabel: string;
-  imageId: number;
+  photoUrl: string;
 }
 
 export class Event {
+  name: string;
+  description: string;
+  date: Date;
+  eventID: number;
+  isRecurring: boolean;
+  organizer: string;
+  location: string;
+  isComplete: boolean;
+  eventLink: string;
+  buttonLabel: string;
+  photoUrl: string | null;
+
   constructor(json: EventJSON) {
     this.name = json.name
     this.description = json.description;
@@ -24,18 +36,6 @@ export class Event {
     this.isComplete = false;
     this.eventLink = json.eventLink;
     this.buttonLabel = json.buttonLabel;
-    this.imageId = json.imageId;
+    this.photoUrl = json.photoUrl;
   }
-
-  name: string;
-  description: string;
-  date: Date;
-  eventID: number;
-  isRecurring: boolean;
-  organizer: string;
-  location: string;
-  isComplete: boolean;
-  eventLink: string;
-  buttonLabel: string;
-  imageId: number | null;
 }

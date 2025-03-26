@@ -1,7 +1,9 @@
 package com.senior.project.backend;
 
 import com.senior.project.backend.domain.*;
-
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
@@ -10,26 +12,32 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.LoggerFactory;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
-
 public class Constants {
 
     public static final List<Event> EVENT_LIST = new ArrayList<>();
-
+    public static final List<Milestone> milestoneDATA = new ArrayList<>();
+    public static final List<Event> DATA = new ArrayList<>();
+    public static final List<Event> DASH_DATA = new ArrayList<>();
+    public static final List<User> USERS = new ArrayList<>();
+    public static final List<Artifact> ARTIFACTS = new ArrayList<>();
+    public static final List<Submission> SUBMISSIONS = new ArrayList<>();
     public static Event e1;
     public static Event e2;
     public static Event e3;
-
     public static Milestone m1 = new Milestone();
     public static Milestone m2 = new Milestone();
-
     public static Task task1;
     public static Task task2;
     public static Task task3;
     public static Task task4;
     public static Task task5;
+    public static User userAdmin;
+    public static User userFaculty;
+    public static User userStudent;
+    public static Artifact artifact1;
+    public static Artifact artifact2;
+    public static Submission submission1;
+    public static Submission submission2;
 
     static {
         e1 = new Event();
@@ -42,7 +50,7 @@ public class Constants {
         e1.setRecurring(true);
         e1.setEventLink("Test Link");
         e1.setButtonLabel("More Info");
-        e1.setImageId(1L);
+        e1.setPhotoUrl("https://images.unsplash.com/photo-1522202176988-66274cf831e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
 
         e2 = new Event();
         e2.setId(2L);
@@ -66,8 +74,6 @@ public class Constants {
         e3.setEventLink("Test Link");
         e3.setButtonLabel("More Info");
     }
-
-    public static final List<Milestone> milestoneDATA = new ArrayList<>();
 
     static {
         task1 = new Task(1L,
@@ -112,7 +118,7 @@ public class Constants {
                 null,
                 "instructions",
                 null,
-                e2);
+                e2.getId());
 
         task5 = new Task(5L,
                 "Create linkedin profile",
@@ -153,9 +159,6 @@ public class Constants {
         milestoneDATA.add(m2);
     }
 
-    public static final List<Event> DATA = new ArrayList<>();
-    public static final List<Event> DASH_DATA = new ArrayList<>();
-
     static {
         DATA.add(e1);
         DASH_DATA.add(e1);
@@ -163,22 +166,6 @@ public class Constants {
         DASH_DATA.add(e2);
         DASH_DATA.add(e3);
     }
-
-    public static Mono<ServerResponse> handle(ServerRequest req) {
-        LoggerFactory.getLogger(Constants.class).info("Ok");
-        return ServerResponse.ok().build();
-    }
-
-    public static Mono<ServerResponse> handleFail(ServerRequest req) {
-        LoggerFactory.getLogger(Constants.class).info("Fail");
-        return ServerResponse.status(401).build();
-    }
-
-    public static User userAdmin;
-    public static User userFaculty;
-    public static User userStudent;
-
-    public static final List<User> USERS = new ArrayList<>();
 
     static {
         userAdmin = new User();
@@ -208,10 +195,6 @@ public class Constants {
         USERS.add(userStudent);
     }
 
-    public static Artifact artifact1;
-    public static Artifact artifact2;
-    public static final List<Artifact> ARTIFACTS = new ArrayList<>();
-
     static {
         artifact1 = new Artifact();
         artifact1.setName("artifact 1 name");
@@ -226,10 +209,6 @@ public class Constants {
         ARTIFACTS.add(artifact1);
         ARTIFACTS.add(artifact2);
     }
-
-    public static Submission submission1;
-    public static Submission submission2;
-    public static final List<Submission> SUBMISSIONS = new ArrayList<>();
 
     static {
         submission1 = new Submission();
@@ -248,6 +227,16 @@ public class Constants {
         submission2.setStudentId(UUID.randomUUID());
         SUBMISSIONS.add(submission1);
         SUBMISSIONS.add(submission2);
+    }
+
+    public static Mono<ServerResponse> handle(ServerRequest req) {
+        LoggerFactory.getLogger(Constants.class).info("Ok");
+        return ServerResponse.ok().build();
+    }
+
+    public static Mono<ServerResponse> handleFail(ServerRequest req) {
+        LoggerFactory.getLogger(Constants.class).info("Fail");
+        return ServerResponse.status(401).build();
     }
 
 }

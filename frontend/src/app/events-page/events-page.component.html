@@ -3,12 +3,12 @@
     <h1 class="event-title">{{ event.name }}</h1>
     <mat-card class="event-card">
       <div
-        class="event-details-container"
         [ngStyle]="{'grid-template-columns': event.eventLink ? '1fr 1fr 1fr' : '1fr 1fr'}"
+        class="event-details-container"
       >
 
         <div *ngIf="event.eventLink" class="event-image">
-          <img [src]="eventImageUrl(event.imageId)" alt="Event image" />
+          <img [src]="event.photoUrl" alt="Event image"/>
           <h2>Date:</h2>
           <p>{{ event.date | date: 'fullDate' }}</p>
           <h2>Location:</h2>
@@ -16,7 +16,7 @@
         </div>
 
         <div *ngIf="!event.eventLink" class="qr-event-image-adjustment">
-          <img [src]="eventImageUrl(event.imageId)" alt="Event image" />
+          <img [src]="event.photoUrl" alt="Event image"/>
           <h2>Date:</h2>
           <p>{{ event.date | date: 'fullDate' }}</p>
 
@@ -40,7 +40,8 @@
             [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + event.eventLink"
             alt="Event QR Code"
           />
-          <a [href]="event.eventLink" target="_blank" class="event-button">More Info</a>
+          <a [href]="event.eventLink" class="event-button" target="_blank">More
+            Info</a>
         </div>
       </div>
     </mat-card>

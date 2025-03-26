@@ -1,26 +1,33 @@
-
 <div class='event-grid'>
-<mat-card *ngFor="let event of events" class="event-card">
-  <div class="event-title-container">
-    <mat-card-title class="event-title">{{event.name}}</mat-card-title>
-  </div>
-  <div class="event-description-container">
-    <mat-card-content class="event-description">{{event.description}}</mat-card-content>
-  </div>
+  <mat-card *ngFor="let event of events" class="event-card">
+    <div class="event-title-container">
+      <mat-card-title class="event-title">{{ event.name }}</mat-card-title>
+    </div>
+    <div class="event-description-container">
+      <mat-card-content class="event-description">{{ event.description }}
+      </mat-card-content>
+    </div>
 
-  <ng-container *ngIf="event.imageId != null">
-    <img [ngSrc]="eventImageUrl(event.imageId)" width="500" height="200" alt="Event image" priority>
-  </ng-container>
+    <ng-container *ngIf="event.photoUrl != null">
+      <img [ngSrc]="event.photoUrl" alt="Event image" height="200"
+           priority width="500">
+    </ng-container>
 
-  <div class="buttons-container">
-    <button mat-raised-button class="event-edit-button" color="primary" (click)="openEventEditModal(event)">
-      <mat-icon>edit</mat-icon> EDIT
-    </button>
-    <button mat-raised-button (click)="openEventImageModal(event)">
-      <mat-icon>upload</mat-icon> IMAGE
-    </button>
-  </div>
-</mat-card>
+    <div class="buttons-container">
+      <button (click)="openEventEditModal(event)" class="event-edit-button"
+              color="primary"
+              mat-raised-button>
+        <mat-icon>edit</mat-icon>
+        EDIT
+      </button>
+      <button (click)="openEventImageModal(event)" mat-raised-button>
+        <mat-icon>upload</mat-icon>
+        IMAGE
+      </button>
+    </div>
+  </mat-card>
 </div>
-<button mat-raised-button class="create-event-button" (click)="openEventEditModal(null)">Create New Event</button>
+<button (click)="openEventEditModal(null)" class="create-event-button"
+        mat-raised-button>Create New Event
+</button>
 

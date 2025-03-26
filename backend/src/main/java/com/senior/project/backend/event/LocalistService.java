@@ -16,28 +16,27 @@ import java.util.Optional;
 
 @Service
 public class LocalistService {
-    private static String careerEventType = "34680189492342";
     private final WebClient webClient;
 
     public LocalistService(@Value("${localist.api.url}") String apiUrl) {
         webClient = WebClient.create(apiUrl);
     }
 
-    public Flux<Event> all() {
-        return allEventDTOs()
+    public Flux<Event> all(PaginationRequest pagination) {
+        return allEventDTOs(pagination)
                 .map(LocalistEventDTO::toEvent);
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs() {
-        return allEventDTOs(null, null);
+    private Flux<LocalistEventDTO> allEventDTOs(PaginationRequest pagination) {
+        return allEventDTOs(null, null, pagination);
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs(@Nullable Date start, @Nullable Date end) {
+    private Flux<LocalistEventDTO> allEventDTOs(@Nullable Date start, @Nullable Date end, PaginationRequest pagination) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/events")
-                        .queryParam("pp", "100")
-                        .queryParam("type", careerEventType)
+                        .queryParam("pp", pagination.getPage())
+                        .queryParam("limit", pagination.getLimit())
                         .queryParamIfPresent("start", Optional.ofNullable(start))
                         .queryParamIfPresent("end", Optional.ofNullable(end))
                         .build())
@@ -54,7 +53,7 @@ public class LocalistService {
 
         Date startDate = Date.from(startOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(endOfWeek.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return allEventDTOs(startDate, endDate)
+        return allEventDTOs(startDate, endDate, new PaginationRequest(1, 100))
                 .map(LocalistEventDTO::toEvent);
     }
 

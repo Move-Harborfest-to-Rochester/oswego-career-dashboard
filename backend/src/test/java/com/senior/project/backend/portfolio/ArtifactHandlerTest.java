@@ -1,13 +1,18 @@
 package com.senior.project.backend.portfolio;
 
+import com.senior.project.backend.Constants;
+import com.senior.project.backend.artifact.ArtifactHandler;
+import com.senior.project.backend.artifact.ArtifactService;
 import com.senior.project.backend.domain.User;
-import java.util.UUID;
+import com.senior.project.backend.security.CurrentUserUtil;
+import com.senior.project.backend.submissions.SubmissionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,26 +22,14 @@ import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunctions;
-
-import com.senior.project.backend.Constants;
-import com.senior.project.backend.artifact.ArtifactHandler;
-import com.senior.project.backend.artifact.ArtifactService;
-import com.senior.project.backend.security.CurrentUserUtil;
-import com.senior.project.backend.submissions.SubmissionService;
-
-import java.io.IOException;
-
-import org.springframework.core.io.ByteArrayResource;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ArtifactHandlerTest {
@@ -58,64 +51,43 @@ public class ArtifactHandlerTest {
     @BeforeEach
     public void setup() {
         webTestClient = WebTestClient.bindToRouterFunction(RouterFunctions.route()
-                .POST("/test", artifactHandler::handleSubmissionUpload)
-                .POST("/eventImage/{eventID}", artifactHandler::handleEventImageUpload)
-                .POST("/profileImage", artifactHandler::handleProfileImageUpload)
-                .GET("/test/{artifactID}", artifactHandler::serveFile)
-                .GET("/userProfileImage", artifactHandler::serveUserProfileImage)
-                .DELETE("/test/{id}", artifactHandler::handleFileDelete)
-                .build())
-            .build();
+                        .POST("/test", artifactHandler::handleSubmissionUpload)
+                        .POST("/profileImage", artifactHandler::handleProfileImageUpload)
+                        .GET("/test/{artifactID}", artifactHandler::serveFile)
+                        .GET("/userProfileImage", artifactHandler::serveUserProfileImage)
+                        .DELETE("/test/{id}", artifactHandler::handleFileDelete)
+                        .build())
+                .build();
     }
 
     @Test
     public void testHandleSubmissionUpload() {
         // Stub the service method to return an integer (e.g. 123)
         when(artifactService.processSubmissionFile(any()))
-            .thenReturn(Mono.just(123));
+                .thenReturn(Mono.just(123));
 
         // Build a multipart request with a "file" part.
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", "dummy content".getBytes())
-            .filename("test.pdf")
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
+                .filename("test.pdf")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
 
         webTestClient.post().uri("/test")
-            .contentType(MediaType.MULTIPART_FORM_DATA)
-            .body(BodyInserters.fromMultipartData(builder.build()))
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(Integer.class).isEqualTo(123);
-    }
-
-    @Test
-    public void testHandleEventImageUpload() {
-        long eventID = 123;
-        // Stub the service method for event image upload
-        when(artifactService.processEventImage(any(), eq(eventID)))
-            .thenReturn(Mono.just(456));
-
-        MultipartBodyBuilder builder = new MultipartBodyBuilder();
-        builder.part("file", "dummy image".getBytes())
-            .filename("image.png")
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
-
-        webTestClient.post().uri("/eventImage/{eventID}", eventID)
-            .contentType(MediaType.MULTIPART_FORM_DATA)
-            .body(BodyInserters.fromMultipartData(builder.build()))
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(Integer.class).isEqualTo(456);
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Integer.class).isEqualTo(123);
     }
 
     @Test
     public void testHandleEventImageUploadInvalidEventID() {
         // When eventID is not a valid integer, we expect BAD_REQUEST.
         webTestClient.post().uri("/eventImage/invalid")
-            .contentType(MediaType.MULTIPART_FORM_DATA)
-            .body(BodyInserters.fromMultipartData("file", "dummy".getBytes()))
-            .exchange()
-            .expectStatus().isBadRequest();
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData("file", "dummy".getBytes()))
+                .exchange()
+                .expectStatus().isBadRequest();
     }
 
 
@@ -123,19 +95,19 @@ public class ArtifactHandlerTest {
     public void testHandleProfileImageUpload() {
         // Stub the service method to return an integer (e.g. 789)
         when(artifactService.processProfileImage(any()))
-            .thenReturn(Mono.just(789));
+                .thenReturn(Mono.just(789));
 
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", "dummy image".getBytes())
-            .filename("profile.png")
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
+                .filename("profile.png")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE);
 
         webTestClient.post().uri("/profileImage")
-            .contentType(MediaType.MULTIPART_FORM_DATA)
-            .body(BodyInserters.fromMultipartData(builder.build()))
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(Integer.class).isEqualTo(789);
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Integer.class).isEqualTo(789);
     }
 
     @Test
@@ -159,9 +131,9 @@ public class ArtifactHandlerTest {
         when(artifactService.getFile(anyString(), any())).thenReturn(Mono.just(responseEntity));
 
         webTestClient.get().uri("/userProfileImage")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(byte[].class).isEqualTo(imageContent);
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(byte[].class).isEqualTo(imageContent);
     }
 
 
@@ -175,8 +147,8 @@ public class ArtifactHandlerTest {
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(user));
 
         webTestClient.get().uri("/userProfileImage")
-            .exchange()
-            .expectStatus().isEqualTo(HttpStatus.NO_CONTENT);
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     @Test
@@ -284,11 +256,11 @@ public class ArtifactHandlerTest {
         when(artifactService.deleteFile(anyInt())).thenReturn(Mono.just("test"));
 
         String result = webTestClient.delete().uri("/test/2")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(String.class)
-            .returnResult()
-            .getResponseBody();
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
 
         assertEquals(result, "test");
     }
@@ -298,13 +270,13 @@ public class ArtifactHandlerTest {
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
         when(submissionService.findByArtifact(anyInt())).thenReturn(Mono.empty());
         when(artifactService.deleteFile(anyInt())).thenReturn(Mono.just("test"));
-        
+
         String result = webTestClient.delete().uri("/test/2")
-            .exchange()
-            .expectStatus().isOk()
-            .expectBody(String.class)
-            .returnResult()
-            .getResponseBody();
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .returnResult()
+                .getResponseBody();
 
         assertEquals(result, "test");
     }
@@ -313,9 +285,9 @@ public class ArtifactHandlerTest {
     public void handleFileDeleteNoSubmissionNoFile() {
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
         webTestClient.delete().uri("/test/1")
-            .exchange()
-            .expectStatus()
-            .isAccepted();
+                .exchange()
+                .expectStatus()
+                .isAccepted();
     }
 
     @Test
@@ -325,7 +297,7 @@ public class ArtifactHandlerTest {
         when(submissionService.findByArtifact(anyInt())).thenReturn(Mono.just(Constants.submission1));
 
         webTestClient.delete().uri("/test/2")
-            .exchange()
-            .expectStatus().isForbidden();
+                .exchange()
+                .expectStatus().isForbidden();
     }
 }

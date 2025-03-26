@@ -6,6 +6,7 @@ import com.senior.project.backend.artifact.ArtifactService;
 import com.senior.project.backend.domain.Artifact;
 import com.senior.project.backend.domain.ArtifactType;
 import com.senior.project.backend.domain.User;
+import com.senior.project.backend.event.LocalistService;
 import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.users.UserRepository;
 import com.senior.project.backend.util.NonBlockingExecutor;
@@ -60,7 +61,7 @@ public class ArtifactServiceTest {
     private ArtifactRepository artifactRepository;
 
     @Mock
-    private EventRepository eventRepository;
+    private LocalistService localistService;
 
     @Mock
     private CurrentUserUtil currentUserUtil;
@@ -197,34 +198,6 @@ public class ArtifactServiceTest {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> artifactService.processSubmissionFile(filePart).block());
 
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
-    }
-
-    @Test
-    public void testProcessEventImage() throws NoSuchFieldException, IllegalAccessException {
-        when(artifactRepository.save(any())).thenReturn(Artifact.builder().id(1).build());
-
-        FilePart filePart = mock(FilePart.class);
-
-        DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-        DataBuffer dataBuffer = dataBufferFactory.wrap("file content".getBytes());
-        when(filePart.content()).thenReturn(Flux.just(dataBuffer));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        when(filePart.headers()).thenReturn(headers);
-
-        when(filePart.transferTo((Path) any())).thenReturn(Mono.empty());
-        when(artifactRepository.save(any())).thenReturn(Constants.artifact1);
-        when(artifactRepository.findByUniqueIdentifier(any())).thenReturn(Optional.ofNullable(Constants.artifact1));
-        when(eventRepository.findById(any())).thenReturn(Optional.ofNullable(Constants.e1));
-
-        // Use reflection to set the value of uploadDirectory
-        Field uploadDirectoryField = ArtifactService.class.getDeclaredField("uploadDirectory");
-        uploadDirectoryField.setAccessible(true); // Make the private field accessible
-        uploadDirectoryField.set(artifactService, "/mocked/upload/directory");
-
-        Mono<Integer> result = artifactService.processEventImage(filePart, Constants.e1.getId());
-        StepVerifier.create(result).expectNext(Constants.artifact1.getId()).expectComplete().verify();
     }
 
     @Test

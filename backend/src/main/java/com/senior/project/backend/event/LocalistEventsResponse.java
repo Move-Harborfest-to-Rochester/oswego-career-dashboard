@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class LocalistEventsResponse {
     private LocalistEventItemResponse[] events;
-    private Pagination page;
+    private LocalistPaginationDTO page;
 }

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Event, EventJSON} from "../../../domain/Event";
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +38,10 @@ export class EventService {
    * Gets the specific page of events to show on the homepage
    * Currently not implemented on the backend so it acts the same as getEvents()
    */
-  getHomepageEvents(pageNum: number): Observable<Event[]> {
-    const pageParam = {key: 'pageNum', value: pageNum};
-    return this.http.get<Event[]>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam))
+  getHomepageEvents(page: number): Observable<Event[]> {
+    const pageParam = {key: 'page', value: page};
+    const limitParam = {key: 'limit', value: 10};
+    return this.http.get<Event[]>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam, limitParam))
       .pipe(map((data: any) => {
         return data.map((eventData: EventJSON) => {
           return new Event(eventData)
