@@ -11,6 +11,7 @@ public class LocalistEventDTO {
     private Long id;
     private String title;
     private String location;
+    @JsonProperty("localist_url")
     private String url;
     @JsonProperty("first_date")
     private Date firstDate;
