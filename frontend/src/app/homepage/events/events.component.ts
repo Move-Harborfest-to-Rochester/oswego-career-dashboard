@@ -18,6 +18,7 @@ export class EventsComponent implements OnInit {
   eventPage: number = 0;
   defaultLogoURL = '/assets/images/Oswego_logo_horizontal_black.png';
   events: Array<Event> = []
+  loading: boolean = true;
 
   constructor(
     private eventService: EventService,
@@ -31,7 +32,7 @@ export class EventsComponent implements OnInit {
     // const isMobile = navigator.userAgent; //only display one event per page on mobile
     // start with only the first page of events
     // TODO fire every tie carosel gets close to the end to get next page once backend is implement for this
-    this.eventService.getHomepageEvents(0).subscribe((events: Event[]) => {
+    this.eventService.getHomepageEvents(0, Math.min(100, this.itemsPerSlide * 10)).subscribe((events: Event[]) => {
       this.events = events;
 
       this.slides = events.map((event: Event) => {
@@ -54,7 +55,9 @@ export class EventsComponent implements OnInit {
           buttonLabel: event.buttonLabel,
           eventLink: event.eventLink
         }
-      })
+      });
+
+      this.loading = false;
     });
   }
 

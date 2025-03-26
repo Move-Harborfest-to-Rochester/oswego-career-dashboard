@@ -9,6 +9,7 @@ import {EventService} from "../../homepage/events/event.service";
 })
 export class EventListComponent implements OnInit {
   upcomingEvents: Event[];
+  loading: boolean = true;
 
   constructor(private readonly eventService: EventService) {
     this.upcomingEvents = [];
@@ -18,6 +19,7 @@ export class EventListComponent implements OnInit {
     this.eventService.getUpcomingEvents().subscribe((events: Event[]) => {
       this.upcomingEvents = events
         .sort((this.sortByDateAscending));
+      this.loading = false;
     })
   }
 

@@ -30,7 +30,7 @@
         </div>
       </a>
     </slide>
-    <div *ngIf="slides.length == 0">
+    <div *ngIf="slides.length == 0 && !loading">
       <span>No events found.</span>
     </div>
   </carousel>
