@@ -51,9 +51,9 @@ export class EventService {
    * Gets the specific page of events to show on the homepage
    * Currently not implemented on the backend so it acts the same as getEvents()
    */
-  getHomepageEvents(page: number): Observable<Event[]> {
+  getHomepageEvents(page: number, limit: number = 10): Observable<Event[]> {
     const pageParam = {key: 'page', value: page};
-    const limitParam = {key: 'limit', value: 10};
+    const limitParam = {key: 'limit', value: limit};
     return this.http.get<Event[]>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam, limitParam))
       .pipe(map((data: any) => {
         return data.map((eventData: EventJSON) => {
