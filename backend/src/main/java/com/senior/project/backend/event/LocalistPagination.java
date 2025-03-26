@@ -9,18 +9,13 @@ public class LocalistPagination {
     @Getter
     private int limit;
 
-    public LocalistPagination() {
-        this.page = 0;
-        this.limit = 100;
-    }
-
     public int getPage() {
         return page + 1;
     }
 
     public enum Params {
         PAGE("page"),
-        LIMIT("limit");
+        LIMIT("pp");
 
         private final String key;
 

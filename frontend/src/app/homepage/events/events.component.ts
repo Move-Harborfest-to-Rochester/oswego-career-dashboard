@@ -3,6 +3,7 @@ import {EventService} from "./event.service";
 import {Event} from "../../../domain/Event";
 import {ArtifactService} from "../../file-upload/artifact.service";
 import {Router} from "@angular/router";
+import {EventList} from "./event-list";
 
 @Component({
   selector: 'app-events',
@@ -17,7 +18,6 @@ export class EventsComponent implements OnInit {
   noWrap = false;
   eventPage: number = 0;
   defaultLogoURL = '/assets/images/Oswego_logo_horizontal_black.png';
-  events: Array<Event> = []
   loading: boolean = true;
 
   constructor(
@@ -32,10 +32,8 @@ export class EventsComponent implements OnInit {
     // const isMobile = navigator.userAgent; //only display one event per page on mobile
     // start with only the first page of events
     // TODO fire every tie carosel gets close to the end to get next page once backend is implement for this
-    this.eventService.getHomepageEvents(0, Math.min(100, this.itemsPerSlide * 10)).subscribe((events: Event[]) => {
-      this.events = events;
-
-      this.slides = events.map((event: Event) => {
+    this.eventService.getHomepageEvents(0, Math.min(100, this.itemsPerSlide * 10)).subscribe((eventList: EventList) => {
+      this.slides = eventList.events.map((event: Event) => {
         let imgUrl = this.defaultLogoURL;  //placeholder
         if (event.photoUrl != null) {
           imgUrl = event.photoUrl

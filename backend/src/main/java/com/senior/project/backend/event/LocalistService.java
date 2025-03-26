@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -39,18 +40,14 @@ public class LocalistService {
         );
     }
 
-    public Flux<Event> all(@Nullable EventFilters filters, LocalistPagination pagination) {
-        Flux<LocalistEventDTO> events;
+    public Mono<AllEventsResponse> all(@Nullable EventFilters filters, LocalistPagination pagination) {
         if (filters != null) {
-            events = allEventDTOs(filters, pagination);
-        } else {
-            events = allEventDTOs(pagination);
+            return allEventDTOs(filters, pagination);
         }
-        return events
-                .map(LocalistEventDTO::toEvent);
+        return allEventDTOs(pagination);
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs(LocalistPagination pagination) {
+    private Mono<AllEventsResponse> allEventDTOs(LocalistPagination pagination) {
         return allEventDTOs(null, pagination);
     }
 
@@ -66,7 +63,7 @@ public class LocalistService {
         return builder;
     }
 
-    private Flux<LocalistEventDTO> allEventDTOs(@Nullable EventFilters filters, LocalistPagination pagination) {
+    private Mono<AllEventsResponse> allEventDTOs(@Nullable EventFilters filters, LocalistPagination pagination) {
         return this.webClient.get()
                 .uri(uriBuilder -> addFiltersIfExist(filters, uriBuilder
                         .path("/events")
@@ -76,9 +73,15 @@ public class LocalistService {
                         .build())
                 .retrieve()
                 .bodyToMono(LocalistEventsResponse.class)
-                .map(LocalistEventsResponse::getEvents)
-                .flatMapMany(Flux::fromArray)
-                .map(LocalistEventItemResponse::getEvent);
+                .map(response -> new AllEventsResponse(
+                        Arrays.stream(response.getEvents())
+                                .map(LocalistEventItemResponse::getEvent)
+                                .map(LocalistEventDTO::toEvent)
+                                .toList(),
+                        response.getPage().getCurrent(),
+                        response.getPage().getTotal(),
+                        response.getPage().getSize()
+                ));
     }
 
     public Flux<Event> findEventsInCurrentWeek(LocalDate currentDate) {
@@ -93,7 +96,8 @@ public class LocalistService {
                 .endDate(endDate)
                 .build();
         return allEventDTOs(filters, new LocalistPagination(1, 100))
-                .map(LocalistEventDTO::toEvent);
+                .map(AllEventsResponse::getEvents)
+                .flatMapMany(Flux::fromIterable);
     }
 
     public Mono<Event> findById(long eventId) {

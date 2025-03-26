@@ -1,13 +1,13 @@
 package com.senior.project.backend.Activity;
 
 import com.senior.project.backend.domain.Event;
+import com.senior.project.backend.event.AllEventsResponse;
 import com.senior.project.backend.event.EventFilters;
 import com.senior.project.backend.event.LocalistPagination;
 import com.senior.project.backend.event.LocalistService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
@@ -41,7 +41,7 @@ public class EventHandler {
                 .startDate(startDate.orElse(null))
                 .endDate(endDate.orElse(null))
                 .build();
-        Flux<Event> events = this.localistService.all(filters, new LocalistPagination(page, limit));
+        Mono<AllEventsResponse> events = this.localistService.all(filters, new LocalistPagination(page, limit));
         return ServerResponse.ok().body(events, Event.class);
     }
 
