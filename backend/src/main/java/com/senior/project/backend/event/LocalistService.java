@@ -14,6 +14,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,15 @@ public class LocalistService {
     private static String formatDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
+    }
+
+    private List<Long> eventTypesToInclude() {
+        return List.of(
+                OswegoLocalistFilter.CAMPUS_AND_COMMUNITY.getTypeId(),
+                OswegoLocalistFilter.CAREER_DEVELOPMENT.getTypeId(),
+                OswegoLocalistFilter.ALUMNI.getTypeId(),
+                OswegoLocalistFilter.WORKSHOPS_AND_SEMINARS.getTypeId()
+        );
     }
 
     public Flux<Event> all(@Nullable EventFilters filters, LocalistPagination pagination) {
@@ -62,6 +72,7 @@ public class LocalistService {
                         .path("/events")
                         .queryParam(LocalistPagination.Params.LIMIT.key(), pagination.getLimit())
                         .queryParam(LocalistPagination.Params.PAGE.key(), pagination.getPage()))
+                        .queryParam("type", eventTypesToInclude())
                         .build())
                 .retrieve()
                 .bodyToMono(LocalistEventsResponse.class)
