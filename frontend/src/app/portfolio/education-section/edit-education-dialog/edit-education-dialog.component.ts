@@ -10,10 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
-import {
-  DegreeProgramOperation,
-  PortfolioService
-} from '../../portfolio.service';
+import {DegreeProgramOperation, PortfolioService} from '../../portfolio.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AuthService} from 'src/app/security/auth.service';
 import {UserService} from 'src/app/security/user.service';
@@ -22,10 +19,7 @@ import {map, mergeMap, zipWith} from 'rxjs';
 import {LangUtils} from 'src/app/util/lang-utils';
 import {User} from 'src/app/security/domain/user';
 import Education from 'src/domain/Education';
-import {allMajors} from 'src/app/util/dropdown-constants';
-import {
-  DegreeProgramOperationGroup
-} from './multi-major-input/multi-major-input.component';
+import {DegreeProgramOperationGroup} from './multi-major-input/multi-major-input.component';
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -51,7 +45,6 @@ export class EditEducationDialogComponent implements OnInit {
   isSubmitting: boolean = false;
   protected title = 'Education';
   protected readonly yearLevels = [
-    null,
     'Freshman',
     'Sophomore',
     'Junior',
@@ -150,7 +143,7 @@ export class EditEducationDialogComponent implements OnInit {
         return null;
       }
       const regex = new RegExp(/^\d+(\.\d{1,2})?$/);
-      if (!regex.test(value)) {
+      if (!regex.test(value) || value > 4.0) {
         return {invalidNumber: true};
       }
       return null;
@@ -163,14 +156,16 @@ export class EditEducationDialogComponent implements OnInit {
       if (isValidDeleteOperation(majorNameControl.value)) {
         return null;
       }
-      const majorName = majorNameControl.value;
+
+      let majorName = majorNameControl.value;
+      if (typeof majorName !== "string") { //the tests won't pass without this check
+        majorName = "";
+      }
+      majorName = majorName.trim();
       if (this.majorIsDuplicate(majorName, majorFormGroup)) {
         return {duplicateMajor: true};
       }
-      if (!majorName) {
-        return {invalidMajor: true};
-      }
-      if (!allMajors.includes(majorName)) {
+      if (!majorName ! || majorName === '') {
         return {invalidMajor: true};
       }
       return null;

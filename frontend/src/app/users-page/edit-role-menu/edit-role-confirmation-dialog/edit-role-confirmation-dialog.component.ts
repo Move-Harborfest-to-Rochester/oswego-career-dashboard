@@ -38,6 +38,7 @@ export class EditRoleConfirmationDialogComponent {
         verticalPosition: 'bottom',
         duration: 3000,
       });
+      setTimeout(() => this.matDialogRef.close(), 100);
     });
   }
 

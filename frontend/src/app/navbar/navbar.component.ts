@@ -46,9 +46,6 @@ export class NavbarComponent implements OnInit {
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((user: User | null) => {
       if (user?.hasAdminPrivileges()) {
-        // Handle admin navigation within Angular zone
-        this.ngZone.run(() => this.router.navigate(['/admin']));
-
         // Subscribe to view mode changes
         this.viewModeService.isStudentView$.pipe(
           takeUntilDestroyed(this.destroyRef)
