@@ -46,10 +46,10 @@ public class LocalistService {
 
     private UriBuilder addFiltersIfExist(@Nullable EventFilters filters, UriBuilder builder) {
         if (filters != null) {
-            builder.queryParamIfPresent("startDate", Optional.ofNullable(filters.getStartDate())
+            builder.queryParamIfPresent("start", Optional.ofNullable(filters.getStartDate())
                     .map(LocalistService::formatDate)
             );
-            builder.queryParamIfPresent("endDate", Optional.ofNullable(filters.getEndDate())
+            builder.queryParamIfPresent("end", Optional.ofNullable(filters.getEndDate())
                     .map(LocalistService::formatDate)
             );
         }

@@ -23,19 +23,23 @@ public class EventHandler {
         this.localistService = localistService;
     }
 
+    private static Date parseUnixTimestamp(String unixStartDate) {
+        Instant instant = Instant.ofEpochMilli(Long.parseLong(unixStartDate));
+        return Date.from(instant);
+    }
+
     /**
      * Retrieves all events
      */
     public Mono<ServerResponse> all(ServerRequest serverRequest) {
         int page = Integer.parseInt(serverRequest.queryParam("page").orElse("0"));
         int limit = Integer.parseInt(serverRequest.queryParam("limit").orElse("100"));
-        Optional<Date> startDate = serverRequest.queryParam("startDate").map((unixStartDate) -> {
-            Instant instant = Instant.ofEpochMilli(Long.parseLong(unixStartDate));
-            return Date.from(instant);
-        });
+        Optional<Date> startDate = serverRequest.queryParam("startDate").map(EventHandler::parseUnixTimestamp);
+        Optional<Date> endDate = serverRequest.queryParam("endDate").map(EventHandler::parseUnixTimestamp);
         EventFilters filters = EventFilters
                 .builder()
                 .startDate(startDate.orElse(null))
+                .endDate(endDate.orElse(null))
                 .build();
         Flux<Event> events = this.localistService.all(filters, new LocalistPagination(page, limit));
         return ServerResponse.ok().body(events, Event.class);

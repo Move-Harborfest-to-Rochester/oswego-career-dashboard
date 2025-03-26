@@ -18,8 +18,21 @@ export class EventService {
    * Gets all events
    */
   getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(constructBackendRequest(Endpoints.EVENTS))
-      .pipe(map((data: any) => {
+    return this.http.get<EventJSON[]>(constructBackendRequest(Endpoints.EVENTS))
+      .pipe(map((data: EventJSON[]) => {
+        return data.map((eventData: EventJSON) => {
+          return new Event(eventData)
+        })
+      }))
+  }
+
+  getUpcomingEvents(): Observable<Event[]> {
+    const nowUnix = new Date().getTime();
+    return this.http.get<EventJSON[]>(constructBackendRequest(Endpoints.EVENTS, {
+      key: 'startDate',
+      value: nowUnix
+    }))
+      .pipe(map((data: EventJSON[]) => {
         return data.map((eventData: EventJSON) => {
           return new Event(eventData)
         })
