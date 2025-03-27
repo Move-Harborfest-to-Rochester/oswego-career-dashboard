@@ -51,7 +51,8 @@ export class EventsComponent implements OnInit {
           description: event.description,
           img: imgUrl,
           buttonLabel: event.buttonLabel,
-          eventLink: event.eventLink
+          eventLink: event.eventLink,
+          dateRange: event.getDateOrRange()
         }
       });
 

@@ -45,7 +45,14 @@ export class Event {
     this.photoUrl = json.photoUrl;
   }
 
-  dateAndEndDateAreDifferentDays(): boolean {
+  getDateOrRange(): string {
+    if (this.endDate && this.dateAndEndDateAreDifferentDays()) {
+      return this.date.toLocaleDateString() + " - " + this.endDate.toLocaleDateString();
+    }
+    return this.date.toLocaleDateString();
+  }
+
+  private dateAndEndDateAreDifferentDays(): boolean {
     return !this.endDate ||
       this.date.getUTCFullYear() !== this.endDate?.getUTCFullYear() ||
       this.date.getUTCMonth() !== this.endDate?.getUTCMonth() ||

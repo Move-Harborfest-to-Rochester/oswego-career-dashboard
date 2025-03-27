@@ -4,7 +4,7 @@
     <mat-card-subtitle>
       <span class="date icon-text">
         <mat-icon>calendar_month</mat-icon>
-        {{ eventDateOrRange() }}
+        {{ this.event.getDateOrRange() }}
       </span>
       <div *ngIf="event.location">
         <span class="location icon-text">

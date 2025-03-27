@@ -16,11 +16,4 @@ export class EventListItemComponent {
   async goToEvent() {
     await this.router.navigate(['/events', this.event.eventID]);
   }
-
-  eventDateOrRange() {
-    if (this.event.endDate && this.event.dateAndEndDateAreDifferentDays()) {
-      return this.event.date.toLocaleDateString() + " - " + this.event.endDate.toLocaleDateString();
-    }
-    return this.event.date.toLocaleDateString();
-  }
 }
