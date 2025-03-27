@@ -13,8 +13,8 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
     private String name;
-    public String description;
     private Boolean isRequired;
     @Enumerated(EnumType.STRING)
     private YearLevel yearLevel;
@@ -27,7 +27,5 @@ public class Task {
     @JoinColumn()
     private Milestone milestone;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private Event event;
+    private Long eventId;
 }

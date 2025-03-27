@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/homepage/events/event.service';
-import { Event } from "../../../domain/Event";
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { EventEditModalComponent } from '../event-edit-modal/event-edit-modal.component';
-import {EventImageModalComponent} from "../event-image-modal/event-image-modal.component";
+import {Component, OnInit} from '@angular/core';
+import {EventService} from 'src/app/homepage/events/event.service';
+import {Event} from "../../../domain/Event";
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {
+  EventEditModalComponent
+} from '../event-edit-modal/event-edit-modal.component';
+import {
+  EventImageModalComponent
+} from "../event-image-modal/event-image-modal.component";
 import {ArtifactService} from "../../file-upload/artifact.service";
 import {Endpoints} from "../../util/http-helper";
 
@@ -16,6 +20,7 @@ export class EventMainPageComponent implements OnInit {
 
   events: Array<Event> = []
   eventUrlsMap: Map<number, string> = new Map<number, string>();
+  protected readonly Endpoints = Endpoints;
 
   constructor(
     private eventService: EventService,
@@ -63,7 +68,7 @@ export class EventMainPageComponent implements OnInit {
     dialogConfig.width = "500px";
     dialogConfig.data = {
       event: event,
-      hasImage: !!event?.imageId
+      hasImage: !!event?.photoUrl
     }
 
     const modalDialog = this.matDialog.open(EventImageModalComponent, dialogConfig);
@@ -73,13 +78,11 @@ export class EventMainPageComponent implements OnInit {
     });
   }
 
-  protected readonly Endpoints = Endpoints;
-
   /**
    * Gets the url to use in the html
    * References the artifact service for the file logic
    */
   eventImageUrl(imageId: number): string {
-    return  this.artifactService.getEventImageUrl(imageId)
+    return this.artifactService.getEventImageUrl(imageId)
   }
 }

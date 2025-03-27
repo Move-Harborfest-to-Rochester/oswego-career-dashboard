@@ -1,16 +1,33 @@
-<mat-card>
+<mat-card (click)="goToEvent()" class="clickable" matRipple>
   <mat-card-header>
-    <mat-card-title><h5>{{event.name}}</h5></mat-card-title>
-    <mat-card-subtitle>{{eventDate()}} at {{event.location}}</mat-card-subtitle>
+    <mat-card-title><h5>{{ event.name }}</h5></mat-card-title>
+    <mat-card-subtitle>
+      <span class="date icon-text">
+        <mat-icon>calendar_month</mat-icon>
+        {{ this.event.getDateOrRange() }}
+      </span>
+      <div *ngIf="event.location">
+        <span class="location icon-text">
+          <mat-icon>location_on</mat-icon>
+          <a (click)="$event.stopPropagation()"
+             *ngIf="event.locationUrl"
+             [href]="event.locationUrl" target="_blank">{{ event.location }}</a>
+          <span *ngIf="!event.locationUrl">{{ event.location }}</span>
+        </span>
+      </div>
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
-  <img mat-card-image *ngIf="!!imageUrl" [ngSrc]="imageUrl" [alt]="event.name" width="576" height="576">
+  <img *ngIf="!!event.photoUrl" [alt]="event.name" [ngSrc]="event.photoUrl"
+       height="576" mat-card-image width="576">
   <mat-card-content>
-    <p>
-      {{event.description}}
+    <p class="description">
+      {{ event.description }}
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button color="primary" mat-flat-button (click)="goToEvent()">More Info</button>
+    <button (click)="goToEvent()" color="primary" mat-flat-button>More
+      Info
+    </button>
   </mat-card-actions>
 </mat-card>

@@ -1,7 +1,8 @@
 package com.senior.project.backend.domain;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.ZoneId;
@@ -10,7 +11,6 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Generated
@@ -21,14 +21,14 @@ public class Event {
     private String name;
     private String description;
     private Date date;
+    private Date endDate;
     private String location;
+    private String locationUrl;
     private String organizer;
     private boolean isRecurring;
     private String eventLink;
     private String buttonLabel;
-    @Nullable
-    @Column(nullable = true)
-    private Long imageId;
+    private String photoUrl;
 
     // Used in Email Template
     public String formattedDate() {

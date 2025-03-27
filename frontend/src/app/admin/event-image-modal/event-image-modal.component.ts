@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Inject, Injectable, OnInit, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Injectable,
+  OnInit,
+  Output
+} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Event} from "../../../domain/Event";
 import {Observable} from "rxjs";
@@ -13,12 +20,11 @@ import {ArtifactService} from "../../file-upload/artifact.service";
 @Injectable()
 export class EventImageModalComponent implements OnInit {
 
-  private artifactID: number | null = null;
-  protected event: Event;
   uploadStrategy: ((formData: FormData) => Observable<number>) | null = null;
-  protected hasImageVal: boolean = false;
-
   @Output() imageIdEmitter = new EventEmitter<number | null>();
+  protected event: Event;
+  protected hasImageVal: boolean = false;
+  private artifactID: number | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<EventImageModalComponent>,
@@ -32,8 +38,7 @@ export class EventImageModalComponent implements OnInit {
         return this.artifactService.uploadEventImage(data, this.event.eventID);
       }
       this.uploadStrategy.bind(this);
-    }
-    else {
+    } else {
       console.error("expected modal data to contain an event");
     }
   }
@@ -51,7 +56,7 @@ export class EventImageModalComponent implements OnInit {
   }
 
   onImageId(originalImgVal: null) {
-    this.event.imageId = originalImgVal;
-    this.imageIdEmitter.emit(this.event.imageId);
+    this.event.photoUrl = originalImgVal;
+    this.imageIdEmitter.emit(this.event.photoUrl);
   }
 }

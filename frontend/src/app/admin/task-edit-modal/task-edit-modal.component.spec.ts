@@ -1,24 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskEditModalComponent } from './task-edit-modal.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { Form, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Task, TaskType } from 'src/domain/Task';
-import { YearLevel } from 'src/domain/Milestone';
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
-import { of } from 'rxjs';
-import { MatSelectModule } from '@angular/material/select';
-import createSpyObj = jasmine.createSpyObj;
-import { EventService } from 'src/app/homepage/events/event.service';
-import { Event } from 'src/domain/Event';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef
+} from '@angular/material/dialog';
+import {TaskEditModalComponent} from './task-edit-modal.component';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {Task, TaskType} from 'src/domain/Task';
+import {YearLevel} from 'src/domain/Milestone';
+import {of} from 'rxjs';
+import {MatSelectModule} from '@angular/material/select';
+import {EventService} from 'src/app/homepage/events/event.service';
+import {Event} from 'src/domain/Event';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import any = jasmine.any;
+import createSpyObj = jasmine.createSpyObj;
 import anything = jasmine.anything;
 
 
@@ -44,8 +50,9 @@ describe('TaskEditModalComponent', () => {
     imageId: 1,
   }))));
   let dialogMock = {
-    close: () => { }
-    };
+    close: () => {
+    }
+  };
   const testTask = new Task({
     name: 'task name',
     description: "description",
@@ -116,16 +123,16 @@ describe('TaskEditModalComponent', () => {
 
   it('should build form from task', () => {
     component.currentTask = new Task({
-        name: 'task name',
-        description: "description",
-        id: 1,
-        isRequired: true,
-        yearLevel: YearLevel.Freshman,
-        milestoneID: 1,
-        taskType: TaskType.ARTIFACT,
-        artifactName: 'test artifact',
-        submissionInstructions: 'instructions'
-      });
+      name: 'task name',
+      description: "description",
+      id: 1,
+      isRequired: true,
+      yearLevel: YearLevel.Freshman,
+      milestoneID: 1,
+      taskType: TaskType.ARTIFACT,
+      artifactName: 'test artifact',
+      submissionInstructions: 'instructions'
+    });
     component.createForm();
 
     const sampleForm = formBuilder.group({
@@ -199,7 +206,7 @@ describe('TaskEditModalComponent', () => {
       yearLevel: YearLevel.Freshman,
       milestoneID: 1,
       taskType: TaskType.EVENT,
-      eventID: 1,
+      eventId: 1,
       submissionInstructions: 'instructions'
     });
     component.createForm();
@@ -282,7 +289,7 @@ describe('TaskEditModalComponent', () => {
       yearLevel: YearLevel.Freshman,
       milestoneID: 1,
       taskType: TaskType.EVENT,
-      eventID: 1,
+      eventId: 1,
       submissionInstructions: 'instructions'
     });
 
@@ -308,7 +315,7 @@ describe('TaskEditModalComponent', () => {
       yearLevel: YearLevel.Freshman,
       milestoneID: 1,
       taskType: TaskType.EVENT,
-      eventID: 1,
+      eventId: 1,
       submissionInstructions: 'instructions'
     });
 

@@ -1,3 +1,13 @@
 <div class='event-list'>
-  <event-list-item *ngFor="let event of upcomingEvents" [event]="event"></event-list-item>
+  <event-list-item *ngFor="let event of upcomingEvents"
+                   [event]="event"></event-list-item>
+  <div *ngIf="upcomingEvents.length === 0 && !loading" class="no-events-msg">
+    <span>No upcoming events found.</span>
+  </div>
+</div>
+<div class="pagination-container">
+  <pagination
+    [(ngModel)]="currentPage"
+    [totalItems]="totalItems"
+  />
 </div>
