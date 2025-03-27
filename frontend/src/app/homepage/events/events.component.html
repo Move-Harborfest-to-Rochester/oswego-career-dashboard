@@ -3,30 +3,38 @@
     Events
   </h1>
   <carousel [interval]="0"
-            [itemsPerSlide]="itemsPerSlide"
-            [noWrap]="!noWrap"
+            [itemsPerSlide]="Math.min((itemsPerSlide$ | async) ?? 4, slides.length)"
+            [noWrap]="true"
             [showIndicators]="false"
             [singleSlideOffset]="true"
             [startFromIndex]="0">
     <slide *ngFor="let slide of slides; let index=index"
            class="animated fadeIn">
       <a [routerLink]="['/events', slide.id]" aria-label="Go To Event"
-         class="slide-link" style="display:block">
-        <img [class.default-logo]="slide.img == defaultLogoURL"
-             [ngSrc]="slide.img"
-             alt="event image" class="event-image" height="200" width="500">
-        <div class="carousel-caption">
-          <h4>{{ slide.name }}</h4>
-          <div class="date">
-            <mat-icon>calendar_month</mat-icon>
-            <span>{{ slide.dateRange }}</span>
+         class="slide-link">
+        <div class="slide-body">
+          <div class="img-container">
+            <img [class.default-logo]="slide.img == defaultLogoURL"
+                 [ngSrc]="slide.img"
+                 alt="event image"
+                 class="event-image" height="200" width="500">
           </div>
-          <button *ngIf="index % 2 === 0" color="primary"
-                  mat-stroked-button>{{ slide.buttonLabel }}
-          </button>
-          <button *ngIf="index % 2 === 1" color="primary"
-                  mat-raised-button>{{ slide.buttonLabel }}
-          </button>
+          <div class="footer">
+            <mat-divider></mat-divider>
+            <h4>{{ slide.name }}</h4>
+            <div class="date">
+              <mat-icon>calendar_month</mat-icon>
+              <span>{{ slide.dateRange }}</span>
+            </div>
+            <div>
+              <button *ngIf="index % 2 === 0" color="primary"
+                      mat-stroked-button>{{ slide.buttonLabel }}
+              </button>
+              <button *ngIf="index % 2 === 1" color="primary"
+                      mat-raised-button>{{ slide.buttonLabel }}
+              </button>
+            </div>
+          </div>
         </div>
       </a>
     </slide>
