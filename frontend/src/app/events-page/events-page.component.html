@@ -12,7 +12,9 @@
           <h2>Date:</h2>
           <p>{{ event.getDateOrRange() }}</p>
           <h2>Location:</h2>
-          <p>{{ event.location }}</p>
+          <a *ngIf="event.locationUrl" [href]="event.locationUrl"
+             target="_blank">{{ event.location }}</a>
+          <p *ngIf="!event.locationUrl">{{ event.location }}</p>
         </div>
 
         <div *ngIf="!event.eventLink" class="qr-event-image-adjustment">
@@ -21,7 +23,9 @@
           <p>{{ event.getDateOrRange() }}</p>
 
           <h2>Location:</h2>
-          <p>{{ event.location }}</p>
+          <a *ngIf="event.locationUrl" [href]="event.locationUrl"
+             target="_blank">{{ event.location }}</a>
+          <p *ngIf="!event.locationUrl">{{ event.location }}</p>
         </div>
 
         <div *ngIf="event.eventLink" class="event-details">
