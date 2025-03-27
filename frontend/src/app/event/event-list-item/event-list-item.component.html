@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card (click)="goToEvent()" class="clickable" matRipple>
   <mat-card-header>
     <mat-card-title><h5>{{ event.name }}</h5></mat-card-title>
     <mat-card-subtitle>
@@ -9,8 +9,9 @@
       <div *ngIf="event.location">
         <span class="location icon-text">
           <mat-icon>location_on</mat-icon>
-          <a *ngIf="event.locationUrl"
-             [href]="event.locationUrl">{{ event.location }}</a>
+          <a (click)="$event.stopPropagation()"
+             *ngIf="event.locationUrl"
+             [href]="event.locationUrl" target="_blank">{{ event.location }}</a>
           <span *ngIf="!event.locationUrl">{{ event.location }}</span>
         </span>
       </div>
@@ -25,7 +26,8 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="goToEvent()" color="primary" mat-flat-button>More Info
+    <button (click)="goToEvent()" color="primary" mat-flat-button>More
+      Info
     </button>
   </mat-card-actions>
 </mat-card>
