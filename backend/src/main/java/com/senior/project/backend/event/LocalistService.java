@@ -69,6 +69,8 @@ public class LocalistService {
                         .path("/events")
                         .queryParam(LocalistPagination.Params.LIMIT.key(), pagination.getLimit())
                         .queryParam(LocalistPagination.Params.PAGE.key(), pagination.getPage()))
+                        .queryParam(LocalistPagination.Params.SORT.key(), "date")
+                        .queryParam(LocalistPagination.Params.ORDER.key(), "asc")
                         .queryParam("type", eventTypesToInclude())
                         .build())
                 .retrieve()

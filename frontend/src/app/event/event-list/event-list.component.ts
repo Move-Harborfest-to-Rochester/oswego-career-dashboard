@@ -24,14 +24,8 @@ export class EventListComponent implements OnInit {
     this.eventService.getUpcomingEvents(this.currentPage, this.pageSize).subscribe((eventList: EventList) => {
       console.log(eventList);
       this.totalItems = eventList.totalPages * this.pageSize;
-      this.upcomingEvents = eventList.events
-        .sort((this.sortByDateAscending));
+      this.upcomingEvents = eventList.events;
       this.loading = false;
     })
-  }
-
-
-  private sortByDateAscending(event1: Event, event2: Event) {
-    return event1.date.getTime() - event2.date.getTime();
   }
 }

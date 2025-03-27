@@ -15,7 +15,9 @@ public class LocalistPagination {
 
     public enum Params {
         PAGE("page"),
-        LIMIT("pp");
+        LIMIT("pp"),
+        SORT("sort"),
+        ORDER("order");
 
         private final String key;
 
