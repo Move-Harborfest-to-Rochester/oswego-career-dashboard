@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Event} from "../../../domain/Event";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'event-list-item',
@@ -9,11 +10,11 @@ import {Event} from "../../../domain/Event";
 export class EventListItemComponent {
   @Input() event!: Event;
 
-  constructor() {
+  constructor(private readonly router: Router) {
   }
 
-  goToEvent() {
-    window.open(this.event.eventLink, "_blank");
+  async goToEvent() {
+    await this.router.navigate(['/events', this.event.eventID]);
   }
 
   eventDateOrRange() {
