@@ -24,7 +24,8 @@ public class ActivityRouter extends AbstractRouter {
     public RouterFunction<ServerResponse> activityRoutes(
         EventHandler eventHandler, 
         MilestoneHandler milestoneHandler, 
-        TaskHandler taskHandler
+        TaskHandler taskHandler,
+        EventTrackingHandler eventTrackingHandler
     ) {
         return wrapRoutes(
             route(GET(Endpoints.EVENTS.uri()), eventHandler::all)
@@ -34,7 +35,7 @@ public class ActivityRouter extends AbstractRouter {
                 .andRoute(GET(Endpoints.HOMEPAGE_TASKS.uri()), taskHandler::homepage)
                 .andRoute(GET(Endpoints.TASKS.uri()), taskHandler::all)
                 .andRoute(GET(Endpoints.TASK_BY_ID.uri()), taskHandler::getById)
-                .andRoute(POST(Endpoints.EDIT_TASK.uri()).
+                    .andRoute(POST(Endpoints.EDIT_TASK.uri()).
                     and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), taskHandler::update)
                 .andRoute(POST(Endpoints.CREATE_TASK.uri()).
                     and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), taskHandler::create)
@@ -46,6 +47,9 @@ public class ActivityRouter extends AbstractRouter {
                     and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), eventHandler::update)
                 .andRoute(POST(Endpoints.CREATE_EVENT.uri()).
                     and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), eventHandler::create)
-            );
+                .andRoute(POST(Endpoints.EVENT_TRACKING_SAVE.uri())
+                    .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), eventTrackingHandler::save)
+                .andRoute(GET(Endpoints.EVENT_TRACKING_GET.uri()), eventTrackingHandler::getInterestStatus)
+        );
     }
 }
