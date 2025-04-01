@@ -236,7 +236,7 @@ You can also do this for frontend/backend test.
 				* Re-run the API container
 5. Create the frontend image using the Dockerfile
 	* Open a terminal in the oswego-career-dashboard repository
-		-  Run `cd backend`
+		-  Run `cd frontend`
 		-  Build the image using `docker build -t crd-frontend .` (This may take a few minutes)
 	- Click the play button on the far right of the image to create a container
 		- For the ports section, type 4200
