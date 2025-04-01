@@ -96,6 +96,10 @@ public class DataProcessor {
         try {
             // Serialize the data to JSON and save it to a file in the current directory
             File outputFile = new File("insights/output.json");
+            outputFile.getParentFile().mkdirs();
+            if (!outputFile.exists()) {
+                outputFile.createNewFile();
+            }
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, data);
         } catch (Exception e) {
             e.printStackTrace();
