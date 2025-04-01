@@ -1,29 +1,43 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { MilestoneEditComponent } from './milestone-edit.component';
-import { BehaviorSubject, of } from "rxjs";
-import createSpyObj = jasmine.createSpyObj;
-import { Milestone, YearLevel } from 'src/domain/Milestone';
-import { MilestoneService } from 'src/app/milestones-page/milestones/milestone.service';
-import { Task, TaskType } from 'src/domain/Task';
-import { TaskService } from 'src/app/util/task.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from "@angular/material/button";
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { TaskEditModalModule } from '../task-edit-modal/task-edit-modal.module';
-import { MatDialog, MatDialogConfig, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { TaskEditModalComponent } from '../task-edit-modal/task-edit-modal.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { MilestoneCreateModalComponent } from '../milestone-main-page/milestone-create-modal/milestone-create-modal.component';
-import { MilestoneCreateModalModule } from '../milestone-main-page/milestone-create-modal/milestone-create-modal.module';
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
-import { Event } from 'src/domain/Event';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {MilestoneEditComponent} from './milestone-edit.component';
+import {BehaviorSubject, of} from "rxjs";
+import {Milestone, YearLevel} from 'src/domain/Milestone';
+import {
+  MilestoneService
+} from 'src/app/milestones-page/milestones/milestone.service';
+import {Task, TaskType} from 'src/domain/Task';
+import {TaskService} from 'src/app/util/task.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from "@angular/material/button";
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {TaskEditModalModule} from '../task-edit-modal/task-edit-modal.module';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule
+} from '@angular/material/dialog';
+import {
+  TaskEditModalComponent
+} from '../task-edit-modal/task-edit-modal.component';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {
+  MilestoneCreateModalComponent
+} from '../milestone-main-page/milestone-create-modal/milestone-create-modal.component';
+import {
+  MilestoneCreateModalModule
+} from '../milestone-main-page/milestone-create-modal/milestone-create-modal.module';
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import createSpyObj = jasmine.createSpyObj;
 
 
 describe('MilestoneEditComponent', () => {
@@ -31,7 +45,7 @@ describe('MilestoneEditComponent', () => {
   let fixture: ComponentFixture<MilestoneEditComponent>;
   let httpMock: HttpTestingController;
   let formBuilder: FormBuilder;
-  const paramMap = new BehaviorSubject(convertToParamMap({ name: 'name'  }));
+  const paramMap = new BehaviorSubject(convertToParamMap({name: 'name'}));
   const activatedRouteMock = {
     params: paramMap.asObservable(),
   };
@@ -113,7 +127,9 @@ describe('MilestoneEditComponent', () => {
         location: "location",
         eventLink: "testing link",
         buttonLabel: "more info",
-        imageId: 1,
+        photoUrl: "https://example.com/image.jpg",
+        locationUrl: "https://example.com/location",
+        endDate: new Date().toDateString(),
       }],
       tasks: [{
         name: 'task name',
@@ -137,25 +153,25 @@ describe('MilestoneEditComponent', () => {
       taskType: TaskType.ARTIFACT,
       artifactName: 'test artifact'
     }),
-    new Task({
-      name: 'task name 2',
-      description: "description",
-      id: 2,
-      isRequired: true,
-      yearLevel: YearLevel.Freshman,
-      milestoneID: 2,
-      taskType: TaskType.ARTIFACT,
-      artifactName: 'test artifact'
-    }),
-    new Task({
-      name: 'task name 3',
-      description: "description",
-      id: 3,
-      isRequired: true,
-      yearLevel: YearLevel.Freshman,
-      taskType: TaskType.ARTIFACT,
-      artifactName: 'test artifact'
-    })];
+      new Task({
+        name: 'task name 2',
+        description: "description",
+        id: 2,
+        isRequired: true,
+        yearLevel: YearLevel.Freshman,
+        milestoneID: 2,
+        taskType: TaskType.ARTIFACT,
+        artifactName: 'test artifact'
+      }),
+      new Task({
+        name: 'task name 3',
+        description: "description",
+        id: 3,
+        isRequired: true,
+        yearLevel: YearLevel.Freshman,
+        taskType: TaskType.ARTIFACT,
+        artifactName: 'test artifact'
+      })];
 
     const componentTasks = component.listTasks();
 
@@ -182,7 +198,9 @@ describe('MilestoneEditComponent', () => {
         location: "location",
         eventLink: "sample",
         buttonLabel: "sample",
-        imageId: 1,
+        photoUrl: "https://example.com/image.jpg",
+        locationUrl: "https://example.com/location",
+        endDate: new Date().toDateString(),
       }],
       tasks: [{
         name: 'task name',
@@ -206,16 +224,16 @@ describe('MilestoneEditComponent', () => {
       taskType: TaskType.ARTIFACT,
       artifactName: 'test artifact'
     }),
-    new Task({
-      name: 'task name 2',
-      description: "description",
-      id: 2,
-      isRequired: true,
-      yearLevel: YearLevel.Freshman,
-      milestoneID: 2,
-      taskType: TaskType.ARTIFACT,
-      artifactName: 'test artifact'
-    })];
+      new Task({
+        name: 'task name 2',
+        description: "description",
+        id: 2,
+        isRequired: true,
+        yearLevel: YearLevel.Freshman,
+        milestoneID: 2,
+        taskType: TaskType.ARTIFACT,
+        artifactName: 'test artifact'
+      })];
 
     const sampleForm = formBuilder.group({
       name: ["name", Validators.required],
@@ -245,7 +263,9 @@ describe('MilestoneEditComponent', () => {
         location: "location",
         eventLink: "testing link",
         buttonLabel: "more info",
-        imageId: 1,
+        photoUrl: "https://example.com/image.jpg",
+        locationUrl: "https://example.com/location",
+        endDate: new Date().toDateString(),
       }],
       tasks: [{
         name: 'task name',
@@ -269,16 +289,16 @@ describe('MilestoneEditComponent', () => {
       taskType: TaskType.ARTIFACT,
       artifactName: 'test artifact'
     }),
-    new Task({
-      name: 'task name 2',
-      description: "description",
-      id: 2,
-      isRequired: true,
-      yearLevel: YearLevel.Freshman,
-      milestoneID: 2,
-      taskType: TaskType.ARTIFACT,
-      artifactName: 'test artifact'
-    })];
+      new Task({
+        name: 'task name 2',
+        description: "description",
+        id: 2,
+        isRequired: true,
+        yearLevel: YearLevel.Freshman,
+        milestoneID: 2,
+        taskType: TaskType.ARTIFACT,
+        artifactName: 'test artifact'
+      })];
 
     component.createMilestoneForm();
 
@@ -317,7 +337,9 @@ describe('MilestoneEditComponent', () => {
     }));
     const url = constructBackendRequest(Endpoints.EDIT_MILESTONE);
 
-    spyOn(component, 'back').and.callFake(function() { return null; });
+    spyOn(component, 'back').and.callFake(function () {
+      return null;
+    });
 
     component.saveMilestone();
     expect(spy).toHaveBeenCalled();
@@ -350,7 +372,7 @@ describe('MilestoneEditComponent', () => {
   });
 
   it('should open the TaskEditModal in a MatDialog', () => {
-    spyOn(component.matDialog,'open').and.callThrough();
+    spyOn(component.matDialog, 'open').and.callThrough();
     component.openTaskEditModal("testing", null);
 
     const dialogConfig = new MatDialogConfig();

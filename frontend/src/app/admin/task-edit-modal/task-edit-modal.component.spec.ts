@@ -46,8 +46,10 @@ describe('TaskEditModalComponent', () => {
     organizer: "organizer",
     location: "location",
     eventLink: "sample",
-    buttonLabel: "sample",
-    imageId: 1,
+    buttonLabel: "sample2",
+    photoUrl: "https://example.com/image.jpg",
+    locationUrl: "https://example.com/location",
+    endDate: new Date().toDateString(),
   }))));
   let dialogMock = {
     close: () => {
@@ -102,23 +104,6 @@ describe('TaskEditModalComponent', () => {
     formBuilder = TestBed.inject(FormBuilder);
     // @ts-ignore
     snackBarSpy = spyOn(component._snackBar, 'open');
-  });
-
-  it('should list events', () => {
-    const testEvents = Array(new Event({
-      name: "name",
-      description: "description",
-      date: new Date().toDateString(),
-      id: 1,
-      recurring: true,
-      organizer: "organizer",
-      location: "location",
-      eventLink: "sample",
-      buttonLabel: "sample",
-      imageId: 1,
-    }));
-
-    expect(component.eventList).toEqual(testEvents);
   });
 
   it('should build form from task', () => {

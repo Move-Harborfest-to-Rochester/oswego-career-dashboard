@@ -35,10 +35,10 @@ export class TaskEditModalComponent implements OnInit {
   public currentTask: Task | undefined;
   taskForm!: FormGroup;
   dataLoaded: boolean = false;
+  public events$: Observable<Event[]> = new Observable<Event[]>();
   protected readonly artifactType = TaskType.ARTIFACT;
   protected readonly eventType = TaskType.EVENT;
   protected readonly commentType = TaskType.COMMENT;
-  protected events$: Observable<Event[]> = new Observable<Event[]>();
 
   constructor(
     public dialogRef: MatDialogRef<TaskEditModalComponent>,
