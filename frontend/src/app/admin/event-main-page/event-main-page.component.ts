@@ -10,6 +10,7 @@ import {
 } from "../event-image-modal/event-image-modal.component";
 import {ArtifactService} from "../../file-upload/artifact.service";
 import {Endpoints} from "../../util/http-helper";
+import {EventList} from "../../homepage/events/event-list";
 
 @Component({
   selector: 'app-event-main-page',
@@ -30,8 +31,8 @@ export class EventMainPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventService.getEvents().subscribe((events: Event[]) => {
-      this.events = events;
+    this.eventService.getEvents().subscribe((eventList: EventList) => {
+      this.events = eventList.events;
     });
   }
 

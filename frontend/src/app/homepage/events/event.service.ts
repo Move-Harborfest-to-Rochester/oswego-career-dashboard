@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {Event, EventJSON} from "../../../domain/Event";
+import {Event} from "../../../domain/Event";
 import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
 import {EventList, EventListJSON} from "./event-list";
 
@@ -18,12 +18,14 @@ export class EventService {
   /**
    * Gets all events
    */
-  getEvents(): Observable<Event[]> {
-    return this.http.get<EventJSON[]>(constructBackendRequest(Endpoints.EVENTS))
-      .pipe(map((data: EventJSON[]) => {
-        return data.map((eventData: EventJSON) => {
-          return new Event(eventData)
-        })
+  getEvents(eventName?: string): Observable<EventList> {
+    return this.http.get<EventListJSON>(constructBackendRequest(Endpoints.EVENTS), {
+      params: {
+        name: eventName ? eventName : ''
+      }
+    })
+      .pipe(map((data: EventListJSON) => {
+        return EventList.fromJson(data);
       }))
   }
 
@@ -40,12 +42,7 @@ export class EventService {
       value: limit
     }))
       .pipe(map((data: EventListJSON) => {
-        return new EventList(
-          data.events.map((data: EventJSON) => new Event(data)),
-          data.page,
-          data.pageSize,
-          data.totalPages
-        );
+        return EventList.fromJson(data);
       }))
   }
 
@@ -66,11 +63,7 @@ export class EventService {
     const limitParam = {key: 'limit', value: limit};
     return this.http.get<EventListJSON>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam, limitParam))
       .pipe(map((data: EventListJSON) => {
-        return new EventList(
-          data.events.map((data: EventJSON) => new Event(data)),
-          data.page,
-          data.pageSize,
-          data.totalPages);
+        return EventList.fromJson(data);
       }))
   }
 

@@ -19,4 +19,12 @@ export class EventList {
     this.pageSize = pageSize;
     this.totalPages = totalPages;
   }
+
+  static fromJson(data: EventListJSON): EventList {
+    return new EventList(
+      data.events.map((data: EventJSON) => new Event(data)),
+      data.page,
+      data.pageSize,
+      data.totalPages);
+  }
 }

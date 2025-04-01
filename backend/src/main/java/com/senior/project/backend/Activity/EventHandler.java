@@ -32,12 +32,14 @@ public class EventHandler {
      * Retrieves all events
      */
     public Mono<ServerResponse> all(ServerRequest serverRequest) {
+        String eventName = serverRequest.queryParam("name").filter(s -> !s.isEmpty()).orElse(null);
         int page = Integer.parseInt(serverRequest.queryParam("page").orElse("0"));
         int limit = Integer.parseInt(serverRequest.queryParam("limit").orElse("100"));
         Optional<Date> startDate = serverRequest.queryParam("startDate").map(EventHandler::parseUnixTimestamp);
         Optional<Date> endDate = serverRequest.queryParam("endDate").map(EventHandler::parseUnixTimestamp);
         EventFilters filters = EventFilters
                 .builder()
+                .eventName(eventName)
                 .startDate(startDate.orElse(null))
                 .endDate(endDate.orElse(null))
                 .build();

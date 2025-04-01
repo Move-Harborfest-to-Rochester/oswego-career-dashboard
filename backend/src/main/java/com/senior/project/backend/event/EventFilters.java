@@ -15,4 +15,6 @@ public class EventFilters {
     private Date startDate;
     @Nullable
     private Date endDate;
+    @Nullable
+    private String eventName;
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LocalistService {
@@ -33,10 +34,7 @@ public class LocalistService {
 
     private List<Long> eventTypesToInclude() {
         return List.of(
-                OswegoLocalistFilter.CAMPUS_AND_COMMUNITY.getTypeId(),
-                OswegoLocalistFilter.CAREER_DEVELOPMENT.getTypeId(),
-                OswegoLocalistFilter.ALUMNI.getTypeId(),
-                OswegoLocalistFilter.WORKSHOPS_AND_SEMINARS.getTypeId()
+                OswegoLocalistFilter.CAREER_DEVELOPMENT.getTypeId()
         );
     }
 
@@ -59,6 +57,7 @@ public class LocalistService {
             builder.queryParamIfPresent("end", Optional.ofNullable(filters.getEndDate())
                     .map(LocalistService::formatDate)
             );
+            builder.queryParamIfPresent("search", Optional.ofNullable(filters.getEventName()));
         }
         return builder;
     }
@@ -66,7 +65,7 @@ public class LocalistService {
     private Mono<AllEventsResponse> allEventDTOs(@Nullable EventFilters filters, LocalistPagination pagination) {
         return this.webClient.get()
                 .uri(uriBuilder -> addFiltersIfExist(filters, uriBuilder
-                        .path("/events")
+                        .path(eventsApiPath(filters))
                         .queryParam(LocalistPagination.Params.LIMIT.key(), pagination.getLimit())
                         .queryParam(LocalistPagination.Params.PAGE.key(), pagination.getPage()))
                         .queryParam(LocalistPagination.Params.SORT.key(), "date")
@@ -79,11 +78,21 @@ public class LocalistService {
                         Arrays.stream(response.getEvents())
                                 .map(LocalistEventItemResponse::getEvent)
                                 .map(LocalistEventDTO::toEvent)
-                                .toList(),
+                                .collect(Collectors.groupingBy(Event::getId))
+                                .values().stream()
+                                .map(list -> list.get(0))
+                                .collect(Collectors.toList()),
                         response.getPage().getCurrent(),
                         response.getPage().getTotal(),
                         response.getPage().getSize()
                 ));
+    }
+
+    private String eventsApiPath(EventFilters filters) {
+        if (filters == null || filters.getEventName() == null) {
+            return "/events";
+        }
+        return "/events/search";
     }
 
     public Flux<Event> findEventsInCurrentWeek(LocalDate currentDate) {
