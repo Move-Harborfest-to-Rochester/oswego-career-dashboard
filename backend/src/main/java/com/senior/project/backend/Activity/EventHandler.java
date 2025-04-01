@@ -1,6 +1,5 @@
 package com.senior.project.backend.Activity;
 
-import com.senior.project.backend.domain.Event;
 import com.senior.project.backend.event.AllEventsResponse;
 import com.senior.project.backend.event.EventFilters;
 import com.senior.project.backend.event.LocalistPagination;
@@ -44,7 +43,7 @@ public class EventHandler {
                 .endDate(endDate.orElse(null))
                 .build();
         Mono<AllEventsResponse> events = this.localistService.all(filters, new LocalistPagination(page, limit));
-        return ServerResponse.ok().body(events, Event.class);
+        return ServerResponse.ok().body(events, AllEventsResponse.class);
     }
 
     /**
