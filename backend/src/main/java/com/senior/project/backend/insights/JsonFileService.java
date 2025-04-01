@@ -22,7 +22,7 @@ public class JsonFileService {
 
     public Map<String, Object> readJsonFile() throws IOException {
         // Load the JSON file from the classpath
-        Resource resource = resourceLoader.getResource("file:src\\main\\java\\com\\senior\\project\\backend\\insights\\output.json");
+        Resource resource = resourceLoader.getResource("insights/output.json");
 
         InputStream inputStream = resource.getInputStream();
 
