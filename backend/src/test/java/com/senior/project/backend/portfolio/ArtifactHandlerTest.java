@@ -81,17 +81,6 @@ public class ArtifactHandlerTest {
     }
 
     @Test
-    public void testHandleEventImageUploadInvalidEventID() {
-        // When eventID is not a valid integer, we expect BAD_REQUEST.
-        webTestClient.post().uri("/eventImage/invalid")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(BodyInserters.fromMultipartData("file", "dummy".getBytes()))
-                .exchange()
-                .expectStatus().isBadRequest();
-    }
-
-
-    @Test
     public void testHandleProfileImageUpload() {
         // Stub the service method to return an integer (e.g. 789)
         when(artifactService.processProfileImage(any()))

@@ -13,8 +13,8 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
     private String name;
+    private String description;
     private Boolean isRequired;
     @Enumerated(EnumType.STRING)
     private YearLevel yearLevel;

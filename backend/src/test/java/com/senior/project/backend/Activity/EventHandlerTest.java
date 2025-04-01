@@ -1,6 +1,7 @@
 package com.senior.project.backend.Activity;
 
 import com.senior.project.backend.domain.Event;
+import com.senior.project.backend.event.AllEventsResponse;
 import com.senior.project.backend.event.LocalistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +12,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,15 +47,15 @@ public class EventHandlerTest {
         event1.setId(1L);
         Event event2 = new Event();
         event2.setId(2L);
-        Flux<Event> eventFlux = Flux.just(event1, event2);
-        when(localistService.all()).thenReturn(eventFlux);
-        List<Event> result = webTestClient.method(HttpMethod.GET)
+        Mono<AllEventsResponse> events = Mono.just(new AllEventsResponse(List.of(event1, event2), 1, 1, 10));
+        when(localistService.all(any(), any())).thenReturn(events);
+        AllEventsResponse result = webTestClient.method(HttpMethod.GET)
                 .uri("/api/events").exchange().expectStatus().isOk()
-                .expectBodyList(Event.class).returnResult().getResponseBody();
+                .expectBody(AllEventsResponse.class).returnResult().getResponseBody();
         assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(event1.getId(), result.get(0).getId());
-        assertEquals(event2.getId(), result.get(1).getId());
+        assertEquals(2, result.getEvents().size());
+        assertEquals(event1.getId(), result.getEvents().get(0).getId());
+        assertEquals(event2.getId(), result.getEvents().get(1).getId());
     }
 
     @Test
@@ -65,15 +67,15 @@ public class EventHandlerTest {
         event2.setId(2L);
         Event event3 = new Event();
         event3.setId(3L);
-        Flux<Event> eventFlux = Flux.just(event1, event2, event3);
-        when(localistService.all()).thenReturn(eventFlux);
-        List<Event> result = webTestClient.method(HttpMethod.GET)
+        Mono<AllEventsResponse> events = Mono.just(new AllEventsResponse(List.of(event1, event2, event3), 1, 1, 10));
+        when(localistService.all(any(), any())).thenReturn(events);
+        AllEventsResponse result = webTestClient.method(HttpMethod.GET)
                 .uri("/api/homepage_events?pageNum=1").exchange().expectStatus().isOk()
-                .expectBodyList(Event.class).returnResult().getResponseBody();
+                .expectBody(AllEventsResponse.class).returnResult().getResponseBody();
         assertNotNull(result);
-        assertEquals(3, result.size());
-        assertEquals(event1.getId(), result.get(0).getId());
-        assertEquals(event2.getId(), result.get(1).getId());
-        assertEquals(event3.getId(), result.get(2).getId());
+        assertEquals(3, result.getEvents().size());
+        assertEquals(event1.getId(), result.getEvents().get(0).getId());
+        assertEquals(event2.getId(), result.getEvents().get(1).getId());
+        assertEquals(event3.getId(), result.getEvents().get(2).getId());
     }
 }

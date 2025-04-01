@@ -189,7 +189,6 @@ public class TaskServiceTest {
             jsonMap = objectMapper.readValue(updateData, new TypeReference<>() {
             });
             when(taskRepository.findById(taskID)).thenReturn(task1);
-            when(localistService.findById(Constants.e2.getId())).thenReturn(Mono.just(Constants.e2));
             when(taskRepository.save(Mockito.any(Task.class)))
                     .thenAnswer(i -> i.getArguments()[0]);
 
@@ -197,7 +196,7 @@ public class TaskServiceTest {
             assert result != null;
             assertEquals(task1.getName(), result.getName());
             assertEquals(task1.getTaskType(), result.getTaskType());
-            assertEquals(Constants.e2, result.getEventId());
+            assertEquals(Constants.e2.getId(), result.getEventId());
             assertNull(result.getArtifactName());
 
         } catch (JsonProcessingException e) {
