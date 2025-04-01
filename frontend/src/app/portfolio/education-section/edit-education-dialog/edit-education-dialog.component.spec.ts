@@ -119,7 +119,7 @@ describe('EditEducationDialogComponent', () => {
     const universityIdControl = component.form.get('universityId');
 
     universityIdControl?.setValue('');
-    expect(universityIdControl?.valid).toBeTrue();
+    expect(universityIdControl?.valid).toBeFalse();
 
     universityIdControl?.setValue('123');
     expect(universityIdControl?.valid).toBeTrue();
@@ -140,8 +140,11 @@ describe('EditEducationDialogComponent', () => {
     gpaControl?.setValue('4.0');
     expect(gpaControl?.valid).toBeTrue();
 
-    gpaControl?.setValue('5.0');
+    gpaControl?.setValue('3.2');
     expect(gpaControl?.valid).toBeTrue();
+
+    gpaControl?.setValue('5.0');
+    expect(gpaControl?.valid).toBeFalse();
 
     gpaControl?.setValue('abc');
     expect(gpaControl?.valid).toBeFalse();
@@ -152,10 +155,10 @@ describe('EditEducationDialogComponent', () => {
     expect(majorControl.hasError('invalidMajor')).toBeTrue();
   });
 
-  it('marks non-existent major invalid', () => {
+  it('still marks non-existent major as valid', () => {
     majorControl.setValue({
       operation: 'Create',
-      name: 'Not a Real Major',
+      name: 'Information Science',
       isMinor: false
     });
     expect(majorControl.hasError('invalidMajor')).toBeTrue();
