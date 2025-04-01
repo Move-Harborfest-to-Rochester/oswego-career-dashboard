@@ -2,8 +2,9 @@
   <header [id]="modalData.overdue ? 'modal-header-overdue' : 'modal-header'">
     <div class="bigger-header">
       <h1 id="modal-title">
-        <mat-icon [class]="modalData.overdue ? 'icon-overdue':'icon-not-overdue'"
-                  [inline]="true">
+        <mat-icon
+          [class]="modalData.overdue ? 'icon-overdue':'icon-not-overdue'"
+          [inline]="true">
           report_problem
         </mat-icon>
         {{ modalData.task.name }}
@@ -23,10 +24,14 @@
         <p class="content">{{ modalData.task.description }}</p>
       </div>
     </div>
-    <div *ngIf="event" class="box">
+    <div *ngIf="modalData.task.taskType === TaskType.EVENT" class="box">
       <div class="text">
         <p class="header">Event:</p><br>
-        <a [href]="event.eventLink" class="content">{{ event.name }}</a>
+        <a *ngIf="event else loading" [href]="event.eventLink"
+           class="content">{{ event.name }}</a>
+        <ng-template #loading>
+          <p class="content">Loading...</p>
+        </ng-template>
       </div>
     </div>
     <div id="action-row">
