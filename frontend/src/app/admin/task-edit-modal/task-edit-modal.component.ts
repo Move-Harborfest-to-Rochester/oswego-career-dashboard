@@ -240,6 +240,13 @@ export class TaskEditModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  getEventNameById(events: Event[]) {
+    return (eventId: number): string => {
+      const event = events.find(e => e.eventID == eventId);
+      return event?.name ?? '';
+    }
+  }
+
   private _filter(eventNameFilter?: string | number): Observable<Event[]> {
     console.log('event filter:', eventNameFilter);
     if (typeof eventNameFilter === 'number') {

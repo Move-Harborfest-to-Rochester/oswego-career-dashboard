@@ -35,24 +35,23 @@
       </mat-form-field>
     </div>
     <div *ngIf="getTaskType() == eventType">
-      <mat-form-field>
+      <mat-form-field *ngIf="events$ | async as events; else loading">
         <mat-label>Select Event</mat-label>
         <input [formControl]="eventControl"
                [matAutocomplete]="auto"
                matInput
                type="text">
-        <mat-autocomplete #auto>
-          <div *ngIf="events$ | async as events; else loading">
-            <div *ngFor="let event of events">
-              <mat-option [value]="event.eventID">{{ event.name }}</mat-option>
-            </div>
+        <mat-autocomplete #auto
+                          [displayWith]="getEventNameById(events)">
+          <div *ngFor="let event of events">
+            <mat-option [value]="event.eventID">{{ event.name }}</mat-option>
           </div>
         </mat-autocomplete>
-        <ng-template #loading>
-          <mat-option>Searching for events...</mat-option>
-        </ng-template>
 
       </mat-form-field>
+      <ng-template #loading>
+        <span>Searching for events...</span>
+      </ng-template>
     </div>
     <mat-form-field>
       <mat-label>Submission Instructions</mat-label>
