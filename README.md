@@ -213,7 +213,7 @@ You can also do this for frontend/backend test.
 3. Pull and run the official MySQL image
 	* At the top search "mysql" and choose "Pull" to get the mysql database image
 	* Click the play button on the far right of the image to create a container
-		* For the Ports section, type 3360 and 33060 into their respective boxes 
+		* For the Ports section, type 3306 and 33060 into their respective boxes 
 		* For the Environment Variables section, add a variable called _MYSQL_ROOT_PASSWORD_, and create a password. Save this password for later
 		* Click "Run"
 4. Create the backend image using the Dockerfile
