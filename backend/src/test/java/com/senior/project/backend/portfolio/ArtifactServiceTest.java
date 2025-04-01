@@ -665,7 +665,7 @@ public class ArtifactServiceTest {
                     assertEquals(HttpStatus.OK, response.getStatusCode());
                     FileSystemResource fsResource = (FileSystemResource) response.getBody();
                     assertNotNull(fsResource);
-                    assertEquals(tempFile.getAbsolutePath(), fsResource.getPath());
+                    assertEquals(tempFile.getAbsolutePath(), fsResource.getFile().getAbsolutePath());
                 })
                 .expectComplete()
                 .verify();
