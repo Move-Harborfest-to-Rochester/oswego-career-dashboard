@@ -1,6 +1,11 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
-import { UsersPageComponent } from './users-page.component';
+import {UsersPageComponent} from './users-page.component';
 import {ScreenSizeService} from "../util/screen-size.service";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {of} from "rxjs";
@@ -14,13 +19,14 @@ import {MatInputModule} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {NgOptimizedImage} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import { UserService } from '../security/user.service';
-import { AuthService } from '../security/auth.service';
-import { userJSON } from '../security/auth.service.spec';
-import { MockComponent } from 'ng-mocks';
-import { EditRoleMenuComponent } from './edit-role-menu/edit-role-menu.component';
+import {UserService} from '../security/user.service';
+import {AuthService} from '../security/auth.service';
+import {userJSON} from '../security/auth.service.spec';
+import {MockComponent} from 'ng-mocks';
+import {EditRoleMenuComponent} from './edit-role-menu/edit-role-menu.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
+import {EditYearMenuComponent} from "./edit-year-menu/edit-year-menu.component";
 
 describe('UsersPageComponent', () => {
   let component: UsersPageComponent;
@@ -38,8 +44,8 @@ describe('UsersPageComponent', () => {
 
   beforeEach(() => {
     userService.searchUsers.and.returnValue(of({
-        totalResults: 2,
-        users: [userJSON, userJSON],
+      totalResults: 2,
+      users: [userJSON, userJSON],
     }));
     TestBed.configureTestingModule({
       imports: [
@@ -55,7 +61,7 @@ describe('UsersPageComponent', () => {
         MatIconModule,
         MatSelectModule,
       ],
-      declarations: [UsersPageComponent, MockComponent(EditRoleMenuComponent)],
+      declarations: [UsersPageComponent, MockComponent(EditRoleMenuComponent), MockComponent(EditYearMenuComponent)],
       providers: [
         {provide: ScreenSizeService, useValue: screenSizeSvcSpy},
         {provide: UserService, useValue: userService},
@@ -87,7 +93,7 @@ describe('UsersPageComponent', () => {
   }));
 
   it('should load data when page changes', fakeAsync(() => {
-    const pageEvent = { pageIndex: 1, pageSize: 10, length: 100 }; // Example page event
+    const pageEvent = {pageIndex: 1, pageSize: 10, length: 100}; // Example page event
 
     component.onPageChange(pageEvent); // Trigger page change event
 
