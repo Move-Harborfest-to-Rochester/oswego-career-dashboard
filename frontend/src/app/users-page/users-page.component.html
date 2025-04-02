@@ -7,71 +7,91 @@
 
       <!-- Search Bar -->
       <mat-form-field appearance="fill" class="search-bar">
-        <input matInput placeholder="Search" [(ngModel)]="searchTerm" (input)="onSearch()">
+        <input (input)="onSearch()" [(ngModel)]="searchTerm" matInput
+               placeholder="Search">
       </mat-form-field>
 
       <!-- Year Dropdown -->
       <mat-form-field appearance="fill" class="year-filter">
-        <mat-select [(ngModel)]="selectedYear" (selectionChange)="applyYearFilter()" placeholder="Filter by Year">
+        <mat-select (selectionChange)="applyYearFilter()"
+                    [(ngModel)]="selectedYear"
+                    placeholder="Filter by Year">
           <mat-option [value]="null">All Years</mat-option>
-          <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+          <mat-option *ngFor="let year of availableYears"
+                      [value]="year">{{ year }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
   </div>
 
 
-  <table mat-table [dataSource]="dataSource">
+  <table [dataSource]="dataSource" mat-table>
 
     <!-- Picture Column -->
     <ng-container matColumnDef="picture">
-      <th mat-header-cell *matHeaderCellDef>Picture</th>
-      <td mat-cell *matCellDef="let element">
-        <img class="profile-picture" *ngIf="element.profilePictureURL != null" [src]="element.profilePictureURL" alt="Profile Picture" width="50" height="50">
-        <mat-icon class="profile-placeholder" *ngIf="element.profilePictureURL == null">account_circle</mat-icon>
+      <th *matHeaderCellDef mat-header-cell>Picture</th>
+      <td *matCellDef="let element" mat-cell>
+        <img *ngIf="element.profilePictureURL != null"
+             [src]="element.profilePictureURL"
+             alt="Profile Picture" class="profile-picture" height="50"
+             width="50">
+        <mat-icon *ngIf="element.profilePictureURL == null"
+                  class="profile-placeholder">account_circle
+        </mat-icon>
       </td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{element.firstName}} {{element.lastName}}</td>
+      <th *matHeaderCellDef mat-header-cell>Name</th>
+      <td *matCellDef="let element"
+          mat-cell>{{ element.firstName }} {{ element.lastName }}
+      </td>
     </ng-container>
 
     <!-- Year Column -->
     <ng-container matColumnDef="year">
-      <th mat-header-cell *matHeaderCellDef>Year</th>
-      <td mat-cell *matCellDef="let element">
-        {{element.studentDetails?.yearLevel ?? '---------'}}
+      <th *matHeaderCellDef mat-header-cell>Year</th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="year-container">
+          {{ element.studentDetails?.yearLevel ?? '---------' }}
+          <edit-year-menu *ngIf="(user$ | async)?.hasAdminPrivileges()"
+                          [targetStudent]="element"></edit-year-menu>
+        </div>
       </td>
     </ng-container>
 
     <!-- Email Column -->
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let element">{{element.email}}</td>
+      <th *matHeaderCellDef mat-header-cell>Email</th>
+      <td *matCellDef="let element" mat-cell>{{ element.email }}</td>
     </ng-container>
 
     <!-- Role Column -->
     <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>Role</th>
-      <td mat-cell *matCellDef="let element" class="role-cell">
+      <th *matHeaderCellDef mat-header-cell>Role</th>
+      <td *matCellDef="let element" class="role-cell" mat-cell>
         <div class="role-container">
-          {{element.formattedRole}}
-          <app-edit-role-menu *ngIf="(user$ | async)?.hasAdminPrivileges()" [user]="element"></app-edit-role-menu>
+          {{ element.formattedRole }}
+          <app-edit-role-menu *ngIf="(user$ | async)?.hasAdminPrivileges()"
+                              [user]="element"></app-edit-role-menu>
         </div>
       </td>
     </ng-container>
 
     <!-- Column with Buttons -->
     <ng-container matColumnDef="buttons">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element" class="buttons-cell">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let element" class="buttons-cell" mat-cell>
         <ng-container *ngIf="!element.hasFacultyPrivileges()">
-          <button mat-raised-button [routerLink]="'/faculty/portfolio/' + element.id">
+          <button [routerLink]="'/faculty/portfolio/' + element.id"
+                  mat-raised-button>
             Portfolio
           </button>
-          <button mat-raised-button color="primary" [routerLink]="'/faculty/milestones/' + element.id">
+          <button [routerLink]="'/faculty/milestones/' + element.id"
+                  color="primary"
+                  mat-raised-button>
             Milestones
           </button>
         </ng-container>
@@ -79,16 +99,19 @@
     </ng-container>
 
     <!-- Assign column definition to table rows -->
-    <tr mat-header-row *matHeaderRowDef="(isMobile$ | async) ? mobileColumns: desktopColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: (isMobile$ | async) ? mobileColumns: desktopColumns;"></tr>
+    <tr *matHeaderRowDef="(isMobile$ | async) ? mobileColumns: desktopColumns"
+        mat-header-row></tr>
+    <tr
+      *matRowDef="let row; columns: (isMobile$ | async) ? mobileColumns: desktopColumns;"
+      mat-row></tr>
   </table>
 
   <!-- Pagination -->
   <mat-paginator
+    (page)="onPageChange($event)"
     [length]="totalItems"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100]"
     [pageIndex]="currentPage"
-    (page)="onPageChange($event)">
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageSize]="pageSize">
   </mat-paginator>
 </div>
