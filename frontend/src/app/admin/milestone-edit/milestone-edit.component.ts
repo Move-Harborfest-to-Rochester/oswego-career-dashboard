@@ -1,18 +1,31 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { Milestone, YearLevel } from "../../../domain/Milestone";
-import { MilestoneService } from 'src/app/milestones-page/milestones/milestone.service';
-import { Subject, catchError, concatMap, forkJoin, mergeMap, of, takeUntil, throwError } from 'rxjs';
-import { FormControl, FormGroup, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
-import { TaskService } from 'src/app/util/task.service';
-import { Task } from 'src/domain/Task';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TaskEditModalComponent } from '../task-edit-modal/task-edit-modal.component';
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Milestone, YearLevel} from "../../../domain/Milestone";
+import {
+  MilestoneService
+} from 'src/app/milestones-page/milestones/milestone.service';
+import {mergeMap, Subject, takeUntil} from 'rxjs';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import {TaskService} from 'src/app/util/task.service';
+import {Task} from 'src/domain/Task';
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {
+  TaskEditModalComponent
+} from '../task-edit-modal/task-edit-modal.component';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition
+} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-milestone-edit',
@@ -21,22 +34,17 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
 })
 export class MilestoneEditComponent {
 
-  private destroyed$ = new Subject<any>();
-
   allMilestones: Array<Milestone> = new Array();
   allTasks: Array<Task> = new Array();
-  protected readonly yearLevels = [YearLevel.Freshman, YearLevel.Sophomore, YearLevel.Junior, YearLevel.Senior];
-
   public milestoneName: string = '';
-  private milestoneParam!: number;
   mYearLevel: YearLevel = YearLevel.Freshman; //default
   yearTasks: Array<Task> = new Array(); //only display tasks of the same year
   public currentMilestone!: Milestone;
   assignedTasks: Array<Task> = new Array();
-
   milestoneForm!: FormGroup;
   dataLoaded: boolean = false;
-
+  private destroyed$ = new Subject<any>();
+  private milestoneParam!: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,7 +55,15 @@ export class MilestoneEditComponent {
     public matDialog: MatDialog,
     public http: HttpClient,
     private _snackBar: MatSnackBar,
-  ) {}
+  ) {
+  }
+
+  /**
+   * Necessary to loop through the task controls
+   */
+  get tasks() {
+    return this.milestoneForm.get('tasks') as FormArray;
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -74,15 +90,15 @@ export class MilestoneEditComponent {
           return this.taskService.getTasks(true)
         })
       ).subscribe((tasks: Task[]) => {
-            this.allTasks = tasks;
-            this.yearTasks = tasks.filter(task => {
-              return task.yearLevel == this.mYearLevel
-            });
-            this.dataLoaded = true;
-
-            //only create the form once we've received all milestones and tasks from the API
-            this.createMilestoneForm();
+      this.allTasks = tasks;
+      this.yearTasks = tasks.filter(task => {
+        return task.yearLevel == this.mYearLevel
       });
+      this.dataLoaded = true;
+
+      //only create the form once we've received all milestones and tasks from the API
+      this.createMilestoneForm();
+    });
   }
 
   /**
@@ -120,10 +136,10 @@ export class MilestoneEditComponent {
         return this.formBuilder.control(true);
       }
 
-      // if this task is already assigned to another milestone, we can't add it to this one
+        // if this task is already assigned to another milestone, we can't add it to this one
       // it will display anyway in case the admin wants to edit it
       else if (task.milestoneID) {
-        return this.formBuilder.control({ value: false, disabled: true });
+        return this.formBuilder.control({value: false, disabled: true});
       }
 
       // the task has no milestone and so it is free to assign to this one
@@ -134,24 +150,16 @@ export class MilestoneEditComponent {
   }
 
   /**
-   * Necessary to loop through the task controls
-   */
-  get tasks() {
-    return this.milestoneForm.get('tasks') as FormArray;
-  }
-
-  /**
    * Handles the on change for the task checkboxes to add/remove task from assignedTasks
    */
   assignTask(e: any, selectedTask: Task) {
     if (e.checked) {
       this.assignedTasks.push(selectedTask);
-    }
-    else {
+    } else {
       const index = this.assignedTasks.indexOf(selectedTask);
       if (index > -1) {
         this.assignedTasks.splice(index, 1);
-     }
+      }
     }
   }
 
@@ -192,8 +200,7 @@ export class MilestoneEditComponent {
       if (milestone) {
         this.openSnackBar("Milestone Updated!");
         this.back();
-      }
-      else {
+      } else {
         this.openSnackBar("Something Went Wrong!");
       }
     });
