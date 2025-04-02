@@ -2,9 +2,11 @@ package com.senior.project.backend.portfolio;
 
 import com.senior.project.backend.domain.Interest;
 import com.senior.project.backend.domain.Skill;
+import com.senior.project.backend.portfolio.dto.AdminEditYearDTO;
 import com.senior.project.backend.portfolio.dto.EditEducationDTO;
 import com.senior.project.backend.portfolio.dto.EducationDTO;
 import com.senior.project.backend.portfolio.dto.PersonalInfoDTO;
+import com.senior.project.backend.security.CurrentUserUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -21,6 +23,9 @@ import java.util.ArrayList;
 public class PortfolioHandler {
     @Autowired
     private PortfolioService portfolioService;
+
+    @Autowired
+    private CurrentUserUtil currentUserUtil;
 
     public Mono<ServerResponse> saveEducation(ServerRequest request) {
         return request.bodyToMono(EditEducationDTO.class)
@@ -56,6 +61,13 @@ public class PortfolioHandler {
                 })
                 .flatMap(interests -> portfolioService.saveInterests(interests))
                 .flatMap(studentDetails -> ServerResponse.ok().bodyValue(studentDetails));
+    }
+
+    public Mono<ServerResponse> adminEditYear(ServerRequest request) {
+        return currentUserUtil.getCurrentUser()
+                .flatMap(user -> request.bodyToMono(AdminEditYearDTO.class)
+                        .flatMap(portfolioService::adminEditYear)
+                        .flatMap((studentDetails) -> ServerResponse.ok().bodyValue(studentDetails)));
     }
 
 }
