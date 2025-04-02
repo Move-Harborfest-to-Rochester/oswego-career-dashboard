@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {User, UserJSON} from './domain/user';
 import {constructBackendRequest, Endpoints} from '../util/http-helper';
-import {map, Observable, ReplaySubject} from 'rxjs';
+import {concatMap, map, Observable, ReplaySubject} from 'rxjs';
 import {UsersSearchResponseJSON} from '../users-page/user-search-result';
 import {AuthService} from "./auth.service";
 import {LangUtils} from "../util/lang-utils";
@@ -71,21 +71,20 @@ export class UserService {
     return this.userProfileURL$.asObservable();
   }
 
-  adminEditYear(targetStudent: User, year: YearLevel) {
-    this.authService.user$.subscribe((currentUser) => {
+  adminEditYear(targetStudent: User, year: YearLevel): Observable<StudentDetails | null> {
+    return this.authService.user$.pipe(concatMap((currentUser) => {
       if (!LangUtils.exists(currentUser)) {
         throw new Error('User is not logged in');
       }
       if (!currentUser?.hasAdminPrivileges()) {
         throw new Error('You do not have admin privileges.');
       }
-      this.http.patch<StudentDetailsJSON>(constructBackendRequest(Endpoints.ADMIN_EDIT_YEAR), {
-        userId: targetStudent!.id,
+
+      return this.http.patch<StudentDetailsJSON>(constructBackendRequest(Endpoints.ADMIN_EDIT_YEAR), {
+        userId: targetStudent.id,
         year: year
-      }).subscribe((studentDetailsJSON: StudentDetailsJSON) => {
-        targetStudent.studentDetails = new StudentDetails(studentDetailsJSON);
-      });
-    });
+      }).pipe(map((details) => new StudentDetails(details)));
+    }));
   }
 
   /**

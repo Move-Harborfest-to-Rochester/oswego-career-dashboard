@@ -37,8 +37,8 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatSelect) yearFilter!: MatSelect;
   selectedYear: number | null = null; // Track the selected year
+  protected readonly YearLevel = YearLevel;
   private searching$ = new Subject<void>();
-
 
   constructor(
     private readonly userService: UserService,
