@@ -36,7 +36,10 @@ export namespace YearLevel {
     return indexA - indexB;
   }
 
-  export function displayName(level: YearLevel): string {
+  export function displayName(level?: YearLevel): string | null {
+    if (!level) {
+      return null;
+    }
     if (level === YearLevel.SeniorPlus) {
       return "Senior+";
     }
