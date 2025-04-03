@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { map, mergeMap, Observable, zipWith } from 'rxjs';
-import { AuthService } from 'src/app/security/auth.service';
-import { User } from 'src/app/security/domain/user';
-import { UserService } from 'src/app/security/user.service';
-import { LangUtils } from 'src/app/util/lang-utils';
-import { ScreenSizeService } from 'src/app/util/screen-size.service';
-import {
-  DegreeProgramOperation,
-} from '../portfolio.service';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {map, mergeMap, Observable, zipWith} from 'rxjs';
+import {AuthService} from 'src/app/security/auth.service';
+import {User} from 'src/app/security/domain/user';
+import {UserService} from 'src/app/security/user.service';
+import {LangUtils} from 'src/app/util/lang-utils';
+import {ScreenSizeService} from 'src/app/util/screen-size.service';
+import {DegreeProgramOperation,} from '../portfolio.service';
 import {
   EditEducationDialogComponent,
 } from './edit-education-dialog/edit-education-dialog.component';
+import {YearLevel} from "../../../domain/Milestone";
 
 @Component({
   selector: 'education-section',
@@ -23,6 +22,7 @@ export class EducationSectionComponent implements OnInit {
   user: User = User.makeEmpty();
   isMobile$: Observable<boolean>;
   external: boolean = false;
+  protected readonly YearLevel = YearLevel;
 
   constructor(
     private readonly authService: AuthService,
@@ -105,12 +105,17 @@ export class EducationSectionComponent implements OnInit {
       .map((d) => d.name);
   }
 
-  formatGPA(gpa?: number ): string {
+  formatGPA(gpa?: number): string {
     return gpa?.toFixed(2)!;
   }
+
   disableEnterKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
+  }
+
+  yearDisplay() {
+    return YearLevel.displayName(this.user.studentDetails?.yearLevel);
   }
 }
