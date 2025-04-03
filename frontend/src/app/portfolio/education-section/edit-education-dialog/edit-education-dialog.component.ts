@@ -220,7 +220,7 @@ export class EditEducationDialogComponent implements OnInit {
 
   yearLevels(): YearLevel[] {
     return Object.values(YearLevel)
-      .filter(value => typeof value === 'string' && value !== YearLevel.SeniorPlus) as YearLevel[];
+      .filter(value => typeof value === 'string' && value !== YearLevel.Alumni) as YearLevel[];
   }
 
   private majorIsDuplicate(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {
