@@ -1,53 +1,62 @@
 <!-- this is from milestones-page -->
 <div *ngIf="dataLoaded">
 
-<h1>Milestone Progress of {{currentStudent.firstName}} {{currentStudent.lastName}}</h1>
+  <h1>{{ currentStudent ? "Milestone Progress for " + currentStudent.firstName + " " + currentStudent.lastName : "Milestone Progress" }}</h1>
 
-<div class="year-container" *ngFor="let completionStatus of completionStatuses">
-  <mat-card class="year-card">
-    <mat-card-header>
-      <div class="year-name">{{completionStatus}}</div>
-    </mat-card-header>
-  </mat-card>
+  <div *ngFor="let completionStatus of completionStatuses"
+       class="year-container">
+    <mat-card class="year-card">
+      <mat-card-header>
+        <div class="year-name">{{ completionStatus }}</div>
+      </mat-card-header>
+    </mat-card>
 
 
-  <mat-accordion multi>
-    <ng-container *ngFor="let milestone of completedMap.get(completionStatus)">
-      <mat-expansion-panel [expanded]="!completedMilestones.includes(milestone.milestoneID)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-checkbox [disabled]="true" [checked]="completedMilestones.includes(milestone.milestoneID)" 
-              color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
-            {{milestone.name}}
-          </mat-panel-title>
+    <mat-accordion multi>
+      <ng-container
+        *ngFor="let milestone of completedMap.get(completionStatus)">
+        <mat-expansion-panel
+          [expanded]="!completedMilestones.includes(milestone.milestoneID)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            [checked]="completedMilestones.includes(milestone.milestoneID)"
+                            [disabled]="true"
+                            color="primary"></mat-checkbox>
+              {{ milestone.name }}
+            </mat-panel-title>
 
-        </mat-expansion-panel-header>
-          <mat-expansion-panel [disabled]="!completedTasks.includes(task.taskID)"  *ngFor="let task of milestone.tasks">
-
-          <mat-expansion-panel-header >
-            <div class="flex-vertical-align">
-              <mat-checkbox [disabled]="true" [checked]="completedTasks.includes(task.taskID)" 
-                color="primary" (click)="$event.stopPropagation()">
-                {{task.name}}
-              </mat-checkbox>
-            </div>
           </mat-expansion-panel-header>
-          <div *ngIf="submissionMap.get(task.taskID)">
-            Submitted {{submissionMap.get(task.taskID)!.submissionDate.toLocaleString()}}
-            <span *ngIf="submissionMap.get(task.taskID)!.comment">
-              with comment "{{submissionMap.get(task.taskID)!.comment}}"
-            </span>
-            <br />
-            <div *ngIf="submissionMap.get(task.taskID)!.artifactId != 1">
-              <button mat-raised-button (click)="downloadArtifact(task)">
-                Download Artifact
-              </button>
-            </div>
-          </div>
-        </mat-expansion-panel>
-      </mat-expansion-panel>
-    </ng-container>
-  </mat-accordion>
+          <mat-expansion-panel
+            *ngFor="let task of milestone.tasks"
+            [disabled]="!completedTasks.includes(task.taskID)">
 
-</div>
+            <mat-expansion-panel-header>
+              <div class="flex-vertical-align">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              [checked]="completedTasks.includes(task.taskID)"
+                              [disabled]="true"
+                              color="primary">
+                  {{ task.name }}
+                </mat-checkbox>
+              </div>
+            </mat-expansion-panel-header>
+            <div *ngIf="submissionMap.get(task.taskID)">
+              Submitted {{ submissionMap.get(task.taskID)!.submissionDate.toLocaleString() }}
+              <span *ngIf="submissionMap.get(task.taskID)!.comment">
+              with comment "{{ submissionMap.get(task.taskID)!.comment }}"
+            </span>
+              <br/>
+              <div *ngIf="submissionMap.get(task.taskID)!.artifactId != 1">
+                <button (click)="downloadArtifact(task)" mat-raised-button>
+                  Download Artifact
+                </button>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+
+  </div>
 </div>
