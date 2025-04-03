@@ -14,6 +14,8 @@ import java.util.Arrays;
 public enum Endpoints {
     // Events
     EVENTS("events", true),
+    EVENT_TRACKING_SAVE("event-tracking/save", true),
+    EVENT_TRACKING_GET("event-tracking", true),
     EDIT_EVENT("admin/edit-event", true, Role.Admin),
     CREATE_EVENT("admin/create-event", true, Role.Admin),
     HOMEPAGE_EVENTS("homepage-events", true),

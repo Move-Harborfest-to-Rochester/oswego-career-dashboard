@@ -11,6 +11,8 @@ export enum Endpoints {
     MILESTONES = 'milestones',
     MILESTONES_COMPLETE = 'milestones/complete',
     EVENTS = 'events',
+    EVENT_TRACKING = 'event-tracking',
+    EVENT_TRACKING_SAVE = 'event-tracking/save',
     HOMEPAGE_EVENTS = 'homepage-events',
     HOMEPAGE_TASKS = 'homepage-tasks',
     TASKS = 'tasks',

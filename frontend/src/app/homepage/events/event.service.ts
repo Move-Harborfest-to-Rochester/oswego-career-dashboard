@@ -47,4 +47,36 @@ export class EventService {
         })
       }))
   }
+
+  /**
+   * Gets the user's interest status for a specific event
+   */
+  getInterestStatus(eventId: number, userId: string): Observable<any> {
+    const eventIdParam = {key: 'eventId', value: eventId};
+    const userIdParam = {key: 'userId', value: userId};
+
+    return this.http.get<any>(
+      constructBackendRequest(Endpoints.EVENT_TRACKING, eventIdParam, userIdParam),
+      {
+        headers: { 'X-Authorization': `Bearer ${localStorage.getItem('userToken')}` }
+      }
+    );
+  }
+
+  /**
+   * Toggles the user's interest in an event
+   */
+  toggleInterest(eventId: number, userId: string, isInterested: boolean): Observable<any> {
+    const url = constructBackendRequest(Endpoints.EVENT_TRACKING_SAVE);
+    const payload = { eventId, userId, isInterested };
+
+    // Save the user's interest state in localStorage
+    localStorage.setItem(`event-${eventId}-interest`, JSON.stringify(isInterested));
+
+    return this.http.post<Event>(url, payload, {
+      headers: { 'X-Authorization': `Bearer ${localStorage.getItem('userToken')}` }
+    });
+  }
+
+
 }

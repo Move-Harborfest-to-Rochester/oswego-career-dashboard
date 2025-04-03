@@ -44,6 +44,15 @@
         </div>
       </div>
     </mat-card>
+
+    <mat-card class="checkbox-container">
+      <div class="checkbox-view">
+        <mat-checkbox [(ngModel)]="isInterested" (change)="toggleInterest(event.eventID, $event.checked)">
+        </mat-checkbox>
+        <h3>Are you interested in this event?</h3>
+      </div>
+    </mat-card>
+
   </div>
 </div>
 
