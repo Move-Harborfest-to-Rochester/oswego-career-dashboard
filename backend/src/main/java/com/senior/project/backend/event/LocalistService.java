@@ -57,6 +57,9 @@ public class LocalistService {
             builder.queryParamIfPresent("end", Optional.ofNullable(filters.getEndDate())
                     .map(LocalistService::formatDate)
             );
+            if (filters.getEndDate() == null) {
+                builder.queryParam("days", 365);
+            }
             builder.queryParamIfPresent("search", Optional.ofNullable(filters.getEventName()));
         }
         return builder;
