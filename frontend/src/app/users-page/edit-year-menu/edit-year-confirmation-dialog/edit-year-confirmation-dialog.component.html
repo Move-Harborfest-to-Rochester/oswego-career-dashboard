@@ -1,0 +1,22 @@
+<div class="edit-year-confirmation-modal-container">
+  <mat-dialog-content>
+    <h5>
+      Confirmation
+    </h5>
+
+    <div class="edit-year-confirmation-modal-body">
+      Are you sure you want to
+      make {{ targetStudent.fullName }} {{ formatYear() }}?
+    </div>
+
+    <div class="edit-year-confirmation-modal-buttons">
+      <button (click)="onCancel()" id="cancel-btn"
+              mat-raised-button>No
+      </button>
+      <button (click)="onConfirm()" color="primary" id="confirm-btn"
+              mat-raised-button>Yes
+      </button>
+    </div>
+
+  </mat-dialog-content>
+</div>
