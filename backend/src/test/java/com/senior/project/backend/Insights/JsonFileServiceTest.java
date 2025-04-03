@@ -31,7 +31,7 @@ public class JsonFileServiceTest {
         String jsonContent = "{\"key1\": \"value1\", \"key2\": \"value2\"}";
 
         Resource mockResource = Mockito.mock(Resource.class);
-        when(resourceLoader.getResource("insights/output.json"))
+        when(resourceLoader.getResource("file:insights/output.json"))
                 .thenReturn(mockResource);
 
         when(mockResource.getInputStream()).thenReturn(new ByteArrayInputStream(jsonContent.getBytes()));
