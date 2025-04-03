@@ -11,8 +11,13 @@ export interface MilestoneJSON {
 }
 
 export enum YearLevel {
-  Freshman = "Freshman", Sophomore = "Sophomore",
-  Junior = "Junior", Senior = "Senior"
+  Freshman = "Freshman",
+  Sophomore = "Sophomore",
+  Junior = "Junior",
+  Senior = "Senior",
+  SeniorPlus = "SeniorPlus",
+  Graduate = "Graduate",
+  Alumni = "Alumni"
 }
 
 export namespace YearLevel {
@@ -30,6 +35,16 @@ export namespace YearLevel {
 
     return indexA - indexB;
   }
+
+  export function displayName(level?: YearLevel): string | null {
+    if (!level) {
+      return null;
+    }
+    if (level === YearLevel.SeniorPlus) {
+      return "Senior+";
+    }
+    return level;
+  }
 }
 
 export enum CompletionStatus {
@@ -40,6 +55,13 @@ export enum CompletionStatus {
 }
 
 export class Milestone {
+  name: string;
+  yearLevel: YearLevel;
+  milestoneID: number;
+  events: Array<Event>;
+  tasks: Array<Task>;
+  description?: string;
+
   constructor(json: MilestoneJSON) {
     this.name = json.name;
     this.yearLevel = json.yearLevel;
@@ -48,11 +70,4 @@ export class Milestone {
     this.tasks = json.tasks?.map((task) => new Task(task));
     this.description = json?.description;
   }
-
-    name: string;
-    yearLevel: YearLevel;
-    milestoneID: number;
-    events: Array<Event>;
-    tasks: Array<Task>;
-    description?: string;
 }

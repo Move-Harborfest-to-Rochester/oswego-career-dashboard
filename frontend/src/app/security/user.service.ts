@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { User, UserJSON } from './domain/user';
-import { Endpoints, constructBackendRequest } from '../util/http-helper';
-import {Observable, map, ReplaySubject, of} from 'rxjs';
-import { UsersSearchResponseJSON } from '../users-page/user-search-result';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {User, UserJSON} from './domain/user';
+import {constructBackendRequest, Endpoints} from '../util/http-helper';
+import {concatMap, map, Observable, ReplaySubject} from 'rxjs';
+import {UsersSearchResponseJSON} from '../users-page/user-search-result';
 import {AuthService} from "./auth.service";
 import {LangUtils} from "../util/lang-utils";
+import {YearLevel} from "../../domain/Milestone";
+import {StudentDetails, StudentDetailsJSON} from "../../domain/StudentDetails";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,7 @@ export class UserService {
   constructor(
     private readonly http: HttpClient,
     private readonly authService: AuthService,
-    ) {
+  ) {
   }
 
   updateRole(user: User): Observable<User> {
@@ -34,9 +36,9 @@ export class UserService {
    */
   searchUsers(offset: number, size: number, term: string): Observable<UsersSearchResponseJSON> {
     const apiUrl = constructBackendRequest(Endpoints.USERS_SEARCH,
-        {key:'pageOffset', value: offset},
-        {key:'pageSize', value: size},
-        {key: 'searchTerm', value: term}
+      {key: 'pageOffset', value: offset},
+      {key: 'pageSize', value: size},
+      {key: 'searchTerm', value: term}
     );
 
     return this.http.get<UsersSearchResponseJSON>(apiUrl);
@@ -60,8 +62,7 @@ export class UserService {
         if (LangUtils.exists(user)) {
           this.getProfilePictureRequest()
             .subscribe((url) => this.userProfileURL$?.next(url));
-        }
-        else {
+        } else {
           this.userProfileURL$?.next(null)
         }
       });
@@ -70,12 +71,28 @@ export class UserService {
     return this.userProfileURL$.asObservable();
   }
 
+  adminEditYear(targetStudent: User, year: YearLevel): Observable<StudentDetails | null> {
+    return this.authService.user$.pipe(concatMap((currentUser) => {
+      if (!LangUtils.exists(currentUser)) {
+        throw new Error('User is not logged in');
+      }
+      if (!currentUser?.hasAdminPrivileges()) {
+        throw new Error('You do not have admin privileges.');
+      }
+
+      return this.http.patch<StudentDetailsJSON>(constructBackendRequest(Endpoints.ADMIN_EDIT_YEAR), {
+        userId: targetStudent.id,
+        year: year
+      }).pipe(map((details) => new StudentDetails(details)));
+    }));
+  }
+
   /**
    * handle the http request part of getting the profile picture
    * @private
    */
   private getProfilePictureRequest(): Observable<string | null> {
-    return this.http.get(constructBackendRequest(Endpoints.USERS_PROFILE_PICTURE), { responseType: 'blob' })
+    return this.http.get(constructBackendRequest(Endpoints.USERS_PROFILE_PICTURE), {responseType: 'blob'})
       .pipe(map((data: any) => {
         if (data != null) {
           return URL.createObjectURL(new Blob([data]));

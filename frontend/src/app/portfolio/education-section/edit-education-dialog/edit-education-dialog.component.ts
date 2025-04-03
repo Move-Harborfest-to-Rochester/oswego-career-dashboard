@@ -10,7 +10,10 @@ import {
   Validators,
 } from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
-import {DegreeProgramOperation, PortfolioService} from '../../portfolio.service';
+import {
+  DegreeProgramOperation,
+  PortfolioService
+} from '../../portfolio.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AuthService} from 'src/app/security/auth.service';
 import {UserService} from 'src/app/security/user.service';
@@ -19,7 +22,10 @@ import {map, mergeMap, zipWith} from 'rxjs';
 import {LangUtils} from 'src/app/util/lang-utils';
 import {User} from 'src/app/security/domain/user';
 import Education from 'src/domain/Education';
-import {DegreeProgramOperationGroup} from './multi-major-input/multi-major-input.component';
+import {
+  DegreeProgramOperationGroup
+} from './multi-major-input/multi-major-input.component';
+import {YearLevel} from "../../../../domain/Milestone";
 
 export type EditEducationFormValues = {
   universityId: string;
@@ -44,12 +50,7 @@ export class EditEducationDialogComponent implements OnInit {
   @Input() defaultValues?: EditEducationFormValues;
   isSubmitting: boolean = false;
   protected title = 'Education';
-  protected readonly yearLevels = [
-    'Freshman',
-    'Sophomore',
-    'Junior',
-    'Senior',
-  ];
+  protected readonly YearLevel = YearLevel;
   private user: User = User.makeEmpty();
 
   public constructor(
@@ -215,6 +216,11 @@ export class EditEducationDialogComponent implements OnInit {
 
   operationValidators(): ValidatorFn[] {
     return [Validators.required];
+  }
+
+  yearLevels(): YearLevel[] {
+    return Object.values(YearLevel)
+      .filter(value => typeof value === 'string' && value !== YearLevel.Alumni) as YearLevel[];
   }
 
   private majorIsDuplicate(majorName: string, majorFormGroup: DegreeProgramOperationGroup | null) {

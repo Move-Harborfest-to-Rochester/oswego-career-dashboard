@@ -1,0 +1,21 @@
+<div class="edit-year-menu-container">
+  <button [disabled]="!(canBeChanged() | async)" [matMenuTriggerFor]="yearMenu"
+          aria-label="Edit user year"
+          mat-icon-button size="10">
+    <mat-icon *ngIf="canBeChanged() | async">
+      edit
+    </mat-icon>
+  </button>
+
+  <mat-menu #yearMenu>
+    <div *ngFor="let year of years"
+         style="display: flex; flex-direction: column; padding-left: 8px; padding-right: 8px;">
+      <button (click)="onSelection(year)"
+              *ngIf="targetStudent.studentDetails?.yearLevel != year"
+              mat-raised-button
+              style="margin-bottom: 5px;">
+        {{ YearLevel.displayName(year) }}
+      </button>
+    </div>
+  </mat-menu>
+</div>

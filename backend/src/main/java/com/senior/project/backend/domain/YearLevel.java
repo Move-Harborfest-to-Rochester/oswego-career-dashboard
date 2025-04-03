@@ -7,10 +7,13 @@ import java.util.List;
 
 @Generated
 public enum YearLevel {
-    Freshman, Sophomore, Junior, Senior;
+    Freshman, Sophomore, Junior, Senior, SeniorPlus,
+    Graduate,
+    Alumni;
 
     /**
      * find current and previous years
+     *
      * @return list of years
      */
     public List<YearLevel> currentAndPreviousYears() {
@@ -21,6 +24,7 @@ public enum YearLevel {
 
     /**
      * find previous years
+     *
      * @return list of years
      */
     public List<YearLevel> previousYears() {
@@ -40,6 +44,7 @@ public enum YearLevel {
 
     /**
      * find current and upcoming years
+     *
      * @return list of years
      */
     public List<YearLevel> currentAndUpcomingYears() {
@@ -50,6 +55,7 @@ public enum YearLevel {
 
     /**
      * find upcoming years
+     *
      * @return list of years
      */
     public List<YearLevel> upcomingYears() {

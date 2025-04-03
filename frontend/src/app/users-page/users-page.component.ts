@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { User } from "../security/domain/user";
-import { UsersSearchResponseJSON } from "./user-search-result";
-import { PageEvent } from "@angular/material/paginator";
-import { debounceTime, Observable, Subject } from "rxjs";
-import { ScreenSizeService } from "../util/screen-size.service";
-import { AuthService } from "../security/auth.service";
-import { UserService } from '../security/user.service';
-import { ArtifactService } from "../file-upload/artifact.service";
-import { MatSelect } from '@angular/material/select';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {User} from "../security/domain/user";
+import {UsersSearchResponseJSON} from "./user-search-result";
+import {PageEvent} from "@angular/material/paginator";
+import {debounceTime, Observable, Subject} from "rxjs";
+import {ScreenSizeService} from "../util/screen-size.service";
+import {AuthService} from "../security/auth.service";
+import {UserService} from '../security/user.service';
+import {ArtifactService} from "../file-upload/artifact.service";
+import {MatSelect} from '@angular/material/select';
 import {YearLevel} from "../../domain/Milestone";
 
 @Component({
@@ -31,17 +31,14 @@ export class UsersPageComponent implements OnInit, OnDestroy {
   pageSize: number = 10;
   totalItems: number = 0;
   searchTerm: string = '';
-  private searching$ = new Subject<void>();
   isMobile$: Observable<boolean>;
-
   user$: Observable<User | null>;
-
   // Drop down Menu
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatSelect) yearFilter!: MatSelect;
-
   selectedYear: number | null = null; // Track the selected year
-  availableYears: String[] = [YearLevel.Freshman, YearLevel.Sophomore, YearLevel.Junior, YearLevel.Senior];
+  protected readonly YearLevel = YearLevel;
+  private searching$ = new Subject<void>();
 
   constructor(
     private readonly userService: UserService,
@@ -53,6 +50,10 @@ export class UsersPageComponent implements OnInit, OnDestroy {
     this.user$ = this.authService.user$;
   }
 
+  protected get availableYears(): string[] {
+    return Object.values(YearLevel).filter(year => typeof year === 'string') as string[];
+  }
+
   ngOnInit(): void {
     this.pageSize = Number(localStorage.getItem('pageSize') ?? 10);
     this.loadData();
@@ -60,8 +61,8 @@ export class UsersPageComponent implements OnInit, OnDestroy {
       debounceTime(500), // Debounce for 1 second
     )
       .subscribe(() => {
-          this.currentPage = 0; // Reset to first page when searching
-          this.loadData();
+        this.currentPage = 0; // Reset to first page when searching
+        this.loadData();
       });
   }
 

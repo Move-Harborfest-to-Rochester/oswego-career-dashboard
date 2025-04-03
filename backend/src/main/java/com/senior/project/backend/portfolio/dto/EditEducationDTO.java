@@ -1,14 +1,9 @@
 package com.senior.project.backend.portfolio.dto;
 
-import java.util.List;
-
 import com.senior.project.backend.domain.YearLevel;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +15,8 @@ public class EditEducationDTO {
     YearLevel year;
     double gpa;
     List<DegreeProgramOperation> degreeProgramOperations;
+
+    public boolean isNotSettingToAlumni() {
+        return this.year != YearLevel.Alumni;
+    }
 }

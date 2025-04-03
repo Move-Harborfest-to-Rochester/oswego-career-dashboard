@@ -1,12 +1,11 @@
 package com.senior.project.backend.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.senior.project.backend.domain.Role;
 
-import java.util.List;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Enum for endpoints in the system and if they are accessible
@@ -48,6 +47,7 @@ public enum Endpoints {
 
 
     // Edit student Details, used for skills and clubs.
+    ADMIN_EDIT_YEAR("admin/edit-year", true, Role.Admin),
     EDIT_SKILLS("student/skills", true),
 
     EDIT_INTERESTS("student/interests", true),
@@ -90,6 +90,12 @@ public enum Endpoints {
     TEST_NEEDS_AUTH("test/yes", true),
     TEST_NO_AUTH("tests/no", false);
 
+    // The map of the path to the endpoint
+    public static Map<String, Endpoints> stringToEndpoint = new HashMap<>() {{
+        for (Endpoints e : Endpoints.values()) {
+            put(e.uri(), e);
+        }
+    }};
     private String value;
     private boolean needsAuthentication;
     private Role role;
@@ -100,38 +106,15 @@ public enum Endpoints {
         this.role = Role.Student;
     }
 
+    //
+    // Getters
+    //
+
     private Endpoints(String value, boolean needsAuthentication, Role role) {
         this.value = "/api/" + value;
         this.needsAuthentication = needsAuthentication;
         this.role = role;
     }
-
-    //
-    // Getters
-    //
-
-    public String uri() {
-        return value;
-    }
-
-    public boolean getNeedsAuthentication() {
-        return needsAuthentication;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    //
-    // Static
-    //
-
-    // The map of the path to the endpoint
-    public static Map<String, Endpoints> stringToEndpoint = new HashMap<>() {{
-        for (Endpoints e : Endpoints.values()) {
-            put(e.uri(), e);
-        }
-    }};
 
     /**
      * Converts a string to the endpoint
@@ -145,9 +128,9 @@ public enum Endpoints {
      */
     public static String[] getOpenRoutes() {
         List<String> list = Arrays.stream(Endpoints.values())
-            .filter(r -> !r.getNeedsAuthentication())
-            .map(Endpoints::uri)
-            .toList();
+                .filter(r -> !r.getNeedsAuthentication())
+                .map(Endpoints::uri)
+                .toList();
 
         String[] routes = new String[list.size()];
         for (int i = 0; i < routes.length; i++) {
@@ -157,14 +140,18 @@ public enum Endpoints {
         return routes;
     }
 
+    //
+    // Static
+    //
+
     /**
      * Gets all admin routes
      */
     public static String[] getAdminRoutes() {
         List<String> list = Arrays.stream(Endpoints.values())
-            .filter(r -> r.getRole() == Role.Admin)
-            .map((r) -> r.uri())
-            .toList();
+                .filter(r -> r.getRole() == Role.Admin)
+                .map((r) -> r.uri())
+                .toList();
 
         String[] routes = new String[list.size()];
         for (int i = 0; i < routes.length; i++) {
@@ -179,9 +166,9 @@ public enum Endpoints {
      */
     public static String[] getFacultyRoutes() {
         List<String> list = Arrays.stream(Endpoints.values())
-        .filter(r -> r.getRole() == Role.Admin || r.getRole() == Role.Faculty)
-        .map((r) -> r.uri())
-        .toList();
+                .filter(r -> r.getRole() == Role.Admin || r.getRole() == Role.Faculty)
+                .map((r) -> r.uri())
+                .toList();
 
         String[] routes = new String[list.size()];
         for (int i = 0; i < routes.length; i++) {
@@ -189,5 +176,17 @@ public enum Endpoints {
         }
 
         return routes;
+    }
+
+    public String uri() {
+        return value;
+    }
+
+    public boolean getNeedsAuthentication() {
+        return needsAuthentication;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

@@ -8,8 +8,8 @@
         formControlName="universityId"
         id="universityId"
         matInput
-        type="text"
         required
+        type="text"
       />
       <mat-error *ngIf="form.controls['universityId'].hasError('notInteger')">
         Please specify a valid university ID.
@@ -18,8 +18,9 @@
     <mat-form-field>
       <mat-label for="year">Year</mat-label>
       <mat-select formControlName="year" id="year" required="{{true}}">
-        <mat-option *ngFor="let year of yearLevels" [value]="year">
-          {{ year }}
+        <mat-option *ngFor="let year of yearLevels()"
+                    [value]="year">
+          {{ YearLevel.displayName(year) }}
         </mat-option>
       </mat-select>
     </mat-form-field>
