@@ -74,8 +74,6 @@ carousel {
   }
 
   slide {
-    width: 48% !important;
-    height: 50vh;
     margin: 5px;
     background-color: white;
     box-shadow: @oswego-box-shadow;
@@ -84,23 +82,34 @@ carousel {
   }
 }
 
+.img-container {
+  display: flex;
+  justify-content: center;
+}
+
 .event-image {
-  display: block;
-  width: 100%;
+  width: auto;
   background-color: darkslategrey;
-  height: auto;
+  //height: fit-content;
+  //max-height: 300px;
 
   &.default-logo {
     padding: 2.5% 0;
   }
 }
 
-.carousel-caption {
+.footer {
+  flex-grow: 0;
+  flex-shrink: 0;
   color: black;
-  position: initial;
-  text-align: left;
-  padding-left: 20px;
-  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  padding: 0 1.25em 1em 1.25em;
+
+  mat-divider {
+    padding-top: 1em;
+  }
 
   .date {
     display: flex;
@@ -122,8 +131,6 @@ button {
   margin-top: 20px;
   padding: 25px;
   border-radius: 10px;
-  position: absolute;
-  bottom: 2vh;
 }
 
 :host ::ng-deep .carousel-control {

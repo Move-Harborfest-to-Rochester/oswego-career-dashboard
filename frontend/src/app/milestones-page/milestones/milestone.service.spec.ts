@@ -1,12 +1,15 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MilestoneService } from "./milestone.service";
+import {TestBed} from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import {MilestoneService} from "./milestone.service";
 import {Milestone, MilestoneJSON, YearLevel} from "../../../domain/Milestone";
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
-import { taskJSON } from 'src/app/util/task.service.spec';
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
+import {taskJSON} from 'src/app/util/task.service.spec';
 import {EventJSON} from "../../../domain/Event";
 
-export const event1JSON = {
+export const event1JSON: EventJSON = {
   name: "name",
   description: "description",
   date: new Date().toDateString(),
@@ -16,7 +19,9 @@ export const event1JSON = {
   location: "location",
   eventLink: "sample link",
   buttonLabel: "test",
-  imageId: 1,
+  photoUrl: "https://example.com/image.jpg",
+  endDate: new Date().toDateString(),
+  locationUrl: "https://example.com/location"
 }
 
 export const milestone1JSON: MilestoneJSON = {
@@ -30,7 +35,7 @@ export const milestone1JSON: MilestoneJSON = {
 
 export const event2JSON: EventJSON = {
   ...event1JSON,
-  buttonLabel: "sample",
+  buttonLabel: "sample3",
   eventLink: "sample",
 }
 
@@ -132,7 +137,10 @@ describe('MilestoneService', () => {
       done();
     });
 
-    const request = httpMock.expectOne(constructBackendRequest(Endpoints.MILESTONES_COMPLETE, {key: "userId", value: 'test'}));
+    const request = httpMock.expectOne(constructBackendRequest(Endpoints.MILESTONES_COMPLETE, {
+      key: "userId",
+      value: 'test'
+    }));
     expect(request.request.method).toEqual('GET');
     request.flush(Array(milestone1JSON));
   });

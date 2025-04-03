@@ -1,9 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 import {EventService} from "./event.service";
-import {of} from "rxjs";
 import {Event, EventJSON} from "../../../domain/Event";
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
+import {EventListJSON} from "./event-list";
 
 describe('EventService', () => {
   let service: EventService;
@@ -33,17 +36,28 @@ describe('EventService', () => {
       location: "location",
       eventLink: "sample link",
       buttonLabel: "test",
-      imageId: 1,
+      photoUrl: "https://example.com/image.jpg",
+      locationUrl: "https://example.com/location",
+      endDate: new Date().toDateString(),
     }
 
     const events = Array(new Event(eventJSON));
     service.getEvents().subscribe(result => {
-      expect(result).toEqual(events);
+      expect(result.events).toEqual(events);
       done();
     });
-    const request = httpMock.expectOne(constructBackendRequest(Endpoints.EVENTS));
+    const request = httpMock.expectOne(constructBackendRequest(Endpoints.EVENTS, {
+      key: 'name',
+      value: ''
+    }));
     expect(request.request.method).toEqual('GET');
-    request.flush(Array(eventJSON))
+    const response: EventListJSON = {
+      events: [eventJSON],
+      page: 1,
+      pageSize: 10,
+      totalPages: 1
+    };
+    request.flush(response);
   });
 
   it('homepage_events should return list of events', (done) => {
@@ -57,19 +71,33 @@ describe('EventService', () => {
       location: "location",
       eventLink: "sample link",
       buttonLabel: "test",
-      imageId: 1,
-    }
+      photoUrl: "https://example.com/image.jpg",
+      locationUrl: "https://example.com/location",
+      endDate: new Date().toDateString(),
+    };
 
     const events = Array(new Event(eventJSON));
 
-    service.getHomepageEvents(1).subscribe(result => {
-      expect(result).toEqual(events);
+    service.getHomepageEvents(0).subscribe(result => {
+      expect(result.events).toEqual(events);
       done();
     });
-    const request = httpMock.expectOne(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, {key: 'pageNum', value: 1}));
+    const request = httpMock.expectOne(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, {
+      key: 'page',
+      value: 0
+    }, {
+      key: 'limit',
+      value: 10
+    }));
 
     expect(request.request.method).toEqual('GET');
-    request.flush(Array(eventJSON))
+    const response: EventListJSON = {
+      events: [eventJSON],
+      page: 1,
+      pageSize: 10,
+      totalPages: 1
+    };
+    request.flush(response);
   });
 
 

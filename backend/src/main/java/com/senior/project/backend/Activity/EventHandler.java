@@ -1,30 +1,49 @@
 package com.senior.project.backend.Activity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.senior.project.backend.domain.Event;
-
-import java.util.Map;
+import com.senior.project.backend.event.AllEventsResponse;
+import com.senior.project.backend.event.EventFilters;
+import com.senior.project.backend.event.LocalistPagination;
+import com.senior.project.backend.event.LocalistService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Optional;
+
 @Component
 public class EventHandler {
 
-    private final EventService eventService;
+    private final LocalistService localistService;
 
-    public EventHandler(EventService eventService){
-        this.eventService = eventService;
+    public EventHandler(LocalistService localistService) {
+        this.localistService = localistService;
+    }
+
+    private static Date parseUnixTimestamp(String unixStartDate) {
+        Instant instant = Instant.ofEpochMilli(Long.parseLong(unixStartDate));
+        return Date.from(instant);
     }
 
     /**
      * Retrieves all events
      */
     public Mono<ServerResponse> all(ServerRequest serverRequest) {
-        return ServerResponse.ok().body(this.eventService.all(), Event.class );
+        String eventName = serverRequest.queryParam("name").filter(s -> !s.isEmpty()).orElse(null);
+        int page = Integer.parseInt(serverRequest.queryParam("page").orElse("0"));
+        int limit = Integer.parseInt(serverRequest.queryParam("limit").orElse("100"));
+        Optional<Date> startDate = serverRequest.queryParam("startDate").map(EventHandler::parseUnixTimestamp);
+        Optional<Date> endDate = serverRequest.queryParam("endDate").map(EventHandler::parseUnixTimestamp);
+        EventFilters filters = EventFilters
+                .builder()
+                .eventName(eventName)
+                .startDate(startDate.orElse(null))
+                .endDate(endDate.orElse(null))
+                .build();
+        Mono<AllEventsResponse> events = this.localistService.all(filters, new LocalistPagination(page, limit));
+        return ServerResponse.ok().body(events, AllEventsResponse.class);
     }
 
     /**
@@ -32,47 +51,16 @@ public class EventHandler {
      * Not implemented completely yet, so this functions the same as /events
      */
     public Mono<ServerResponse> homepage(ServerRequest serverRequest) {
-        serverRequest.queryParam("pageNum");    // TODO pass to homepage() and get paged result
-        return ServerResponse.ok().body(this.eventService.homepage(), Event.class );
+        return all(ServerRequest
+                .from(serverRequest)
+                .attribute("limit", "3")
+                .build());
     }
 
-    /**
-     * Updates an existing event
-     *
-     * @return 200 if successful or 400 bad request when the update data is not properly formatted
-     */
-    public Mono<ServerResponse> update(ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(String.class)
-        .flatMap(json -> {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, Object> jsonMap = objectMapper.readValue(json, new TypeReference<Map<String, Object>>() {});
-
-                long eventID = ((Number) jsonMap.get("id")).longValue();
-
-                return ServerResponse.ok().body(eventService.updateEvent(eventID, jsonMap), Event.class);
-            } catch (JsonProcessingException e) {
-                return ServerResponse.badRequest().bodyValue("Invalid JSON format");
-            }
-        });
-    } 
-
-    /**
-     * Create new event
-     *
-     * @return 200 if successful or 400 bad request when the update data is not properly formatted
-     */
-    public Mono<ServerResponse> create(ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(String.class)
-        .flatMap(json -> {
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                Map<String, Object> jsonMap = objectMapper.readValue(json, new TypeReference<Map<String, Object>>() {});
-
-                return ServerResponse.ok().body(eventService.createEvent(jsonMap), Event.class);
-            } catch (JsonProcessingException e) {
-                return ServerResponse.badRequest().bodyValue("Invalid JSON format");
-            }
-        });
-    } 
+    public Mono<ServerResponse> getById(ServerRequest serverRequest) {
+        return Mono.just(serverRequest.pathVariable("id"))
+                .map(Long::parseLong)
+                .flatMap(localistService::findById)
+                .flatMap(event -> ServerResponse.ok().bodyValue(event));
+    }
 }
