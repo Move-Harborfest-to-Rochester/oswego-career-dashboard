@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --watch --configuration development",
     "build": "ng build --output-path=../backend/src/main/resources/static --configuration production",
+    "oswego-build": "ng build --output-path=../backend/src/main/resources/static --configuration oswego-docker",
     "watch": "ng build --watch --configuration development",
     "test-headless": "ng test --code-coverage --no-watch --source-map=false --browsers=ChromeHeadless",
     "test-headless-coverage": "ng test --code-coverage --no-watch --source-map=true --browsers=ChromeHeadless",

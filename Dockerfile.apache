@@ -1,0 +1,7 @@
+FROM httpd:2.4
+
+COPY ./backend/src/main/resources/static /usr/local/apache2/htdocs/
+
+EXPOSE 80/tcp
+
+EXPOSE 443/tcp
