@@ -213,7 +213,7 @@ You can also do this for frontend/backend test.
 3. Pull and run the official MySQL image
 	* At the top search "mysql" and choose "Pull" to get the mysql database image
 	* Click the play button on the far right of the image to create a container
-		* For the Ports section, type 3360 and 33060 into their respective boxes 
+		* For the Ports section, type 3306 and 33060 into their respective boxes 
 		* For the Environment Variables section, add a variable called _MYSQL_ROOT_PASSWORD_, and create a password. Save this password for later
 		* Click "Run"
 4. Create the backend image using the Dockerfile
@@ -236,10 +236,15 @@ You can also do this for frontend/backend test.
 				* Re-run the API container
 5. Create the frontend image using the Dockerfile
 	* Open a terminal in the oswego-career-dashboard repository
-		-  Run `cd backend`
+		-  Run `cd frontend`
 		-  Build the image using `docker build -t crd-frontend .` (This may take a few minutes)
 	- Click the play button on the far right of the image to create a container
 		- For the ports section, type 4200
+		- Click "Run"
+	* **IF DEPLOYING ON OSWEGO DEV MACHINE** Open a terminal in the oswego-career-dashboard repository
+		-  Build the image using `docker build -f Dockerfile.apache -t crd-frontend-prod .` (Do **NOT** cd into frontent dir)
+	- Click the play button on the far right of the image to create a container
+		- For the ports section, type 80 and 443 in their respective boxes
 		- Click "Run"
 
 ### Linux
