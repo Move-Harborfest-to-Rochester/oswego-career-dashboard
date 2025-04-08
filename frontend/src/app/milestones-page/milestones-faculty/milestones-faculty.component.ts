@@ -142,7 +142,7 @@ export class MilestonesFacultyComponent extends MilestonesPage implements OnInit
 
       // possibly change format later
       const taskName = task.name.replace(" ", "");
-      const fileName: string = this.currentStudent ? `${this.currentStudent.firstName} ${this.currentStudent.lastName} ${taskName} Submission` : `${taskName} Submission`;
+      const fileName: string = this.currentStudent ? `${this.currentStudent.firstName}${this.currentStudent.lastName}${taskName}Submission` : `${taskName}Submission`;
 
       // create invisible link so we can name the file
       const a: HTMLAnchorElement = document.createElement('a') as HTMLAnchorElement;
