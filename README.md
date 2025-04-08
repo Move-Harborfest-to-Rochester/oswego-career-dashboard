@@ -241,6 +241,11 @@ You can also do this for frontend/backend test.
 	- Click the play button on the far right of the image to create a container
 		- For the ports section, type 4200
 		- Click "Run"
+	* **IF DEPLOYING ON OSWEGO DEV MACHINE** Open a terminal in the oswego-career-dashboard repository
+		-  Build the image using `docker build -f Dockerfile.apache -t crd-frontend-prod .` (Do **NOT** cd into frontent dir)
+	- Click the play button on the far right of the image to create a container
+		- For the ports section, type 80 and 443 in their respective boxes
+		- Click "Run"
 
 ### Linux
 
