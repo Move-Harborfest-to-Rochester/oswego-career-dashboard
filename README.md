@@ -1,4 +1,4 @@
-# Oswego Career Readiness Dashboard
+﻿# Oswego Career Readiness Dashboard
 
 Authors: Partially Hydrated Devs, MoveHarborFestToRochester
 
@@ -206,7 +206,48 @@ You can also do this for frontend/backend test.
 
 ## Deployment
 
-Linux (Ubuntu) with Apache is recommended for frontend deployment
+### Using Docker to deploy
+
+1. Download docker for your system: https://www.docker.com/
+2. Run Docker (You can skip account login)
+3. Pull and run the official MySQL image
+	* At the top search "mysql" and choose "Pull" to get the mysql database image
+	* Click the play button on the far right of the image to create a container
+		* For the Ports section, type 3306 and 33060 into their respective boxes 
+		* For the Environment Variables section, add a variable called _MYSQL_ROOT_PASSWORD_, and create a password. Save this password for later
+		* Click "Run"
+4. Create the backend image using the Dockerfile
+	* Open a terminal in the oswego-career-dashboard repository
+		* Run `cd backend`
+		* Run `./gradlew build` to generate JAR file
+		* Build the image using `docker build --build-arg JAR_FILE=build/libs/backend-0.0.1.jar -t crd-backend .`
+	* Click the play button on the far right of the image to create a container
+		* For the Ports section, type 8080 
+		* For the Environment Variables section, add the environment variables as described in ["Running the app"](#Running-the-app)
+			* In addition to those, add another variable called CRD_DB_HOST. The value must be the IP address of the MySQL container. To get this IP:
+				* Navigate to the running MySQL container and click it to open details
+				*  Under "Inspect", click the "Networks" tab and copy the IP listed as `"IPAddress"` (Not the "Gateway" address)
+		* Click "Run"
+			* **IMPORTANT**: This will initially fail due to "Access denied". To fix:
+				* In the error, find the "Access denied" message and copy the user and IP address that was denied (e.g `backend'@'172.17.0.3`)
+				* Navigate to the MySQL container details
+				* Click the "Exec" tab to enter the CLI of the container
+				* Follow the instructions under ["Development Setup"](#Development-setup) to grant the privileges to the backend user, but instead of using "localhost", use the IP obtained from the API error message 
+				* Re-run the API container
+5. Create the frontend image using the Dockerfile
+	* Open a terminal in the oswego-career-dashboard repository
+		-  Run `cd frontend`
+		-  Build the image using `docker build -t crd-frontend .` (This may take a few minutes)
+	- Click the play button on the far right of the image to create a container
+		- For the ports section, type 4200
+		- Click "Run"
+	* **IF DEPLOYING ON OSWEGO DEV MACHINE** Open a terminal in the oswego-career-dashboard repository
+		-  Build the image using `docker build -f Dockerfile.apache -t crd-frontend-prod .` (Do **NOT** cd into frontent dir)
+	- Click the play button on the far right of the image to create a container
+		- For the ports section, type 80 and 443 in their respective boxes
+		- Click "Run"
+
+### Linux
 
 1. Build backend jar (Requires Java, [See "Development Setup"](#Development-Setup))
    * Open terminal in `oswego-career-dashboard/backend`

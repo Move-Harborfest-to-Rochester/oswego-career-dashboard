@@ -623,15 +623,15 @@ public class ArtifactServiceTest {
 
             Mono<ResponseEntity<Resource>> result = artifactService.getFile("20", headers);
             StepVerifier.create(result)
-                    .assertNext(response -> {
-                        assertEquals(HttpStatus.OK, response.getStatusCode());
-                        FileSystemResource fsResource = (FileSystemResource) response.getBody();
-                        assertNotNull(fsResource);
-                        assertEquals(tempFile.getAbsolutePath(), fsResource.getPath());
-                    })
-                    .expectComplete()
-                    .verify();
-        } catch (IOException e) {
+                .assertNext(response -> {
+                    assertEquals(HttpStatus.OK, response.getStatusCode());
+                    FileSystemResource fsResource = (FileSystemResource) response.getBody();
+                    assertNotNull(fsResource);
+                    assertEquals(tempFile.getAbsolutePath(), fsResource.getFile().getAbsolutePath());
+                })
+                .expectComplete()
+                .verify();
+        } catch(IOException e) {
             fail("IOException during testGetFileEventImage: " + e.getMessage());
         }
     }

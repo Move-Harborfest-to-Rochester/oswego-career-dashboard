@@ -26,8 +26,6 @@ public class DataProcessor {
     }
 
     public void processData() {
-        //change to reflect actual db
-        String dbUrl = "jdbc:mysql://localhost:3306/crd";
         try (Connection connection = dataSource.getConnection()) {
             // Call the stored procedure
             CallableStatement statement = connection.prepareCall("{call IterateThroughUsers()}");
@@ -66,7 +64,7 @@ public class DataProcessor {
         }
     }
 
-    private void updateData(Map<String, Map<String, Map<String, Integer>>> data, String major, String year, int resume, int internship, int internshipThisYear, int internshipLastYear) {
+    public void updateData(Map<String, Map<String, Map<String, Integer>>> data, String major, String year, int resume, int internship, int internshipThisYear, int internshipLastYear) {
         // Update 'All' category
         updateCategory(data, "All", "Total", resume, internship, internshipThisYear, internshipLastYear);
         updateCategory(data, "All", year, resume, internship, internshipThisYear, internshipLastYear);
@@ -76,7 +74,7 @@ public class DataProcessor {
         updateCategory(data, major, year, resume, internship, internshipThisYear, internshipLastYear);
     }
 
-    private void updateCategory(Map<String, Map<String, Map<String, Integer>>> data, String category, String yearOrTotal, int resume, int internship, int internshipThisYear, int internshipLastYear) {
+    public void updateCategory(Map<String, Map<String, Map<String, Integer>>> data, String category, String yearOrTotal, int resume, int internship, int internshipThisYear, int internshipLastYear) {
         // If category does not exist, initialize it
         data.putIfAbsent(category, new HashMap<>());
         data.get(category).putIfAbsent(yearOrTotal, initializeStats());
@@ -93,11 +91,15 @@ public class DataProcessor {
     }
 
 
-    private void saveDataToJson(Map<String, Map<String, Map<String, Integer>>> data) {
+    public void saveDataToJson(Map<String, Map<String, Map<String, Integer>>> data) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             // Serialize the data to JSON and save it to a file in the current directory
-            File outputFile = new File("src\\main\\java\\com\\senior\\project\\backend\\insights\\output.json");
+            File outputFile = new File("insights/output.json");
+            outputFile.getParentFile().mkdirs();
+            if (!outputFile.exists()) {
+                outputFile.createNewFile();
+            }
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, data);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +107,7 @@ public class DataProcessor {
         }
     }
 
-    private Map<String, Map<String, Map<String, Integer>>> initializeDataStructure() {
+    public Map<String, Map<String, Map<String, Integer>>> initializeDataStructure() {
         // Initialize the nested Map structure similar to the 'data' variable in the Python code
         Map<String, Map<String, Map<String, Integer>>> data = new LinkedHashMap<>();
 
