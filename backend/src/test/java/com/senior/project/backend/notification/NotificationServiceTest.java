@@ -1,13 +1,14 @@
 package com.senior.project.backend.notification;
 
-import com.senior.project.backend.Activity.EventRepository;
 import com.senior.project.backend.Constants;
+import com.senior.project.backend.event.LocalistService;
 import com.senior.project.backend.users.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Flux;
 
 import static org.mockito.Mockito.*;
 
@@ -18,7 +19,7 @@ public class NotificationServiceTest {
     NotificationService notificationService;
 
     @Mock
-    EventRepository eventRepository;
+    LocalistService localistService;
 
     @Mock
     UserRepository userRepository;
@@ -30,7 +31,7 @@ public class NotificationServiceTest {
     public void testWeeklyNotifications() {
         when(userRepository.findUsersByCanEmailIsTrue()).thenReturn(Constants.USERS);
         when(userRepository.findUsersByCanTextIsTrue()).thenReturn(Constants.USERS);
-        when(eventRepository.findEventsInCurrentWeek(any())).thenReturn(Constants.EVENT_LIST);
+        when(localistService.findEventsInCurrentWeek(any())).thenReturn(Flux.fromIterable(Constants.EVENT_LIST));
         notificationService.weeklyNotifications();
         verify(emailService, times(Constants.USERS.size())).sendWeeklyEventUpdates(any(), any(), any());
     }

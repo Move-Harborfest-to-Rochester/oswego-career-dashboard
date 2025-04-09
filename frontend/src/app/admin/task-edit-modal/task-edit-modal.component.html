@@ -1,57 +1,72 @@
 <div id="modal-content-wrapper">
   <header id="modal-header">
-    <h1>This task is for {{tYearLevel}} </h1>
+    <h1>This task is for {{ tYearLevel }} </h1>
   </header>
-    <form *ngIf="dataLoaded" [formGroup]="taskForm" class="form-content" (ngSubmit)="saveTask()">
+  <form (ngSubmit)="saveTask()" [formGroup]="taskForm"
+        class="form-content">
 
-      <div *ngIf="taskName == ''">
-        <h3>Create New Task</h3>
-      </div>
-      <div *ngIf="taskName != ''">
-        <h3>Editing {{taskName}}</h3>
-      </div>
+    <div *ngIf="taskName == ''">
+      <h3>Create New Task</h3>
+    </div>
+    <div *ngIf="taskName != ''">
+      <h3>Editing {{ taskName }}</h3>
+    </div>
 
     <mat-form-field *ngIf="taskName == ''">
       <mat-label>Task Name</mat-label>
-      <input matInput formControlName="name">
-  </mat-form-field>
-      <mat-form-field>
-        <mat-label>Task Description</mat-label>
-        <textarea matInput formControlName="description" rows = 5></textarea>
-      </mat-form-field>
-      <div style="margin-bottom: 20px;">
-        <label>Task type: </label>
-          <mat-radio-group formControlName="taskType">
-          <mat-radio-button [value]="artifactType">Artifact</mat-radio-button>
-          <mat-radio-button [value]="eventType">Event</mat-radio-button>
-          <mat-radio-button [value]="commentType">Comment</mat-radio-button>
-        </mat-radio-group>
+      <input formControlName="name" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Task Description</mat-label>
+      <textarea formControlName="description" matInput rows=5></textarea>
+    </mat-form-field>
+    <div style="margin-bottom: 20px;">
+      <label>Task type: </label>
+      <mat-radio-group formControlName="taskType">
+        <mat-radio-button [value]="artifactType">Artifact</mat-radio-button>
+        <mat-radio-button [value]="eventType">Event</mat-radio-button>
+        <mat-radio-button [value]="commentType">Comment</mat-radio-button>
+      </mat-radio-group>
     </div>
-        <div *ngIf="getTaskType() == artifactType">
-          <mat-form-field>
-              <mat-label>Artifact Name</mat-label>
-              <input matInput formControlName="artifactName">
-          </mat-form-field>
-        </div>
-        <div *ngIf="getTaskType() == eventType">
-          <mat-form-field>
-              <mat-label>Select Event</mat-label>
-              <mat-select formControlName="event">
-                <div *ngFor="let event of eventList">
-                  <mat-option [value]="event.eventID">{{event.name}}</mat-option>
-                </div>
-              </mat-select>
-          </mat-form-field>
-        </div>
-        <mat-form-field>
-          <mat-label>Submission Instructions</mat-label>
-          <input matInput rows = 3 formControlName="instructions">
+    <div *ngIf="getTaskType() == artifactType">
+      <mat-form-field>
+        <mat-label>Artifact Name</mat-label>
+        <input formControlName="artifactName" matInput>
       </mat-form-field>
+    </div>
+    <div *ngIf="getTaskType() == eventType">
+      <mat-form-field *ngIf="events$ | async as events; else loading">
+        <mat-label>Select Event</mat-label>
+        <input [formControl]="eventControl"
+               [matAutocomplete]="auto"
+               matInput
+               type="text">
+        <mat-autocomplete #auto
+                          [displayWith]="getEventNameById(events)">
+          <div *ngFor="let event of events">
+            <mat-option [value]="event.eventID">{{ event.name }}</mat-option>
+          </div>
+        </mat-autocomplete>
+
+      </mat-form-field>
+      <ng-template #loading>
+        <span>Searching for events...</span>
+      </ng-template>
+    </div>
+    <mat-form-field>
+      <mat-label>Submission Instructions</mat-label>
+      <input formControlName="instructions" matInput rows=3>
+    </mat-form-field>
     <div id="modal-footer">
-      <button mat-raised-button class="modal-cancel-button" type="button" (click)="closeModal()">
-          Back
+      <button (click)="closeModal()" class="modal-cancel-button"
+              mat-raised-button
+              type="button">
+        Back
       </button>
-      <button mat-raised-button class="modal-submit-button" type="submit" [disabled]="!taskForm.status">Submit</button>
+      <button [disabled]="!taskForm.status" class="modal-submit-button"
+              mat-raised-button
+              type="submit">Submit
+      </button>
     </div>
   </form>
 </div>

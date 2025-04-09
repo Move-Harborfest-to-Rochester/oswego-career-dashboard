@@ -1,26 +1,15 @@
 package com.senior.project.backend.portfolio;
 
-import com.senior.project.backend.Activity.EventRepository;
+import com.senior.project.backend.Constants;
 import com.senior.project.backend.artifact.ArtifactRepository;
 import com.senior.project.backend.artifact.ArtifactService;
-import com.senior.project.backend.Constants;
 import com.senior.project.backend.domain.Artifact;
 import com.senior.project.backend.domain.ArtifactType;
 import com.senior.project.backend.domain.User;
+import com.senior.project.backend.event.LocalistService;
 import com.senior.project.backend.security.CurrentUserUtil;
 import com.senior.project.backend.users.UserRepository;
 import com.senior.project.backend.util.NonBlockingExecutor;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,23 +31,25 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import java.lang.reflect.Field;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.Optional;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.Callable;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ArtifactServiceTest {
@@ -70,7 +61,7 @@ public class ArtifactServiceTest {
     private ArtifactRepository artifactRepository;
 
     @Mock
-    private EventRepository eventRepository;
+    private LocalistService localistService;
 
     @Mock
     private CurrentUserUtil currentUserUtil;
@@ -106,15 +97,15 @@ public class ArtifactServiceTest {
 
         // Simulate artifact repository save and lookup
         Artifact savedArtifact = Artifact.builder()
-            .id(123)
-            // Note: The file location in the saved artifact isn’t used since the service
-            // generates its own unique filename; using a dummy value here is acceptable.
-            .fileLocation("dummy-location")
-            .build();
+                .id(123)
+                // Note: The file location in the saved artifact isn’t used since the service
+                // generates its own unique filename; using a dummy value here is acceptable.
+                .fileLocation("dummy-location")
+                .build();
         when(artifactRepository.save(any())).thenReturn(savedArtifact);
         // Mark this stubbing as lenient so that Mockito won’t complain if it isn’t used
         lenient().when(artifactRepository.findByUniqueIdentifier(anyString()))
-            .thenReturn(Optional.of(savedArtifact));
+                .thenReturn(Optional.of(savedArtifact));
 
         // Stub the updateProfilePictureId call to avoid NullPointerException
         doNothing().when(userRepository).updateProfilePictureId(any(UUID.class), anyInt());
@@ -126,12 +117,12 @@ public class ArtifactServiceTest {
         // Stub ImageIO.write to simulate a successful image write to file
         try (MockedStatic<ImageIO> imageIOMock = mockStatic(ImageIO.class)) {
             imageIOMock.when(() -> ImageIO.write(any(BufferedImage.class), anyString(), any(File.class)))
-                .thenReturn(true);
+                    .thenReturn(true);
             Mono<Integer> result = artifactService.processProfileImage(filePart);
             StepVerifier.create(result)
-                .expectNext(123)
-                .expectComplete()
-                .verify();
+                    .expectNext(123)
+                    .expectComplete()
+                    .verify();
         }
     }
 
@@ -161,7 +152,7 @@ public class ArtifactServiceTest {
     }
 
     @Test
-    public void testProcessFileToLarge(){
+    public void testProcessFileToLarge() {
         FilePart filePart = mock(FilePart.class);
 
         DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
@@ -210,34 +201,6 @@ public class ArtifactServiceTest {
     }
 
     @Test
-    public void testProcessEventImage() throws NoSuchFieldException, IllegalAccessException {
-        when(artifactRepository.save(any())).thenReturn(Artifact.builder().id(1).build());
-
-        FilePart filePart = mock(FilePart.class);
-
-        DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-        DataBuffer dataBuffer = dataBufferFactory.wrap("file content".getBytes());
-        when(filePart.content()).thenReturn(Flux.just(dataBuffer));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        when(filePart.headers()).thenReturn(headers);
-
-        when(filePart.transferTo((Path) any())).thenReturn(Mono.empty());
-        when(artifactRepository.save(any())).thenReturn(Constants.artifact1);
-        when(artifactRepository.findByUniqueIdentifier(any())).thenReturn(Optional.ofNullable(Constants.artifact1));
-        when(eventRepository.findById(any())).thenReturn(Optional.ofNullable(Constants.e1));
-
-        // Use reflection to set the value of uploadDirectory
-        Field uploadDirectoryField = ArtifactService.class.getDeclaredField("uploadDirectory");
-        uploadDirectoryField.setAccessible(true); // Make the private field accessible
-        uploadDirectoryField.set(artifactService, "/mocked/upload/directory");
-
-        Mono<Integer> result = artifactService.processEventImage(filePart, Constants.e1.getId());
-        StepVerifier.create(result).expectNext(Constants.artifact1.getId()).expectComplete().verify();
-    }
-
-    @Test
     public void testGetFileFailPathCheck() {
         when(artifactRepository.findById(any())).thenReturn(Optional.ofNullable(Constants.artifact2));
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
@@ -281,9 +244,9 @@ public class ArtifactServiceTest {
         Mono<Artifact> artifacts = artifactService.findById(0);
 
         StepVerifier.create(artifacts)
-            .expectNext(Constants.artifact1)
-            .expectComplete()
-            .verify();
+                .expectNext(Constants.artifact1)
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -293,8 +256,8 @@ public class ArtifactServiceTest {
         Mono<Artifact> artifacts = artifactService.findById(0);
 
         StepVerifier.create(artifacts)
-            .expectComplete()
-            .verify();
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -304,9 +267,9 @@ public class ArtifactServiceTest {
         Mono<Artifact> artifacts = artifactService.findByUniqueFilename("asdf");
 
         StepVerifier.create(artifacts)
-            .expectNext(Constants.artifact1)
-            .expectComplete()
-            .verify();
+                .expectNext(Constants.artifact1)
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -316,8 +279,8 @@ public class ArtifactServiceTest {
         Mono<Artifact> artifacts = artifactService.findByUniqueFilename("asdf");
 
         StepVerifier.create(artifacts)
-            .expectComplete()
-            .verify();
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -337,9 +300,9 @@ public class ArtifactServiceTest {
         });
 
         StepVerifier.create(result)
-            .expectNext("File deleted successfully")
-            .expectComplete()
-            .verify();
+                .expectNext("File deleted successfully")
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -349,8 +312,8 @@ public class ArtifactServiceTest {
         Mono<String> result = artifactService.deleteFile("asdf");
 
         StepVerifier.create(result)
-            .expectComplete()
-            .verify();
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -365,15 +328,15 @@ public class ArtifactServiceTest {
 
         result = result.map((r) -> {
             paths.close();
-            files.close(); 
+            files.close();
 
             return r;
         });
 
         StepVerifier.create(result)
-            .expectNext("File deleted successfully")
-            .expectComplete()
-            .verify();
+                .expectNext("File deleted successfully")
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -381,9 +344,9 @@ public class ArtifactServiceTest {
         Mono<String> result = artifactService.deleteFile(1);
 
         StepVerifier.create(result)
-            .expectNext("Success")
-            .expectComplete()
-            .verify();
+                .expectNext("Success")
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -393,8 +356,8 @@ public class ArtifactServiceTest {
         Mono<String> result = artifactService.deleteFile(2);
 
         StepVerifier.create(result)
-            .expectComplete()
-            .verify();
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -407,14 +370,14 @@ public class ArtifactServiceTest {
 
         result = result.map((r) -> {
             paths.close();
-            files.close(); 
+            files.close();
             return r;
         });
 
         StepVerifier.create(result)
-            .expectNext("File deleted successfully")
-            .expectComplete()
-            .verify();
+                .expectNext("File deleted successfully")
+                .expectComplete()
+                .verify();
     }
 
     @Test
@@ -422,7 +385,7 @@ public class ArtifactServiceTest {
         Mono<String> result = artifactService.deleteFile(Constants.artifact2, Constants.userAdmin);
 
         StepVerifier.create(result)
-            .expectError(ResponseStatusException.class);
+                .expectError(ResponseStatusException.class);
     }
 
     @Test
@@ -430,7 +393,7 @@ public class ArtifactServiceTest {
         Mono<String> result = artifactService.deleteFile(Constants.artifact2, Constants.userFaculty);
 
         StepVerifier.create(result)
-            .expectError(ResponseStatusException.class);
+                .expectError(ResponseStatusException.class);
     }
 
     @SuppressWarnings("resource")
@@ -455,7 +418,7 @@ public class ArtifactServiceTest {
         verify(path, times(1)).toFile();
         verify(file, times(1)).delete();
         verify(artifactRepository, times(1)).saveAndFlush(any());
-        
+
         paths.close();
         files.close();
     }
@@ -477,7 +440,7 @@ public class ArtifactServiceTest {
         verify(path, times(0)).toFile();
         verify(file, times(0)).delete();
         verify(artifactRepository, times(0)).saveAndFlush(any());
-        
+
         paths.close();
         files.close();
     }
@@ -510,10 +473,10 @@ public class ArtifactServiceTest {
 
         // Simulate deletion of existing profile picture artifact
         Artifact artifactForDeletion = Artifact.builder()
-            .id(50)
-            .userId(userId)
-            .fileLocation("/mocked/upload/directory/old.png")
-            .build();
+                .id(50)
+                .userId(userId)
+                .fileLocation("/mocked/upload/directory/old.png")
+                .build();
         lenient().when(artifactRepository.findById(any())).thenReturn(Optional.of(artifactForDeletion));
 
         // Stub the update call on the user repository to avoid NPE
@@ -528,28 +491,28 @@ public class ArtifactServiceTest {
         uploadDirectoryField.set(artifactService, tempUploadDir.toString());
 
         try (MockedStatic<Files> filesMock = mockStatic(Files.class);
-            MockedStatic<ImageIO> imageIOMock = mockStatic(ImageIO.class)) {
+             MockedStatic<ImageIO> imageIOMock = mockStatic(ImageIO.class)) {
 
             // Stub file deletion and image write calls
             filesMock.when(() -> Files.deleteIfExists(any())).thenReturn(true);
             imageIOMock.when(() -> ImageIO.write(any(BufferedImage.class), anyString(), any(File.class)))
-                .thenReturn(true);
+                    .thenReturn(true);
 
             // Simulate saving the new profile picture artifact
             Artifact savedArtifact = Artifact.builder()
-                .id(124)
-                .fileLocation("/mocked/upload/directory/unique.png")
-                .build();
+                    .id(124)
+                    .fileLocation("/mocked/upload/directory/unique.png")
+                    .build();
             when(artifactRepository.save(any())).thenReturn(savedArtifact);
             lenient().when(artifactRepository.findByUniqueIdentifier(anyString()))
-                .thenReturn(Optional.of(savedArtifact));
+                    .thenReturn(Optional.of(savedArtifact));
 
             // Execute and verify
             Mono<Integer> result = artifactService.processProfileImage(filePart);
             StepVerifier.create(result)
-                .expectNext(124)
-                .expectComplete()
-                .verify();
+                    .expectNext(124)
+                    .expectComplete()
+                    .verify();
         }
     }
 
@@ -569,14 +532,14 @@ public class ArtifactServiceTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
         when(filePart.headers()).thenReturn(headers);
-        lenient(). when(filePart.filename()).thenReturn("test.png");
+        lenient().when(filePart.filename()).thenReturn("test.png");
 
         // Setup current user with a UUID (not int) and no existing profile picture
         User user = mock(User.class);
         UUID userId = UUID.fromString("00000000-0000-0000-0000-000000000001");
-       lenient(). when(user.getId()).thenReturn(userId);
-        lenient(). when(user.getProfilePictureId()).thenReturn(null);
-        lenient(). when(user.hasAdminPrivileges()).thenReturn(false);
+        lenient().when(user.getId()).thenReturn(userId);
+        lenient().when(user.getProfilePictureId()).thenReturn(null);
+        lenient().when(user.hasAdminPrivileges()).thenReturn(false);
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(user));
 
         // Create a temporary upload directory and inject it into the service using ReflectionTestUtils.
@@ -586,21 +549,21 @@ public class ArtifactServiceTest {
         // Override NonBlockingExecutor.execute so that it runs synchronously.
         try (MockedStatic<NonBlockingExecutor> nonBlockingMock = mockStatic(NonBlockingExecutor.class)) {
             nonBlockingMock.when(() -> NonBlockingExecutor.execute(any()))
-                .thenAnswer(invocation -> {
-                    Callable<?> callable = invocation.getArgument(0);
-                    try {
-                        return Mono.just(callable.call());
-                    } catch (Exception e) {
-                        return Mono.error(e);
-                    }
-                });
+                    .thenAnswer(invocation -> {
+                        Callable<?> callable = invocation.getArgument(0);
+                        try {
+                            return Mono.just(callable.call());
+                        } catch (Exception e) {
+                            return Mono.error(e);
+                        }
+                    });
 
             // Execute and verify: expect a BAD_REQUEST error because the image aspect ratio (2) does not equal the expected (1).
             StepVerifier.create(artifactService.processProfileImage(filePart))
-                .expectErrorMatches(throwable ->
-                    throwable instanceof ResponseStatusException &&
-                        ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.BAD_REQUEST)
-                .verify();
+                    .expectErrorMatches(throwable ->
+                            throwable instanceof ResponseStatusException &&
+                                    ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.BAD_REQUEST)
+                    .verify();
         }
     }
 
@@ -609,11 +572,11 @@ public class ArtifactServiceTest {
     public void testGetFileForbidden() {
         // Create an artifact (non-event) owned by a different user (UUID "00000000-0000-0000-0000-000000000002")
         Artifact artifact = Artifact.builder()
-            .id(10)
-            .fileLocation("/mocked/upload/directory/file.pdf")
-            .type(ArtifactType.SUBMISSION)
-            .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
-            .build();
+                .id(10)
+                .fileLocation("/mocked/upload/directory/file.pdf")
+                .type(ArtifactType.SUBMISSION)
+                .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
+                .build();
         lenient().when(artifactRepository.findById(any())).thenReturn(Optional.of(artifact));
 
         // Create a current user with a different UUID ("00000000-0000-0000-0000-000000000001") and without faculty privileges
@@ -631,22 +594,21 @@ public class ArtifactServiceTest {
 
         // Expect a forbidden error because the current user is not faculty and does not own the artifact.
         StepVerifier.create(artifactService.getFile("10", headers))
-            .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
-                ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.FORBIDDEN)
-            .verify();
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.FORBIDDEN)
+                .verify();
     }
-
 
 
     @Test
     public void testGetFileEventImage() {
         // Create an artifact of type EVENT_IMAGE
         Artifact artifact = Artifact.builder()
-            .id(20)
-            .fileLocation("/mocked/upload/directory/event.png")
-            .type(ArtifactType.EVENT_IMAGE)
-            .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
-            .build();
+                .id(20)
+                .fileLocation("/mocked/upload/directory/event.png")
+                .type(ArtifactType.EVENT_IMAGE)
+                .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
+                .build();
         when(artifactRepository.findById(any())).thenReturn(Optional.of(artifact));
         when(currentUserUtil.getCurrentUser()).thenReturn(Mono.just(Constants.userAdmin));
 
@@ -681,9 +643,9 @@ public class ArtifactServiceTest {
         headers.setContentType(MediaType.APPLICATION_PDF);
 
         StepVerifier.create(artifactService.getFile("999", headers))
-            .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
-                ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.NOT_FOUND)
-            .verify();
+                .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException &&
+                        ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.NOT_FOUND)
+                .verify();
     }
 
     @Test
@@ -728,10 +690,10 @@ public class ArtifactServiceTest {
     @Test
     public void testDeleteFileIOException() {
         Artifact artifact = Artifact.builder()
-            .id(30)
-            .fileLocation("/mocked/upload/directory/file.pdf")
-            .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
-            .build();
+                .id(30)
+                .fileLocation("/mocked/upload/directory/file.pdf")
+                .userId(UUID.fromString("00000000-0000-0000-0000-000000000002"))
+                .build();
         // Setup a user with admin privileges
         User user = mock(User.class);
         lenient().when(user.getId()).thenReturn(UUID.fromString("00000000-0000-0000-0000-000000000002"));
@@ -740,24 +702,24 @@ public class ArtifactServiceTest {
         // Override NonBlockingExecutor.execute to run synchronously
         try (MockedStatic<NonBlockingExecutor> nonBlockingMock = mockStatic(NonBlockingExecutor.class)) {
             nonBlockingMock.when(() -> NonBlockingExecutor.execute(any()))
-                .thenAnswer(invocation -> {
-                    Callable<?> callable = invocation.getArgument(0);
-                    try {
-                        return Mono.just(callable.call());
-                    } catch (Exception e) {
-                        return Mono.error(e);
-                    }
-                });
+                    .thenAnswer(invocation -> {
+                        Callable<?> callable = invocation.getArgument(0);
+                        try {
+                            return Mono.just(callable.call());
+                        } catch (Exception e) {
+                            return Mono.error(e);
+                        }
+                    });
             // Now, force Files.deleteIfExists to throw an IOException
             try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
                 filesMock.when(() -> Files.deleteIfExists(any()))
-                    .thenThrow(new IOException("Deletion failed"));
+                        .thenThrow(new IOException("Deletion failed"));
 
                 StepVerifier.create(artifactService.deleteFile(artifact, user))
-                    .expectErrorMatches(throwable ->
-                        throwable instanceof ResponseStatusException &&
-                            ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.NOT_FOUND)
-                    .verify();
+                        .expectErrorMatches(throwable ->
+                                throwable instanceof ResponseStatusException &&
+                                        ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.NOT_FOUND)
+                        .verify();
             }
         }
     }

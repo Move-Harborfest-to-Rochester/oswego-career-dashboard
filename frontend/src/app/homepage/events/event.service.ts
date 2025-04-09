@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {Event, EventJSON} from "../../../domain/Event";
-import { Endpoints, constructBackendRequest } from 'src/app/util/http-helper';
+import {Event} from "../../../domain/Event";
+import {constructBackendRequest, Endpoints} from 'src/app/util/http-helper';
+import {EventList, EventListJSON} from "./event-list";
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,31 @@ export class EventService {
   /**
    * Gets all events
    */
-  getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(constructBackendRequest(Endpoints.EVENTS))
-      .pipe(map((data: any) => {
-        return data.map((eventData: EventJSON) => {
-          return new Event(eventData)
-        })
+  getEvents(eventName?: string): Observable<EventList> {
+    return this.http.get<EventListJSON>(constructBackendRequest(Endpoints.EVENTS), {
+      params: {
+        name: eventName ? eventName : ''
+      }
+    })
+      .pipe(map((data: EventListJSON) => {
+        return EventList.fromJson(data);
+      }))
+  }
+
+  getUpcomingEvents(page: number = 0, limit: number = 100): Observable<EventList> {
+    const nowUnix = new Date().getTime();
+    return this.http.get<EventListJSON>(constructBackendRequest(Endpoints.EVENTS, {
+      key: 'startDate',
+      value: nowUnix
+    }, {
+      key: 'page',
+      value: page
+    }, {
+      key: 'limit',
+      value: limit
+    }))
+      .pipe(map((data: EventListJSON) => {
+        return EventList.fromJson(data);
       }))
   }
 
@@ -38,13 +58,19 @@ export class EventService {
    * Gets the specific page of events to show on the homepage
    * Currently not implemented on the backend so it acts the same as getEvents()
    */
-  getHomepageEvents(pageNum: number): Observable<Event[]> {
-    const pageParam = {key: 'pageNum', value: pageNum};
-    return this.http.get<Event[]>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam))
-      .pipe(map((data: any) => {
-        return data.map((eventData: EventJSON) => {
-          return new Event(eventData)
-        })
+  getHomepageEvents(page: number, limit: number = 10): Observable<EventList> {
+    const pageParam = {key: 'page', value: page};
+    const limitParam = {key: 'limit', value: limit};
+    return this.http.get<EventListJSON>(constructBackendRequest(Endpoints.HOMEPAGE_EVENTS, pageParam, limitParam))
+      .pipe(map((data: EventListJSON) => {
+        return EventList.fromJson(data);
       }))
+  }
+
+  getEventById(eventID: number): Observable<Event> {
+    return this.http.get<Event>(constructBackendRequest(`${Endpoints.EVENTS}/${eventID}`))
+      .pipe(map((data: any) => {
+        return new Event(data);
+      }));
   }
 }

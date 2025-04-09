@@ -1,4 +1,4 @@
-import { YearLevel } from "./Milestone";
+import {YearLevel} from "./Milestone";
 
 export enum TaskType {
   ARTIFACT = 'ARTIFACT',
@@ -15,24 +15,11 @@ export interface TaskJSON {
   milestoneID?: number;
   taskType: TaskType;
   artifactName?: string;
-  eventID?: number;
+  eventId?: number;
   submissionInstructions?: string;
 }
 
 export class Task {
-  constructor(json: TaskJSON) {
-    this.name = json.name;
-    this.description = json.description;
-    this.taskID = json.id;
-    this.isRequired = json.isRequired;
-    this.yearLevel = json.yearLevel;
-    this.milestoneID = json?.milestoneID;
-    this.taskType = json.taskType;
-    this.artifactName = json?.artifactName;
-    this.eventID = json?.eventID;
-    this.submissionInstructions = json?.submissionInstructions;
-  }
-
   name: string;
   description: string;
   taskID: number;
@@ -43,6 +30,19 @@ export class Task {
   artifactName?: string;
   eventID?: number;
   submissionInstructions?: string;
+
+  constructor(json: TaskJSON) {
+    this.name = json.name;
+    this.description = json.description;
+    this.taskID = json.id;
+    this.isRequired = json.isRequired;
+    this.yearLevel = json.yearLevel;
+    this.milestoneID = json?.milestoneID;
+    this.taskType = json.taskType;
+    this.artifactName = json?.artifactName;
+    this.eventID = json?.eventId;
+    this.submissionInstructions = json?.submissionInstructions;
+  }
 
   needsArtifact(): boolean {
     return this.taskType === TaskType.ARTIFACT;

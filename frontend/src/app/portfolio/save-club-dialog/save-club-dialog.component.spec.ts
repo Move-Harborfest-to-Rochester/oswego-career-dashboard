@@ -1,15 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AbstractControl, ReactiveFormsModule} from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef
+} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatButtonModule} from '@angular/material/button';
 
-import { SaveClubDialogComponent } from './save-club-dialog.component';
-import * as validationUtils from '../../util/validation-utils';
+import {SaveClubDialogComponent} from './save-club-dialog.component';
 import {ClubDropdownComponent} from "./club-dropdown/club-dropdown.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
@@ -35,8 +38,8 @@ describe('SaveClubDialogComponent', () => {
         MatAutocompleteModule
       ],
       providers: [
-        { provide: MAT_DIALOG_DATA, useValue: null },
-        { provide: MatDialogRef, useValue: dialogRefSpy }
+        {provide: MAT_DIALOG_DATA, useValue: null},
+        {provide: MatDialogRef, useValue: dialogRefSpy}
       ]
     }).compileComponents();
   });
@@ -75,7 +78,7 @@ describe('SaveClubDialogComponent', () => {
 
     beforeEach(() => {
       // Override MAT_DIALOG_DATA provider with clubData
-      TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: clubData });
+      TestBed.overrideProvider(MAT_DIALOG_DATA, {useValue: clubData});
       fixture = TestBed.createComponent(SaveClubDialogComponent);
       component = fixture.componentInstance;
       fixture.detectChanges(); // Triggers ngOnInit()
@@ -106,10 +109,10 @@ describe('SaveClubDialogComponent', () => {
       return {
         get: (controlName: string) => {
           if (controlName === 'startDate') {
-            return { value: start };
+            return {value: start};
           }
           if (controlName === 'endDate') {
-            return { value: end };
+            return {value: end};
           }
           return null;
         }
@@ -123,7 +126,7 @@ describe('SaveClubDialogComponent', () => {
       const fakeGroup = createFakeGroup(start, end);
 
       const result = component.dateRangeValidator(fakeGroup);
-      expect(result).toEqual({ endDateBeforeStartDate: true });
+      expect(result).toEqual({endDateBeforeStartDate: true});
     });
 
     it('should return null when dates are valid', () => {
@@ -150,19 +153,19 @@ describe('SaveClubDialogComponent', () => {
     });
 
     it('should return false if the form has an error but is not touched or dirty', () => {
-      component.form.setErrors({ required: true });
+      component.form.setErrors({required: true});
       // Neither touched nor dirty.
       expect(component.hasError('required')).toBeFalse();
     });
 
     it('should return true if the form has an error and is marked as touched', () => {
-      component.form.setErrors({ required: true });
+      component.form.setErrors({required: true});
       component.form.markAsTouched();
       expect(component.hasError('required')).toBeTrue();
     });
 
     it('should return true if the form has an error and is marked as dirty', () => {
-      component.form.setErrors({ required: true });
+      component.form.setErrors({required: true});
       component.form.markAsDirty();
       expect(component.hasError('required')).toBeTrue();
     });
